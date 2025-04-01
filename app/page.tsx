@@ -5,6 +5,7 @@ import Hero from "@/components/hero"
 import ValueProposition from "@/components/value-proposition"
 import Services from "@/components/services"
 import Outsourcing from "@/components/outsourcing"
+import Stats from "@/components/stats"
 import FAQ from "@/components/faq"
 import BrandCarousel from "@/components/brand-carousel"
 import Contact from "@/components/contact"
@@ -70,6 +71,7 @@ export default function Home() {
       <ValueProposition />
       <Services />
       <Outsourcing />
+      <Stats />
       <FAQ />
 
       {/* Case Studies Section */}
