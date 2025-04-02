@@ -3,7 +3,7 @@ import Image from "next/image"
 
 export default function Outsourcing() {
     return (
-        <section className="py-24 bg-white">
+        <section className="py-16 bg-white">
             <div className="container mx-auto px-4">
                 <div className="max-w-6xl mx-auto">
                     <div className="flex flex-col lg:flex-row items-center gap-12">

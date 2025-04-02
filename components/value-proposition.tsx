@@ -86,7 +86,7 @@ export default function ValueProposition() {
             </section>
 
             {/* White section */}
-            <section className="pb-24 pt-40 bg-white">
+            <section className="pb-16 pt-32 bg-white">
                 {/* Spacer for cards */}
             </section>
 

@@ -125,6 +125,16 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/knowledge-center" className="text-white hover:underline text-sm">
+                  Knowledge Center
+                </Link>
+              </li>
+              <li>
+                <Link href="/knowledge-hub" className="text-white hover:underline text-sm">
+                  Knowledge Hub
+                </Link>
+              </li>
+              <li>
                 <Link href="#contact" className="text-white hover:underline text-sm">
                   Contact Us
                 </Link>
