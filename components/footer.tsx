@@ -4,7 +4,7 @@ import Link from "next/link"
 
 export default function Footer() {
   return (
-    <footer className="bg-gradient-to-r from-[#FF6B38] via-[#e05a79] to-[#9d4edd] text-white py-16">
+    <footer className="bg-gradient-to-r from-[#FF6B38] via-[#e05a79] to-[#9d4edd] text-white py-16 dark:from-[#CC5630] dark:via-[#b34861] dark:to-[#7d3eb1]">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
           {/* Logo and Social Media */}

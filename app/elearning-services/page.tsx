@@ -1,11 +1,9 @@
+"use client"
+
 import React from "react"
 import Link from "next/link"
-import { Metadata } from "next"
-
-export const metadata: Metadata = {
-    title: "eLearning Services | Swift Solution",
-    description: "Explore our comprehensive eLearning services including custom eLearning, micro learning, and more.",
-}
+import { ArrowRight } from "lucide-react"
+import Image from "next/image"
 
 const services = [
     {
@@ -31,12 +29,12 @@ const services = [
     {
         title: "ILT to eLearning conversion",
         description: "Transform your instructor-led training materials into interactive digital learning experiences.",
-        href: "#",
+        href: "/elearning-services/ilt-to-elearning",
     },
     {
         title: "Webinar to eLearning conversion",
         description: "Convert your webinars into structured eLearning modules for on-demand access.",
-        href: "#",
+        href: "/elearning-services/webinar-to-elearning",
     },
     {
         title: "Game based eLearning",
@@ -46,37 +44,44 @@ const services = [
     {
         title: "eLearning translation and localization",
         description: "Adapt your eLearning content for global audiences with professional translation and cultural localization.",
-        href: "#",
+        href: "/elearning-services/translation-localization",
     },
     {
         title: "Rapid eLearning",
         description: "Quick development of eLearning content to meet urgent training needs without compromising quality.",
-        href: "#",
+        href: "/elearning-services/rapid-elearning",
     },
 ]
 
 export default function ElearningServicesPage() {
     return (
-        <div className="container mx-auto px-4 py-12">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-gray-100">
-                eLearning Services
-            </h1>
-            <p className="text-xl mb-12 max-w-3xl">
-                Our comprehensive eLearning services are designed to help organizations create engaging, effective, and impactful learning experiences.
-            </p>
+        <div className="bg-gray-50">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+                <div className="text-center max-w-3xl mx-auto mb-16">
+                    <h1 className="text-4xl font-bold tracking-tight text-gray-900">E-Learning Services</h1>
+                    <p className="mt-6 text-lg leading-8 text-gray-600">
+                        We offer a comprehensive range of e-learning services to help you create engaging, effective, and impactful learning experiences for your audience.
+                    </p>
+                </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {services.map((service, index) => (
-                    <Link
-                        key={index}
-                        href={service.href}
-                        className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border border-gray-100 dark:border-gray-700"
-                    >
-                        <h2 className="text-xl font-semibold mb-3 text-gray-900 dark:text-gray-100">{service.title}</h2>
-                        <p className="text-gray-600 dark:text-gray-300 mb-4">{service.description}</p>
-                        <span className="text-primary font-medium">Learn more →</span>
-                    </Link>
-                ))}
+                <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+                    {services.map((service, index) => (
+                        <div key={index} className="relative bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden group hover:shadow-lg transition-all duration-300">
+                            <div className="p-8">
+                                <h3 className="text-xl font-semibold mb-3 text-gray-900 group-hover:text-orange-600 transition-colors duration-300">
+                                    {service.title}
+                                </h3>
+                                <p className="text-gray-600 mb-6">
+                                    {service.description}
+                                </p>
+                                <Link href={service.href} className="inline-flex items-center text-orange-600 font-medium group-hover:text-orange-700">
+                                    Learn more
+                                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-2 duration-300" />
+                                </Link>
+                            </div>
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     )

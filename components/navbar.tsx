@@ -64,6 +64,18 @@ export function Navbar() {
   const [openMobileSubmenu, setOpenMobileSubmenu] = useState<number | null>(null)
   const [isScrolled, setIsScrolled] = useState(false)
 
+  // Close mobile menu when window resizes to desktop size
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024 && isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [isMobileMenuOpen]);
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10)
@@ -71,6 +83,15 @@ export function Navbar() {
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+    setOpenMobileSubmenu(null);
+  };
 
   return (
     <header
@@ -101,10 +122,10 @@ export function Navbar() {
               >
                 <Link
                   href={item.href}
-                  className="flex items-center text-gray-600 hover:text-[#FF6B38] transition-colors duration-200 text-sm"
+                  className="flex items-center text-gray-600 dark:text-gray-300 hover:text-[#FF6B38] dark:hover:text-[#FF6B38] transition-colors duration-200 text-sm"
                 >
                   {item.title}
-                  {item.submenu && <ChevronDown className="w-4 h-4 ml-1 text-gray-400" />}
+                  {item.submenu && <ChevronDown className="w-4 h-4 ml-1 text-gray-400 dark:text-gray-500" />}
                 </Link>
 
                 {/* Desktop Dropdown Menu */}
@@ -115,13 +136,13 @@ export function Navbar() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 10 }}
                       transition={{ duration: 0.2 }}
-                      className="absolute left-0 mt-2 w-48 bg-white border border-gray-100 rounded-lg shadow-lg py-2"
+                      className="absolute left-0 mt-2 w-48 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-lg shadow-lg py-2"
                     >
                       {item.submenu.map((subItem, subIndex) => (
                         <Link
                           key={subIndex}
                           href={subItem.href}
-                          className="block px-4 py-2 text-sm text-gray-600 hover:text-[#FF6B38] hover:bg-gray-50"
+                          className="block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:text-[#FF6B38] dark:hover:text-[#FF6B38] hover:bg-gray-50 dark:hover:bg-gray-700"
                         >
                           {subItem.title}
                         </Link>
@@ -148,8 +169,8 @@ export function Navbar() {
           <div className="flex items-center space-x-4 lg:hidden">
             <ThemeToggle />
             <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 relative z-50"
+              onClick={toggleMobileMenu}
+              className="p-2 relative z-50 text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -165,28 +186,35 @@ export function Navbar() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="fixed inset-0 bg-black/20 lg:hidden"
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="fixed inset-0 bg-black/20 lg:hidden z-40"
+                  onClick={closeMobileMenu}
                 />
                 <motion.div
                   initial={{ x: "100%" }}
                   animate={{ x: 0 }}
                   exit={{ x: "100%" }}
                   transition={{ type: "tween", duration: 0.3 }}
-                  className="fixed top-0 right-0 bottom-0 w-[300px] bg-white lg:hidden overflow-y-auto"
+                  className="fixed top-0 right-0 bottom-0 w-[300px] bg-white dark:bg-gray-800 lg:hidden overflow-y-auto z-50 shadow-xl h-[100vh]"
                 >
-                  <div className="p-6 pt-20">
+                  <div className="p-6 pt-20 relative">
+                    <button
+                      onClick={closeMobileMenu}
+                      className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                      aria-label="Close menu"
+                    >
+                      <X className="w-6 h-6" />
+                    </button>
                     {menuItems.map((item, index) => (
                       <div key={index} className="mb-4">
                         {item.submenu ? (
                           <div>
                             <button
                               onClick={() => setOpenMobileSubmenu(openMobileSubmenu === index ? null : index)}
-                              className="flex items-center justify-between w-full text-left text-gray-900 py-2"
+                              className="flex items-center justify-between w-full text-left text-gray-900 dark:text-gray-200 py-2"
                             >
                               <span className="text-base font-medium">{item.title}</span>
                               <ChevronDown
-                                className={`w-5 h-5 text-gray-400 transition-transform duration-200 ${openMobileSubmenu === index ? "rotate-180" : ""
+                                className={`w-5 h-5 text-gray-400 dark:text-gray-500 transition-transform duration-200 ${openMobileSubmenu === index ? "rotate-180" : ""
                                   }`}
                               />
                             </button>
@@ -204,8 +232,8 @@ export function Navbar() {
                                       <Link
                                         key={subIndex}
                                         href={subItem.href}
-                                        className="block text-gray-600 hover:text-[#FF6B38] py-2 text-sm"
-                                        onClick={() => setIsMobileMenuOpen(false)}
+                                        className="block text-gray-600 dark:text-gray-300 hover:text-[#FF6B38] dark:hover:text-[#FF6B38] py-2 text-sm border-l-2 border-gray-200 dark:border-gray-600 pl-3 hover:border-[#FF6B38] dark:hover:border-[#FF6B38] transition-colors"
+                                        onClick={closeMobileMenu}
                                       >
                                         {subItem.title}
                                       </Link>
@@ -218,8 +246,8 @@ export function Navbar() {
                         ) : (
                           <Link
                             href={item.href}
-                            className="block text-gray-900 py-2 text-base font-medium"
-                            onClick={() => setIsMobileMenuOpen(false)}
+                            className="block text-gray-900 dark:text-gray-200 py-2 text-base font-medium"
+                            onClick={closeMobileMenu}
                           >
                             {item.title}
                           </Link>
@@ -228,8 +256,8 @@ export function Navbar() {
                     ))}
                     <Link
                       href="/quote"
-                      className="mt-6 inline-flex items-center px-6 py-2.5 border-2 border-[#FF6B38] text-[#FF6B38] rounded-full text-sm font-medium hover:bg-[#FF6B38] hover:text-white transition-colors duration-200"
-                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="mt-6 inline-flex items-center justify-center w-full px-6 py-3 border-2 border-[#FF6B38] text-[#FF6B38] rounded-full text-sm font-medium hover:bg-[#FF6B38] hover:text-white transition-colors duration-200"
+                      onClick={closeMobileMenu}
                     >
                       Get a quote!
                     </Link>

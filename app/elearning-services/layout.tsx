@@ -11,9 +11,5 @@ export default function ElearningServicesLayout({
 }: {
     children: React.ReactNode
 }) {
-    return (
-        <>
-            {children}
-        </>
-    )
+    return children
 } 

@@ -75,7 +75,7 @@ export default function Home() {
       <FAQ />
 
       {/* Case Studies Section */}
-      <section className="py-16 bg-gradient-to-b from-white to-gray-50">
+      <section className="py-16 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -84,13 +84,13 @@ export default function Home() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-bold mb-4">Client Success Stories</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <h2 className="text-4xl font-bold mb-4 dark:text-white">Client Success Stories</h2>
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
               See how leading organizations have transformed their learning and development with our custom solutions
             </p>
           </motion.div>
 
-          <div className="grid gap-10 lg:grid-cols-3 max-w-6xl mx-auto">
+          <div className="grid gap-8 lg:gap-10 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
             {caseStudies.map((study, index) => (
               <motion.div
                 key={study.id}
@@ -98,11 +98,11 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-white rounded-xl overflow-hidden shadow-lg border border-gray-100 flex flex-col"
+                className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-100 dark:border-gray-700 flex flex-col"
               >
                 {/* Header with gradient & logo */}
                 <div className={`p-6 bg-gradient-to-r ${study.color} flex items-center`}>
-                  <div className="w-16 h-16 relative bg-white rounded-lg shadow-md flex-shrink-0 p-2">
+                  <div className="w-16 h-16 relative bg-white dark:bg-gray-200 rounded-lg shadow-md flex-shrink-0 p-2">
                     <Image
                       src={study.logo}
                       alt={study.client}
@@ -121,27 +121,27 @@ export default function Home() {
 
                 {/* Content */}
                 <div className="p-6 flex-grow">
-                  <h3 className="text-xl font-bold mb-4">{study.title}</h3>
+                  <h3 className="text-xl font-bold mb-4 dark:text-white">{study.title}</h3>
 
                   <div className="mb-4">
-                    <h4 className="text-sm uppercase text-gray-500 font-medium mb-2">CHALLENGE</h4>
-                    <p className="text-gray-700">{study.challenge}</p>
+                    <h4 className="text-sm uppercase text-gray-500 dark:text-gray-400 font-medium mb-2">CHALLENGE</h4>
+                    <p className="text-gray-700 dark:text-gray-300">{study.challenge}</p>
                   </div>
 
                   <div className="mb-6">
-                    <h4 className="text-sm uppercase text-gray-500 font-medium mb-2">SOLUTION</h4>
-                    <p className="text-gray-700">{study.solution}</p>
+                    <h4 className="text-sm uppercase text-gray-500 dark:text-gray-400 font-medium mb-2">SOLUTION</h4>
+                    <p className="text-gray-700 dark:text-gray-300">{study.solution}</p>
                   </div>
 
                   <div>
-                    <h4 className="text-sm uppercase text-gray-500 font-medium mb-3">RESULTS</h4>
+                    <h4 className="text-sm uppercase text-gray-500 dark:text-gray-400 font-medium mb-3">RESULTS</h4>
                     <div className="space-y-3">
                       {study.results.map((result, idx) => (
                         <div key={idx} className="flex items-start">
                           <div className="mr-3 mt-0.5">{result.icon}</div>
                           <div>
-                            <span className="font-bold text-lg block">{result.metric}</span>
-                            <span className="text-gray-600 text-sm">{result.description}</span>
+                            <span className="font-bold text-lg block dark:text-white">{result.metric}</span>
+                            <span className="text-gray-600 dark:text-gray-400 text-sm">{result.description}</span>
                           </div>
                         </div>
                       ))}
@@ -150,9 +150,9 @@ export default function Home() {
                 </div>
 
                 {/* Footer */}
-                <div className="px-6 py-4 border-t border-gray-100 bg-gray-50">
+                <div className="px-6 py-4 border-t border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
                   <div className="flex justify-between items-center">
-                    <span className="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">
+                    <span className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1 rounded-full text-sm">
                       {study.industry}
                     </span>
                     <Button variant="outline" asChild size="sm">
