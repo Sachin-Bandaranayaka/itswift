@@ -50,12 +50,12 @@ const menuItems: MenuItem[] = [
     title: "Our profile",
     href: "#",
     submenu: [
-      { title: "About Us", href: "#" },
-      { title: "Case studies", href: "#" },
-      { title: "Awards", href: "#" },
+      { title: "About Us", href: "/about-us" },
+      { title: "Case studies", href: "/case-studies" },
+      { title: "Awards", href: "/awards" },
     ],
   },
-  { title: "Contact Us", href: "#" },
+  { title: "Contact Us", href: "/#contact" },
 ]
 
 export function Navbar() {

@@ -276,14 +276,21 @@ export default function IltToElearningPage() {
     return (
         <div className="w-full">
             {/* Hero Section with Background */}
-            <section className="relative bg-gradient-to-r from-orange-500 to-orange-600 text-white py-24">
-                <div className="absolute inset-0 opacity-10 bg-[url('/images/pattern.svg')] bg-repeat"></div>
+            <section className="relative text-white py-24 overflow-hidden">
+                <div className="absolute inset-0">
+                    <img 
+                        src="/IMAGES/5.ILT to elearning conversion service/download (1).png" 
+                        alt="ILT to eLearning Conversion Background" 
+                        className="w-full h-full object-cover"
+                    />
+                </div>
                 <div className="container mx-auto px-4 relative z-10">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
                         className="max-w-3xl"
+                        style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.7)' }}
                     >
                         <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
                             Transform Your Instructor-Led Training into Engaging Digital Learning Experiences

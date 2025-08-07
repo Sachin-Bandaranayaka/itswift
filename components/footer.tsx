@@ -18,13 +18,13 @@ export default function Footer() {
             />
 
             <div className="flex space-x-4 mb-8">
-              <Link href="#" className="hover:opacity-80 transition-opacity">
+              <Link href="https://linkedin.com/company/swift-solution" className="hover:opacity-80 transition-opacity" target="_blank" rel="noopener noreferrer">
                 <Linkedin className="h-6 w-6 text-white" />
               </Link>
-              <Link href="#" className="hover:opacity-80 transition-opacity">
+              <Link href="https://instagram.com/swiftsolution" className="hover:opacity-80 transition-opacity" target="_blank" rel="noopener noreferrer">
                 <Instagram className="h-6 w-6 text-white" />
               </Link>
-              <Link href="#" className="hover:opacity-80 transition-opacity">
+              <Link href="https://youtube.com/@swiftsolution" className="hover:opacity-80 transition-opacity" target="_blank" rel="noopener noreferrer">
                 <Youtube className="h-6 w-6 text-white" />
               </Link>
             </div>
@@ -110,7 +110,7 @@ export default function Footer() {
             <h3 className="text-lg font-bold mb-6">Company</h3>
             <ul className="space-y-3">
               <li>
-                <Link href="#" className="text-white hover:underline text-sm">
+                <Link href="/about-us" className="text-white hover:underline text-sm">
                   About Us
                 </Link>
               </li>
@@ -120,27 +120,22 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-white hover:underline text-sm">
+                <Link href="/awards" className="text-white hover:underline text-sm">
                   Awards
                 </Link>
               </li>
               <li>
-                <Link href="/knowledge-center" className="text-white hover:underline text-sm">
-                  Knowledge Center
+                <Link href="/blog" className="text-white hover:underline text-sm">
+                  Blog
                 </Link>
               </li>
               <li>
-                <Link href="/knowledge-hub" className="text-white hover:underline text-sm">
-                  Knowledge Hub
-                </Link>
-              </li>
-              <li>
-                <Link href="#contact" className="text-white hover:underline text-sm">
+                <Link href="mailto:swiftsol@itswift.com" className="text-white hover:underline text-sm">
                   Contact Us
                 </Link>
               </li>
               <li>
-                <Link href="/quote" className="text-white hover:underline text-sm">
+                <Link href="mailto:swiftsol@itswift.com?subject=Quote Request" className="text-white hover:underline text-sm">
                   Get a Quote
                 </Link>
               </li>

@@ -81,10 +81,16 @@ export default function OnboardingPage() {
     return (
         <div className="w-full">
             {/* Hero Section with Background */}
-            <section className="relative bg-gradient-to-r from-orange-500 to-orange-600 text-white py-20">
-                <div className="absolute inset-0 opacity-10 bg-[url('/images/pattern.svg')] bg-repeat"></div>
+            <section className="relative text-white py-20 overflow-hidden">
+                <div className="absolute inset-0">
+                    <img 
+                        src="/IMAGES/9.onboarding/download (1).png" 
+                        alt="Employee Onboarding Solutions Background" 
+                        className="w-full h-full object-cover"
+                    />
+                </div>
                 <div className="container mx-auto px-4 relative z-10">
-                    <div className="max-w-3xl">
+                    <div className="max-w-3xl" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.7)' }}>
                         <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
                             Online Employee Onboarding Solutions in Bangalore
                         </h1>
@@ -463,4 +469,4 @@ export default function OnboardingPage() {
             </section>
         </div>
     )
-} 
+}

@@ -14,12 +14,12 @@ export default function Contact() {
     phone: "",
     message: "",
   })
-  const [errors, setErrors] = useState({})
+  const [errors, setErrors] = useState<{[key: string]: string}>({})
   const [isSubmitted, setIsSubmitted] = useState(false)
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    const newErrors = {}
+    const newErrors: {[key: string]: string} = {}
     if (!formState.firstName) newErrors.firstName = "First name is required"
     if (!formState.email) newErrors.email = "Email is required"
     if (!formState.message) newErrors.message = "Message is required"
@@ -34,7 +34,7 @@ export default function Contact() {
   }
 
   return (
-    <section className="py-24 bg-gray-50">
+    <section id="contact" className="py-24 bg-gray-50">
       <div className="container mx-auto px-4">
         <div className="max-w-7xl mx-auto bg-white rounded-3xl overflow-hidden shadow-xl">
           <div className="grid md:grid-cols-2">
