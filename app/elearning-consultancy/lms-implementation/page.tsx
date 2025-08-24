@@ -162,8 +162,17 @@ export default function LMSImplementationPage() {
     return (
         <div className="w-full">
             {/* Hero Section with Background */}
-            <section className="relative bg-gradient-to-r from-orange-500 to-orange-600 text-white py-20">
-                <div className="absolute inset-0 opacity-10 bg-[url('/images/pattern.svg')] bg-repeat"></div>
+            <section className="relative text-white py-20">
+                <div className="absolute inset-0">
+                    <Image
+                        src="/IMAGES/12.LMS Implementation/download.png"
+                        alt="LMS Implementation Background"
+                        fill
+                        className="object-cover"
+                        priority
+                    />
+                    <div className="absolute inset-0 bg-black/50"></div>
+                </div>
                 <div className="container mx-auto px-4 relative z-10">
                     <div className="max-w-3xl">
                         <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
@@ -188,23 +197,84 @@ export default function LMSImplementationPage() {
             {/* Introduction Section */}
             <section className="py-16 bg-white">
                 <div className="container mx-auto px-4">
-                    <div className="max-w-3xl mx-auto text-center mb-12">
-                        <h2 className="text-3xl font-bold mb-6 text-gray-900">
-                            Comprehensive Moodle LMS Implementation Services for Modern Organizations
-                        </h2>
-                        <div className="prose max-w-none">
-                            <p className="text-lg text-gray-700 mb-4">
-                                In today's rapidly evolving corporate landscape, implementing an effective Learning Management System (LMS) is no longer optional—it's essential for organizations committed to employee development and training excellence. Traditional training approaches often struggle with scalability, consistency, and engagement, leading to poor knowledge retention and wasted resources.
+                    <div className="max-w-4xl mx-auto">
+                        <div className="text-center mb-12">
+                            <h2 className="text-3xl font-bold mb-6 text-gray-900">
+                                Comprehensive Moodle LMS Implementation Services for Modern Organizations
+                            </h2>
+                            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                                Transform your corporate training with expert implementation that delivers results
                             </p>
-                            <p className="text-lg text-gray-700 mb-4">
-                                At Swift Solution, we're transforming corporate training through expert Moodle LMS implementation services in Bangalore that deliver powerful, customized learning experiences.
-                            </p>
-                            <p className="text-lg text-gray-700 mb-4">
-                                Our specialized team combines deep technical expertise with instructional design knowledge to implement Moodle LMS solutions that organizations genuinely value. We understand that successful LMS implementation isn't just about software installation—it's about creating a learning ecosystem that aligns perfectly with your organizational goals and culture.
-                            </p>
-                            <p className="text-lg text-gray-700">
-                                Through our comprehensive Moodle LMS implementation services, we help businesses across Bangalore and beyond deploy learning platforms that drive real engagement while accelerating workforce development.
-                            </p>
+                        </div>
+
+                        {/* Key Challenge Highlight */}
+                        <div className="bg-gradient-to-r from-orange-50 to-red-50 rounded-2xl p-8 mb-12 border-l-4 border-orange-500">
+                            <div className="flex items-start">
+                                <div className="bg-orange-100 rounded-full p-3 mr-6 flex-shrink-0">
+                                    <CheckCircle className="h-8 w-8 text-orange-600" />
+                                </div>
+                                <div>
+                                    <h3 className="text-xl font-bold text-gray-900 mb-3">The Modern Training Challenge</h3>
+                                    <p className="text-lg text-gray-700 leading-relaxed">
+                                        In today's rapidly evolving corporate landscape, implementing an effective Learning Management System (LMS) is no longer optional—it's <span className="font-semibold text-orange-600">essential for organizations committed to employee development and training excellence</span>. Traditional training approaches often struggle with scalability, consistency, and engagement, leading to poor knowledge retention and wasted resources.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Solution Highlight */}
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-12">
+                            <div>
+                                <div className="bg-orange-100 rounded-full p-4 w-16 h-16 flex items-center justify-center mb-6">
+                                    <Award className="h-8 w-8 text-orange-600" />
+                                </div>
+                                <h3 className="text-2xl font-bold text-gray-900 mb-4">Our Solution</h3>
+                                <p className="text-lg text-gray-700 leading-relaxed mb-6">
+                                    At Swift Solution, we're transforming corporate training through <span className="font-semibold text-orange-600">expert Moodle LMS implementation services in Bangalore</span> that deliver powerful, customized learning experiences.
+                                </p>
+                                <div className="flex items-center text-orange-600">
+                                    <ArrowRight className="h-5 w-5 mr-2" />
+                                    <span className="font-medium">Proven expertise in Bangalore</span>
+                                </div>
+                            </div>
+                            <div className="bg-gray-50 rounded-2xl p-8">
+                                <h4 className="text-lg font-semibold text-gray-900 mb-4">What Sets Us Apart</h4>
+                                <ul className="space-y-3">
+                                    <li className="flex items-start">
+                                        <CheckCircle className="h-5 w-5 text-orange-500 mr-3 mt-0.5 flex-shrink-0" />
+                                        <span className="text-gray-700">Deep technical expertise</span>
+                                    </li>
+                                    <li className="flex items-start">
+                                        <CheckCircle className="h-5 w-5 text-orange-500 mr-3 mt-0.5 flex-shrink-0" />
+                                        <span className="text-gray-700">Instructional design knowledge</span>
+                                    </li>
+                                    <li className="flex items-start">
+                                        <CheckCircle className="h-5 w-5 text-orange-500 mr-3 mt-0.5 flex-shrink-0" />
+                                        <span className="text-gray-700">Customized learning experiences</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        {/* Our Approach */}
+                        <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-8 text-white">
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                                <div>
+                                    <div className="bg-orange-500 rounded-full p-3 w-12 h-12 flex items-center justify-center mb-4">
+                                        <Layers className="h-6 w-6 text-white" />
+                                    </div>
+                                    <h3 className="text-xl font-bold mb-4">Beyond Software Installation</h3>
+                                    <p className="text-gray-300 leading-relaxed">
+                                        We understand that successful LMS implementation isn't just about software installation—it's about <span className="text-orange-300 font-medium">creating a learning ecosystem that aligns perfectly with your organizational goals and culture</span>.
+                                    </p>
+                                </div>
+                                <div className="bg-white/10 rounded-xl p-6 backdrop-blur-sm">
+                                    <h4 className="text-lg font-semibold mb-4 text-orange-300">Our Impact</h4>
+                                    <p className="text-gray-200">
+                                        Through our comprehensive Moodle LMS implementation services, we help businesses across Bangalore and beyond deploy learning platforms that <span className="font-semibold">drive real engagement while accelerating workforce development</span>.
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

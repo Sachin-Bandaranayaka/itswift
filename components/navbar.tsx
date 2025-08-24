@@ -20,7 +20,6 @@ const menuItems: MenuItem[] = [
     submenu: [
       { title: "Custom eLearning", href: "/elearning-services/custom-elearning" },
       { title: "Micro Learning", href: "/elearning-services/micro-learning" },
-      { title: "Convert flash to HTML", href: "/elearning-services/convert-flash-to-html" },
       { title: "Video Based Training", href: "/elearning-services/video-based-training" },
       { title: "ILT to eLearning conversion", href: "/elearning-services/ilt-to-elearning" },
       { title: "Webinar to eLearning conversion", href: "/elearning-services/webinar-to-elearning" },
@@ -43,7 +42,7 @@ const menuItems: MenuItem[] = [
     href: "/elearning-consultancy",
     submenu: [
       { title: "LMS implementation", href: "/elearning-consultancy/lms-implementation" },
-      { title: "Instructional desing services", href: "/elearning-consultancy/instructional-design" },
+      { title: "Instructional design services", href: "/elearning-consultancy/instructional-design" },
     ],
   },
   {

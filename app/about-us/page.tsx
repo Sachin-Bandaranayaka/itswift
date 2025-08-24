@@ -72,9 +72,9 @@ export default function AboutUsPage() {
             {/* Hero Section */}
             <section className="relative text-white py-20 overflow-hidden">
                 <div className="absolute inset-0">
-                    <img 
-                        src="/IMAGES/2.about us/download (2).png" 
-                        alt="About Swift Solution Background" 
+                    <img
+                        src="/IMAGES/2.about us/download (2).png"
+                        alt="About Swift Solution Background"
                         className="w-full h-full object-cover"
                     />
                 </div>
@@ -99,36 +99,163 @@ export default function AboutUsPage() {
             </section>
 
             {/* Our Story Section */}
-            <section className="py-16 bg-white">
+            <section className="py-20 bg-gradient-to-br from-gray-50 via-white to-orange-50">
                 <div className="container mx-auto px-4">
-                    <div className="max-w-4xl mx-auto">
-                        <h2 className="text-3xl font-bold mb-8 text-center text-gray-900">
-                            Our Story
-                        </h2>
-                        
-                        <div className="prose prose-lg max-w-none mb-12">
-                            <p className="text-gray-700 mb-6">
-                                Founded in 2010, Swift Solution emerged from a simple yet powerful vision: to revolutionize 
-                                how organizations approach learning and development. What started as a small team of passionate 
-                                educators and technologists has grown into a leading provider of innovative eLearning solutions 
-                                trusted by companies worldwide.
-                            </p>
-                            
-                            <p className="text-gray-700 mb-6">
-                                Over the years, we've had the privilege of working with Fortune 500 companies, government 
-                                agencies, educational institutions, and growing businesses across diverse industries. Our 
-                                commitment to excellence and innovation has earned us recognition as a premier partner for 
-                                organizations seeking to transform their training and development initiatives.
-                            </p>
-                            
-                            <p className="text-gray-700 mb-6">
-                                Today, Swift Solution stands at the forefront of the eLearning industry, combining cutting-edge 
-                                technology with proven instructional design methodologies to create learning experiences that 
-                                engage, educate, and inspire learners around the globe.
+                    <div className="max-w-6xl mx-auto">
+                        <div className="text-center mb-16">
+                            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
+                                Our Story
+                            </h2>
+                            <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-orange-600 mx-auto mb-6"></div>
+                            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                                A journey of innovation, growth, and transformation in the world of eLearning
                             </p>
                         </div>
 
-                        {/* Mission & Vision */}
+                        {/* Timeline Story */}
+                        <div className="relative">
+                            {/* Timeline line */}
+                            <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-orange-200 via-orange-400 to-orange-600 hidden md:block"></div>
+
+                            {/* Story Cards */}
+                            <div className="space-y-12 md:space-y-16">
+                                {/* 2010 - Foundation */}
+                                <div className="relative flex flex-col md:flex-row items-center">
+                                    <div className="md:w-1/2 md:pr-12 mb-8 md:mb-0">
+                                        <div className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300 border border-orange-100">
+                                            <div className="flex items-center mb-4">
+                                                <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-4 py-2 rounded-full text-sm font-semibold">
+                                                    2010
+                                                </div>
+                                                <Lightbulb className="h-6 w-6 text-orange-500 ml-3" />
+                                            </div>
+                                            <h3 className="text-2xl font-bold mb-4 text-gray-900">The Vision Begins</h3>
+                                            <p className="text-gray-700 leading-relaxed">
+                                                Founded with a simple yet powerful vision: to revolutionize how organizations approach
+                                                learning and development. What started as a small team of passionate educators and
+                                                technologists would soon become something extraordinary.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-orange-500 rounded-full border-4 border-white shadow-lg"></div>
+                                    <div className="md:w-1/2 md:pl-12">
+                                        <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl p-8">
+                                            <div className="flex items-center justify-center h-32">
+                                                <div className="text-center">
+                                                    <div className="text-3xl font-bold text-orange-600 mb-2">Small Team</div>
+                                                    <div className="text-orange-700">Big Dreams</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Growth Phase */}
+                                <div className="relative flex flex-col md:flex-row-reverse items-center">
+                                    <div className="md:w-1/2 md:pl-12 mb-8 md:mb-0">
+                                        <div className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300 border border-blue-100">
+                                            <div className="flex items-center mb-4">
+                                                <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2 rounded-full text-sm font-semibold">
+                                                    2010-2020
+                                                </div>
+                                                <BarChart className="h-6 w-6 text-blue-500 ml-3" />
+                                            </div>
+                                            <h3 className="text-2xl font-bold mb-4 text-gray-900">Expanding Horizons</h3>
+                                            <p className="text-gray-700 leading-relaxed">
+                                                Over the years, we've had the privilege of working with Fortune 500 companies,
+                                                government agencies, educational institutions, and growing businesses across diverse
+                                                industries. Our commitment to excellence earned us recognition as a premier partner.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-blue-500 rounded-full border-4 border-white shadow-lg"></div>
+                                    <div className="md:w-1/2 md:pr-12">
+                                        <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8">
+                                            <div className="grid grid-cols-2 gap-4 text-center">
+                                                <div>
+                                                    <div className="text-2xl font-bold text-blue-600">Fortune 500</div>
+                                                    <div className="text-blue-700 text-sm">Companies</div>
+                                                </div>
+                                                <div>
+                                                    <div className="text-2xl font-bold text-blue-600">Global</div>
+                                                    <div className="text-blue-700 text-sm">Reach</div>
+                                                </div>
+                                                <div>
+                                                    <div className="text-2xl font-bold text-blue-600">Diverse</div>
+                                                    <div className="text-blue-700 text-sm">Industries</div>
+                                                </div>
+                                                <div>
+                                                    <div className="text-2xl font-bold text-blue-600">Trusted</div>
+                                                    <div className="text-blue-700 text-sm">Partner</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Today */}
+                                <div className="relative flex flex-col md:flex-row items-center">
+                                    <div className="md:w-1/2 md:pr-12 mb-8 md:mb-0">
+                                        <div className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300 border border-green-100">
+                                            <div className="flex items-center mb-4">
+                                                <div className="bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 rounded-full text-sm font-semibold">
+                                                    Today
+                                                </div>
+                                                <Globe className="h-6 w-6 text-green-500 ml-3" />
+                                            </div>
+                                            <h3 className="text-2xl font-bold mb-4 text-gray-900">Leading the Future</h3>
+                                            <p className="text-gray-700 leading-relaxed">
+                                                Swift Solution stands at the forefront of the eLearning industry, combining
+                                                cutting-edge technology with proven instructional design methodologies to create
+                                                learning experiences that engage, educate, and inspire learners around the globe.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-green-500 rounded-full border-4 border-white shadow-lg"></div>
+                                    <div className="md:w-1/2 md:pl-12">
+                                        <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-8">
+                                            <div className="text-center">
+                                                <div className="text-3xl font-bold text-green-600 mb-2">Industry Leader</div>
+                                                <div className="text-green-700 mb-4">Cutting-Edge Technology</div>
+                                                <div className="flex justify-center space-x-4">
+                                                    <div className="bg-white rounded-full p-2">
+                                                        <Layers className="h-6 w-6 text-green-500" />
+                                                    </div>
+                                                    <div className="bg-white rounded-full p-2">
+                                                        <Users className="h-6 w-6 text-green-500" />
+                                                    </div>
+                                                    <div className="bg-white rounded-full p-2">
+                                                        <Target className="h-6 w-6 text-green-500" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Call to Action */}
+                        <div className="text-center mt-16">
+                            <div className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl p-8 text-white">
+                                <h3 className="text-2xl font-bold mb-4">Ready to Be Part of Our Story?</h3>
+                                <p className="text-orange-100 mb-6 max-w-2xl mx-auto">
+                                    Join the hundreds of organizations that have transformed their learning experiences with Swift Solution.
+                                </p>
+                                <button className="bg-white text-orange-600 px-8 py-3 rounded-lg font-semibold hover:bg-orange-50 transition-colors duration-200 inline-flex items-center">
+                                    Start Your Journey
+                                    <ArrowRight className="h-5 w-5 ml-2" />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Mission & Vision */}
+            <section className="py-16 bg-white">
+                <div className="container mx-auto px-4">
+                    <div className="max-w-4xl mx-auto">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
                             <div className="bg-gradient-to-r from-orange-50 to-orange-100 rounded-xl p-8">
                                 <div className="bg-orange-500 p-3 rounded-full inline-block mb-4">
@@ -136,20 +263,20 @@ export default function AboutUsPage() {
                                 </div>
                                 <h3 className="text-2xl font-semibold mb-4 text-gray-900">Our Mission</h3>
                                 <p className="text-gray-700">
-                                    To empower organizations with innovative learning solutions that drive performance, 
-                                    engagement, and growth. We believe that effective learning is the foundation of 
+                                    To empower organizations with innovative learning solutions that drive performance,
+                                    engagement, and growth. We believe that effective learning is the foundation of
                                     organizational success and individual development.
                                 </p>
                             </div>
-                            
+
                             <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl p-8">
                                 <div className="bg-blue-500 p-3 rounded-full inline-block mb-4">
                                     <Globe className="h-8 w-8 text-white" />
                                 </div>
                                 <h3 className="text-2xl font-semibold mb-4 text-gray-900">Our Vision</h3>
                                 <p className="text-gray-700">
-                                    To be the global leader in transformative learning experiences, setting new standards 
-                                    for innovation, quality, and impact in the eLearning industry while making learning 
+                                    To be the global leader in transformative learning experiences, setting new standards
+                                    for innovation, quality, and impact in the eLearning industry while making learning
                                     accessible and engaging for everyone.
                                 </p>
                             </div>
@@ -206,7 +333,7 @@ export default function AboutUsPage() {
                                     <ChevronDown className={`h-5 w-5 transform transition-transform duration-200 ${showTeam ? 'rotate-180' : ''}`} />
                                 </button>
                             </div>
-                            
+
                             {showTeam && (
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                                     {teamMembers.map((member, index) => (
