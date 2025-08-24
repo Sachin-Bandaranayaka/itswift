@@ -28,40 +28,40 @@ export default function FAQ() {
 
     const faqCategories = [
         {
-            title: "CUSTOM E-LEARNING",
+            title: "ELEARNING IN BANGALORE",
             faqs: [
                 {
-                    question: "What Makes Swift Solution's Custom E-Learning Development Unique?",
-                    answer: "At Swift Solution, we believe learning should reflect the DNA of your organization. Our custom e-learning development is built from the ground up to address your specific business needs, values, and goals. With over two decades of experience, our team crafts custom online learning that delivers results—whether you're onboarding new employees or reskilling a global workforce."
+                    question: "What are the benefits of partnering with an eLearning company in Bangalore?",
+                    answer: "Bangalore is a global hub for technology and innovation, offering access to a vast pool of talent and resources. Partnering with an eLearning company in Bangalore gives you access to cutting-edge solutions, cost-effective services, and a culture of excellence. Swift Solution, as the top eLearning company in Bangalore, combines local expertise with global standards to deliver exceptional results."
                 },
                 {
-                    question: "How Can Rapid E-Learning Solutions Help My Organization Stay Agile?",
-                    answer: "In today's fast-moving business environment, speed matters. Our rapid e-learning development uses pre-approved frameworks and rapid e-learning software to deliver courses faster, without compromising quality. Whether you need to launch an employee elearning program quickly or provide just-in-time compliance training, our rapid elearning services are designed for agility and effectiveness."
+                    question: "How does Swift Solution's AI-enabled approach differ from other eLearning providers?",
+                    answer: "Our AI-enabled solutions go beyond basic personalization. We use AI to create truly adaptive learning experiences that cater to the individual needs of each learner, resulting in higher engagement, better knowledge retention, and a greater return on investment. This makes us the best eLearning company in Bangalore for AI-powered corporate training."
                 },
                 {
-                    question: "Why Are Microlearning Modules So Effective for Modern Learners?",
-                    answer: "Our microlearning modules are designed to deliver focused, relevant content in under 10 minutes. This approach, guided by our microlearning best practices, allows employees to engage in micro learning during short breaks or between tasks. As one of the few companies with deep expertise in microlearning strategies, Swift Solution ensures knowledge sticks—when and where it's needed."
+                    question: "Why is Swift Solution considered the best eLearning company in Bangalore?",
+                    answer: "With over 20 years of experience, a proven track record with global clients like Google, Microsoft, and Siemens, and our commitment to AI-powered innovation, Swift Solution stands out as the top eLearning company in Bangalore. We deliver measurable results and exceptional ROI for our clients."
                 },
                 {
-                    question: "How Can Game-Based Learning Increase Employee Engagement?",
-                    answer: "People learn best when they are engaged. Our game e-learning solutions use gamification techniques—like points, levels, and rewards—to motivate learners and foster healthy competition. Whether it's a compliance module or sales training, interactive e-learning built on gamified frameworks makes the learning process fun, memorable, and impactful."
+                    question: "What makes Swift Solution different from other eLearning solutions providers in Bangalore?",
+                    answer: "As a leading eLearning solutions provider in Bangalore, we offer end-to-end services including custom content development, LMS integration, and AI-powered personalization. Our 20+ years of experience and partnerships with global leaders set us apart from other providers in the market."
                 }
             ]
         },
         {
-            title: "BUSINESS SOLUTIONS",
+            title: "AI-POWERED SOLUTIONS",
             faqs: [
                 {
-                    question: "What Are the Benefits of Outsourcing Learning and Development to Swift Solution?",
-                    answer: "By outsourcing learning and development to Swift Solution, you get access to a team of dedicated experts in e-learning content development without the overhead costs of an internal team. Our content development outsourcing services help businesses scale their training programs efficiently, providing flexibility, scalability, and rapid deployment."
+                    question: "How do AI-enabled eLearning solutions improve training effectiveness?",
+                    answer: "Our AI-enabled eLearning solutions analyze learner behavior and performance to create personalized learning paths, provide real-time feedback, and optimize content delivery. This results in higher engagement rates, better knowledge retention, and improved training ROI for organizations."
                 },
                 {
-                    question: "How Do Swift Solution's Corporate E-Learning Solutions Improve Business Performance?",
-                    answer: "Our corporate e-learning solutions are designed to align with your organization's KPIs. We create custom e-learning solutions for employee elearning, leadership development, compliance, and sales enablement—driving measurable improvements in productivity, knowledge retention, and business outcomes."
+                    question: "What data-driven insights can Swift Solution provide?",
+                    answer: "Our AI-powered analytics provide valuable insights into learner performance, content effectiveness, completion rates, and skill gaps. This data-driven approach allows you to continuously measure and improve your return on investment while making informed decisions about your training programs."
                 },
                 {
-                    question: "What Industries Does Swift Solution Serve?",
-                    answer: "Swift Solution works with industries ranging from healthcare to finance, manufacturing to retail. Whether you need interactive e-learning, microlearning modules, or corporate elearning solutions, our expertise ensures your learners get a training experience that's relevant and effective."
+                    question: "How does gamification enhance the learning experience?",
+                    answer: "We incorporate gamification elements like points, badges, leaderboards, and interactive scenarios to make learning more engaging and memorable. This approach not only increases learner motivation but also improves knowledge retention and practical application of skills in the workplace."
                 }
             ]
         }
@@ -79,7 +79,7 @@ export default function FAQ() {
                             transition={{ duration: 0.6 }}
                             className="text-4xl font-bold sticky top-24"
                         >
-                            Everything you need to know.
+                            Frequently Asked Questions (FAQs) about eLearning in Bangalore
                         </motion.h2>
                     </div>
 

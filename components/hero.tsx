@@ -34,8 +34,8 @@ export default function Hero() {
             transition={{ duration: 0.8 }}
             className="text-xl sm:text-2xl md:text-4xl lg:text-5xl tracking-tight font-extrabold text-white max-w-5xl mx-auto"
           >
-            <span className="inline block mb-2 md:mb-0 md:inline">Transforming Corporate Learning </span>
-            <span className="inline-block text-white bg-black bg-opacity-50 px-2 py-1 rounded">with 25 Years of E-Learning Excellence</span>
+            <span className="inline block mb-2 md:mb-0 md:inline">Top eLearning Company in Bangalore: </span>
+            <span className="inline-block text-white bg-black bg-opacity-50 px-2 py-1 rounded">AI-Powered Corporate Training</span>
           </motion.h1>
         </div>
       </div>

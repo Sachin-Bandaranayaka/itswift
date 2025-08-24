@@ -70,6 +70,54 @@ export default function Home() {
       <BrandCarousel />
       <ValueProposition />
       <Services />
+      
+      {/* Our Comprehensive eLearning Services Section */}
+      <section className="py-16 bg-gray-50 dark:bg-gray-900">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="max-w-3xl mx-auto text-center mb-16"
+          >
+            <h2 className="text-4xl font-bold mb-4 dark:text-white">Our Comprehensive eLearning Services</h2>
+            <p className="text-xl text-gray-600 dark:text-gray-300">As a full-service eLearning solution provider in Bangalore, we offer a comprehensive range of services to meet all your corporate training needs.</p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg"
+            >
+              <h3 className="text-2xl font-bold mb-4 text-blue-600 dark:text-blue-400">Custom eLearning Content Development</h3>
+              <p className="text-gray-600 dark:text-gray-300">We specialize in creating high-quality, custom eLearning content that is tailored to your specific needs and objectives.</p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg"
+            >
+              <h3 className="text-2xl font-bold mb-4 text-green-600 dark:text-green-400">Learning Management System (LMS) Integration</h3>
+              <p className="text-gray-600 dark:text-gray-300">We can help you choose, implement, and integrate the right Learning Management System (LMS) to deliver and manage your eLearning programs effectively.</p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg"
+            >
+              <h3 className="text-2xl font-bold mb-4 text-purple-600 dark:text-purple-400">Mobile Learning and Microlearning Solutions</h3>
+              <p className="text-gray-600 dark:text-gray-300">We offer mobile learning and microlearning solutions that provide your employees with the flexibility to learn anytime, anywhere, on any device.</p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       <Outsourcing />
       <Stats />
       <FAQ />

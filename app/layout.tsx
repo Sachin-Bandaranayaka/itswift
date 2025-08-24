@@ -10,9 +10,9 @@ import type React from "react" // Added import for React
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
-  title: "Custom E-Learning Development & Corporate Training Solutions | Swift Solution India",
+  title: "Top eLearning Company in Bangalore for AI-Powered Corporate Training | Swift Solution",
   description:
-    "Swift Solution delivers 25 years of excellence in custom e-learning development, rapid eLearning, and microlearning solutions. Transform your corporate learning programs with our expert team.",
+    "Boost your workforce performance with the top eLearning company in Bangalore. Swift Solution delivers AI-powered, custom eLearning solutions for corporate training. Get a free demo!",
 }
 
 export default function RootLayout({

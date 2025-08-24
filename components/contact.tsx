@@ -3,7 +3,6 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
-import Image from "next/image"
 import type React from "react" // Added import for React
 
 export default function Contact() {
@@ -46,9 +45,12 @@ export default function Contact() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
               >
-                <h2 className="text-4xl font-bold text-gray-900 mb-2">Get in Touch</h2>
-                <p className="text-gray-600 mb-8">
-                  Ready to transform your eLearning experience? Let's talk about your needs.
+                <h2 className="text-4xl font-bold text-gray-900 mb-2">Get a Free Consultation from the Top eLearning Company in Bangalore</h2>
+                <p className="text-gray-600 mb-4">
+                  Ready to take your corporate training to the next level? Contact Swift Solution today for a free consultation. Let us show you why we are the best eLearning company in Bangalore and how our AI-powered solutions can help you achieve your business goals.
+                </p>
+                <p className="text-gray-600 mb-8 font-medium">
+                  Partner with a top elearning solution provider, Bangalore, and unlock the full potential of your workforce.
                 </p>
 
                 <AnimatePresence>
