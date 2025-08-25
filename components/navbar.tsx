@@ -18,6 +18,7 @@ const menuItems: MenuItem[] = [
     title: "eLearning Services",
     href: "/elearning-services",
     submenu: [
+      { title: "AI-Powered eLearning Solutions", href: "/elearning-services/ai-powered-solutions" },
       { title: "Custom eLearning", href: "/elearning-services/custom-elearning" },
       { title: "Micro Learning", href: "/elearning-services/micro-learning" },
       { title: "Video Based Training", href: "/elearning-services/video-based-training" },
