@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { motion } from "framer-motion"
+import Head from "next/head"
 
 type FAQItem = {
     question: string
@@ -46,9 +47,30 @@ export default function FAQ() {
         }
     ]
 
+    // Generate FAQ schema
+    const faqSchema = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": faqCategories.flatMap(category => 
+            category.faqs.map(faq => ({
+                "@type": "Question",
+                "name": faq.question,
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": faq.answer
+                }
+            }))
+        )
+    }
+
     return (
-        <section className="py-16 bg-white">
-            <div className="container mx-auto px-4">
+        <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+            />
+            <section className="py-16 bg-white">
+                <div className="container mx-auto px-4">
                 <div className="grid md:grid-cols-[1fr,2fr] gap-16 max-w-7xl mx-auto">
                     {/* Left side - title */}
                     <div>
@@ -109,5 +131,6 @@ export default function FAQ() {
                 </div>
             </div>
         </section>
+        </>
     )
 } 

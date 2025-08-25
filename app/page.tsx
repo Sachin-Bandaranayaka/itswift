@@ -64,8 +64,57 @@ const caseStudies = [
 ]
 
 export default function Home() {
+  // Service schema markup
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "AI-Powered eLearning Solutions",
+    "description": "Custom eLearning content development, AI-powered corporate training, and comprehensive learning management solutions",
+    "provider": {
+      "@type": "Organization",
+      "name": "Swift Solution",
+      "url": "https://swiftsolution.com"
+    },
+    "areaServed": {
+      "@type": "Place",
+      "name": "Bangalore, India"
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "eLearning Services",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Custom eLearning Content Development"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "AI-Powered Corporate Training"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Learning Management System Integration"
+          }
+        }
+      ]
+    }
+  }
+
   return (
-    <main>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
+      <main>
       <Hero />
       <BrandCarousel />
       <ValueProposition />
@@ -308,6 +357,7 @@ export default function Home() {
       <Contact />
       <Footer />
     </main>
+    </>
   )
 }
 
