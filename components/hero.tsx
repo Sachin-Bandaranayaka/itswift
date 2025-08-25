@@ -37,6 +37,24 @@ export default function Hero() {
             <span className="inline block mb-2 md:mb-0 md:inline">Top eLearning Company in Bangalore: </span>
             <span className="inline-block text-white bg-black bg-opacity-50 px-2 py-1 rounded">AI-Powered Corporate Training</span>
           </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-lg sm:text-xl md:text-2xl text-white max-w-4xl mx-auto mt-6"
+          >
+            We deliver measurable results and exceptional ROI with our award-winning, AI-driven eLearning solutions. Trusted by Google, Microsoft, and Siemens.
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="mt-8"
+          >
+            <button className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 px-8 rounded-lg text-lg transition-colors duration-200">
+              Get a Free AI Training Consultation
+            </button>
+          </motion.div>
         </div>
       </div>
     </div>

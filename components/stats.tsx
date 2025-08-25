@@ -5,20 +5,20 @@ import { motion } from "framer-motion"
 export default function Stats() {
     const stats = [
         {
-            value: "8,000+",
-            label: "Learners trained"
+            value: "1,000+",
+            label: "Projects Completed"
         },
         {
-            value: "97%",
-            label: "Completion rate"
+            value: "200+",
+            label: "Clients across Industries"
         },
         {
-            value: "99.9%",
-            label: "Uptime guarantee"
+            value: "30%",
+            label: "ROI Guaranteed"
         },
         {
-            value: "$2M+",
-            label: "Client ROI delivered"
+            value: "20+",
+            label: "Years of Experience"
         }
     ]
 
@@ -33,7 +33,7 @@ export default function Stats() {
                             transition={{ duration: 0.6 }}
                             className="text-4xl font-bold mb-4"
                         >
-                            Trusted by organizations worldwide
+                            Our Track Record Speaks for Itself
                         </motion.h2>
                         <motion.p
                             initial={{ opacity: 0, y: 20 }}
@@ -41,7 +41,7 @@ export default function Stats() {
                             transition={{ duration: 0.6, delay: 0.2 }}
                             className="text-xl text-gray-600"
                         >
-                            Our track record speaks for itself
+                            Delivering measurable results and exceptional ROI for over two decades
                         </motion.p>
                     </div>
 

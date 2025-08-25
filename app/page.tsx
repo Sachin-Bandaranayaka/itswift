@@ -70,7 +70,7 @@ export default function Home() {
       <BrandCarousel />
       <ValueProposition />
       <Services />
-      
+
       {/* Our Comprehensive eLearning Services Section */}
       <section className="py-16 bg-gray-50 dark:bg-gray-900">
         <div className="container mx-auto px-4">
@@ -84,36 +84,66 @@ export default function Home() {
             <p className="text-xl text-gray-600 dark:text-gray-300">As a full-service eLearning solution provider in Bangalore, we offer a comprehensive range of services to meet all your corporate training needs.</p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg"
-            >
-              <h3 className="text-2xl font-bold mb-4 text-blue-600 dark:text-blue-400">Custom eLearning Content Development</h3>
-              <p className="text-gray-600 dark:text-gray-300">We specialize in creating high-quality, custom eLearning content that is tailored to your specific needs and objectives.</p>
-            </motion.div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <Link href="/elearning-services" className="block">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow cursor-pointer"
+              >
+                <h3 className="text-2xl font-bold mb-4 text-blue-600 dark:text-blue-400">Bespoke eLearning Content That Drives Results</h3>
+                <p className="text-gray-600 dark:text-gray-300">We specialize in creating high-quality, custom eLearning content that is tailored to your specific needs and objectives. Our team of instructional designers and content developers works closely with you to create engaging and effective learning experiences that deliver measurable results.</p>
+              </motion.div>
+            </Link>
 
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg"
-            >
-              <h3 className="text-2xl font-bold mb-4 text-green-600 dark:text-green-400">Learning Management System (LMS) Integration</h3>
-              <p className="text-gray-600 dark:text-gray-300">We can help you choose, implement, and integrate the right Learning Management System (LMS) to deliver and manage your eLearning programs effectively.</p>
-            </motion.div>
+            <Link href="/elearning-solutions" className="block">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow cursor-pointer"
+              >
+                <h3 className="text-2xl font-bold mb-4 text-green-600 dark:text-green-400">The Future of Corporate Training is Here</h3>
+                <p className="text-gray-600 dark:text-gray-300">As a visionary AI-enabled eLearning solutions company in Bangalore, we are pioneering the use of artificial intelligence to create personalized, adaptive, and engaging learning experiences. Our AI-powered solutions are designed to optimize learning outcomes and maximize your return on investment.</p>
+              </motion.div>
+            </Link>
 
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg"
-            >
-              <h3 className="text-2xl font-bold mb-4 text-purple-600 dark:text-purple-400">Mobile Learning and Microlearning Solutions</h3>
-              <p className="text-gray-600 dark:text-gray-300">We offer mobile learning and microlearning solutions that provide your employees with the flexibility to learn anytime, anywhere, on any device.</p>
-            </motion.div>
+            <Link href="/elearning-services" className="block">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow cursor-pointer"
+              >
+                <h3 className="text-2xl font-bold mb-4 text-purple-600 dark:text-purple-400">Seamless LMS Integration for Effortless Learning</h3>
+                <p className="text-gray-600 dark:text-gray-300">We can help you choose, implement, and integrate the right Learning Management System (LMS) to deliver and manage your eLearning programs effectively. Our team of experts will ensure a seamless integration with your existing systems and provide ongoing support to ensure a smooth and hassle-free experience.</p>
+              </motion.div>
+            </Link>
+
+            <Link href="/elearning-services" className="block">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow cursor-pointer"
+              >
+                <h3 className="text-2xl font-bold mb-4 text-orange-600 dark:text-orange-400">Learning on the Go, Anytime, Anywhere</h3>
+                <p className="text-gray-600 dark:text-gray-300">We offer mobile learning and microlearning solutions that provide your employees with the flexibility to learn anytime, anywhere, on any device. Our mobile-first approach ensures that your employees can access learning content on the go, making it easier for them to stay up-to-date with the latest training and development.</p>
+              </motion.div>
+            </Link>
+
+            <Link href="/elearning-services" className="block">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow cursor-pointer"
+              >
+                <h3 className="text-2xl font-bold mb-4 text-indigo-600 dark:text-indigo-400">Engaging and Immersive Learning Experiences</h3>
+                <p className="text-gray-600 dark:text-gray-300">We believe that learning should be an enjoyable and immersive experience. That's why we incorporate gamification, simulations, and interactive content into our eLearning solutions. This not only makes learning more engaging but also improves knowledge retention and application.</p>
+              </motion.div>
+            </Link>
           </div>
         </div>
       </section>
@@ -222,6 +252,55 @@ export default function Home() {
             <Button asChild>
               <Link href="/case-studies">View All Case Studies</Link>
             </Button>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Unique Value Proposition Section */}
+      <section className="py-16 bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-800 dark:to-gray-900">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="max-w-4xl mx-auto text-center"
+          >
+            <h2 className="text-4xl font-bold mb-8 dark:text-white">The Swift Solution Unique Value Proposition</h2>
+            <p className="text-xl text-gray-700 dark:text-gray-300 mb-12">
+              We bring together three rarely combined strengths:
+            </p>
+
+            <div className="grid md:grid-cols-3 gap-8">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg"
+              >
+                <h3 className="text-2xl font-bold mb-4 text-blue-600 dark:text-blue-400">Domain Expertise</h3>
+                <p className="text-gray-600 dark:text-gray-300">30 years of client success and market insight.</p>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg"
+              >
+                <h3 className="text-2xl font-bold mb-4 text-green-600 dark:text-green-400">Authentic AI Transformation</h3>
+                <p className="text-gray-600 dark:text-gray-300">A two-year journey with measurable results and enterprise adoption.</p>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg"
+              >
+                <h3 className="text-2xl font-bold mb-4 text-purple-600 dark:text-purple-400">Ethical Leadership</h3>
+                <p className="text-gray-600 dark:text-gray-300">Transparent, value-driven practices that build lasting trust.</p>
+              </motion.div>
+            </div>
           </motion.div>
         </div>
       </section>

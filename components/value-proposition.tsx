@@ -69,14 +69,17 @@ export default function ValueProposition() {
             <section className="pt-16 pb-48 bg-[#FF6B38] dark:bg-[#CC5630]">
                 <div className="container mx-auto px-4">
                     <div className="max-w-3xl mx-auto text-center">
-                        <h2 className="text-3xl font-bold mb-4 text-white">Your Trusted eLearning Solutions Provider in Bangalore for Over 20 Years</h2>
+                        <h2 className="text-3xl font-bold mb-4 text-white">Your Trusted eLearning Solutions Provider in Bangalore for Over 20+Years</h2>
                         <hr className="w-24 border-t-2 border-white mx-auto my-6" />
 
                         {/* Company description text added here */}
                         <div className="max-w-3xl mx-auto text-white text-center mt-8 mb-12 leading-relaxed">
                             <h3 className="text-xl font-semibold mb-4">Driving Business Growth with Custom eLearning Content</h3>
                             <p className="mb-4">
-                                At Swift Solution, we understand that generic training programs fall short of meeting the unique needs of your organization. That's why we focus on developing bespoke eLearning solutions that address your specific challenges and goals. As a leading eLearning company in Bangalore, we work collaboratively with you to design and develop content that resonates with your employees and drives business growth.
+                                Swift Solution Pvt Ltd has led India's Learning & Development industry for 20+ years. Shaping India's L&D industry for 20+ years. Not just a vendor — a partner in transformation. Blending deep expertise with AI-driven innovation. Rooted in ethics, built on lasting client trust. Leading the next evolution of Learning & Development.
+                            </p>
+                            <p className="mb-4">
+                                As a leading eLearning company in Bangalore, our team of learning experts combine deep instructional design expertise with cutting-edge technology to create engaging and effective learning experiences that deliver measurable results.
                             </p>
                             <h3 className="text-xl font-semibold mb-4">Our Unwavering Commitment to Quality and Innovation</h3>
                             <p>

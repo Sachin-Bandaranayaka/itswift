@@ -36,32 +36,11 @@ export default function FAQ() {
                 },
                 {
                     question: "How does Swift Solution's AI-enabled approach differ from other eLearning providers?",
-                    answer: "Our AI-enabled solutions go beyond basic personalization. We use AI to create truly adaptive learning experiences that cater to the individual needs of each learner, resulting in higher engagement, better knowledge retention, and a greater return on investment. This makes us the best eLearning company in Bangalore for AI-powered corporate training."
+                    answer: "Our AI-enabled approach goes beyond simple automation. We use AI to create personalized learning paths, provide real-time feedback, and generate data-driven insights to continuously improve learning outcomes. This allows us to deliver a truly adaptive and engaging learning experience that is tailored to the unique needs of each learner."
                 },
                 {
                     question: "Why is Swift Solution considered the best eLearning company in Bangalore?",
-                    answer: "With over 20 years of experience, a proven track record with global clients like Google, Microsoft, and Siemens, and our commitment to AI-powered innovation, Swift Solution stands out as the top eLearning company in Bangalore. We deliver measurable results and exceptional ROI for our clients."
-                },
-                {
-                    question: "What makes Swift Solution different from other eLearning solutions providers in Bangalore?",
-                    answer: "As a leading eLearning solutions provider in Bangalore, we offer end-to-end services including custom content development, LMS integration, and AI-powered personalization. Our 20+ years of experience and partnerships with global leaders set us apart from other providers in the market."
-                }
-            ]
-        },
-        {
-            title: "AI-POWERED SOLUTIONS",
-            faqs: [
-                {
-                    question: "How do AI-enabled eLearning solutions improve training effectiveness?",
-                    answer: "Our AI-enabled eLearning solutions analyze learner behavior and performance to create personalized learning paths, provide real-time feedback, and optimize content delivery. This results in higher engagement rates, better knowledge retention, and improved training ROI for organizations."
-                },
-                {
-                    question: "What data-driven insights can Swift Solution provide?",
-                    answer: "Our AI-powered analytics provide valuable insights into learner performance, content effectiveness, completion rates, and skill gaps. This data-driven approach allows you to continuously measure and improve your return on investment while making informed decisions about your training programs."
-                },
-                {
-                    question: "How does gamification enhance the learning experience?",
-                    answer: "We incorporate gamification elements like points, badges, leaderboards, and interactive scenarios to make learning more engaging and memorable. This approach not only increases learner motivation but also improves knowledge retention and practical application of skills in the workplace."
+                    answer: "Our 20+ years of experience, our impressive client portfolio (including Google, Microsoft, and Siemens), our commitment to innovation, and our focus on delivering measurable results are just a few of the reasons why we are considered the best eLearning company in Bangalore. But don't just take our word for it - our client testimonials and case studies speak for themselves."
                 }
             ]
         }
