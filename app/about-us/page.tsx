@@ -1,9 +1,12 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
+import Head from "next/head"
 import Image from "next/image"
 import Contact from "@/components/contact"
-import { ArrowRight, CheckCircle, Award, BarChart, Layers, Users, ChevronDown, Target, Globe, Lightbulb, Heart, Star, Trophy } from "lucide-react"
+import { ArrowRight, CheckCircle, Award, BarChart, Layers, Users, ChevronDown, Target, Globe, Lightbulb, Heart, Star, Trophy, Brain, Zap, Shield } from "lucide-react"
+
+
 
 interface TeamMember {
     name: string
@@ -18,52 +21,99 @@ interface Value {
     icon: React.ReactNode
 }
 
+interface FAQ {
+    question: string
+    answer: string
+}
+
 export default function AboutUsPage() {
     const [showTeam, setShowTeam] = useState(false)
+    const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null)
+
+    useEffect(() => {
+        document.title = "Top AI-Powered eLearning Company in Bangalore, India | Swift Solution"
+
+        // Update meta description
+        const metaDescription = document.querySelector('meta[name="description"]')
+        if (metaDescription) {
+            metaDescription.setAttribute('content', 'Learn about Swift Solution, a leading AI-powered eLearning company in Bangalore with 25+ years of experience. Discover our authentic AI transformation, deep domain expertise, and commitment to delivering measurable ROI for clients like Google and Microsoft.')
+        } else {
+            const meta = document.createElement('meta')
+            meta.name = 'description'
+            meta.content = 'Learn about Swift Solution, a leading AI-powered eLearning company in Bangalore with 25+ years of experience. Discover our authentic AI transformation, deep domain expertise, and commitment to delivering measurable ROI for clients like Google and Microsoft.'
+            document.head.appendChild(meta)
+        }
+
+        // Update meta keywords
+        const metaKeywords = document.querySelector('meta[name="keywords"]')
+        if (metaKeywords) {
+            metaKeywords.setAttribute('content', 'about swift solution, top elearning companies in bangalore, ai-powered elearning, corporate training solutions, elearning company india, custom elearning content')
+        } else {
+            const meta = document.createElement('meta')
+            meta.name = 'keywords'
+            meta.content = 'about swift solution, top elearning companies in bangalore, ai-powered elearning, corporate training solutions, elearning company india, custom elearning content'
+            document.head.appendChild(meta)
+        }
+    }, [])
 
     const teamMembers: TeamMember[] = [
         {
-            name: "John Smith",
-            role: "CEO & Founder",
-            description: "20+ years of experience in eLearning and corporate training solutions."
+            name: "Keshavan Belagod",
+            role: "Co-founder and Director",
+            description: "Over 25 years of profound experience in the e-Learning sector. A regular and respected speaker at national e-Learning conferences in India, Keshavan holds an MPhil in e-Learning."
         },
         {
-            name: "Sarah Johnson",
-            role: "Head of Instructional Design",
-            description: "Expert in learning psychology and curriculum development."
+            name: "Madhusudhan Reddy",
+            role: "Co-founder and Director",
+            description: "Technical head of the company with over 20 years of rich experience. Madhusudhan holds an MTech in Computer Science, providing a strong technical foundation for our innovative solutions."
         },
         {
-            name: "Michael Chen",
-            role: "Technical Director",
-            description: "Leading our technology innovation and platform development."
-        },
-        {
-            name: "Emily Davis",
-            role: "Creative Director",
-            description: "Bringing visual excellence to every learning experience."
+            name: "Manirangan",
+            role: "Co-founder and Director",
+            description: "Over 20 years of experience in e-Learning, application software selling, and IT consulting. Computer Science graduate with an MBA, blending technical knowledge with strategic business acumen."
         }
     ]
 
     const values: Value[] = [
         {
-            title: "Innovation",
-            description: "We continuously explore new technologies and methodologies to create cutting-edge learning solutions.",
-            icon: <Lightbulb className="h-8 w-8 text-orange-500" />
-        },
-        {
-            title: "Quality",
-            description: "Every project undergoes rigorous quality assurance to ensure exceptional learning outcomes.",
-            icon: <Star className="h-8 w-8 text-orange-500" />
-        },
-        {
-            title: "Partnership",
-            description: "We work closely with our clients as true partners in their learning and development journey.",
+            title: "Client-Centricity",
+            description: "Your business goals are our priority. We listen, understand, and then design solutions that are perfectly aligned with your needs.",
             icon: <Heart className="h-8 w-8 text-orange-500" />
         },
         {
-            title: "Excellence",
-            description: "We strive for excellence in every aspect of our work, from design to delivery.",
-            icon: <Trophy className="h-8 w-8 text-orange-500" />
+            title: "Innovation in Learning",
+            description: "We continuously explore new technologies and instructional approaches to make learning more engaging and effective.",
+            icon: <Lightbulb className="h-8 w-8 text-orange-500" />
+        },
+        {
+            title: "Measurable Impact",
+            description: "We focus on delivering eLearning solutions that lead to tangible improvements in performance and clear ROI.",
+            icon: <BarChart className="h-8 w-8 text-orange-500" />
+        },
+        {
+            title: "Expertise & Experience",
+            description: "Leveraging over 25 years of specialized experience in the eLearning domain, particularly serving clients in Bangalore and across India.",
+            icon: <Award className="h-8 w-8 text-orange-500" />
+        },
+        {
+            title: "Collaborative Partnership",
+            description: "We believe in working closely with our clients, fostering a partnership built on trust and shared objectives.",
+            icon: <Users className="h-8 w-8 text-orange-500" />
+        }
+    ]
+
+    const faqs: FAQ[] = [
+        {
+            question: "Why should our business consider outsourcing to eLearning companies in Bangalore?",
+            answer: "Outsourcing to eLearning companies in Bangalore offers a strategic advantage due to the region's vast talent pool of skilled instructional designers, multimedia developers, and project managers. Bangalore, known as India's Silicon Valley, is a hub for innovation and technology, ensuring access to cutting-edge eLearning solutions. Moreover, eLearning companies in Bangalore often provide significant cost efficiencies without compromising on quality, delivering world-class custom eLearning content that meets global standards."
+        },
+        {
+            question: "What makes Bangalore a preferred destination for finding top-tier eLearning companies?",
+            answer: "Bangalore is a preferred destination because it hosts a high concentration of premier educational institutions and a thriving IT and BPO sector, which cultivates a rich ecosystem for eLearning companies. This environment ensures a continuous supply of professionals proficient in the latest eLearning technologies and instructional design methodologies. When you partner with eLearning companies in Bangalore, you tap into this deep expertise and a culture of continuous learning and innovation."
+        },
+        {
+            question: "How do eLearning companies in Bangalore ensure quality and effective communication?",
+            answer: "Reputable eLearning companies in Bangalore prioritize quality and client communication by adhering to international standards (like ISO certifications) and employing robust project management methodologies (like Agile). Many professionals in Bangalore have excellent English proficiency and experience working with global clients, ensuring smooth collaboration. Furthermore, eLearning companies in Bangalore often leverage modern communication tools and flexible working hours to bridge geographical distances and time zone differences effectively."
         }
     ]
 
@@ -79,348 +129,374 @@ export default function AboutUsPage() {
                     />
                 </div>
                 <div className="container mx-auto px-4 relative z-10">
-                    <div className="max-w-4xl mx-auto text-center" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.7)' }}>
+                    <div className="max-w-6xl mx-auto text-center" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.7)' }}>
                         <h1 className="text-4xl md:text-6xl font-bold mb-6">
-                            About Swift Solution
+                            About Swift Solution: Pioneering the Future of Corporate Training in Bangalore
                         </h1>
-                        <p className="text-xl md:text-2xl mb-8 text-orange-100">
-                            Transforming learning experiences through innovation, creativity, and expertise
+                        <p className="text-xl md:text-2xl mb-8 text-orange-100 max-w-4xl mx-auto">
+                            Our existence hinges on one simple principle: improving your business performance. We are not just another vendor; we are a strategic partner recognized as one of the top eLearning companies in Bangalore.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <button className="bg-white text-orange-600 px-8 py-3 rounded-lg font-semibold hover:bg-orange-50 transition-colors duration-200">
-                                Our Story
+                                Our AI Journey
                             </button>
                             <button className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-orange-600 transition-colors duration-200">
-                                Meet Our Team
+                                Meet Our Leadership
                             </button>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* Our Story Section */}
+            {/* Our Foundation Section */}
             <section className="py-20 bg-gradient-to-br from-gray-50 via-white to-orange-50">
                 <div className="container mx-auto px-4">
                     <div className="max-w-6xl mx-auto">
                         <div className="text-center mb-16">
                             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
-                                Our Story
+                                Our Foundation: Three Decades of L&D Mastery and Client Success
                             </h2>
                             <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-orange-600 mx-auto mb-6"></div>
-                            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                                A journey of innovation, growth, and transformation in the world of eLearning
+                            <p className="text-xl text-gray-600 max-w-4xl mx-auto">
+                                Our professional identity is built on a fundamental understanding of the Indian L&D ecosystem, which has historically been fragmented and lacking in standardized, systematic approaches. Our journey has been a deliberate effort to build structure, quality, and consistency where it is rare.
                             </p>
                         </div>
 
-                        {/* Timeline Story */}
-                        <div className="relative">
-                            {/* Timeline line */}
-                            <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-orange-200 via-orange-400 to-orange-600 hidden md:block"></div>
-
-                            {/* Story Cards */}
-                            <div className="space-y-12 md:space-y-16">
-                                {/* 2010 - Foundation */}
-                                <div className="relative flex flex-col md:flex-row items-center">
-                                    <div className="md:w-1/2 md:pr-12 mb-8 md:mb-0">
-                                        <div className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300 border border-orange-100">
-                                            <div className="flex items-center mb-4">
-                                                <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-4 py-2 rounded-full text-sm font-semibold">
-                                                    2010
-                                                </div>
-                                                <Lightbulb className="h-6 w-6 text-orange-500 ml-3" />
-                                            </div>
-                                            <h3 className="text-2xl font-bold mb-4 text-gray-900">The Vision Begins</h3>
-                                            <p className="text-gray-700 leading-relaxed">
-                                                Founded with a simple yet powerful vision: to revolutionize how organizations approach
-                                                learning and development. What started as a small team of passionate educators and
-                                                technologists would soon become something extraordinary.
-                                            </p>
-                                        </div>
+                        {/* Foundation Pillars */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+                            <div className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300 border border-orange-100">
+                                <div className="flex items-center mb-6">
+                                    <div className="bg-orange-500 p-3 rounded-full">
+                                        <Trophy className="h-8 w-8 text-white" />
                                     </div>
-                                    <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-orange-500 rounded-full border-4 border-white shadow-lg"></div>
-                                    <div className="md:w-1/2 md:pl-12">
-                                        <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl p-8">
-                                            <div className="flex items-center justify-center h-32">
-                                                <div className="text-center">
-                                                    <div className="text-3xl font-bold text-orange-600 mb-2">Small Team</div>
-                                                    <div className="text-orange-700">Big Dreams</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <h3 className="text-2xl font-bold ml-4 text-gray-900">Proven Track Record</h3>
                                 </div>
-
-                                {/* Growth Phase */}
-                                <div className="relative flex flex-col md:flex-row-reverse items-center">
-                                    <div className="md:w-1/2 md:pl-12 mb-8 md:mb-0">
-                                        <div className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300 border border-blue-100">
-                                            <div className="flex items-center mb-4">
-                                                <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2 rounded-full text-sm font-semibold">
-                                                    2010-2020
-                                                </div>
-                                                <BarChart className="h-6 w-6 text-blue-500 ml-3" />
-                                            </div>
-                                            <h3 className="text-2xl font-bold mb-4 text-gray-900">Expanding Horizons</h3>
-                                            <p className="text-gray-700 leading-relaxed">
-                                                Over the years, we've had the privilege of working with Fortune 500 companies,
-                                                government agencies, educational institutions, and growing businesses across diverse
-                                                industries. Our commitment to excellence earned us recognition as a premier partner.
-                                            </p>
-                                        </div>
+                                <p className="text-gray-700 leading-relaxed mb-4">
+                                    We have successfully delivered over 1,000 projects for more than 200 distinct clients across diverse industries, including global leaders like Google, Microsoft, and Siemens.
+                                </p>
+                                <div className="grid grid-cols-3 gap-4 text-center">
+                                    <div>
+                                        <div className="text-2xl font-bold text-orange-600">1,000+</div>
+                                        <div className="text-gray-600 text-sm">Projects</div>
                                     </div>
-                                    <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-blue-500 rounded-full border-4 border-white shadow-lg"></div>
-                                    <div className="md:w-1/2 md:pr-12">
-                                        <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8">
-                                            <div className="grid grid-cols-2 gap-4 text-center">
-                                                <div>
-                                                    <div className="text-2xl font-bold text-blue-600">Fortune 500</div>
-                                                    <div className="text-blue-700 text-sm">Companies</div>
-                                                </div>
-                                                <div>
-                                                    <div className="text-2xl font-bold text-blue-600">Global</div>
-                                                    <div className="text-blue-700 text-sm">Reach</div>
-                                                </div>
-                                                <div>
-                                                    <div className="text-2xl font-bold text-blue-600">Diverse</div>
-                                                    <div className="text-blue-700 text-sm">Industries</div>
-                                                </div>
-                                                <div>
-                                                    <div className="text-2xl font-bold text-blue-600">Trusted</div>
-                                                    <div className="text-blue-700 text-sm">Partner</div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div>
+                                        <div className="text-2xl font-bold text-orange-600">200+</div>
+                                        <div className="text-gray-600 text-sm">Clients</div>
                                     </div>
-                                </div>
-
-                                {/* Today */}
-                                <div className="relative flex flex-col md:flex-row items-center">
-                                    <div className="md:w-1/2 md:pr-12 mb-8 md:mb-0">
-                                        <div className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300 border border-green-100">
-                                            <div className="flex items-center mb-4">
-                                                <div className="bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 rounded-full text-sm font-semibold">
-                                                    Today
-                                                </div>
-                                                <Globe className="h-6 w-6 text-green-500 ml-3" />
-                                            </div>
-                                            <h3 className="text-2xl font-bold mb-4 text-gray-900">Leading the Future</h3>
-                                            <p className="text-gray-700 leading-relaxed">
-                                                Swift Solution stands at the forefront of the eLearning industry, combining
-                                                cutting-edge technology with proven instructional design methodologies to create
-                                                learning experiences that engage, educate, and inspire learners around the globe.
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-green-500 rounded-full border-4 border-white shadow-lg"></div>
-                                    <div className="md:w-1/2 md:pl-12">
-                                        <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-8">
-                                            <div className="text-center">
-                                                <div className="text-3xl font-bold text-green-600 mb-2">Industry Leader</div>
-                                                <div className="text-green-700 mb-4">Cutting-Edge Technology</div>
-                                                <div className="flex justify-center space-x-4">
-                                                    <div className="bg-white rounded-full p-2">
-                                                        <Layers className="h-6 w-6 text-green-500" />
-                                                    </div>
-                                                    <div className="bg-white rounded-full p-2">
-                                                        <Users className="h-6 w-6 text-green-500" />
-                                                    </div>
-                                                    <div className="bg-white rounded-full p-2">
-                                                        <Target className="h-6 w-6 text-green-500" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div>
+                                        <div className="text-2xl font-bold text-orange-600">25+</div>
+                                        <div className="text-gray-600 text-sm">Years</div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        {/* Call to Action */}
-                        <div className="text-center mt-16">
-                            <div className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl p-8 text-white">
-                                <h3 className="text-2xl font-bold mb-4">Ready to Be Part of Our Story?</h3>
-                                <p className="text-orange-100 mb-6 max-w-2xl mx-auto">
-                                    Join the hundreds of organizations that have transformed their learning experiences with Swift Solution.
+                            <div className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300 border border-blue-100">
+                                <div className="flex items-center mb-6">
+                                    <div className="bg-blue-500 p-3 rounded-full">
+                                        <Users className="h-8 w-8 text-white" />
+                                    </div>
+                                    <h3 className="text-2xl font-bold ml-4 text-gray-900">Client Relationship Mastery</h3>
+                                </div>
+                                <p className="text-gray-700 leading-relaxed mb-4">
+                                    Our philosophy is built on creating long-term value, a stark contrast to the transactional nature of most providers. This is validated by client relationships that span decades and an 80% inquiry-to-order conversion rate sustained over the last 6-7 years.
                                 </p>
-                                <button className="bg-white text-orange-600 px-8 py-3 rounded-lg font-semibold hover:bg-orange-50 transition-colors duration-200 inline-flex items-center">
-                                    Start Your Journey
-                                    <ArrowRight className="h-5 w-5 ml-2" />
-                                </button>
+                                <div className="bg-blue-50 rounded-lg p-4">
+                                    <div className="text-3xl font-bold text-blue-600 text-center">80%</div>
+                                    <div className="text-blue-700 text-center">Inquiry-to-Order Conversion Rate</div>
+                                </div>
+                            </div>
+
+                            <div className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300 border border-green-100">
+                                <div className="flex items-center mb-6">
+                                    <div className="bg-green-500 p-3 rounded-full">
+                                        <Target className="h-8 w-8 text-white" />
+                                    </div>
+                                    <h3 className="text-2xl font-bold ml-4 text-gray-900">Value-Based Partnerships</h3>
+                                </div>
+                                <p className="text-gray-700 leading-relaxed">
+                                    We transform one-time projects into ongoing rate contracts, demonstrating our ability to deliver long-term organizational impact. Our approach focuses on sustainable partnerships rather than transactional relationships.
+                                </p>
+                            </div>
+
+                            <div className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300 border border-purple-100">
+                                <div className="flex items-center mb-6">
+                                    <div className="bg-purple-500 p-3 rounded-full">
+                                        <BarChart className="h-8 w-8 text-white" />
+                                    </div>
+                                    <h3 className="text-2xl font-bold ml-4 text-gray-900">Operational Excellence</h3>
+                                </div>
+                                <p className="text-gray-700 leading-relaxed">
+                                    We have achieved consistent growth and operate with zero debt, a testament to our financial discipline. Our lean operational structure allows us to handle significant revenue variations with stable monthly costs, ensuring both competitive advantage and scalability.
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
+            {/* AI Transformation Section */}
+            <section className="py-20 bg-white">
+                <div className="container mx-auto px-4">
+                    <div className="max-w-6xl mx-auto">
+                        <div className="text-center mb-16">
+                            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
+                                Our Edge: An Authentic, Two-Year AI-Powered Transformation
+                            </h2>
+                            <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-blue-600 mx-auto mb-6"></div>
+                            <p className="text-xl text-gray-600 max-w-4xl mx-auto">
+                                We are a pioneer in the authentic implementation of AI within the L&D industry. Our systematic, two-year AI transformation journey is not a theoretical exercise but a practical integration validated by enterprise client acceptance.
+                            </p>
+                        </div>
 
-            {/* Mission & Vision */}
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
+                            <div>
+                                <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8">
+                                    <div className="flex items-center mb-6">
+                                        <div className="bg-blue-500 p-3 rounded-full">
+                                            <Brain className="h-8 w-8 text-white" />
+                                        </div>
+                                        <h3 className="text-2xl font-bold ml-4 text-gray-900">A Systematic Journey</h3>
+                                    </div>
+                                    <p className="text-gray-700 leading-relaxed mb-6">
+                                        Beginning in April 2023 with the adoption of ChatGPT for scriptwriting, our journey progressed through six distinct phases. This methodical evolution included integrating AI for visual storyboards, optimizing entire project workflows, and strategically selecting AI-enhanced tools.
+                                    </p>
+                                    <div className="space-y-3">
+                                        <div className="flex items-center">
+                                            <CheckCircle className="h-5 w-5 text-blue-500 mr-3" />
+                                            <span className="text-gray-700">ChatGPT Integration for Scriptwriting</span>
+                                        </div>
+                                        <div className="flex items-center">
+                                            <CheckCircle className="h-5 w-5 text-blue-500 mr-3" />
+                                            <span className="text-gray-700">AI-Enhanced Visual Storyboards</span>
+                                        </div>
+                                        <div className="flex items-center">
+                                            <CheckCircle className="h-5 w-5 text-blue-500 mr-3" />
+                                            <span className="text-gray-700">Complete Workflow Optimization</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-8">
+                                    <div className="flex items-center mb-6">
+                                        <div className="bg-green-500 p-3 rounded-full">
+                                            <Globe className="h-8 w-8 text-white" />
+                                        </div>
+                                        <h3 className="text-2xl font-bold ml-4 text-gray-900">Ecosystem Consolidation</h3>
+                                    </div>
+                                    <p className="text-gray-700 leading-relaxed mb-6">
+                                        In 2025, we strategically consolidated our toolset around the Google ecosystem, fully transitioning to Gemini to enhance efficiency and optimize costs. Today, AI is fully integrated into our core processes, including instructional design, storyboards, media planning, scheduling, and client management.
+                                    </p>
+                                    <div className="bg-white rounded-lg p-4">
+                                        <div className="text-center">
+                                            <div className="text-3xl font-bold text-green-600 mb-2">60-70%</div>
+                                            <div className="text-green-700">Efficiency Gains in Content Preparation</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="bg-gradient-to-r from-orange-50 to-orange-100 rounded-2xl p-8">
+                            <div className="text-center mb-8">
+                                <div className="flex items-center justify-center mb-4">
+                                    <div className="bg-orange-500 p-3 rounded-full">
+                                        <Zap className="h-8 w-8 text-white" />
+                                    </div>
+                                    <h3 className="text-2xl font-bold ml-4 text-gray-900">The Philosophy of Human-AI Collaboration</h3>
+                                </div>
+                                <p className="text-gray-700 leading-relaxed max-w-4xl mx-auto">
+                                    Our approach is centered on human augmentation, not replacement. AI generates, but human experts validate and review, ensuring that we improve efficiency without compromising quality. This model has been critical to gaining enterprise client acceptance for AI-enhanced deliverables.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            {/* Our Values Section */}
+            <section className="py-16 bg-gradient-to-br from-gray-50 via-white to-orange-50">
+                <div className="container mx-auto px-4">
+                    <div className="max-w-6xl mx-auto">
+                        <div className="text-center mb-16">
+                            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
+                                What Guides Us: Our Core Values and Unwavering Commitment
+                            </h2>
+                            <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-orange-600 mx-auto mb-6"></div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                            {values.map((value, index) => (
+                                <div key={index} className="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300 text-center">
+                                    <div className="bg-orange-50 p-4 rounded-full inline-block mb-6">
+                                        {value.icon}
+                                    </div>
+                                    <h4 className="text-xl font-semibold mb-4 text-gray-900">{value.title}</h4>
+                                    <p className="text-gray-700 leading-relaxed">{value.description}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* FAQ Section */}
             <section className="py-16 bg-white">
                 <div className="container mx-auto px-4">
                     <div className="max-w-4xl mx-auto">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-                            <div className="bg-gradient-to-r from-orange-50 to-orange-100 rounded-xl p-8">
-                                <div className="bg-orange-500 p-3 rounded-full inline-block mb-4">
-                                    <Target className="h-8 w-8 text-white" />
-                                </div>
-                                <h3 className="text-2xl font-semibold mb-4 text-gray-900">Our Mission</h3>
-                                <p className="text-gray-700">
-                                    To empower organizations with innovative learning solutions that drive performance,
-                                    engagement, and growth. We believe that effective learning is the foundation of
-                                    organizational success and individual development.
-                                </p>
-                            </div>
-
-                            <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl p-8">
-                                <div className="bg-blue-500 p-3 rounded-full inline-block mb-4">
-                                    <Globe className="h-8 w-8 text-white" />
-                                </div>
-                                <h3 className="text-2xl font-semibold mb-4 text-gray-900">Our Vision</h3>
-                                <p className="text-gray-700">
-                                    To be the global leader in transformative learning experiences, setting new standards
-                                    for innovation, quality, and impact in the eLearning industry while making learning
-                                    accessible and engaging for everyone.
-                                </p>
-                            </div>
+                        <div className="text-center mb-16">
+                            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
+                                Frequently Asked Questions (FAQs) about eLearning in Bangalore
+                            </h2>
+                            <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-orange-600 mx-auto mb-6"></div>
                         </div>
 
-                        {/* Our Values */}
-                        <div className="mb-16">
-                            <h3 className="text-2xl font-semibold mb-8 text-center text-gray-900">Our Core Values</h3>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                                {values.map((value, index) => (
-                                    <div key={index} className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-300 text-center">
-                                        <div className="bg-orange-50 p-3 rounded-full inline-block mb-4">
-                                            {value.icon}
+                        <div className="space-y-6">
+                            {faqs.map((faq, index) => (
+                                <div key={index} className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
+                                    <button
+                                        onClick={() => setExpandedFAQ(expandedFAQ === index ? null : index)}
+                                        className="w-full px-8 py-6 text-left flex items-center justify-between hover:bg-orange-50 transition-colors duration-200"
+                                    >
+                                        <h3 className="text-lg font-semibold text-gray-900 pr-4">{faq.question}</h3>
+                                        <ChevronDown className={`h-5 w-5 text-orange-500 transform transition-transform duration-200 ${expandedFAQ === index ? 'rotate-180' : ''}`} />
+                                    </button>
+                                    {expandedFAQ === index && (
+                                        <div className="px-8 pb-6">
+                                            <p className="text-gray-700 leading-relaxed">{faq.answer}</p>
                                         </div>
-                                        <h4 className="text-xl font-semibold mb-3 text-gray-900">{value.title}</h4>
-                                        <p className="text-gray-700">{value.description}</p>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </section>
+            {/* Leadership Team Section */}
+            <section className="py-16 bg-gradient-to-br from-gray-50 via-white to-orange-50">
+                <div className="container mx-auto px-4">
+                    <div className="max-w-6xl mx-auto">
+                        <div className="text-center mb-16">
+                            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
+                                The Minds Behind Swift Solution: Our Leadership Team
+                            </h2>
+                            <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-orange-600 mx-auto mb-6"></div>
+                            <p className="text-xl text-gray-600 max-w-4xl mx-auto">
+                                Our leadership team brings a wealth of experience and a shared passion for leveraging technology to enhance learning and performance. Their expertise is a key reason why Swift Solution is considered one of the top eLearning companies in Bangalore.
+                            </p>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                            {teamMembers.map((member, index) => (
+                                <div key={index} className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300 text-center">
+                                    <div className="w-24 h-24 bg-gradient-to-br from-orange-100 to-orange-200 rounded-full mx-auto mb-6 flex items-center justify-center">
+                                        <Users className="h-12 w-12 text-orange-600" />
                                     </div>
-                                ))}
-                            </div>
+                                    <h4 className="text-2xl font-bold mb-3 text-gray-900">{member.name}</h4>
+                                    <p className="text-orange-600 font-semibold mb-4 text-lg">{member.role}</p>
+                                    <p className="text-gray-700 leading-relaxed">{member.description}</p>
+                                </div>
+                            ))}
                         </div>
 
                         {/* Company Stats */}
-                        <div className="bg-gradient-to-r from-orange-50 to-orange-100 rounded-xl p-8 mb-16">
-                            <h3 className="text-2xl font-semibold mb-8 text-center text-gray-900">Swift Solution by the Numbers</h3>
+                        <div className="bg-gradient-to-r from-orange-50 to-orange-100 rounded-2xl p-8">
+                            <h3 className="text-3xl font-bold mb-8 text-center text-gray-900">Swift Solution by the Numbers</h3>
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
                                 <div>
-                                    <div className="text-3xl font-bold text-orange-600 mb-2">500+</div>
-                                    <div className="text-gray-700">Projects Completed</div>
+                                    <div className="text-4xl font-bold text-orange-600 mb-2">1,000+</div>
+                                    <div className="text-gray-700 font-medium">Projects Delivered</div>
                                 </div>
                                 <div>
-                                    <div className="text-3xl font-bold text-orange-600 mb-2">200+</div>
-                                    <div className="text-gray-700">Happy Clients</div>
+                                    <div className="text-4xl font-bold text-orange-600 mb-2">200+</div>
+                                    <div className="text-gray-700 font-medium">Distinct Clients</div>
                                 </div>
                                 <div>
-                                    <div className="text-3xl font-bold text-orange-600 mb-2">1M+</div>
-                                    <div className="text-gray-700">Learners Trained</div>
+                                    <div className="text-4xl font-bold text-orange-600 mb-2">80%</div>
+                                    <div className="text-gray-700 font-medium">Conversion Rate</div>
                                 </div>
                                 <div>
-                                    <div className="text-3xl font-bold text-orange-600 mb-2">13+</div>
-                                    <div className="text-gray-700">Years of Excellence</div>
+                                    <div className="text-4xl font-bold text-orange-600 mb-2">25+</div>
+                                    <div className="text-gray-700 font-medium">Years Experience</div>
                                 </div>
                             </div>
                         </div>
-
-                        {/* Team Section */}
-                        <div className="mb-16">
-                            <div className="flex items-center justify-between mb-8">
-                                <h3 className="text-2xl font-semibold text-gray-900">Meet Our Leadership Team</h3>
-                                <button
-                                    onClick={() => setShowTeam(!showTeam)}
-                                    className="flex items-center space-x-2 text-orange-600 hover:text-orange-700 transition-colors duration-200"
-                                >
-                                    <span>{showTeam ? 'Hide' : 'Show'} Team</span>
-                                    <ChevronDown className={`h-5 w-5 transform transition-transform duration-200 ${showTeam ? 'rotate-180' : ''}`} />
-                                </button>
-                            </div>
-
-                            {showTeam && (
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                                    {teamMembers.map((member, index) => (
-                                        <div key={index} className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-300 text-center">
-                                            <div className="w-20 h-20 bg-orange-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-                                                <Users className="h-10 w-10 text-orange-500" />
-                                            </div>
-                                            <h4 className="text-xl font-semibold mb-2 text-gray-900">{member.name}</h4>
-                                            <p className="text-orange-600 font-medium mb-3">{member.role}</p>
-                                            <p className="text-gray-700 text-sm">{member.description}</p>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
+                    </div>
+                </div>
+            </section>
+            {/* Unique Value Proposition Section */}
+            <section className="py-16 bg-white">
+                <div className="container mx-auto px-4">
+                    <div className="max-w-6xl mx-auto">
+                        <div className="text-center mb-16">
+                            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
+                                The Swift Solution Unique Value Proposition: Why We Lead the Market
+                            </h2>
+                            <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-orange-600 mx-auto mb-6"></div>
+                            <p className="text-xl text-gray-600 max-w-4xl mx-auto">
+                                Our unique value proposition is the convergence of three powerful, rarely combined elements
+                            </p>
                         </div>
 
-                        {/* Why Choose Us */}
-                        <div className="mb-16">
-                            <h3 className="text-2xl font-semibold mb-8 text-center text-gray-900">Why Organizations Choose Swift Solution</h3>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div className="flex items-start space-x-3">
-                                    <CheckCircle className="h-6 w-6 text-orange-500 mt-1 flex-shrink-0" />
-                                    <div>
-                                        <h4 className="font-semibold text-gray-900 mb-2">Proven Track Record</h4>
-                                        <p className="text-gray-700">13+ years of delivering successful eLearning solutions</p>
-                                    </div>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                            <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 text-center">
+                                <div className="bg-blue-500 p-4 rounded-full inline-block mb-6">
+                                    <Award className="h-10 w-10 text-white" />
                                 </div>
-                                <div className="flex items-start space-x-3">
-                                    <CheckCircle className="h-6 w-6 text-orange-500 mt-1 flex-shrink-0" />
-                                    <div>
-                                        <h4 className="font-semibold text-gray-900 mb-2">Expert Team</h4>
-                                        <p className="text-gray-700">Certified instructional designers and technology specialists</p>
-                                    </div>
+                                <h3 className="text-2xl font-bold mb-4 text-gray-900">Deep Domain Expertise</h3>
+                                <p className="text-gray-700 leading-relaxed">
+                                    Validated by 25 years of client success and deep market insight. Our extensive experience across diverse industries gives us unparalleled understanding of learning challenges.
+                                </p>
+                            </div>
+
+                            <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-8 text-center">
+                                <div className="bg-green-500 p-4 rounded-full inline-block mb-6">
+                                    <Brain className="h-10 w-10 text-white" />
                                 </div>
-                                <div className="flex items-start space-x-3">
-                                    <CheckCircle className="h-6 w-6 text-orange-500 mt-1 flex-shrink-0" />
-                                    <div>
-                                        <h4 className="font-semibold text-gray-900 mb-2">Cutting-Edge Technology</h4>
-                                        <p className="text-gray-700">Latest tools and platforms for immersive learning</p>
-                                    </div>
+                                <h3 className="text-2xl font-bold mb-4 text-gray-900">Authentic AI Transformation</h3>
+                                <p className="text-gray-700 leading-relaxed">
+                                    Proven by a systematic, two-year implementation with measurable results and enterprise client acceptance. We don't just talk about AI - we live it.
+                                </p>
+                            </div>
+
+                            <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-8 text-center">
+                                <div className="bg-purple-500 p-4 rounded-full inline-block mb-6">
+                                    <Shield className="h-10 w-10 text-white" />
                                 </div>
-                                <div className="flex items-start space-x-3">
-                                    <CheckCircle className="h-6 w-6 text-orange-500 mt-1 flex-shrink-0" />
-                                    <div>
-                                        <h4 className="font-semibold text-gray-900 mb-2">Global Reach</h4>
-                                        <p className="text-gray-700">Serving clients across multiple countries and industries</p>
-                                    </div>
-                                </div>
-                                <div className="flex items-start space-x-3">
-                                    <CheckCircle className="h-6 w-6 text-orange-500 mt-1 flex-shrink-0" />
-                                    <div>
-                                        <h4 className="font-semibold text-gray-900 mb-2">Customized Solutions</h4>
-                                        <p className="text-gray-700">Tailored approaches for unique business requirements</p>
-                                    </div>
-                                </div>
-                                <div className="flex items-start space-x-3">
-                                    <CheckCircle className="h-6 w-6 text-orange-500 mt-1 flex-shrink-0" />
-                                    <div>
-                                        <h4 className="font-semibold text-gray-900 mb-2">Ongoing Support</h4>
-                                        <p className="text-gray-700">Comprehensive support throughout the project lifecycle</p>
-                                    </div>
-                                </div>
+                                <h3 className="text-2xl font-bold mb-4 text-gray-900">Unwavering Ethical Leadership</h3>
+                                <p className="text-gray-700 leading-relaxed">
+                                    Demonstrated through transparent, value-based practices that build lasting trust and industry credibility. Our zero-debt operation speaks to our financial integrity.
+                                </p>
                             </div>
                         </div>
 
-                        {/* Certifications & Awards */}
-                        <div>
-                            <h3 className="text-2xl font-semibold mb-8 text-center text-gray-900">Certifications & Recognition</h3>
-                            <div className="bg-gradient-to-r from-orange-50 to-orange-100 rounded-xl p-8">
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-                                    <div>
-                                        <Award className="h-12 w-12 text-orange-500 mx-auto mb-4" />
-                                        <h4 className="font-semibold text-gray-900 mb-2">ISO 9001:2015 Certified</h4>
-                                        <p className="text-gray-700">Quality management systems</p>
-                                    </div>
-                                    <div>
-                                        <Trophy className="h-12 w-12 text-orange-500 mx-auto mb-4" />
-                                        <h4 className="font-semibold text-gray-900 mb-2">eLearning Excellence Awards</h4>
-                                        <p className="text-gray-700">Multiple industry recognitions</p>
-                                    </div>
-                                    <div>
-                                        <Star className="h-12 w-12 text-orange-500 mx-auto mb-4" />
-                                        <h4 className="font-semibold text-gray-900 mb-2">Client Satisfaction</h4>
-                                        <p className="text-gray-700">98% client retention rate</p>
-                                    </div>
-                                </div>
-                            </div>
+                        <div className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl p-8 text-white text-center">
+                            <h3 className="text-2xl font-bold mb-4">Market Leadership Based on Authentic Experience</h3>
+                            <p className="text-orange-100 mb-6 max-w-4xl mx-auto text-lg">
+                                Our market leadership is based on authentic experience, not theoretical claims. We offer our clients, partners, and the industry a proven methodology for navigating the future of learning—a future that is efficient, effective, and fundamentally human.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            {/* Final CTA Section */}
+            <section className="py-16 bg-gradient-to-br from-gray-50 via-white to-orange-50">
+                <div className="container mx-auto px-4">
+                    <div className="max-w-4xl mx-auto text-center mb-16">
+                        <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
+                            Choose Swift Solution: Your Trusted Partner for AI-Powered eLearning
+                        </h2>
+                        <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-orange-600 mx-auto mb-6"></div>
+                        <p className="text-xl text-gray-600 mb-8">
+                            When you partner with Swift Solution, you are choosing one of the top eLearning companies in Bangalore with a proven track record of delivering excellence. We are passionate about helping your organization achieve its full potential through innovative and effective custom eLearning solutions.
+                        </p>
+                        <div className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl p-8 text-white">
+                            <h3 className="text-2xl font-bold mb-4">Ready to Transform Your Learning Experience?</h3>
+                            <p className="text-orange-100 mb-6">
+                                Contact us today to discuss how we can help you improve performance and achieve your business objectives.
+                            </p>
+                            <button className="bg-white text-orange-600 px-8 py-3 rounded-lg font-semibold hover:bg-orange-50 transition-colors duration-200 inline-flex items-center">
+                                Start Your AI-Powered Journey
+                                <ArrowRight className="h-5 w-5 ml-2" />
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -431,10 +507,10 @@ export default function AboutUsPage() {
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-12">
                         <h2 className="text-3xl font-bold mb-4 text-gray-900">
-                            Ready to Partner with Us?
+                            Get in Touch
                         </h2>
                         <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                            Let's discuss how Swift Solution can help transform your learning and development initiatives.
+                            Let's discuss how Swift Solution can help transform your learning and development initiatives with our AI-powered solutions.
                         </p>
                     </div>
                     <Contact />
