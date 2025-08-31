@@ -1,0 +1,20 @@
+{
+  "name": "admin-content-automation",
+  "version": "1.0.0",
+  "description": "Admin panel and content automation system",
+  "build": {
+    "command": "npm run build",
+    "output": ".next"
+  },
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "healthCheck": {
+    "path": "/api/health",
+    "timeout": 30
+  },
+  "dependencies": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
+}

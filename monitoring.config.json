@@ -1,0 +1,21 @@
+{
+  "metrics": {
+    "enabled": true,
+    "endpoint": "/api/metrics",
+    "interval": 60000
+  },
+  "logging": {
+    "level": "debug",
+    "format": "json"
+  },
+  "alerts": {
+    "errorRate": {
+      "threshold": 0.05,
+      "window": "5m"
+    },
+    "responseTime": {
+      "threshold": 2000,
+      "window": "5m"
+    }
+  }
+}
