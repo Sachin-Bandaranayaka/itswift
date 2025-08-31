@@ -43,7 +43,8 @@ import {
   MoreHorizontal,
   Edit,
   Trash2,
-  UserPlus
+  UserPlus,
+  Send
 } from 'lucide-react'
 import { 
   DropdownMenu, 

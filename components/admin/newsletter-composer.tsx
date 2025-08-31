@@ -72,7 +72,7 @@ export function NewsletterComposer({ campaign, onSave, onSend }: NewsletterCompo
   }, [])
 
   useEffect(() => {
-    if (subject || content) {
+    if (subject && content && templateId) {
       generatePreview()
     }
   }, [subject, content, templateId])
@@ -90,7 +90,7 @@ export function NewsletterComposer({ campaign, onSave, onSend }: NewsletterCompo
   }
 
   const generatePreview = async () => {
-    if (!subject && !content) return
+    if (!subject || !content || !templateId) return
 
     try {
       const response = await fetch('/api/admin/newsletter/preview', {
