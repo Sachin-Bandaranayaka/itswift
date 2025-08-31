@@ -172,13 +172,16 @@ export class SocialDataService {
         return [];
       }
 
-      return posts.map(post => ({
-        id: post.id,
-        title: this.truncateContent(post.content, 50),
-        type: 'social' as const,
-        platform: post.platform,
-        scheduledAt: new Date(post.scheduled_at || post.created_at)
-      }));
+      return posts
+        .filter(post => post.scheduled_at || post.created_at) // Filter out posts without dates
+        .map(post => ({
+          id: post.id,
+          title: this.truncateContent(post.content, 50),
+          type: 'social' as const,
+          platform: post.platform,
+          scheduledAt: new Date(post.scheduled_at || post.created_at)
+        }))
+        .filter(item => !isNaN(item.scheduledAt.getTime())); // Filter out invalid dates
     } catch (error) {
       console.error('Error fetching scheduled social posts:', error);
       return [];

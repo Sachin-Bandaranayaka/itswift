@@ -3,7 +3,7 @@
  */
 
 import { client } from '@/lib/sanity.client';
-import { BlogStats, ActivityItem } from '@/lib/types/dashboard';
+import { BlogStats, ActivityItem, ScheduledItem } from '@/lib/types/dashboard';
 import { isThisMonth, isLastMonth, calculateGrowth } from '@/lib/utils/dashboard-utils';
 
 export class BlogDataService {
@@ -93,7 +93,7 @@ export class BlogDataService {
   /**
    * Get blog posts scheduled for future publication
    */
-  async getScheduledBlogPosts(): Promise<ActivityItem[]> {
+  async getScheduledBlogPosts(): Promise<ScheduledItem[]> {
     try {
       const now = new Date().toISOString();
       
@@ -112,15 +112,16 @@ export class BlogDataService {
         return [];
       }
 
-      return scheduledPosts.map(post => ({
-        id: post._id,
-        type: 'blog' as const,
-        title: post.title || 'Untitled Post',
-        description: 'Blog post scheduled for publication',
-        timestamp: new Date(post.publishedAt),
-        status: 'scheduled' as const,
-        platform: 'blog'
-      }));
+      return scheduledPosts
+        .filter(post => post.publishedAt) // Filter out posts without publishedAt
+        .map(post => ({
+          id: post._id,
+          type: 'blog' as const,
+          title: post.title || 'Untitled Post',
+          platform: 'blog',
+          scheduledAt: new Date(post.publishedAt)
+        }))
+        .filter(item => !isNaN(item.scheduledAt.getTime())); // Filter out invalid dates
     } catch (error) {
       console.error('Error fetching scheduled blog posts:', error);
       return [];

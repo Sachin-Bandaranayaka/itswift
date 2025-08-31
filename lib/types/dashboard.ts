@@ -26,7 +26,7 @@ export interface ActivityItem {
   type: 'blog' | 'social' | 'newsletter' | 'ai';
   title: string;
   description: string;
-  timestamp: Date;
+  timestamp: Date | string;
   status: 'published' | 'scheduled' | 'sent' | 'generated';
   platform?: string;
 }
@@ -50,7 +50,7 @@ export interface ScheduledItem {
   title: string;
   type: 'blog' | 'social' | 'newsletter';
   platform?: string;
-  scheduledAt: Date;
+  scheduledAt: Date | string;
 }
 
 export interface AIUsageStats {

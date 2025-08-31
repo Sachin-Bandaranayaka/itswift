@@ -22,7 +22,7 @@ export interface ScheduledItem {
   title: string;
   type: 'blog' | 'social' | 'newsletter';
   platform?: string;
-  scheduledAt: Date;
+  scheduledAt: Date | string;
 }
 
 interface UpcomingScheduledCardProps {
@@ -60,15 +60,26 @@ const getTypeColor = (type: ScheduledItem['type']) => {
   }
 };
 
-const getScheduleStatus = (scheduledAt: Date) => {
-  if (isToday(scheduledAt)) {
+const getScheduleStatus = (scheduledAt: Date | string) => {
+  const date = new Date(scheduledAt);
+  
+  // Check if date is valid
+  if (isNaN(date.getTime())) {
+    return {
+      label: 'Invalid date',
+      color: 'bg-gray-100 text-gray-800',
+      urgent: false
+    };
+  }
+  
+  if (isToday(date)) {
     return {
       label: 'Today',
       color: 'bg-red-100 text-red-800',
       urgent: true
     };
   }
-  if (isTomorrow(scheduledAt)) {
+  if (isTomorrow(date)) {
     return {
       label: 'Tomorrow',
       color: 'bg-orange-100 text-orange-800',
@@ -76,7 +87,7 @@ const getScheduleStatus = (scheduledAt: Date) => {
     };
   }
   return {
-    label: formatDistanceToNow(scheduledAt, { addSuffix: true }),
+    label: formatDistanceToNow(date, { addSuffix: true }),
     color: 'bg-gray-100 text-gray-800',
     urgent: false
   };
@@ -141,7 +152,10 @@ const ScheduledItemComponent = ({ item }: { item: ScheduledItem }) => {
         <div className="flex items-center space-x-3">
           <div className="flex items-center text-xs text-gray-500">
             <Clock className="h-3 w-3 mr-1" />
-            {format(item.scheduledAt, 'MMM d, h:mm a')}
+            {(() => {
+              const date = new Date(item.scheduledAt);
+              return isNaN(date.getTime()) ? 'Invalid date' : format(date, 'MMM d, h:mm a');
+            })()}
           </div>
           <Badge 
             variant="secondary" 
@@ -243,7 +257,7 @@ export function UpcomingScheduledCard({
         ) : (
           <div className="space-y-1">
             {scheduledContent
-              .sort((a, b) => a.scheduledAt.getTime() - b.scheduledAt.getTime())
+              .sort((a, b) => new Date(a.scheduledAt).getTime() - new Date(b.scheduledAt).getTime())
               .map((item) => (
                 <ScheduledItemComponent 
                   key={item.id} 

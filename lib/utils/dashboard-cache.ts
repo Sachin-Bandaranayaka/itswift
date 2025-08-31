@@ -66,18 +66,22 @@ export class DashboardCacheManager {
     // Update strategy every 5 minutes
     setInterval(updateSyncStrategy, 5 * 60 * 1000);
 
-    // Update on visibility change
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible') {
-        updateSyncStrategy();
-        this.performImmediateSync(['activity', 'stats']);
-      }
-    });
+    // Update on visibility change (only in browser)
+    if (typeof document !== 'undefined') {
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+          updateSyncStrategy();
+          this.performImmediateSync(['activity', 'stats']);
+        }
+      });
+    }
 
-    // Update on network status change
-    window.addEventListener('online', () => {
-      this.performImmediateSync(['activity', 'stats', 'scheduled']);
-    });
+    // Update on network status change (only in browser)
+    if (typeof window !== 'undefined') {
+      window.addEventListener('online', () => {
+        this.performImmediateSync(['activity', 'stats', 'scheduled']);
+      });
+    }
   }
 
   /**

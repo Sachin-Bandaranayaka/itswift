@@ -21,7 +21,7 @@ export interface ActivityItem {
   type: 'blog' | 'social' | 'newsletter' | 'ai';
   title: string;
   description: string;
-  timestamp: Date;
+  timestamp: Date | string;
   status: 'published' | 'scheduled' | 'sent' | 'generated';
   platform?: string;
 }
@@ -105,7 +105,7 @@ const ActivityItemComponent = ({ activity }: { activity: ActivityItem }) => {
         </p>
         <div className="flex items-center text-xs text-gray-400">
           <Clock className="h-3 w-3 mr-1" />
-          {formatDistanceToNow(activity.timestamp, { addSuffix: true })}
+          {formatDistanceToNow(new Date(activity.timestamp), { addSuffix: true })}
           {activity.platform && (
             <>
               <span className="mx-1">•</span>

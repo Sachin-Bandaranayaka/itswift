@@ -32,7 +32,12 @@ export async function GET(request: NextRequest) {
 
     // Sort by scheduled time and return top 5
     const sortedScheduled = scheduled
-      .sort((a, b) => a.scheduledAt.getTime() - b.scheduledAt.getTime())
+      .filter(item => item.scheduledAt) // Filter out items without scheduledAt
+      .sort((a, b) => {
+        const dateA = new Date(a.scheduledAt);
+        const dateB = new Date(b.scheduledAt);
+        return dateA.getTime() - dateB.getTime();
+      })
       .slice(0, 5);
 
     // Collect any errors

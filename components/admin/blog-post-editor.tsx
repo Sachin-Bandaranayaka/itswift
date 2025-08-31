@@ -87,7 +87,9 @@ export function BlogPostEditor({ post, onClose, onSave }: BlogPostEditorProps) {
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData(prev => ({
       ...prev,
-      [field]: value
+      [field]: field === 'categories' && typeof value === 'string' 
+        ? value.split(',').map(cat => cat.trim()).filter(cat => cat.length > 0)
+        : value
     }))
   }
 
@@ -109,7 +111,7 @@ export function BlogPostEditor({ post, onClose, onSave }: BlogPostEditorProps) {
           ...formData,
           id: post?._id,
           isUpdate: !!post?._id,
-          categories: formData.categories.join(', ')
+          categories: Array.isArray(formData.categories) ? formData.categories.join(', ') : formData.categories
         }),
       })
 
@@ -411,13 +413,13 @@ export function BlogPostEditor({ post, onClose, onSave }: BlogPostEditorProps) {
             <Input
               id="categories"
               placeholder="e.g., Technology, AI, Innovation"
-              value={formData.categories.join(', ')}
+              value={Array.isArray(formData.categories) ? formData.categories.join(', ') : ''}
               onChange={(e) => handleInputChange('categories', e.target.value)}
             />
           </div>
 
           {/* Preview Categories */}
-          {formData.categories.length > 0 && (
+          {Array.isArray(formData.categories) && formData.categories.length > 0 && (
             <div className="flex flex-wrap gap-2">
               {formData.categories.map((category, index) => (
                 <Badge key={index} variant="outline">

@@ -297,13 +297,16 @@ export class NewsletterDataService {
         return [];
       }
 
-      return campaigns.map(campaign => ({
-        id: campaign.id,
-        title: campaign.subject || 'Untitled Newsletter',
-        type: 'newsletter' as const,
-        platform: 'email',
-        scheduledAt: new Date(campaign.scheduled_at || campaign.created_at)
-      }));
+      return campaigns
+        .filter(campaign => campaign.scheduled_at || campaign.created_at) // Filter out campaigns without dates
+        .map(campaign => ({
+          id: campaign.id,
+          title: campaign.subject || 'Untitled Newsletter',
+          type: 'newsletter' as const,
+          platform: 'email',
+          scheduledAt: new Date(campaign.scheduled_at || campaign.created_at)
+        }))
+        .filter(item => !isNaN(item.scheduledAt.getTime())); // Filter out invalid dates
     } catch (error) {
       console.error('Error fetching scheduled newsletter campaigns:', error);
       return [];

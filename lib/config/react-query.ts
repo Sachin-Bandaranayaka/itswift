@@ -223,6 +223,11 @@ export function isBusinessHours(): boolean {
  * Utility function to determine user activity level
  */
 export function getUserActivityLevel(): 'active' | 'inactive' {
+  // Check if we're in a browser environment
+  if (typeof window === 'undefined' || typeof localStorage === 'undefined') {
+    return 'inactive';
+  }
+  
   // Check if user has interacted with the page recently
   const lastActivity = localStorage.getItem('lastUserActivity');
   if (!lastActivity) return 'inactive';
@@ -235,5 +240,10 @@ export function getUserActivityLevel(): 'active' | 'inactive' {
  * Utility function to track user activity
  */
 export function trackUserActivity(): void {
+  // Check if we're in a browser environment
+  if (typeof window === 'undefined' || typeof localStorage === 'undefined') {
+    return;
+  }
+  
   localStorage.setItem('lastUserActivity', Date.now().toString());
 }
