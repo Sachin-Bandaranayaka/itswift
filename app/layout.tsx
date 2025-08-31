@@ -7,6 +7,7 @@ import type React from "react" // Added import for React
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://swiftsolution.com'),
   title: "Top eLearning Company in Bangalore for AI-Powered Corporate Training | Swift Solution",
   description:
     "Boost your workforce performance with the top eLearning company in Bangalore. Swift Solution delivers AI-powered, custom eLearning solutions for corporate training. Get a free demo!",

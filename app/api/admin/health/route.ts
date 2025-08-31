@@ -1,11 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { withAdminAuth } from '@/lib/auth/middleware'
+import { isAdminAuthenticated } from '@/lib/auth/middleware'
 import { checkDatabaseHealth } from '@/lib/database/connection'
 import { testOpenAIConnection } from '@/lib/integrations/openai'
 import { validateEnvironment } from '@/lib/config/env'
 
-async function healthCheckHandler(req: NextRequest) {
+export const dynamic = 'force-dynamic'
+
+export async function GET(request: NextRequest) {
   try {
+    // Check admin authentication
+    const isAuthenticated = await isAdminAuthenticated(request)
+    if (!isAuthenticated) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      )
+    }
+
     // Check environment configuration
     const envValidation = validateEnvironment()
     
@@ -36,7 +47,7 @@ async function healthCheckHandler(req: NextRequest) {
     // Determine overall health
     const isHealthy = envValidation.isValid && 
                      dbHealth.success && 
-                     openaiHealthy
+                     openaiHealthy.connected
 
     return NextResponse.json(
       {
@@ -58,5 +69,3 @@ async function healthCheckHandler(req: NextRequest) {
     )
   }
 }
-
-export const GET = withAdminAuth(healthCheckHandler)

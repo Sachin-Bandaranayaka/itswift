@@ -58,7 +58,8 @@ export async function checkDatabaseHealth(): Promise<{
     'newsletter_subscribers', 
     'newsletter_campaigns',
     'content_analytics',
-    'ai_content_log'
+    'ai_content_log',
+    'automation_rules'
   ]
 
   const tableStatus: Record<string, boolean> = {}

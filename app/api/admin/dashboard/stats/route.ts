@@ -4,6 +4,8 @@ import { SocialDataService } from '@/lib/services/social-data';
 import { NewsletterDataService } from '@/lib/services/newsletter-data';
 import { AIUsageDataService } from '@/lib/services/ai-usage-data';
 
+export const dynamic = 'force-dynamic'
+
 const blogDataService = new BlogDataService();
 const socialDataService = new SocialDataService();
 const newsletterDataService = new NewsletterDataService();

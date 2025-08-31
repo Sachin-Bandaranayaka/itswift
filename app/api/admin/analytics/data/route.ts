@@ -3,6 +3,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { AnalyticsTracker } from '../../../../../lib/services/analytics-tracker'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)

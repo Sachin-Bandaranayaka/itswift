@@ -2,16 +2,32 @@ import OpenAI from 'openai'
 // import { AIContentLogService } from '../database/services/ai-content-log'
 
 // Lazy initialization of OpenAI client
-let openai: OpenAI | null = null
+let openaiClient: OpenAI | null = null
 
 function getOpenAIClient(): OpenAI {
-  if (!openai) {
+  if (!openaiClient) {
     validateAPIKey()
-    openai = new OpenAI({
+    openaiClient = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY,
     })
   }
-  return openai
+  return openaiClient
+}
+
+// Export the client instance for direct use
+export const openai = getOpenAIClient()
+
+// Export OpenAI service class for compatibility
+export class OpenAIService {
+  static async generateContent(prompt: string, contentType: 'blog' | 'social' | 'newsletter'): Promise<AIContentResponse> {
+    const request: AIContentRequest = {
+      prompt,
+      contentType,
+      tone: 'professional',
+      maxLength: contentType === 'blog' ? 3000 : contentType === 'social' ? 500 : 2000
+    }
+    return generateContent(request)
+  }
 }
 
 export interface AIContentRequest {
