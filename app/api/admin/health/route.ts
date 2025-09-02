@@ -19,13 +19,13 @@ export async function GET(request: NextRequest) {
 
     // Check environment configuration
     const envValidation = validateEnvironment()
-    
+
     // Check database health
     const dbHealth = await checkDatabaseHealth()
-    
+
     // Check OpenAI connection
     const openaiHealthy = await testOpenAIConnection()
-    
+
     const healthStatus = {
       status: 'healthy',
       timestamp: new Date().toISOString(),
@@ -45,9 +45,9 @@ export async function GET(request: NextRequest) {
     }
 
     // Determine overall health
-    const isHealthy = envValidation.isValid && 
-                     dbHealth.success && 
-                     openaiHealthy.connected
+    const isHealthy = envValidation.isValid &&
+      dbHealth.success &&
+      openaiHealthy.connected
 
     return NextResponse.json(
       {
@@ -58,7 +58,7 @@ export async function GET(request: NextRequest) {
     )
   } catch (error) {
     console.error('Health check failed:', error)
-    
+
     return NextResponse.json(
       {
         status: 'error',
