@@ -1,4 +1,4 @@
-import { supabaseAdmin } from '../supabase'
+import { getSupabaseAdmin } from '../supabase'
 import { readFileSync } from 'fs'
 import { join } from 'path'
 
@@ -20,7 +20,7 @@ export async function setupAutomationTables(): Promise<{ success: boolean; error
     // Execute each statement
     for (const statement of statements) {
       if (statement.trim()) {
-        const { error } = await supabaseAdmin.rpc('exec_sql', { sql: statement })
+        const { error } = await getSupabaseAdmin().rpc('exec_sql', { sql: statement })
         if (error) {
           console.error('Error executing SQL statement:', error)
           console.error('Statement:', statement)
@@ -30,7 +30,7 @@ export async function setupAutomationTables(): Promise<{ success: boolean; error
     }
 
     // Test if automation_rules table exists
-    const { error: testError } = await supabaseAdmin
+    const { error: testError } = await getSupabaseAdmin()
       .from('automation_rules')
       .select('count')
       .limit(1)
@@ -57,7 +57,7 @@ export async function setupAutomationTables(): Promise<{ success: boolean; error
  */
 export async function executeSQL(sql: string): Promise<{ success: boolean; error?: string }> {
   try {
-    const { error } = await supabaseAdmin.rpc('exec_sql', { sql })
+    const { error } = await getSupabaseAdmin().rpc('exec_sql', { sql })
     
     if (error) {
       return { success: false, error: error.message }

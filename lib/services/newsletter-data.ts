@@ -2,7 +2,7 @@
  * Newsletter Data Service - Fetches newsletter data from Supabase and Brevo
  */
 
-import { supabaseAdmin } from '@/lib/supabase';
+import { getSupabaseAdmin } from '@/lib/supabase';
 import { getBrevoService } from '@/lib/integrations/brevo';
 import { NewsletterStats, ActivityItem, PerformingContentItem, ScheduledItem } from '@/lib/types/dashboard';
 import { isThisMonth, isLastMonth, calculateGrowth } from '@/lib/utils/dashboard-utils';

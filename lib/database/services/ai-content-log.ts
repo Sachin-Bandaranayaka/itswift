@@ -1,6 +1,6 @@
 // AI content log database service
 
-import { supabaseAdmin } from '../../supabase'
+import { getSupabaseAdmin } from '../../supabase'
 import { 
   AIContentLog, 
   AIContentLogInput, 

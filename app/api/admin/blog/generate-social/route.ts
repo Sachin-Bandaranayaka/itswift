@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { openai } from '@/lib/integrations/openai'
+import { getOpenAI } from '@/lib/integrations/openai'
 import { SocialPostsService } from '@/lib/database/services/social-posts'
 
 export async function POST(request: NextRequest) {
@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
 
     // Generate both posts concurrently
     const [linkedinResponse, twitterResponse] = await Promise.all([
-      openai.chat.completions.create({
+      getOpenAI().chat.completions.create({
         model: "gpt-3.5-turbo",
         messages: [
           {
@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
         max_tokens: 500,
         temperature: 0.7,
       }),
-      openai.chat.completions.create({
+      getOpenAI().chat.completions.create({
         model: "gpt-3.5-turbo",
         messages: [
           {

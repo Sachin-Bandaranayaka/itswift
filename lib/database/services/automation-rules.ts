@@ -1,6 +1,6 @@
 // Automation Rules Database Service
 
-import { supabase } from '@/lib/supabase'
+import { getSupabase } from '@/lib/supabase'
 import { 
   AutomationRule, 
   AutomationRuleInput, 
@@ -234,7 +234,7 @@ export class AutomationRulesService {
       const { error } = await supabase
         .from('automation_rules')
         .update({
-          execution_count: supabase.raw('execution_count + 1'),
+          execution_count: getSupabase().raw('execution_count + 1'),
           last_executed: new Date().toISOString()
         })
         .eq('id', id)

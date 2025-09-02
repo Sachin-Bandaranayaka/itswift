@@ -1,6 +1,6 @@
 // Newsletter campaigns database service
 
-import { supabaseAdmin } from '../../supabase'
+import { getSupabaseAdmin } from '../../supabase'
 import { 
   NewsletterCampaign, 
   NewsletterCampaignInput, 

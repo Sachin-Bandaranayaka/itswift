@@ -3,7 +3,7 @@
  */
 
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { supabaseAdmin } from '@/lib/supabase';
+import { getSupabaseAdmin } from '@/lib/supabase';
 
 /**
  * Connection pool configuration
@@ -50,7 +50,7 @@ export class OptimizedDatabaseService {
 
   private constructor(config: Partial<ConnectionPoolConfig> = {}) {
     this.config = { ...DEFAULT_POOL_CONFIG, ...config };
-    this.client = supabaseAdmin;
+    this.client = getSupabaseAdmin();
     this.initializeConnectionPool();
     this.startConnectionPoolMaintenance();
   }
@@ -73,7 +73,7 @@ export class OptimizedDatabaseService {
     for (let i = 0; i < Math.min(3, this.config.maxConnections); i++) {
       const connectionId = `conn_${i}`;
       this.connectionPool.set(connectionId, {
-        client: supabaseAdmin,
+        client: getSupabaseAdmin(),
         lastUsed: new Date(),
         inUse: false
       });
@@ -129,7 +129,7 @@ export class OptimizedDatabaseService {
     if (this.connectionPool.size < this.config.maxConnections) {
       const connectionId = `conn_${this.connectionPool.size}`;
       const newConnection = {
-        client: supabaseAdmin,
+        client: getSupabaseAdmin(),
         lastUsed: new Date(),
         inUse: true
       };

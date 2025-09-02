@@ -1,4 +1,4 @@
-import { supabase, supabaseAdmin } from '../supabase'
+import { getSupabase, getSupabaseAdmin } from '../supabase'
 
 /**
  * Test database connection
@@ -67,7 +67,7 @@ export async function checkDatabaseHealth(): Promise<{
   try {
     for (const table of tables) {
       try {
-        const { error } = await supabaseAdmin
+        const { error } = await getSupabaseAdmin()
           .from(table)
           .select('count')
           .limit(1)
@@ -105,11 +105,11 @@ export async function getDatabaseStats(): Promise<{
 }> {
   try {
     const [socialPosts, subscribers, campaigns, analytics, aiLogs] = await Promise.all([
-      supabaseAdmin.from('social_posts').select('count', { count: 'exact' }),
-      supabaseAdmin.from('newsletter_subscribers').select('count', { count: 'exact' }),
-      supabaseAdmin.from('newsletter_campaigns').select('count', { count: 'exact' }),
-      supabaseAdmin.from('content_analytics').select('count', { count: 'exact' }),
-      supabaseAdmin.from('ai_content_log').select('count', { count: 'exact' })
+      getSupabaseAdmin().from('social_posts').select('count', { count: 'exact' }),
+      getSupabaseAdmin().from('newsletter_subscribers').select('count', { count: 'exact' }),
+      getSupabaseAdmin().from('newsletter_campaigns').select('count', { count: 'exact' }),
+      getSupabaseAdmin().from('content_analytics').select('count', { count: 'exact' }),
+      getSupabaseAdmin().from('ai_content_log').select('count', { count: 'exact' })
     ])
 
     return {

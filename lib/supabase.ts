@@ -1,31 +1,55 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+// Lazy initialization to prevent build-time errors
+let supabaseClient: ReturnType<typeof createClient> | null = null
+let supabaseAdminClient: ReturnType<typeof createClient> | null = null
 
-if (!supabaseUrl) {
-  throw new Error('NEXT_PUBLIC_SUPABASE_URL is required')
-}
+function getSupabaseConfig() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
-if (!supabaseAnonKey) {
-  throw new Error('NEXT_PUBLIC_SUPABASE_ANON_KEY is required')
-}
+  if (!supabaseUrl) {
+    throw new Error('NEXT_PUBLIC_SUPABASE_URL is required')
+  }
 
-if (!supabaseServiceKey) {
-  throw new Error('SUPABASE_SERVICE_ROLE_KEY is required for admin operations')
+  if (!supabaseAnonKey) {
+    throw new Error('NEXT_PUBLIC_SUPABASE_ANON_KEY is required')
+  }
+
+  if (!supabaseServiceKey) {
+    throw new Error('SUPABASE_SERVICE_ROLE_KEY is required for admin operations')
+  }
+
+  return { supabaseUrl, supabaseAnonKey, supabaseServiceKey }
 }
 
 // Client for browser/client-side operations
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+export function getSupabase() {
+  if (!supabaseClient) {
+    const { supabaseUrl, supabaseAnonKey } = getSupabaseConfig()
+    supabaseClient = createClient(supabaseUrl, supabaseAnonKey)
+  }
+  return supabaseClient
+}
 
 // Admin client for server-side operations with elevated privileges
-export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey, {
-  auth: {
-    autoRefreshToken: false,
-    persistSession: false
+export function getSupabaseAdmin() {
+  if (!supabaseAdminClient) {
+    const { supabaseUrl, supabaseServiceKey } = getSupabaseConfig()
+    supabaseAdminClient = createClient(supabaseUrl, supabaseServiceKey, {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false
+      }
+    })
   }
-})
+  return supabaseAdminClient
+}
+
+// Legacy exports for backward compatibility - use getter functions instead
+// These are commented out to prevent build-time initialization
+// Use getSupabase() and getSupabaseAdmin() instead
 
 // Database types for TypeScript
 export interface Database {

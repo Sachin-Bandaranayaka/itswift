@@ -1,6 +1,6 @@
 // Optimal Timing Analyzer Service - Analyzes engagement data to suggest best posting times
 
-import { supabase } from '@/lib/supabase'
+import { getSupabase } from '@/lib/supabase'
 import { ContentAnalyticsService } from '@/lib/database/services/content-analytics'
 import { OptimalPostingTime, OptimalPostingTimeInput } from '@/lib/database/automation-types'
 

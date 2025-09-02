@@ -2,7 +2,7 @@
  * AI Usage Data Service - Fetches AI usage statistics from Supabase
  */
 
-import { supabaseAdmin } from '@/lib/supabase';
+import { getSupabaseAdmin } from '@/lib/supabase';
 import { AIUsageStats, ActivityItem } from '@/lib/types/dashboard';
 import { isThisMonth, isLastMonth, calculateGrowth } from '@/lib/utils/dashboard-utils';
 

@@ -1,6 +1,6 @@
 // Social posts database service
 
-import { supabaseAdmin } from '../../supabase'
+import { getSupabaseAdmin } from '../../supabase'
 import { 
   SocialPost, 
   SocialPostInput, 

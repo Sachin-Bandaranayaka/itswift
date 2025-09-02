@@ -1,4 +1,4 @@
-import { openai } from '@/lib/integrations/openai'
+import { getOpenAI } from '@/lib/integrations/openai'
 import { SocialPostsService } from '@/lib/database/services/social-posts'
 
 interface BlogPost {
@@ -72,7 +72,7 @@ export class BlogToSocialService {
     try {
       const prompt = this.createPrompt(blogPost, platform)
       
-      const response = await openai.chat.completions.create({
+      const response = await getOpenAI().chat.completions.create({
         model: "gpt-3.5-turbo",
         messages: [
           {

@@ -1,6 +1,6 @@
 // Content Templates Database Service
 
-import { supabase } from '@/lib/supabase'
+import { getSupabase } from '@/lib/supabase'
 import { 
   ContentTemplate, 
   ContentTemplateInput, 

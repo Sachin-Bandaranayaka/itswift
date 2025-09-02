@@ -6,7 +6,9 @@ let openaiClient: OpenAI | null = null
 
 function getOpenAIClient(): OpenAI {
   if (!openaiClient) {
-    validateAPIKey()
+    if (!process.env.OPENAI_API_KEY) {
+      throw new Error('OpenAI API key not configured. Please set OPENAI_API_KEY environment variable.')
+    }
     openaiClient = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY,
     })
@@ -14,8 +16,10 @@ function getOpenAIClient(): OpenAI {
   return openaiClient
 }
 
-// Export the client instance for direct use
-export const openai = getOpenAIClient()
+// Export a getter function instead of initializing at module level
+export function getOpenAI(): OpenAI {
+  return getOpenAIClient()
+}
 
 // Export OpenAI service class for compatibility
 export class OpenAIService {
@@ -76,8 +80,6 @@ export interface NewsletterRequest {
  * Generate content using OpenAI with enhanced error handling
  */
 export async function generateContent(request: AIContentRequest): Promise<AIContentResponse> {
-  validateAPIKey()
-
   try {
     const systemPrompt = buildSystemPrompt(request)
     const userPrompt = buildUserPrompt(request)
@@ -322,20 +324,13 @@ function parseAIResponse(content: string, _contentType: string) {
 }
 
 /**
- * Validate API key is configured
+ * Validate API key is configured (removed - validation now happens in getOpenAIClient)
  */
-function validateAPIKey(): void {
-  if (!process.env.OPENAI_API_KEY) {
-    throw new Error('OpenAI API key not configured. Please set OPENAI_API_KEY environment variable.')
-  }
-}
 
 /**
  * Generate content ideas and research for a given topic
  */
 export async function generateContentIdeas(topic: string, contentType: 'blog' | 'social' | 'newsletter'): Promise<string[]> {
-  validateAPIKey()
-
   try {
     const completion = await getOpenAIClient().chat.completions.create({
       model: 'gpt-3.5-turbo',
@@ -375,8 +370,6 @@ export async function optimizeContent(content: string, contentType: 'blog' | 'so
   suggestions: string[]
   seoKeywords: string[]
 }> {
-  validateAPIKey()
-
   try {
     const completion = await getOpenAIClient().chat.completions.create({
       model: 'gpt-4',
@@ -426,8 +419,6 @@ export async function optimizeContent(content: string, contentType: 'blog' | 'so
  * Generate SEO keywords for a given topic
  */
 export async function generateSEOKeywords(topic: string, targetAudience?: string): Promise<string[]> {
-  validateAPIKey()
-
   try {
     const completion = await getOpenAIClient().chat.completions.create({
       model: 'gpt-3.5-turbo',
@@ -470,8 +461,6 @@ export async function researchTopic(topic: string): Promise<{
   keyPoints: string[]
   relatedTopics: string[]
 }> {
-  validateAPIKey()
-
   try {
     const completion = await getOpenAIClient().chat.completions.create({
       model: 'gpt-4',
@@ -525,8 +514,6 @@ export async function generateSEOSuggestions(content: string, title?: string): P
   metaDescription: string
   suggestions: string[]
 }> {
-  validateAPIKey()
-
   try {
     const completion = await getOpenAIClient().chat.completions.create({
       model: 'gpt-4',
@@ -578,8 +565,6 @@ export async function generateSEOSuggestions(content: string, title?: string): P
  */
 export async function testOpenAIConnection(): Promise<{ connected: boolean; error?: string }> {
   try {
-    validateAPIKey()
-
     const completion = await getOpenAIClient().chat.completions.create({
       model: 'gpt-3.5-turbo',
       messages: [{ role: 'user', content: 'Test connection' }],

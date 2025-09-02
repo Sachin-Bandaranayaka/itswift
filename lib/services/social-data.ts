@@ -2,7 +2,7 @@
  * Social Data Service - Fetches social media data from Supabase
  */
 
-import { supabaseAdmin } from '@/lib/supabase';
+import { getSupabaseAdmin } from '@/lib/supabase';
 import { SocialStats, ActivityItem, PerformingContentItem, ScheduledItem } from '@/lib/types/dashboard';
 import { isThisWeek, isLastWeek, calculateGrowth } from '@/lib/utils/dashboard-utils';
 
