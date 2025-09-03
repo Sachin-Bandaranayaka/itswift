@@ -227,20 +227,9 @@ export default function Home() {
                 viewport={{ once: true }}
                 className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-100 dark:border-gray-700 flex flex-col"
               >
-                {/* Header with gradient & logo */}
-                <div className={`p-6 bg-gradient-to-r ${study.color} flex items-center`}>
-                  <div className="w-16 h-16 relative bg-white dark:bg-gray-200 rounded-lg shadow-md flex-shrink-0 p-2">
-                    <Image
-                      src={study.logo}
-                      alt={study.client}
-                      fill
-                      className="object-contain p-1"
-                      onError={(e) => {
-                        e.currentTarget.src = "/placeholder.svg";
-                      }}
-                    />
-                  </div>
-                  <div className="ml-4 text-white">
+                {/* Header with gradient */}
+                <div className={`p-6 bg-gradient-to-r ${study.color}`}>
+                  <div className="text-white">
                     <span className="text-white/80 text-sm">CLIENT</span>
                     <h3 className="font-bold text-lg">{study.client}</h3>
                   </div>

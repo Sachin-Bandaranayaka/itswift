@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
+import Link from "next/link"
 
 export default function Outsourcing() {
     return (
@@ -38,8 +39,8 @@ export default function Outsourcing() {
                                     <span>Scalable resources to meet fluctuating demands</span>
                                 </li>
                             </ul>
-                            <Button className="bg-[#FF6B38] hover:bg-[#ff855d]">
-                                Learn More About Outsourcing
+                            <Button asChild className="bg-[#FF6B38] hover:bg-[#ff855d]">
+                                <Link href="/#contact">Learn More About Outsourcing</Link>
                             </Button>
                         </div>
                         <div className="lg:w-1/2">
