@@ -61,11 +61,14 @@ export default function MicroLearningPage() {
                         <p className="text-xl md:text-2xl mb-8 text-orange-100">
                             Bite-sized learning modules that deliver maximum impact in minimum time
                         </p>
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <button className="bg-white text-orange-600 px-8 py-3 rounded-lg font-semibold hover:bg-orange-50 transition-colors duration-200">
-                                Get Started
-                            </button>
-                            <button className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-orange-600 transition-colors duration-200">
+                        <div className="flex justify-center">
+                            <button 
+                                onClick={() => {
+                                    const mainContent = document.getElementById('main-content');
+                                    mainContent?.scrollIntoView({ behavior: 'smooth' });
+                                }}
+                                className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-orange-600 transition-colors duration-200"
+                            >
                                 Learn More
                             </button>
                         </div>
@@ -74,7 +77,7 @@ export default function MicroLearningPage() {
             </section>
 
             {/* Main Content */}
-            <section className="py-16 bg-white">
+            <section id="main-content" className="py-16 bg-white">
                 <div className="container mx-auto px-4">
                     <div className="max-w-4xl mx-auto">
                         <h2 className="text-3xl font-bold mb-8 text-center text-gray-900">
