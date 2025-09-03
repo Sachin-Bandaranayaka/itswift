@@ -134,7 +134,7 @@ export default function Home() {
           </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <Link href="/elearning-services" className="block">
+            <Link href="/elearning-services/custom-elearning" className="block">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -146,7 +146,7 @@ export default function Home() {
               </motion.div>
             </Link>
 
-            <Link href="/elearning-solutions" className="block">
+            <Link href="/elearning-services/ai-powered-solutions" className="block">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -158,7 +158,7 @@ export default function Home() {
               </motion.div>
             </Link>
 
-            <Link href="/elearning-services" className="block">
+            <Link href="/elearning-consultancy/lms-implementation" className="block">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -170,7 +170,7 @@ export default function Home() {
               </motion.div>
             </Link>
 
-            <Link href="/elearning-services" className="block">
+            <Link href="/elearning-services/micro-learning" className="block">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -182,7 +182,7 @@ export default function Home() {
               </motion.div>
             </Link>
 
-            <Link href="/elearning-services" className="block">
+            <Link href="/elearning-services/game-based-elearning" className="block">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
