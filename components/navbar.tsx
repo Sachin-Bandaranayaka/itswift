@@ -157,7 +157,7 @@ export function Navbar() {
           {/* CTA Button and Theme Toggle - Desktop */}
           <div className="hidden lg:flex items-center space-x-4">
             <Link
-              href="/quote"
+              href="/#contact"
               className="inline-flex items-center px-6 py-2.5 border-2 border-primary text-primary rounded-full text-sm font-medium hover:bg-primary hover:text-primary-foreground transition-colors duration-200"
             >
               Get a quote!
@@ -255,7 +255,7 @@ export function Navbar() {
                       </div>
                     ))}
                     <Link
-                      href="/quote"
+                      href="/#contact"
                       className="mt-6 inline-flex items-center justify-center w-full px-6 py-3 border-2 border-[#FF6B38] text-[#FF6B38] rounded-full text-sm font-medium hover:bg-[#FF6B38] hover:text-white transition-colors duration-200"
                       onClick={closeMobileMenu}
                     >

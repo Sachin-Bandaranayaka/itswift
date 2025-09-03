@@ -64,7 +64,7 @@ export default function AIPoweredSolutionsPage() {
                             We are not just an eLearning company; we are your strategic partner in building a future-ready workforce. Our AI-powered solutions deliver personalized, adaptive, and engaging learning experiences that drive unprecedented growth and ROI.
                         </p>
                         <div className="flex flex-col md:flex-row gap-4">
-                            <a href="#contact" className="inline-flex items-center justify-center px-6 py-3 bg-white text-blue-600 rounded-lg font-medium hover:bg-blue-50 transition-colors duration-200">
+                            <a href="/#contact" className="inline-flex items-center justify-center px-6 py-3 bg-white text-blue-600 rounded-lg font-medium hover:bg-blue-50 transition-colors duration-200">
                                 Schedule a Free AI Solutions Demo
                                 <ArrowRight className="ml-2 h-4 w-4" />
                             </a>
@@ -367,13 +367,10 @@ export default function AIPoweredSolutionsPage() {
                     <p className="text-xl mb-8 text-blue-100 max-w-3xl mx-auto">
                         Partner with the leading AI-enabled eLearning solutions company in Bangalore and unlock the full potential of your workforce. Contact us today for a free demo and discover how our AI-powered solutions can transform your corporate training and drive unprecedented business growth.
                     </p>
-                    <div className="flex flex-col md:flex-row gap-4 justify-center">
-                        <a href="#contact" className="inline-flex items-center justify-center px-8 py-3 bg-white text-blue-600 rounded-lg font-medium hover:bg-blue-50 transition-colors duration-200">
+                    <div className="flex justify-center">
+                        <a href="/#contact" className="inline-flex items-center justify-center px-8 py-3 bg-white text-blue-600 rounded-lg font-medium hover:bg-blue-50 transition-colors duration-200">
                             Get Free Demo
                             <ArrowRight className="ml-2 h-4 w-4" />
-                        </a>
-                        <a href="tel:+91-9845-123-456" className="inline-flex items-center justify-center px-8 py-3 bg-transparent border border-white text-white rounded-lg font-medium hover:bg-white/10 transition-colors duration-200">
-                            Call Now
                         </a>
                     </div>
                 </div>

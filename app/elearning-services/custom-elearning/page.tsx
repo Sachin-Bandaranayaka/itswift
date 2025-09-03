@@ -547,10 +547,10 @@ export default function CustomElearningPage() {
                                         </ul>
                                     </div>
 
-                                    <div className="bg-orange-50 p-6 rounded-lg border border-orange-200">
-                                        <h6 className="font-semibold text-orange-800 mb-2">Custom Learning Experience Design</h6>
-                                        <p className="text-sm text-orange-700 mb-3">Creating Engaging, Effective Learning Journeys</p>
-                                        <ul className="text-sm text-orange-700 space-y-1">
+                                    <div className="bg-white p-6 rounded-lg shadow-md">
+                                        <h6 className="font-semibold text-orange-600 mb-2">Custom Learning Experience Design</h6>
+                                        <p className="text-sm text-gray-700 mb-3">Creating Engaging, Effective Learning Journeys</p>
+                                        <ul className="text-sm text-gray-700 space-y-1">
                                             <li>• Narrative-Driven Learning: Custom storytelling that reflects your organizational culture</li>
                                             <li>• Gamification Integration: Achievement systems and challenges tailored to your audience</li>
                                             <li>• Social Learning Features: Collaborative elements that encourage peer interaction</li>
