@@ -33,7 +33,7 @@ const menuItems: MenuItem[] = [
     title: "eLearning Solutions",
     href: "/elearning-solutions",
     submenu: [
-      { title: "On-Boardning", href: "/elearning-solutions/on-boarding" },
+      { title: "Onboarding", href: "/elearning-solutions/on-boarding" },
       { title: "Compliance", href: "/elearning-solutions/compliance" },
       { title: "Sales enablement", href: "/elearning-solutions/sales-enablement" },
     ],

@@ -103,6 +103,10 @@ export interface Database {
           subscribed_at: string
           unsubscribed_at: string | null
           tags: string[] | null
+          source: 'homepage' | 'admin' | 'import' | 'api'
+          unsubscribe_token: string | null
+          brevo_contact_id: string | null
+          last_synced_at: string | null
         }
         Insert: {
           id?: string
@@ -113,6 +117,10 @@ export interface Database {
           subscribed_at?: string
           unsubscribed_at?: string | null
           tags?: string[] | null
+          source?: 'homepage' | 'admin' | 'import' | 'api'
+          unsubscribe_token?: string | null
+          brevo_contact_id?: string | null
+          last_synced_at?: string | null
         }
         Update: {
           id?: string
@@ -123,6 +131,10 @@ export interface Database {
           subscribed_at?: string
           unsubscribed_at?: string | null
           tags?: string[] | null
+          source?: 'homepage' | 'admin' | 'import' | 'api'
+          unsubscribe_token?: string | null
+          brevo_contact_id?: string | null
+          last_synced_at?: string | null
         }
       }
       newsletter_campaigns: {

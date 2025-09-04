@@ -173,7 +173,7 @@ export default function CompliancePage() {
                         </p>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+                        <a href="/elearning-consultancy/instructional-design" className="block bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
                             <div className="h-14 w-14 bg-orange-100 rounded-lg flex items-center justify-center mb-6">
                                 <Users className="h-7 w-7 text-orange-600" />
                             </div>
@@ -181,8 +181,8 @@ export default function CompliancePage() {
                             <p className="text-gray-700">
                                 We leverage the latest in learning design and subject matter expertise to develop courses that align perfectly with your business requirements and industry-specific regulations.
                             </p>
-                        </div>
-                        <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+                        </a>
+                        <a href="/elearning-services/rapid-elearning" className="block bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
                             <div className="h-14 w-14 bg-orange-100 rounded-lg flex items-center justify-center mb-6">
                                 <Layers className="h-7 w-7 text-orange-600" />
                             </div>
@@ -190,7 +190,7 @@ export default function CompliancePage() {
                             <p className="text-gray-700">
                                 Using rapid learning tools and proven methodologies, we can quickly create, customize, or offer readymade compliance courses tailored specifically to your organizational needs.
                             </p>
-                        </div>
+                        </a>
                         <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
                             <div className="h-14 w-14 bg-orange-100 rounded-lg flex items-center justify-center mb-6">
                                 <Award className="h-7 w-7 text-orange-600" />
@@ -454,12 +454,9 @@ export default function CompliancePage() {
                         <p className="text-xl mb-8">
                             Don't settle for checkbox compliance training that fails to engage employees or drive real behavioral change. Partner with Swift Solution, one of the leading eLearning companies in Bangalore, to develop online compliance training courses that transform regulatory requirements into valuable learning experiences.
                         </p>
-                        <div className="flex flex-col md:flex-row gap-4 justify-center">
+                        <div className="flex justify-center">
                             <a href="#contact" className="inline-flex items-center justify-center px-6 py-3 bg-white text-orange-600 rounded-lg font-medium hover:bg-orange-50 transition-colors duration-200">
                                 Schedule a Consultation
-                            </a>
-                            <a href="#" className="inline-flex items-center justify-center px-6 py-3 bg-transparent border border-white text-white rounded-lg font-medium hover:bg-white/10 transition-colors duration-200">
-                                Download Brochure
                             </a>
                         </div>
                     </div>

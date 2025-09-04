@@ -77,6 +77,7 @@ export default function NewsletterPage() {
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState<string>('all')
+  const [sourceFilter, setSourceFilter] = useState<string>('all')
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
   const [isImportDialogOpen, setIsImportDialogOpen] = useState(false)
   const [selectedSubscriber, setSelectedSubscriber] = useState<NewsletterSubscriber | null>(null)
@@ -85,7 +86,7 @@ export default function NewsletterPage() {
   useEffect(() => {
     loadSubscribers()
     loadStats()
-  }, [searchTerm, statusFilter])
+  }, [searchTerm, statusFilter, sourceFilter])
 
   const loadSubscribers = async () => {
     try {
@@ -93,6 +94,7 @@ export default function NewsletterPage() {
       const params = new URLSearchParams()
       if (searchTerm) params.append('search', searchTerm)
       if (statusFilter !== 'all') params.append('status', statusFilter)
+      if (sourceFilter !== 'all') params.append('source', sourceFilter)
 
       const response = await fetch(`/api/admin/newsletter/subscribers?${params}`)
       if (!response.ok) throw new Error('Failed to load subscribers')
@@ -129,7 +131,8 @@ export default function NewsletterPage() {
         email: formData.get('email') as string,
         first_name: formData.get('first_name') as string,
         last_name: formData.get('last_name') as string,
-        tags: (formData.get('tags') as string)?.split(',').map(tag => tag.trim()).filter(Boolean) || []
+        tags: (formData.get('tags') as string)?.split(',').map(tag => tag.trim()).filter(Boolean) || [],
+        source: 'admin'
       }
 
       const response = await fetch('/api/admin/newsletter/subscribers', {
@@ -221,9 +224,53 @@ export default function NewsletterPage() {
     }
   }
 
+  const handleSyncToBrevo = async () => {
+    try {
+      setLoading(true)
+      
+      toast({
+        title: 'Syncing...',
+        description: 'Syncing subscribers to Brevo. This may take a few moments.'
+      })
+
+      const response = await fetch('/api/admin/newsletter/sync-brevo', {
+        method: 'POST'
+      })
+
+      if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.error || 'Failed to sync subscribers')
+      }
+
+      const result = await response.json()
+      
+      toast({
+        title: 'Sync Complete',
+        description: result.message || `Synced ${result.stats?.synced || 0} subscribers to Brevo`
+      })
+
+      // Reload subscribers to show updated sync status
+      loadSubscribers()
+
+    } catch (error) {
+      console.error('Error syncing to Brevo:', error)
+      toast({
+        title: 'Sync Failed',
+        description: error instanceof Error ? error.message : 'Failed to sync subscribers to Brevo',
+        variant: 'destructive'
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const handleExportSubscribers = async () => {
     try {
-      const response = await fetch('/api/admin/newsletter/subscribers/export')
+      const params = new URLSearchParams()
+      if (statusFilter !== 'all') params.append('status', statusFilter)
+      if (sourceFilter !== 'all') params.append('source', sourceFilter)
+      
+      const response = await fetch(`/api/admin/newsletter/subscribers/export?${params}`)
       if (!response.ok) throw new Error('Failed to export subscribers')
       
       const blob = await response.blob()
@@ -380,6 +427,10 @@ export default function NewsletterPage() {
                   </CardDescription>
                 </div>
                 <div className="flex gap-2">
+                  <Button variant="outline" onClick={handleSyncToBrevo}>
+                    <Mail className="h-4 w-4 mr-2" />
+                    Sync to Brevo
+                  </Button>
                   <Button variant="outline" onClick={handleExportSubscribers}>
                     <Download className="h-4 w-4 mr-2" />
                     Export
@@ -519,6 +570,19 @@ export default function NewsletterPage() {
                     <SelectItem value="bounced">Bounced</SelectItem>
                   </SelectContent>
                 </Select>
+                <Select value={sourceFilter} onValueChange={setSourceFilter}>
+                  <SelectTrigger className="w-[180px]">
+                    <Filter className="h-4 w-4 mr-2" />
+                    <SelectValue placeholder="Filter by source" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Sources</SelectItem>
+                    <SelectItem value="homepage">Homepage</SelectItem>
+                    <SelectItem value="admin">Admin</SelectItem>
+                    <SelectItem value="import">Import</SelectItem>
+                    <SelectItem value="api">API</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               {/* Subscribers Table */}
@@ -529,6 +593,7 @@ export default function NewsletterPage() {
                       <TableHead>Email</TableHead>
                       <TableHead>Name</TableHead>
                       <TableHead>Status</TableHead>
+                      <TableHead>Source</TableHead>
                       <TableHead>Subscribed</TableHead>
                       <TableHead>Tags</TableHead>
                       <TableHead className="w-[70px]">Actions</TableHead>
@@ -537,13 +602,13 @@ export default function NewsletterPage() {
                   <TableBody>
                     {loading ? (
                       <TableRow>
-                        <TableCell colSpan={6} className="text-center py-8">
+                        <TableCell colSpan={7} className="text-center py-8">
                           Loading subscribers...
                         </TableCell>
                       </TableRow>
                     ) : subscribers.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={6} className="text-center py-8">
+                        <TableCell colSpan={7} className="text-center py-8">
                           No subscribers found
                         </TableCell>
                       </TableRow>
@@ -561,6 +626,11 @@ export default function NewsletterPage() {
                           </TableCell>
                           <TableCell>
                             {getStatusBadge(subscriber.status)}
+                          </TableCell>
+                          <TableCell>
+                            <Badge variant="outline" className="capitalize">
+                              {subscriber.source || 'unknown'}
+                            </Badge>
                           </TableCell>
                           <TableCell>
                             {new Date(subscriber.subscribed_at).toLocaleDateString()}

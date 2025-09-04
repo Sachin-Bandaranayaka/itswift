@@ -1,8 +1,16 @@
 // Brevo (formerly Sendinblue) email service integration
 
+import { NewsletterSubscriber } from '../database/types'
+import { getSubscriberByEmailForBrevo } from './brevo-helpers'
+import { NewsletterErrorHandler } from '../utils/newsletter-error-handler'
+import { BrevoServiceError } from '../utils/error-handler'
+import { logger } from '../utils/logger'
+
 interface BrevoConfig {
   apiKey: string
   apiUrl?: string
+  retryAttempts?: number
+  retryDelay?: number
 }
 
 interface EmailRecipient {
@@ -44,13 +52,511 @@ interface EmailStats {
   unsubscribes: number
 }
 
+interface BrevoContact {
+  id?: number
+  email: string
+  attributes?: {
+    FIRSTNAME?: string
+    LASTNAME?: string
+    [key: string]: any
+  }
+  listIds?: number[]
+  updateEnabled?: boolean
+}
+
+interface BrevoContactResponse {
+  id: number
+  email: string
+  attributes: Record<string, any>
+  listIds: number[]
+}
+
+interface SyncResult {
+  success: boolean
+  brevo_contact_id?: string
+  error?: string
+  retry_after?: number
+  fallback_used?: boolean
+}
+
 export class BrevoService {
   private config: BrevoConfig
   private baseUrl: string
+  private defaultListId: number
 
   constructor(config: BrevoConfig) {
-    this.config = config
+    this.config = {
+      retryAttempts: 3,
+      retryDelay: 1000,
+      ...config
+    }
     this.baseUrl = config.apiUrl || 'https://api.brevo.com/v3'
+    this.defaultListId = parseInt(process.env.BREVO_DEFAULT_LIST_ID || '1')
+  }
+
+  /**
+   * Retry mechanism for API calls with exponential backoff
+   */
+  private async retryApiCall<T>(
+    apiCall: () => Promise<T>,
+    maxRetries: number = this.config.retryAttempts || 3
+  ): Promise<T> {
+    let lastError: Error
+    
+    for (let attempt = 0; attempt <= maxRetries; attempt++) {
+      try {
+        return await apiCall()
+      } catch (error) {
+        lastError = error instanceof Error ? error : new Error('Unknown error')
+        
+        if (attempt === maxRetries) {
+          throw lastError
+        }
+        
+        // Exponential backoff: wait longer between each retry
+        const delay = (this.config.retryDelay || 1000) * Math.pow(2, attempt)
+        await new Promise(resolve => setTimeout(resolve, delay))
+        
+        console.warn(`Brevo API call failed (attempt ${attempt + 1}/${maxRetries + 1}), retrying in ${delay}ms:`, lastError.message)
+      }
+    }
+    
+    throw lastError!
+  }
+
+  /**
+   * Sync a subscriber with Brevo contacts with enhanced error handling and fallback
+   */
+  async syncSubscriber(subscriber: NewsletterSubscriber, enableFallback: boolean = true): Promise<SyncResult> {
+    const startTime = Date.now()
+    
+    try {
+      const result = await this.retryApiCall(async () => {
+        // Prepare contact data
+        const contactData: BrevoContact = {
+          email: subscriber.email,
+          attributes: {},
+          listIds: [this.defaultListId],
+          updateEnabled: true
+        }
+
+        // Add name attributes if available
+        if (subscriber.first_name) {
+          contactData.attributes!.FIRSTNAME = subscriber.first_name
+        }
+        if (subscriber.last_name) {
+          contactData.attributes!.LASTNAME = subscriber.last_name
+        }
+
+        // Add subscription source
+        if (subscriber.source) {
+          contactData.attributes!.SOURCE = subscriber.source
+        }
+
+        // Add subscription date
+        contactData.attributes!.SUBSCRIBED_AT = subscriber.subscribed_at
+
+        // Log API call attempt
+        logger.debug('Attempting Brevo contact sync', 'BREVO_SYNC', {
+          subscriberId: subscriber.id,
+          email: subscriber.email.split('@')[0].substring(0, 2) + '***@' + subscriber.email.split('@')[1],
+          listId: this.defaultListId
+        })
+
+        const response = await fetch(`${this.baseUrl}/contacts`, {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'api-key': this.config.apiKey
+          },
+          body: JSON.stringify(contactData)
+        })
+
+        const data = await response.json()
+
+        // Log API response
+        logger.debug('Brevo contact sync response', 'BREVO_SYNC', {
+          subscriberId: subscriber.id,
+          statusCode: response.status,
+          success: response.ok,
+          duration: Date.now() - startTime
+        })
+
+        if (!response.ok) {
+          // Handle duplicate contact (contact already exists)
+          if (response.status === 400 && data.code === 'duplicate_parameter') {
+            logger.info('Brevo contact already exists, updating instead', 'BREVO_SYNC', {
+              subscriberId: subscriber.id,
+              email: subscriber.email.split('@')[0].substring(0, 2) + '***@' + subscriber.email.split('@')[1]
+            })
+            // Try to update existing contact instead
+            return await this.updateExistingContact(subscriber)
+          }
+          
+          // Handle rate limiting
+          if (response.status === 429) {
+            const retryAfter = parseInt(response.headers.get('retry-after') || '300')
+            throw new BrevoServiceError(
+              'Brevo API rate limit exceeded',
+              { statusCode: response.status, retryAfter },
+              retryAfter
+            )
+          }
+
+          // Handle authentication errors
+          if (response.status === 401 || response.status === 403) {
+            throw new BrevoServiceError(
+              'Brevo API authentication failed',
+              { statusCode: response.status, message: data.message }
+            )
+          }
+
+          throw new BrevoServiceError(
+            data.message || `HTTP ${response.status}: Failed to sync subscriber`,
+            { statusCode: response.status, responseData: data }
+          )
+        }
+
+        return {
+          success: true,
+          brevo_contact_id: data.id?.toString(),
+          error: undefined
+        }
+      })
+
+      // Log successful sync
+      logger.info('Brevo contact sync successful', 'BREVO_SYNC', {
+        subscriberId: subscriber.id,
+        brevoContactId: result.brevo_contact_id,
+        duration: Date.now() - startTime
+      })
+
+      return result
+    } catch (error) {
+      // Enhanced error handling with fallback mechanism
+      const handledError = NewsletterErrorHandler.handleBrevoError(
+        error, 
+        'sync_subscriber', 
+        enableFallback
+      )
+
+      const syncResult: SyncResult = {
+        success: false,
+        error: handledError.message,
+        retry_after: handledError.retryAfter
+      }
+
+      // If fallback is enabled and this is a critical error, still return success
+      // but mark for later retry
+      if (enableFallback && this.isCriticalError(error)) {
+        logger.warn('Brevo sync failed but fallback enabled - marking for retry', 'BREVO_FALLBACK', {
+          subscriberId: subscriber.id,
+          error: handledError.message,
+          retryAfter: syncResult.retry_after
+        })
+        
+        // Return partial success to allow local subscription to proceed
+        return {
+          success: true,
+          error: 'Brevo sync deferred - will retry later',
+          retry_after: syncResult.retry_after,
+          fallback_used: true
+        }
+      }
+
+      return syncResult
+    }
+  }
+
+  /**
+   * Update existing contact in Brevo
+   */
+  private async updateExistingContact(subscriber: NewsletterSubscriber): Promise<SyncResult> {
+    const contactData: Partial<BrevoContact> = {
+      attributes: {},
+      listIds: [this.defaultListId]
+    }
+
+    // Add name attributes if available
+    if (subscriber.first_name) {
+      contactData.attributes!.FIRSTNAME = subscriber.first_name
+    }
+    if (subscriber.last_name) {
+      contactData.attributes!.LASTNAME = subscriber.last_name
+    }
+
+    // Add subscription source
+    if (subscriber.source) {
+      contactData.attributes!.SOURCE = subscriber.source
+    }
+
+    // Add subscription date
+    contactData.attributes!.SUBSCRIBED_AT = subscriber.subscribed_at
+
+    const response = await fetch(`${this.baseUrl}/contacts/${encodeURIComponent(subscriber.email)}`, {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'api-key': this.config.apiKey
+      },
+      body: JSON.stringify(contactData)
+    })
+
+    if (!response.ok) {
+      const data = await response.json()
+      throw new Error(data.message || `HTTP ${response.status}: Failed to update existing contact`)
+    }
+
+    // Get the contact ID after update
+    const contactInfo = await this.getContactByEmail(subscriber.email)
+    
+    return {
+      success: true,
+      brevo_contact_id: contactInfo?.id?.toString(),
+      error: undefined
+    }
+  }
+
+  /**
+   * Get contact information by email
+   */
+  private async getContactByEmail(email: string): Promise<BrevoContactResponse | null> {
+    try {
+      const response = await fetch(`${this.baseUrl}/contacts/${encodeURIComponent(email)}`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'api-key': this.config.apiKey
+        }
+      })
+
+      if (!response.ok) {
+        return null
+      }
+
+      return await response.json()
+    } catch (error) {
+      console.error('Error getting contact by email:', error)
+      return null
+    }
+  }
+
+  /**
+   * Sync unsubscribe status with Brevo with enhanced error handling
+   */
+  async syncUnsubscribe(email: string, enableFallback: boolean = true): Promise<SyncResult> {
+    const startTime = Date.now()
+    
+    try {
+      const result = await this.retryApiCall(async () => {
+        // Log unsubscribe sync attempt
+        logger.debug('Attempting Brevo unsubscribe sync', 'BREVO_UNSUBSCRIBE', {
+          email: email.split('@')[0].substring(0, 2) + '***@' + email.split('@')[1],
+          listId: this.defaultListId
+        })
+
+        // Remove contact from all lists (effectively unsubscribing them)
+        const response = await fetch(`${this.baseUrl}/contacts/${encodeURIComponent(email)}`, {
+          method: 'PUT',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'api-key': this.config.apiKey
+          },
+          body: JSON.stringify({
+            listIds: [], // Remove from all lists
+            unlinkListIds: [this.defaultListId], // Explicitly unlink from default list
+            attributes: {
+              UNSUBSCRIBED_AT: new Date().toISOString()
+            }
+          })
+        })
+
+        // Log API response
+        logger.debug('Brevo unsubscribe sync response', 'BREVO_UNSUBSCRIBE', {
+          email: email.split('@')[0].substring(0, 2) + '***@' + email.split('@')[1],
+          statusCode: response.status,
+          success: response.ok,
+          duration: Date.now() - startTime
+        })
+
+        if (!response.ok) {
+          const data = await response.json()
+          
+          // Handle contact not found (already unsubscribed or never existed)
+          if (response.status === 404) {
+            logger.info('Brevo contact not found for unsubscribe - treating as success', 'BREVO_UNSUBSCRIBE', {
+              email: email.split('@')[0].substring(0, 2) + '***@' + email.split('@')[1]
+            })
+            return {
+              success: true,
+              error: undefined
+            }
+          }
+
+          // Handle rate limiting
+          if (response.status === 429) {
+            const retryAfter = parseInt(response.headers.get('retry-after') || '300')
+            throw new BrevoServiceError(
+              'Brevo API rate limit exceeded',
+              { statusCode: response.status, retryAfter },
+              retryAfter
+            )
+          }
+
+          // Handle authentication errors
+          if (response.status === 401 || response.status === 403) {
+            throw new BrevoServiceError(
+              'Brevo API authentication failed',
+              { statusCode: response.status, message: data.message }
+            )
+          }
+
+          throw new BrevoServiceError(
+            data.message || `HTTP ${response.status}: Failed to sync unsubscribe`,
+            { statusCode: response.status, responseData: data }
+          )
+        }
+
+        return {
+          success: true,
+          error: undefined
+        }
+      })
+
+      // Log successful unsubscribe sync
+      logger.info('Brevo unsubscribe sync successful', 'BREVO_UNSUBSCRIBE', {
+        email: email.split('@')[0].substring(0, 2) + '***@' + email.split('@')[1],
+        duration: Date.now() - startTime
+      })
+
+      return result
+    } catch (error) {
+      // Enhanced error handling with fallback mechanism
+      const handledError = NewsletterErrorHandler.handleBrevoError(
+        error, 
+        'sync_unsubscribe', 
+        enableFallback
+      )
+
+      const syncResult: SyncResult = {
+        success: false,
+        error: handledError.message,
+        retry_after: handledError.retryAfter
+      }
+
+      // If fallback is enabled, still allow local unsubscribe to succeed
+      if (enableFallback) {
+        logger.warn('Brevo unsubscribe sync failed but fallback enabled', 'BREVO_FALLBACK', {
+          email: email.split('@')[0].substring(0, 2) + '***@' + email.split('@')[1],
+          error: handledError.message,
+          retryAfter: syncResult.retry_after
+        })
+        
+        // Return partial success to allow local unsubscribe to proceed
+        return {
+          success: true,
+          error: 'Brevo unsubscribe sync deferred - will retry later',
+          retry_after: syncResult.retry_after,
+          fallback_used: true
+        }
+      }
+
+      return syncResult
+    }
+  }
+
+  /**
+   * Create unsubscribe link for email campaigns
+   */
+  async createUnsubscribeLink(email: string, campaignId?: string): Promise<string> {
+    try {
+      // Generate base unsubscribe URL
+      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://swiftsolution.com'
+      
+      // Get subscriber to get their unsubscribe token
+      const subscriber = await this.getSubscriberByEmail(email)
+      if (!subscriber?.unsubscribe_token) {
+        throw new Error('Subscriber not found or missing unsubscribe token')
+      }
+
+      // Create unsubscribe link with token
+      let unsubscribeUrl = `${baseUrl}/unsubscribe?token=${subscriber.unsubscribe_token}`
+      
+      // Add campaign ID if provided for tracking
+      if (campaignId) {
+        unsubscribeUrl += `&campaign=${encodeURIComponent(campaignId)}`
+      }
+
+      return unsubscribeUrl
+    } catch (error) {
+      console.error('Error creating unsubscribe link:', error)
+      // Fallback to generic unsubscribe link
+      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://swiftsolution.com'
+      return `${baseUrl}/unsubscribe?email=${encodeURIComponent(email)}`
+    }
+  }
+
+  /**
+   * Get subscriber by email (helper method for unsubscribe link creation)
+   */
+  private async getSubscriberByEmail(email: string): Promise<NewsletterSubscriber | null> {
+    return await getSubscriberByEmailForBrevo(email)
+  }
+
+  /**
+   * Check if error indicates we should retry later (rate limiting, temporary issues)
+   */
+  private shouldRetryLater(error: any): boolean {
+    if (error instanceof Error) {
+      const message = error.message.toLowerCase()
+      return message.includes('rate limit') || 
+             message.includes('too many requests') ||
+             message.includes('temporary') ||
+             message.includes('503') ||
+             message.includes('502')
+    }
+    return false
+  }
+
+  /**
+   * Generate plain text content from HTML content
+   */
+  private generateTextFromHtml(htmlContent: string, subject: string): string {
+    // Simple HTML to text conversion
+    let textContent = htmlContent
+      // Remove HTML tags
+      .replace(/<[^>]*>/g, '')
+      // Convert HTML entities
+      .replace(/&nbsp;/g, ' ')
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'")
+      // Clean up whitespace
+      .replace(/\s+/g, ' ')
+      .trim()
+
+    // Add basic structure if content exists
+    if (textContent) {
+      return `${subject}
+
+${textContent}
+
+---
+© 2024 Swift Solution. All rights reserved.`
+    }
+
+    // Fallback minimal text content
+    return `${subject}
+
+Please view this email in a web browser for the best experience.
+
+---
+© 2024 Swift Solution. All rights reserved.`
   }
 
   /**
@@ -58,11 +564,17 @@ export class BrevoService {
    */
   async sendEmail(request: SendEmailRequest): Promise<SendEmailResponse> {
     try {
+      // Generate textContent if not provided but htmlContent exists
+      let textContent = request.textContent
+      if (!textContent && request.htmlContent) {
+        textContent = this.generateTextFromHtml(request.htmlContent, request.subject || 'Newsletter')
+      }
+
       const payload = {
         to: request.to,
         subject: request.subject,
         htmlContent: request.htmlContent,
-        textContent: request.textContent,
+        textContent: textContent,
         templateId: request.templateId,
         params: request.params,
         sender: request.sender || {
@@ -153,6 +665,73 @@ export class BrevoService {
         results.success = false
         results.errors.push(error instanceof Error ? error.message : 'Unknown error')
       }
+    }
+
+    return results
+  }
+
+  /**
+   * Send bulk emails with personalized unsubscribe links
+   */
+  async sendBulkEmailWithUnsubscribe(
+    recipients: Array<EmailRecipient & { unsubscribeUrl?: string; source?: string }>,
+    subject: string,
+    htmlContent: string,
+    textContent?: string,
+    templateId?: number
+  ): Promise<{ success: boolean; messageIds: string[]; errors: string[]; recipientsBySource: Record<string, number> }> {
+    const results = {
+      success: true,
+      messageIds: [] as string[],
+      errors: [] as string[],
+      recipientsBySource: {} as Record<string, number>
+    }
+
+    // Track recipients by source for analytics
+    recipients.forEach(recipient => {
+      const source = recipient.source || 'unknown'
+      results.recipientsBySource[source] = (results.recipientsBySource[source] || 0) + 1
+    })
+
+    // Send individual emails to personalize unsubscribe links
+    for (const recipient of recipients) {
+      try {
+        // Personalize content with unsubscribe link
+        let personalizedHtmlContent = htmlContent
+        let personalizedTextContent = textContent || ''
+
+        if (recipient.unsubscribeUrl) {
+          personalizedHtmlContent = personalizedHtmlContent.replace(
+            /\{\{unsubscribe_url\}\}/g, 
+            recipient.unsubscribeUrl
+          )
+          personalizedTextContent = personalizedTextContent.replace(
+            /\{\{unsubscribe_url\}\}/g, 
+            recipient.unsubscribeUrl
+          )
+        }
+
+        const response = await this.sendEmail({
+          to: [{ email: recipient.email, name: recipient.name }],
+          subject,
+          htmlContent: personalizedHtmlContent,
+          textContent: personalizedTextContent || textContent,
+          templateId
+        })
+
+        if (response.success) {
+          results.messageIds.push(response.messageId)
+        } else {
+          results.success = false
+          results.errors.push(`${recipient.email}: ${response.error || 'Unknown error'}`)
+        }
+      } catch (error) {
+        results.success = false
+        results.errors.push(`${recipient.email}: ${error instanceof Error ? error.message : 'Unknown error'}`)
+      }
+
+      // Add small delay to avoid rate limiting
+      await new Promise(resolve => setTimeout(resolve, 100))
     }
 
     return results
@@ -362,8 +941,15 @@ export function getBrevoService(): BrevoService {
       throw new Error('BREVO_API_KEY environment variable is required')
     }
 
-    brevoService = new BrevoService({ apiKey })
+    brevoService = new BrevoService({ 
+      apiKey,
+      retryAttempts: parseInt(process.env.BREVO_RETRY_ATTEMPTS || '3'),
+      retryDelay: parseInt(process.env.BREVO_RETRY_DELAY || '1000')
+    })
   }
 
   return brevoService
 }
+
+// Export types for use in other modules
+export type { SyncResult, BrevoContact, BrevoContactResponse }

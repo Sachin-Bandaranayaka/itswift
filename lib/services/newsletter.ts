@@ -245,12 +245,27 @@ export class NewsletterService {
         }
       }
 
-      // Prepare recipients
-      const recipients = subscribers.map(subscriber => ({
-        email: subscriber.email,
-        name: subscriber.first_name && subscriber.last_name 
-          ? `${subscriber.first_name} ${subscriber.last_name}`
-          : subscriber.first_name || subscriber.email
+      // Prepare recipients with unsubscribe links
+      const recipients = await Promise.all(subscribers.map(async subscriber => {
+        // Generate unsubscribe link for each subscriber
+        let unsubscribeUrl = ''
+        try {
+          unsubscribeUrl = await this.brevoService.createUnsubscribeLink(subscriber.email, options.campaignId)
+        } catch (error) {
+          console.warn(`Failed to create unsubscribe link for ${subscriber.email}:`, error)
+          // Fallback to generic unsubscribe link
+          const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://swiftsolution.com'
+          unsubscribeUrl = `${baseUrl}/unsubscribe?email=${encodeURIComponent(subscriber.email)}`
+        }
+
+        return {
+          email: subscriber.email,
+          name: subscriber.first_name && subscriber.last_name 
+            ? `${subscriber.first_name} ${subscriber.last_name}`
+            : subscriber.first_name || subscriber.email,
+          unsubscribeUrl,
+          source: subscriber.source || 'unknown'
+        }
       }))
 
       // If scheduled, update campaign status
@@ -268,16 +283,27 @@ export class NewsletterService {
         }
       }
 
+      // Prepare email content with unsubscribe links
+      const emailContent = this.addUnsubscribeLinksToContent(campaign.content, recipients)
+      
+      // Generate text content from HTML content
+      const textContent = this.generateTextContent(emailContent, campaign.subject)
+
       // Send the newsletter
-      const sendResult = await this.brevoService.sendBulkEmail(
+      const sendResult = await this.brevoService.sendBulkEmailWithUnsubscribe(
         recipients,
         campaign.subject,
-        campaign.content
+        emailContent,
+        textContent
       )
 
-      // Update campaign status
+      // Update campaign status with source analytics
       if (sendResult.success) {
-        await NewsletterCampaignsService.markAsSent(options.campaignId, recipients.length)
+        await NewsletterCampaignsService.markAsSentWithAnalytics(
+          options.campaignId, 
+          recipients.length,
+          sendResult.recipientsBySource
+        )
       } else {
         await NewsletterCampaignsService.markAsFailed(options.campaignId)
       }
@@ -286,7 +312,8 @@ export class NewsletterService {
         success: sendResult.success,
         messageIds: sendResult.messageIds,
         recipientCount: recipients.length,
-        errors: sendResult.errors
+        errors: sendResult.errors,
+        recipientsBySource: sendResult.recipientsBySource
       }
     } catch (error) {
       console.error('Error sending newsletter campaign:', error)
@@ -408,6 +435,60 @@ export class NewsletterService {
         error: error instanceof Error ? error.message : 'Unknown error'
       }
     }
+  }
+
+  /**
+   * Add unsubscribe links to email content
+   */
+  private addUnsubscribeLinksToContent(content: string, recipients: any[]): string {
+    // Replace placeholder unsubscribe URLs with actual links
+    // This is a simple implementation - in production you might want more sophisticated templating
+    let updatedContent = content
+
+    // Ensure unsubscribe links are present in the content
+    if (!updatedContent.includes('{{unsubscribe_url}}') && !updatedContent.includes('unsubscribe')) {
+      // Add unsubscribe link to the bottom of the email if not present
+      const unsubscribeFooter = `
+        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e9ecef; text-align: center; font-size: 12px; color: #6c757d;">
+          <p>© 2024 Swift Solution. All rights reserved.</p>
+          <p><a href="{{unsubscribe_url}}" style="color: #6c757d; text-decoration: none;">Unsubscribe</a> from our newsletter</p>
+        </div>
+      `
+      updatedContent += unsubscribeFooter
+    }
+
+    return updatedContent
+  }
+
+  /**
+   * Generate plain text content from HTML content
+   */
+  private generateTextContent(htmlContent: string, subject: string): string {
+    // Simple HTML to text conversion
+    let textContent = htmlContent
+      // Remove HTML tags
+      .replace(/<[^>]*>/g, '')
+      // Convert HTML entities
+      .replace(/&nbsp;/g, ' ')
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'")
+      // Clean up whitespace
+      .replace(/\s+/g, ' ')
+      .trim()
+
+    // Add basic structure
+    const textVersion = `${subject}
+
+${textContent}
+
+---
+© 2024 Swift Solution. All rights reserved.
+Unsubscribe: {{unsubscribe_url}}`
+
+    return textVersion
   }
 
   /**

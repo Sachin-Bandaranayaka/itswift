@@ -24,7 +24,11 @@ CREATE TABLE IF NOT EXISTS newsletter_subscribers (
   status VARCHAR(20) DEFAULT 'active' CHECK (status IN ('active', 'unsubscribed', 'bounced')),
   subscribed_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   unsubscribed_at TIMESTAMP WITH TIME ZONE,
-  tags TEXT[]
+  tags TEXT[],
+  source VARCHAR(50) DEFAULT 'homepage' NOT NULL CHECK (source IN ('homepage', 'admin', 'import', 'api')),
+  unsubscribe_token VARCHAR(255),
+  brevo_contact_id VARCHAR(255),
+  last_synced_at TIMESTAMP WITH TIME ZONE
 );
 
 -- Newsletter Campaigns Table
@@ -41,6 +45,7 @@ CREATE TABLE IF NOT EXISTS newsletter_campaigns (
   click_rate DECIMAL(5,2),
   brevo_message_id VARCHAR(255),
   brevo_stats JSONB,
+  analytics JSONB,
   last_synced_at TIMESTAMP WITH TIME ZONE,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
@@ -75,6 +80,10 @@ CREATE INDEX IF NOT EXISTS idx_social_posts_status ON social_posts(status);
 CREATE INDEX IF NOT EXISTS idx_social_posts_scheduled_at ON social_posts(scheduled_at);
 CREATE INDEX IF NOT EXISTS idx_newsletter_subscribers_email ON newsletter_subscribers(email);
 CREATE INDEX IF NOT EXISTS idx_newsletter_subscribers_status ON newsletter_subscribers(status);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_newsletter_subscribers_unsubscribe_token ON newsletter_subscribers(unsubscribe_token) WHERE unsubscribe_token IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_newsletter_subscribers_source ON newsletter_subscribers(source);
+CREATE INDEX IF NOT EXISTS idx_newsletter_subscribers_brevo_contact_id ON newsletter_subscribers(brevo_contact_id) WHERE brevo_contact_id IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_newsletter_subscribers_last_synced_at ON newsletter_subscribers(last_synced_at) WHERE last_synced_at IS NOT NULL;
 CREATE INDEX IF NOT EXISTS idx_newsletter_campaigns_status ON newsletter_campaigns(status);
 CREATE INDEX IF NOT EXISTS idx_content_analytics_content_type ON content_analytics(content_type);
 CREATE INDEX IF NOT EXISTS idx_content_analytics_content_id ON content_analytics(content_id);

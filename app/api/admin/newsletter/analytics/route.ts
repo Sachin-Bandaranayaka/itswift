@@ -62,6 +62,21 @@ export async function GET(request: NextRequest) {
     const allSubscribers = subscribersResult.data
     const activeSubscribers = allSubscribers.filter(s => s.status === 'active')
 
+    // Calculate subscriber stats by source
+    const subscribersBySource = allSubscribers.reduce((acc, subscriber) => {
+      const source = subscriber.source || 'unknown'
+      if (!acc[source]) {
+        acc[source] = { total: 0, active: 0, unsubscribed: 0 }
+      }
+      acc[source].total++
+      if (subscriber.status === 'active') {
+        acc[source].active++
+      } else if (subscriber.status === 'unsubscribed') {
+        acc[source].unsubscribed++
+      }
+      return acc
+    }, {} as Record<string, { total: number; active: number; unsubscribed: number }>)
+
     // Calculate metrics
     const totalCampaigns = campaignsInRange.length
     const totalSent = sentCampaigns.length
@@ -84,6 +99,9 @@ export async function GET(request: NextRequest) {
       totalUnsubscribes += unsubscribeCount
       totalBounces += bounceCount
 
+      // Extract source analytics from campaign analytics if available
+      const sourceAnalytics = campaign.analytics?.recipientsBySource || {}
+
       return {
         id: campaign.id,
         subject: campaign.subject,
@@ -93,7 +111,8 @@ export async function GET(request: NextRequest) {
         clickRate,
         unsubscribeCount,
         bounceCount,
-        status: campaign.status
+        status: campaign.status,
+        recipientsBySource: sourceAnalytics
       }
     })
 
@@ -135,7 +154,8 @@ export async function GET(request: NextRequest) {
       bounceRate,
       recentCampaigns,
       subscriberGrowth,
-      topPerformingCampaigns
+      topPerformingCampaigns,
+      subscribersBySource
     }
 
     return NextResponse.json({ analytics })

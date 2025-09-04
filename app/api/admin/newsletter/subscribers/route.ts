@@ -6,15 +6,19 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url)
     const search = searchParams.get('search')
     const status = searchParams.get('status')
+    const source = searchParams.get('source')
     const limit = parseInt(searchParams.get('limit') || '50')
     const offset = parseInt(searchParams.get('offset') || '0')
 
     let result
 
+    const filters: any = {}
+    if (status && status !== 'all') filters.status = status
+    if (source && source !== 'all') filters.source = source
+
     if (search) {
-      result = await NewsletterSubscribersService.search(search, { limit, offset })
+      result = await NewsletterSubscribersService.search(search, { limit, offset }, filters)
     } else {
-      const filters = status && status !== 'all' ? { status } : {}
       result = await NewsletterSubscribersService.getAll({ limit, offset }, filters)
     }
 
@@ -55,7 +59,8 @@ export async function POST(request: NextRequest) {
       first_name,
       last_name,
       tags,
-      status: 'active'
+      status: 'active',
+      source: body.source || 'admin'
     })
 
     if (result.error) {
@@ -63,6 +68,26 @@ export async function POST(request: NextRequest) {
         { error: result.error },
         { status: 400 }
       )
+    }
+
+    // Sync new subscriber to Brevo (non-blocking)
+    if (result.data) {
+      try {
+        const { getBrevoService } = await import('@/lib/integrations/brevo')
+        const brevoService = getBrevoService()
+        const syncResult = await brevoService.syncSubscriber(result.data, true) // Enable fallback
+        
+        if (syncResult.success && syncResult.brevo_contact_id) {
+          // Update subscriber with Brevo contact ID
+          await NewsletterSubscribersService.update(result.data.id, {
+            brevo_contact_id: syncResult.brevo_contact_id,
+            last_synced_at: new Date().toISOString()
+          })
+        }
+      } catch (syncError) {
+        // Don't fail the creation if Brevo sync fails
+        console.warn('Failed to sync new admin subscriber to Brevo:', syncError)
+      }
     }
 
     return NextResponse.json({

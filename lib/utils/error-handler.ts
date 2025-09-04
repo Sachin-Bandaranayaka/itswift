@@ -56,6 +56,29 @@ export class ExternalServiceError extends Error {
   }
 }
 
+export class NewsletterServiceError extends Error {
+  statusCode = 500
+  code = 'NEWSLETTER_SERVICE_ERROR'
+  
+  constructor(message: string, public operation: string, public details?: any, statusCode?: number) {
+    super(message)
+    this.name = 'NewsletterServiceError'
+    if (statusCode) {
+      this.statusCode = statusCode
+    }
+  }
+}
+
+export class BrevoServiceError extends Error {
+  statusCode = 502
+  code = 'BREVO_SERVICE_ERROR'
+  
+  constructor(message: string, public details?: any, public retryAfter?: number) {
+    super(message)
+    this.name = 'BrevoServiceError'
+  }
+}
+
 export class RateLimitError extends Error {
   statusCode = 429
   code = 'RATE_LIMIT_ERROR'
@@ -135,6 +158,37 @@ export function handleApiError(error: unknown): NextResponse {
         code: error.code
       },
       { status: error.statusCode }
+    )
+  }
+  
+  if (error instanceof NewsletterServiceError) {
+    return NextResponse.json(
+      {
+        success: false,
+        error: error.message,
+        code: error.code,
+        operation: error.operation,
+        details: error.details
+      },
+      { status: error.statusCode }
+    )
+  }
+  
+  if (error instanceof BrevoServiceError) {
+    const headers: Record<string, string> = {}
+    if (error.retryAfter) {
+      headers['Retry-After'] = error.retryAfter.toString()
+    }
+    
+    return NextResponse.json(
+      {
+        success: false,
+        error: error.message,
+        code: error.code,
+        details: error.details,
+        retryAfter: error.retryAfter
+      },
+      { status: error.statusCode, headers }
     )
   }
   

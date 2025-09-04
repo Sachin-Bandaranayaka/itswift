@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 import { 
   Target, 
   TrendingUp, 
@@ -155,22 +156,17 @@ export default function SalesEnablementPage() {
             <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto leading-relaxed">
               Empower your sales team with comprehensive training programs that drive revenue growth and improve performance
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <motion.button
-                className="bg-yellow-500 hover:bg-yellow-600 text-black px-8 py-4 rounded-lg font-semibold transition-colors duration-300 flex items-center justify-center"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Get Started
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </motion.button>
-              <motion.button
-                className="border-2 border-white text-white hover:bg-white hover:text-blue-600 px-8 py-4 rounded-lg font-semibold transition-colors duration-300"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                View Demo
-              </motion.button>
+            <div className="flex justify-center">
+              <Link href="/#contact">
+                <motion.button
+                  className="bg-yellow-500 hover:bg-yellow-600 text-black px-8 py-4 rounded-lg font-semibold transition-colors duration-300 flex items-center justify-center"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Get Started
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </motion.button>
+              </Link>
             </div>
           </motion.div>
         </div>

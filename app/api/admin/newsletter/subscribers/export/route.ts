@@ -7,8 +7,11 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
     const status = searchParams.get('status')
+    const source = searchParams.get('source')
     
-    const filters = status && status !== 'all' ? { status } : {}
+    const filters: any = {}
+    if (status && status !== 'all') filters.status = status
+    if (source && source !== 'all') filters.source = source
     const result = await NewsletterSubscribersService.getAll({}, filters)
 
     if (result.error) {
@@ -21,7 +24,7 @@ export async function GET(request: NextRequest) {
     const subscribers = result.data
 
     // Create CSV content
-    const headers = ['Email', 'First Name', 'Last Name', 'Status', 'Subscribed At', 'Tags']
+    const headers = ['Email', 'First Name', 'Last Name', 'Status', 'Source', 'Subscribed At', 'Tags']
     const csvRows = [
       headers.join(','),
       ...subscribers.map(subscriber => [
@@ -29,6 +32,7 @@ export async function GET(request: NextRequest) {
         `"${subscriber.first_name || ''}"`,
         `"${subscriber.last_name || ''}"`,
         `"${subscriber.status}"`,
+        `"${subscriber.source || 'unknown'}"`,
         `"${new Date(subscriber.subscribed_at).toISOString()}"`,
         `"${subscriber.tags?.join(';') || ''}"`
       ].join(','))

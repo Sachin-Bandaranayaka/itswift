@@ -45,6 +45,7 @@ interface NewsletterAnalytics {
   recentCampaigns: CampaignAnalytics[]
   subscriberGrowth: SubscriberGrowthData[]
   topPerformingCampaigns: CampaignAnalytics[]
+  subscribersBySource: Record<string, { total: number; active: number; unsubscribed: number }>
 }
 
 interface CampaignAnalytics {
@@ -57,6 +58,7 @@ interface CampaignAnalytics {
   unsubscribeCount: number
   bounceCount: number
   status: string
+  recipientsBySource?: Record<string, number>
 }
 
 interface SubscriberGrowthData {
@@ -236,7 +238,7 @@ export function NewsletterAnalytics() {
       </div>
 
       {/* Performance Metrics */}
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-3">
         <Card>
           <CardHeader>
             <CardTitle className="text-lg">Engagement Rates</CardTitle>
@@ -320,6 +322,58 @@ export function NewsletterAnalytics() {
             ) : (
               <div className="text-center text-muted-foreground py-8">
                 No growth data available
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">Subscribers by Source</CardTitle>
+            <CardDescription>
+              Where your subscribers are coming from
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            {Object.keys(analytics.subscribersBySource).length > 0 ? (
+              <div className="space-y-4">
+                {Object.entries(analytics.subscribersBySource)
+                  .sort(([,a], [,b]) => b.active - a.active)
+                  .map(([source, stats]) => (
+                    <div key={source} className="space-y-2">
+                      <div className="flex justify-between items-center">
+                        <div className="flex items-center gap-2">
+                          <Badge variant="outline" className="capitalize">
+                            {source}
+                          </Badge>
+                          <span className="text-sm font-medium">
+                            {stats.active} active
+                          </span>
+                        </div>
+                        <span className="text-xs text-muted-foreground">
+                          {stats.total} total
+                        </span>
+                      </div>
+                      <Progress 
+                        value={(stats.active / analytics.totalSubscribers) * 100} 
+                        className="h-2" 
+                      />
+                      <div className="flex justify-between text-xs text-muted-foreground">
+                        <span>
+                          {((stats.active / analytics.totalSubscribers) * 100).toFixed(1)}% of active
+                        </span>
+                        {stats.unsubscribed > 0 && (
+                          <span className="text-red-600">
+                            {stats.unsubscribed} unsubscribed
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            ) : (
+              <div className="text-center text-muted-foreground py-8">
+                No source data available
               </div>
             )}
           </CardContent>

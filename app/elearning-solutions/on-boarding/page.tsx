@@ -2,6 +2,7 @@
 
 import React, { useState } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import Contact from "@/components/contact"
 import { ArrowRight, CheckCircle, Award, BarChart, Layers, Users, ChevronDown } from "lucide-react"
 
@@ -173,7 +174,7 @@ export default function OnboardingPage() {
                         </p>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+                        <Link href="/elearning-services/custom-elearning" className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow cursor-pointer">
                             <div className="h-14 w-14 bg-orange-100 rounded-lg flex items-center justify-center mb-6">
                                 <Users className="h-7 w-7 text-orange-600" />
                             </div>
@@ -181,8 +182,8 @@ export default function OnboardingPage() {
                             <p className="text-gray-700">
                                 We leverage the latest in learning design and organizational psychology to develop induction programs that align perfectly with your company culture and business objectives.
                             </p>
-                        </div>
-                        <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+                        </Link>
+                        <Link href="/elearning-services/rapid-elearning" className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow cursor-pointer">
                             <div className="h-14 w-14 bg-orange-100 rounded-lg flex items-center justify-center mb-6">
                                 <Layers className="h-7 w-7 text-orange-600" />
                             </div>
@@ -190,8 +191,8 @@ export default function OnboardingPage() {
                             <p className="text-gray-700">
                                 Using rapid learning tools and proven methodologies, we can quickly create, customize, or offer readymade onboarding courses tailored specifically to your organizational needs.
                             </p>
-                        </div>
-                        <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+                        </Link>
+                        <Link href="/elearning-services/custom-elearning" className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow cursor-pointer">
                             <div className="h-14 w-14 bg-orange-100 rounded-lg flex items-center justify-center mb-6">
                                 <Award className="h-7 w-7 text-orange-600" />
                             </div>
@@ -199,7 +200,7 @@ export default function OnboardingPage() {
                             <p className="text-gray-700">
                                 Our modules are meticulously designed to reflect your brand identity, core values, and unique workplace culture, ensuring your new hires receive a consistent and authentic introduction.
                             </p>
-                        </div>
+                        </Link>
                     </div>
                 </div>
             </section>
@@ -320,30 +321,30 @@ export default function OnboardingPage() {
                         </p>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+                        <Link href="/elearning-services/rapid-elearning" className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow cursor-pointer">
                             <h3 className="text-xl font-bold mb-4 text-gray-900">Accelerated Implementation</h3>
                             <p className="text-gray-700">
                                 Using our efficient development process, we can create and deploy customized onboarding solutions within days, not weeks or months. This agility ensures your organization can quickly onboard new hires without lengthy development cycles.
                             </p>
-                        </div>
-                        <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+                        </Link>
+                        <Link href="/elearning-services/custom-elearning" className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow cursor-pointer">
                             <h3 className="text-xl font-bold mb-4 text-gray-900">Engaging, Interactive Content</h3>
                             <p className="text-gray-700">
                                 We transform standard onboarding content into engaging learning experiences through interactive scenarios, real-world case studies, and multimedia elements that maintain learner interest and improve knowledge retention.
                             </p>
-                        </div>
-                        <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+                        </Link>
+                        <Link href="/elearning-services/custom-elearning" className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow cursor-pointer">
                             <h3 className="text-xl font-bold mb-4 text-gray-900">Customization That Reflects Your Culture</h3>
                             <p className="text-gray-700">
                                 Our onboarding courses aren't generic templates—they're carefully tailored to reflect your specific organizational culture, values, and business practices, making the training immediately relevant to your new employees.
                             </p>
-                        </div>
-                        <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+                        </Link>
+                        <Link href="/elearning-consultancy/lms-implementation" className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow cursor-pointer">
                             <h3 className="text-xl font-bold mb-4 text-gray-900">Comprehensive Tracking and Reporting</h3>
                             <p className="text-gray-700">
                                 Our robust LMS provides detailed analytics on completion rates, assessment scores, and knowledge gaps, giving you complete visibility into your onboarding program's effectiveness and areas for improvement.
                             </p>
-                        </div>
+                        </Link>
                         <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
                             <h3 className="text-xl font-bold mb-4 text-gray-900">Continuous Updates and Support</h3>
                             <p className="text-gray-700">
@@ -366,24 +367,24 @@ export default function OnboardingPage() {
                         </p>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <div className="bg-gray-50 p-8 rounded-xl border border-gray-200">
+                        <Link href="/elearning-services/micro-learning" className="bg-gray-50 p-8 rounded-xl border border-gray-200 hover:shadow-lg transition-shadow cursor-pointer">
                             <h3 className="text-xl font-bold mb-4 text-gray-900">Microlearning for Maximum Retention</h3>
                             <p className="text-gray-700">
                                 We break down complex onboarding content into bite-sized, focused learning modules that new hires can easily digest and retain. This approach prevents information overload and allows for flexible, self-paced learning.
                             </p>
-                        </div>
-                        <div className="bg-gray-50 p-8 rounded-xl border border-gray-200">
+                        </Link>
+                        <Link href="/elearning-services/game-based-elearning" className="bg-gray-50 p-8 rounded-xl border border-gray-200 hover:shadow-lg transition-shadow cursor-pointer">
                             <h3 className="text-xl font-bold mb-4 text-gray-900">Gamification Elements</h3>
                             <p className="text-gray-700">
                                 By incorporating game mechanics like points, badges, leaderboards, and challenges, we transform standard onboarding into an engaging, motivating experience that drives completion and knowledge retention.
                             </p>
-                        </div>
-                        <div className="bg-gray-50 p-8 rounded-xl border border-gray-200">
+                        </Link>
+                        <Link href="/elearning-services/game-based-elearning" className="bg-gray-50 p-8 rounded-xl border border-gray-200 hover:shadow-lg transition-shadow cursor-pointer">
                             <h3 className="text-xl font-bold mb-4 text-gray-900">Virtual Reality Workplace Tours</h3>
                             <p className="text-gray-700">
                                 For distributed teams, our virtual reality solutions provide immersive workplace tours that help remote employees feel connected to your physical environment and culture.
                             </p>
-                        </div>
+                        </Link>
                         <div className="bg-gray-50 p-8 rounded-xl border border-gray-200">
                             <h3 className="text-xl font-bold mb-4 text-gray-900">Social Learning Components</h3>
                             <p className="text-gray-700">

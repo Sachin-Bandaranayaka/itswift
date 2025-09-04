@@ -49,6 +49,10 @@ export interface NewsletterSubscriber {
   subscribed_at: string
   unsubscribed_at?: string
   tags?: string[]
+  source: 'homepage' | 'admin' | 'import' | 'api'
+  unsubscribe_token?: string
+  brevo_contact_id?: string
+  last_synced_at?: string
 }
 
 export interface NewsletterSubscriberInput {
@@ -57,6 +61,10 @@ export interface NewsletterSubscriberInput {
   last_name?: string
   status?: 'active' | 'unsubscribed' | 'bounced'
   tags?: string[]
+  source?: 'homepage' | 'admin' | 'import' | 'api'
+  unsubscribe_token?: string
+  brevo_contact_id?: string
+  last_synced_at?: string
 }
 
 export interface NewsletterSubscriberUpdate {
@@ -66,6 +74,10 @@ export interface NewsletterSubscriberUpdate {
   status?: 'active' | 'unsubscribed' | 'bounced'
   unsubscribed_at?: string
   tags?: string[]
+  source?: 'homepage' | 'admin' | 'import' | 'api'
+  unsubscribe_token?: string
+  brevo_contact_id?: string
+  last_synced_at?: string
 }
 
 export interface NewsletterCampaign {
@@ -80,6 +92,12 @@ export interface NewsletterCampaign {
   open_rate?: number
   click_rate?: number
   created_at: string
+  analytics?: {
+    recipientsBySource?: Record<string, number>
+    sentAt?: string
+    totalRecipients?: number
+    [key: string]: any
+  }
 }
 
 export interface NewsletterCampaignInput {
@@ -101,6 +119,12 @@ export interface NewsletterCampaignUpdate {
   recipient_count?: number
   open_rate?: number
   click_rate?: number
+  analytics?: {
+    recipientsBySource?: Record<string, number>
+    sentAt?: string
+    totalRecipients?: number
+    [key: string]: any
+  }
 }
 
 export interface ContentAnalytics {
@@ -205,4 +229,34 @@ export interface FilterOptions {
   content_type?: string
   date_from?: string
   date_to?: string
+  source?: string
+}
+
+// Newsletter-specific types for homepage integration
+export interface HomepageSubscriptionData {
+  email: string
+  first_name?: string
+  last_name?: string
+  source?: 'homepage' | 'admin' | 'import' | 'api'
+}
+
+export interface UnsubscribeTokenData {
+  subscriber_id: string
+  email: string
+  token: string
+  created_at: string
+}
+
+export interface BrevoSyncResult {
+  success: boolean
+  brevo_contact_id?: string
+  error?: string
+  synced_at: string
+}
+
+export interface ServiceResult<T> {
+  success: boolean
+  data?: T
+  error?: string
+  message?: string
 }

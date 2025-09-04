@@ -493,10 +493,10 @@ export default function AboutUsPage() {
                             <p className="text-orange-100 mb-6">
                                 Contact us today to discuss how we can help you improve performance and achieve your business objectives.
                             </p>
-                            <button className="bg-white text-orange-600 px-8 py-3 rounded-lg font-semibold hover:bg-orange-50 transition-colors duration-200 inline-flex items-center">
+                            <a href="http://localhost:3000/#contact" className="bg-white text-orange-600 px-8 py-3 rounded-lg font-semibold hover:bg-orange-50 transition-colors duration-200 inline-flex items-center">
                                 Start Your AI-Powered Journey
                                 <ArrowRight className="h-5 w-5 ml-2" />
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -505,14 +505,7 @@ export default function AboutUsPage() {
             {/* Contact Form Section */}
             <section id="contact" className="py-16 bg-white">
                 <div className="container mx-auto px-4">
-                    <div className="text-center mb-12">
-                        <h2 className="text-3xl font-bold mb-4 text-gray-900">
-                            Get in Touch
-                        </h2>
-                        <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                            Let's discuss how Swift Solution can help transform your learning and development initiatives with our AI-powered solutions.
-                        </p>
-                    </div>
+
                     <Contact />
                 </div>
             </section>

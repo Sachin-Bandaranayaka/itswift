@@ -164,14 +164,6 @@ export default function CaseStudiesPage() {
                         <p className="text-xl md:text-2xl mb-8 text-orange-100">
                             Real results from real clients - discover how we've transformed learning experiences
                         </p>
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <button className="bg-white text-orange-600 px-8 py-3 rounded-lg font-semibold hover:bg-orange-50 transition-colors duration-200">
-                                View All Studies
-                            </button>
-                            <button className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-orange-600 transition-colors duration-200">
-                                Download Portfolio
-                            </button>
-                        </div>
                     </div>
                 </div>
             </section>

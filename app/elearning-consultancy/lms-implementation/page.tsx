@@ -473,7 +473,7 @@ export default function LMSImplementationPage() {
                             Our team of certified Moodle specialists, instructional designers, and support professionals is ready to help you create an LMS implementation that not only meets your current requirements but also provides the flexibility and scalability to support your future growth.
                         </p>
                         <div className="flex flex-col md:flex-row justify-center gap-4">
-                            <a href="#contact" className="inline-flex items-center justify-center px-6 py-3 bg-white text-orange-600 rounded-lg font-medium hover:bg-orange-50 transition-colors duration-200">
+                            <a href="http://localhost:3000/#contact" className="inline-flex items-center justify-center px-6 py-3 bg-white text-orange-600 rounded-lg font-medium hover:bg-orange-50 transition-colors duration-200">
                                 Contact Us Today
                                 <ArrowRight className="ml-2 h-4 w-4" />
                             </a>
@@ -482,51 +482,8 @@ export default function LMSImplementationPage() {
                 </div>
             </section>
 
-            {/* Contact Information */}
-            <section id="contact" className="py-16 bg-white">
-                <div className="container mx-auto px-4">
-                    <div className="max-w-3xl mx-auto">
-                        <div className="text-center mb-12">
-                            <h2 className="text-3xl font-bold mb-4 text-gray-900">
-                                Contact us today to discuss your Moodle LMS implementation needs
-                            </h2>
-                        </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-                            <div className="flex items-center">
-                                <Phone className="h-8 w-8 text-orange-500 mr-4" />
-                                <div>
-                                    <h3 className="text-lg font-medium text-gray-900">Phone</h3>
-                                    <p className="text-gray-600">080-23215884</p>
-                                </div>
-                            </div>
-                            <div className="flex items-center">
-                                <Mail className="h-8 w-8 text-orange-500 mr-4" />
-                                <div>
-                                    <h3 className="text-lg font-medium text-gray-900">Email</h3>
-                                    <p className="text-gray-600">swiftsol@itswift.com</p>
-                                </div>
-                            </div>
-                            <div className="flex items-center">
-                                <FileText className="h-8 w-8 text-orange-500 mr-4" />
-                                <div>
-                                    <h3 className="text-lg font-medium text-gray-900">Resources</h3>
-                                    <a href="#" className="text-orange-600 hover:underline">Download Our Moodle LMS Implementation Guide</a>
-                                </div>
-                            </div>
-                            <div className="flex items-center">
-                                <Calendar className="h-8 w-8 text-orange-500 mr-4" />
-                                <div>
-                                    <h3 className="text-lg font-medium text-gray-900">Schedule</h3>
-                                    <a href="#" className="text-orange-600 hover:underline">Schedule a Consultation</a>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Contact Form */}
-                        <Contact />
-                    </div>
-                </div>
-            </section>
+            {/* Contact Section */}
+            <Contact />
         </div>
     );
 } 

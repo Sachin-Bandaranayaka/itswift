@@ -18,6 +18,8 @@
     "process-scheduled": "node scripts/process-scheduled-content.js",
     "setup-cron": "bash scripts/setup-cron.sh",
     "test-scheduler": "node scripts/test-scheduler.js",
+    "sync-brevo": "npx tsx scripts/sync-subscribers-to-brevo.ts",
+    "test-brevo": "npx tsx scripts/test-brevo-connection.ts",
     "populate-analytics": "node scripts/populate-sample-analytics.js populate",
     "clear-analytics": "node scripts/populate-sample-analytics.js clear",
     "reset-analytics": "node scripts/populate-sample-analytics.js reset",

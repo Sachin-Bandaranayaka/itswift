@@ -58,7 +58,8 @@ export async function POST(request: NextRequest) {
         last_name: lastNameIndex !== -1 ? values[lastNameIndex] || undefined : undefined,
         tags: tagsIndex !== -1 && values[tagsIndex] 
           ? values[tagsIndex].split(';').map(tag => tag.trim()).filter(Boolean)
-          : undefined
+          : undefined,
+        source: 'import' as const
       }
 
       subscribers.push(subscriber)

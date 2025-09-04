@@ -267,6 +267,46 @@ export class NewsletterCampaignsService {
   }
 
   /**
+   * Mark campaign as sent with source analytics
+   */
+  static async markAsSentWithAnalytics(
+    id: string, 
+    recipientCount: number,
+    recipientsBySource: Record<string, number>,
+    openRate?: number,
+    clickRate?: number
+  ): Promise<{ data: NewsletterCampaign | null; error: string | null }> {
+    try {
+      const updates: NewsletterCampaignUpdate = {
+        status: 'sent',
+        sent_at: new Date().toISOString(),
+        recipient_count: recipientCount,
+        analytics: {
+          recipientsBySource,
+          sentAt: new Date().toISOString(),
+          totalRecipients: recipientCount
+        }
+      }
+
+      if (openRate !== undefined) {
+        updates.open_rate = openRate
+      }
+
+      if (clickRate !== undefined) {
+        updates.click_rate = clickRate
+      }
+
+      return await this.update(id, updates)
+    } catch (error) {
+      console.error('Error marking campaign as sent with analytics:', error)
+      return { 
+        data: null, 
+        error: error instanceof Error ? error.message : 'Unknown error' 
+      }
+    }
+  }
+
+  /**
    * Mark campaign as failed
    */
   static async markAsFailed(id: string): Promise<{ data: NewsletterCampaign | null; error: string | null }> {
