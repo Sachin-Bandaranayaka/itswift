@@ -1,7 +1,16 @@
 import { BlogPost, BlogPageData } from './blog-public-data';
 
 export class BlogApiClient {
-  private static readonly BASE_URL = '/api/blog';
+  private static getBaseUrl(): string {
+    // For server-side requests, we need an absolute URL
+    if (typeof window === 'undefined') {
+      // Server-side: use environment variable or default
+      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.VERCEL_URL || 'http://localhost:3000';
+      return `${baseUrl}/api/blog`;
+    }
+    // Client-side: relative URL is fine
+    return '/api/blog';
+  }
 
   /**
    * Fetch paginated blog posts from API route
@@ -27,7 +36,7 @@ export class BlogApiClient {
       params.append('search', filters.search);
     }
 
-    const response = await fetch(`${this.BASE_URL}/posts?${params}`);
+    const response = await fetch(`${this.getBaseUrl()}/posts?${params}`);
     
     if (!response.ok) {
       throw new Error(`Failed to fetch posts: ${response.statusText}`);
@@ -40,7 +49,7 @@ export class BlogApiClient {
    * Fetch all available categories
    */
   static async getCategories(): Promise<Array<{ title: string }>> {
-    const response = await fetch(`${this.BASE_URL}/categories`);
+    const response = await fetch(`${this.getBaseUrl()}/categories`);
     
     if (!response.ok) {
       throw new Error(`Failed to fetch categories: ${response.statusText}`);
@@ -53,7 +62,7 @@ export class BlogApiClient {
    * Fetch a single blog post by slug
    */
   static async getPostBySlug(slug: string): Promise<BlogPost> {
-    const response = await fetch(`${this.BASE_URL}/posts/${slug}`);
+    const response = await fetch(`${this.getBaseUrl()}/posts/${slug}`);
     
     if (!response.ok) {
       if (response.status === 404) {

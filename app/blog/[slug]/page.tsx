@@ -398,15 +398,15 @@ export default async function BlogPost({ params }: Props) {
                             You can try refreshing the page or return to the blog homepage.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                            <button 
-                                onClick={() => window.location.reload()}
-                                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                            <a 
+                                href={`/blog/${params.slug}`}
+                                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-center"
                             >
                                 Refresh Page
-                            </button>
+                            </a>
                             <a 
                                 href="/blog"
-                                className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                                className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-center"
                             >
                                 Back to Blog
                             </a>

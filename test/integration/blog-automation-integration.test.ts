@@ -43,16 +43,16 @@ describe('Blog Automation Integration', () => {
     automationEngine = AutomationEngine.getInstance()
     blogScheduler = BlogPostScheduler.getInstance()
     vi.clearAllMocks()
-    
+
     // Setup default mocks for automation rules service
     const { AutomationRulesService } = await import('@/lib/database/services/automation-rules')
-    vi.mocked(AutomationRulesService.getActiveRulesByTrigger).mockResolvedValue({ 
-      data: [], 
-      error: null 
+    vi.mocked(AutomationRulesService.getActiveRulesByTrigger).mockResolvedValue({
+      data: [],
+      error: null
     })
-    vi.mocked(AutomationRulesService.updateExecution).mockResolvedValue({ 
+    vi.mocked(AutomationRulesService.updateExecution).mockResolvedValue({
       success: true,
-      error: null 
+      error: null
     })
   })
 

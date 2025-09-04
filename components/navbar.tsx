@@ -55,6 +55,7 @@ const menuItems: MenuItem[] = [
       { title: "Awards", href: "/awards" },
     ],
   },
+  { title: "Blog", href: "/blog" },
   { title: "Contact Us", href: "/#contact" },
 ]
 
@@ -112,7 +113,7 @@ export function Navbar() {
           </Link>
 
           {/* Main Navigation - Desktop */}
-          <div className="hidden lg:flex items-center space-x-8">
+          <div className="hidden lg:flex items-center space-x-6">
             {menuItems.map((item, index) => (
               <div
                 key={index}
@@ -155,12 +156,12 @@ export function Navbar() {
           </div>
 
           {/* CTA Button and Theme Toggle - Desktop */}
-          <div className="hidden lg:flex items-center space-x-4">
+          <div className="hidden lg:flex items-center space-x-3">
             <Link
               href="/#contact"
-              className="inline-flex items-center px-6 py-2.5 border-2 border-primary text-primary rounded-full text-sm font-medium hover:bg-primary hover:text-primary-foreground transition-colors duration-200"
+              className="inline-flex items-center px-4 py-2 border-2 border-primary text-primary rounded-full text-xs font-medium hover:bg-primary hover:text-primary-foreground transition-colors duration-200 whitespace-nowrap"
             >
-              Get a quote!
+              Get quote
             </Link>
             <ThemeToggle />
           </div>
