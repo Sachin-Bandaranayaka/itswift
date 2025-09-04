@@ -29,6 +29,7 @@ export class AIContentLogService {
       // Sanitize input
       const sanitizedInput = sanitizeAIContentLogInput(input)
 
+      const supabaseAdmin = getSupabaseAdmin()
       const { data, error } = await supabaseAdmin
         .from('ai_content_log')
         .insert(sanitizedInput)
@@ -57,6 +58,7 @@ export class AIContentLogService {
     id: string
   ): Promise<{ data: AIContentLog | null; error: string | null }> {
     try {
+      const supabaseAdmin = getSupabaseAdmin()
       const { data, error } = await supabaseAdmin
         .from('ai_content_log')
         .select('*')
@@ -86,6 +88,7 @@ export class AIContentLogService {
     filters: FilterOptions = {}
   ): Promise<{ data: AIContentLog[]; error: string | null; count?: number }> {
     try {
+      const supabaseAdmin = getSupabaseAdmin()
       let query = supabaseAdmin
         .from('ai_content_log')
         .select('*', { count: 'exact' })
@@ -136,6 +139,7 @@ export class AIContentLogService {
    */
   static async delete(id: string): Promise<{ success: boolean; error: string | null }> {
     try {
+      const supabaseAdmin = getSupabaseAdmin()
       const { error } = await supabaseAdmin
         .from('ai_content_log')
         .delete()
@@ -183,6 +187,7 @@ export class AIContentLogService {
     options: QueryOptions = {}
   ): Promise<{ data: AIContentLog[]; error: string | null }> {
     try {
+      const supabaseAdmin = getSupabaseAdmin()
       let query = supabaseAdmin
         .from('ai_content_log')
         .select('*')
@@ -232,6 +237,7 @@ export class AIContentLogService {
     error: string | null
   }> {
     try {
+      const supabaseAdmin = getSupabaseAdmin()
       let query = supabaseAdmin
         .from('ai_content_log')
         .select('tokens_used, content_type')
@@ -300,6 +306,7 @@ export class AIContentLogService {
     limit: number = 10
   ): Promise<{ data: AIContentLog[]; error: string | null }> {
     try {
+      const supabaseAdmin = getSupabaseAdmin()
       const { data, error } = await supabaseAdmin
         .from('ai_content_log')
         .select('*')
@@ -332,6 +339,7 @@ export class AIContentLogService {
       const cutoffDate = new Date()
       cutoffDate.setDate(cutoffDate.getDate() - daysToKeep)
 
+      const supabaseAdmin = getSupabaseAdmin()
       const { data, error } = await supabaseAdmin
         .from('ai_content_log')
         .delete()

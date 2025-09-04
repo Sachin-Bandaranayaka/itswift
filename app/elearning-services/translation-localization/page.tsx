@@ -249,9 +249,19 @@ export default function TranslationLocalizationPage() {
                         </div>
                         <div className="relative rounded-xl overflow-hidden shadow-xl">
                             <div className="aspect-w-16 aspect-h-9 bg-gray-100">
-                                {/* Replace with actual image */}
-                                <div className="w-full h-full bg-gradient-to-br from-orange-100 to-orange-200 flex items-center justify-center">
-                                    <Globe className="h-24 w-24 text-orange-500 opacity-50" />
+                                <Image
+                                    src="/IMAGES/7.Elearning services and translation/download (2).png"
+                                    alt="E-Learning Translation and Localization Services"
+                                    width={600}
+                                    height={400}
+                                    className="w-full h-full object-cover"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                                <div className="absolute bottom-4 left-4 right-4">
+                                    <div className="flex items-center space-x-2 text-white">
+                                        <Languages className="h-6 w-6" />
+                                        <span className="text-sm font-medium">Global E-Learning Solutions</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -287,8 +297,11 @@ export default function TranslationLocalizationPage() {
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
                                 className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full"
                             >
-                                <div className={`p-6 bg-gradient-to-r ${benefit.bgColor} flex items-center justify-center`}>
-                                    {benefit.icon}
+                                <div className={`p-8 bg-gradient-to-r ${benefit.bgColor} flex items-center justify-center relative overflow-hidden`}>
+                                    <div className="absolute inset-0 bg-white/10 backdrop-blur-sm"></div>
+                                    <div className="relative z-10 transform hover:scale-110 transition-transform duration-300">
+                                        {benefit.icon}
+                                    </div>
                                 </div>
                                 <div className="p-6 flex-grow">
                                     <h3 className="text-xl font-semibold mb-3 text-gray-900">
@@ -333,15 +346,15 @@ export default function TranslationLocalizationPage() {
                                 className="flex flex-col md:flex-row items-start relative"
                             >
                                 <div className="md:w-16 md:mr-6 flex-shrink-0 flex flex-col items-center">
-                                    <div className="w-12 h-12 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 text-white flex items-center justify-center font-bold text-xl">{step.number}</div>
+                                    <div className="w-14 h-14 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 text-white flex items-center justify-center font-bold text-xl shadow-lg border-4 border-white transform hover:scale-105 transition-transform duration-300">{step.number}</div>
                                     {index < processSteps.length - 1 && (
-                                        <div className="hidden md:block w-1 h-full bg-orange-200 absolute top-12 bottom-0 left-6"></div>
+                                        <div className="hidden md:block w-1 h-full bg-gradient-to-b from-orange-300 to-orange-200 absolute top-14 bottom-0 left-7 rounded-full"></div>
                                     )}
                                 </div>
                                 <div className="md:flex-1 pt-3 md:pt-0">
                                     <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100 hover:shadow-lg transition-shadow duration-300">
                                         <div className="flex items-center mb-4">
-                                            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 flex items-center justify-center mr-3">
+                                            <div className="w-12 h-12 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 flex items-center justify-center mr-4 shadow-md transform hover:scale-105 transition-transform duration-300">
                                                 {step.icon}
                                             </div>
                                             <h3 className="text-xl font-semibold text-gray-900">{step.title}</h3>
@@ -358,59 +371,63 @@ export default function TranslationLocalizationPage() {
             </section>
 
             {/* FAQ Section */}
-            <section id="faq" className="py-16 bg-gradient-to-b from-gray-50 to-white">
+            <section id="faq" className="py-16 bg-white">
                 <div className="container mx-auto px-4">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8 }}
-                        className="text-center max-w-3xl mx-auto mb-12"
-                    >
-                        <h2 className="text-3xl font-bold mb-4 text-gray-900">
-                            Frequently Asked Questions
-                        </h2>
-                        <p className="text-lg text-gray-700">
-                            Get answers to common questions about e-learning translation and localization services
-                        </p>
-                    </motion.div>
-
-                    <div className="max-w-3xl mx-auto">
-                        {faqItems.map((item, index) => (
-                            <motion.div
-                                key={index}
+                    <div className="grid md:grid-cols-[1fr,2fr] gap-16 max-w-7xl mx-auto">
+                        {/* Left side - title */}
+                        <div>
+                            <motion.h2
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.5, delay: index * 0.1 }}
-                                className="mb-4"
+                                transition={{ duration: 0.6 }}
+                                className="text-4xl font-bold sticky top-24"
                             >
-                                <div
-                                    className={`cursor-pointer border ${openFaq === index ? 'border-orange-500 bg-orange-50 rounded-t-lg' : 'border-gray-200 bg-white rounded-lg'} p-4 transition-colors duration-300`}
-                                    onClick={() => toggleFaq(index)}
-                                >
-                                    <div className="flex justify-between items-center">
-                                        <h3 className="text-lg font-medium text-gray-900">{item.question}</h3>
-                                        <button className="text-orange-500">
-                                            {openFaq === index ? (
-                                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7"></path>
-                                                </svg>
-                                            ) : (
-                                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
-                                                </svg>
-                                            )}
-                                        </button>
-                                    </div>
+                                Frequently Asked Questions (FAQs) about Translation & Localization
+                            </motion.h2>
+                        </div>
+
+                        {/* Right side - FAQ content */}
+                        <div>
+                            <div className="mb-12">
+                                <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-6">
+                                    TRANSLATION & LOCALIZATION
+                                </h3>
+                                <div className="space-y-px">
+                                    {faqItems.map((item, index) => {
+                                        const isItemOpen = openFaq === index;
+
+                                        return (
+                                            <div key={index} className="border-t border-gray-200 first:border-t-0">
+                                                <button
+                                                    onClick={() => toggleFaq(index)}
+                                                    className="flex justify-between items-center w-full py-6 text-left"
+                                                >
+                                                    <span className={`text-lg font-medium ${isItemOpen ? "text-blue-500" : "text-gray-900"}`}>
+                                                        {item.question}
+                                                    </span>
+                                                    <span className="ml-6 flex-shrink-0">
+                                                        {isItemOpen ? (
+                                                            <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                                                            </svg>
+                                                        ) : (
+                                                            <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                                            </svg>
+                                                        )}
+                                                    </span>
+                                                </button>
+                                                {isItemOpen && (
+                                                    <div className="pb-6">
+                                                        <p className="text-gray-600">{item.answer}</p>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        );
+                                    })}
                                 </div>
-                                {openFaq === index && (
-                                    <div className="border border-t-0 border-orange-500 rounded-b-lg p-4 bg-white">
-                                        <p className="text-gray-700">{item.answer}</p>
-                                    </div>
-                                )}
-                            </motion.div>
-                        ))}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>

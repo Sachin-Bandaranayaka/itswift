@@ -26,6 +26,7 @@ export class AutomationRulesService {
     } = {}
   ): Promise<{ data: AutomationRule[]; error: string | null }> {
     try {
+      const supabase = getSupabase()
       let query = supabase
         .from('automation_rules')
         .select('*')
@@ -81,6 +82,7 @@ export class AutomationRulesService {
    */
   static async getById(id: string): Promise<{ data: AutomationRule | null; error: string | null }> {
     try {
+      const supabase = getSupabase()
       const { data, error } = await supabase
         .from('automation_rules')
         .select('*')
@@ -113,6 +115,7 @@ export class AutomationRulesService {
         return { data: null, error: validation.errors.join(', ') }
       }
 
+      const supabase = getSupabase()
       const { data, error } = await supabase
         .from('automation_rules')
         .insert([{
@@ -150,6 +153,7 @@ export class AutomationRulesService {
         }
       }
 
+      const supabase = getSupabase()
       const { data, error } = await supabase
         .from('automation_rules')
         .update(updates)
@@ -177,6 +181,7 @@ export class AutomationRulesService {
    */
   static async delete(id: string): Promise<{ success: boolean; error: string | null }> {
     try {
+      const supabase = getSupabase()
       const { error } = await supabase
         .from('automation_rules')
         .delete()
@@ -204,6 +209,7 @@ export class AutomationRulesService {
     triggerType: 'blog_published' | 'time_based' | 'engagement_threshold' | 'manual'
   ): Promise<{ data: AutomationRule[]; error: string | null }> {
     try {
+      const supabase = getSupabase()
       const { data, error } = await supabase
         .from('automation_rules')
         .select('*')
@@ -231,10 +237,11 @@ export class AutomationRulesService {
    */
   static async updateExecution(id: string): Promise<{ success: boolean; error: string | null }> {
     try {
+      const supabase = getSupabase()
       const { error } = await supabase
         .from('automation_rules')
         .update({
-          execution_count: getSupabase().raw('execution_count + 1'),
+          execution_count: supabase.raw('execution_count + 1'),
           last_executed: new Date().toISOString()
         })
         .eq('id', id)

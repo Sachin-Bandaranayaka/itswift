@@ -36,7 +36,7 @@ export class NewsletterSubscribersService {
         return { data: null, error: 'Email already subscribed' }
       }
 
-      const { data, error } = await supabaseAdmin
+      const { data, error } = await getSupabaseAdmin()
         .from('newsletter_subscribers')
         .insert(sanitizedInput)
         .select()
@@ -64,7 +64,7 @@ export class NewsletterSubscribersService {
     id: string
   ): Promise<{ data: NewsletterSubscriber | null; error: string | null }> {
     try {
-      const { data, error } = await supabaseAdmin
+      const { data, error } = await getSupabaseAdmin()
         .from('newsletter_subscribers')
         .select('*')
         .eq('id', id)
@@ -92,7 +92,7 @@ export class NewsletterSubscribersService {
     email: string
   ): Promise<{ data: NewsletterSubscriber | null; error: string | null }> {
     try {
-      const { data, error } = await supabaseAdmin
+      const { data, error } = await getSupabaseAdmin()
         .from('newsletter_subscribers')
         .select('*')
         .eq('email', email.toLowerCase().trim())
@@ -121,7 +121,7 @@ export class NewsletterSubscribersService {
     filters: FilterOptions = {}
   ): Promise<{ data: NewsletterSubscriber[]; error: string | null; count?: number }> {
     try {
-      let query = supabaseAdmin
+      let query = getSupabaseAdmin()
         .from('newsletter_subscribers')
         .select('*', { count: 'exact' })
 
@@ -187,7 +187,7 @@ export class NewsletterSubscribersService {
         }
       }
 
-      const { data, error } = await supabaseAdmin
+      const { data, error } = await getSupabaseAdmin()
         .from('newsletter_subscribers')
         .update(updates)
         .eq('id', id)
@@ -214,7 +214,7 @@ export class NewsletterSubscribersService {
    */
   static async delete(id: string): Promise<{ success: boolean; error: string | null }> {
     try {
-      const { error } = await supabaseAdmin
+      const { error } = await getSupabaseAdmin()
         .from('newsletter_subscribers')
         .delete()
         .eq('id', id)
@@ -289,7 +289,7 @@ export class NewsletterSubscribersService {
    */
   static async getActiveCount(): Promise<{ count: number; error: string | null }> {
     try {
-      const { count, error } = await supabaseAdmin
+      const { count, error } = await getSupabaseAdmin()
         .from('newsletter_subscribers')
         .select('*', { count: 'exact', head: true })
         .eq('status', 'active')
@@ -336,7 +336,7 @@ export class NewsletterSubscribersService {
     options: QueryOptions = {}
   ): Promise<{ data: NewsletterSubscriber[]; error: string | null }> {
     try {
-      let query = supabaseAdmin
+      let query = getSupabaseAdmin()
         .from('newsletter_subscribers')
         .select('*')
 

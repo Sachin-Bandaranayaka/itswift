@@ -30,6 +30,7 @@ export class ContentAnalyticsService {
       // Sanitize input
       const sanitizedInput = sanitizeContentAnalyticsInput(input)
 
+      const supabaseAdmin = getSupabaseAdmin()
       const { data, error } = await supabaseAdmin
         .from('content_analytics')
         .insert(sanitizedInput)
@@ -58,6 +59,7 @@ export class ContentAnalyticsService {
     id: string
   ): Promise<{ data: ContentAnalytics | null; error: string | null }> {
     try {
+      const supabaseAdmin = getSupabaseAdmin()
       const { data, error } = await supabaseAdmin
         .from('content_analytics')
         .select('*')
@@ -87,6 +89,7 @@ export class ContentAnalyticsService {
     options: QueryOptions = {}
   ): Promise<{ data: ContentAnalytics[]; error: string | null }> {
     try {
+      const supabaseAdmin = getSupabaseAdmin()
       let query = supabaseAdmin
         .from('content_analytics')
         .select('*')
@@ -130,6 +133,7 @@ export class ContentAnalyticsService {
     filters: FilterOptions = {}
   ): Promise<{ data: ContentAnalytics[]; error: string | null; count?: number }> {
     try {
+      const supabaseAdmin = getSupabaseAdmin()
       let query = supabaseAdmin
         .from('content_analytics')
         .select('*', { count: 'exact' })
@@ -186,6 +190,7 @@ export class ContentAnalyticsService {
     updates: ContentAnalyticsUpdate
   ): Promise<{ data: ContentAnalytics | null; error: string | null }> {
     try {
+      const supabaseAdmin = getSupabaseAdmin()
       const { data, error } = await supabaseAdmin
         .from('content_analytics')
         .update(updates)
@@ -213,6 +218,7 @@ export class ContentAnalyticsService {
    */
   static async delete(id: string): Promise<{ success: boolean; error: string | null }> {
     try {
+      const supabaseAdmin = getSupabaseAdmin()
       const { error } = await supabaseAdmin
         .from('content_analytics')
         .delete()
@@ -250,6 +256,7 @@ export class ContentAnalyticsService {
   ): Promise<{ data: ContentAnalytics | null; error: string | null }> {
     try {
       // Try to find existing record
+      const supabaseAdmin = getSupabaseAdmin()
       let query = supabaseAdmin
         .from('content_analytics')
         .select('*')
@@ -321,6 +328,7 @@ export class ContentAnalyticsService {
     error: string | null
   }> {
     try {
+      const supabaseAdmin = getSupabaseAdmin()
       let query = supabaseAdmin
         .from('content_analytics')
         .select('views, likes, shares, comments, clicks')
@@ -379,6 +387,7 @@ export class ContentAnalyticsService {
     limit: number = 10
   ): Promise<{ data: ContentAnalytics[]; error: string | null }> {
     try {
+      const supabaseAdmin = getSupabaseAdmin()
       const { data, error } = await supabaseAdmin
         .from('content_analytics')
         .select('*')

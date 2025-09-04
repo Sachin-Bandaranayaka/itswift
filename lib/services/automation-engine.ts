@@ -575,6 +575,149 @@ export class AutomationEngine {
   }
 
   /**
+   * Process blog published trigger with social media automation
+   */
+  async processBlogPublishedWithAutomation(blogPost: {
+    _id: string
+    title: string
+    slug?: { current: string }
+    content?: any[]
+    excerpt?: string
+    author?: { name: string }
+    categories?: Array<{ title: string }>
+    publishedAt: string
+  }): Promise<{
+    success: boolean
+    socialPosts: any[]
+    analyticsTracked: boolean
+    errors: string[]
+  }> {
+    console.log('Processing blog published trigger with automation for:', blogPost.title)
+
+    const errors: string[] = []
+    const socialPosts: any[] = []
+    let analyticsTracked = false
+
+    try {
+      // Create blog published trigger data
+      const triggerData: BlogPublishedTrigger = {
+        blog_id: blogPost._id,
+        title: blogPost.title,
+        slug: blogPost.slug?.current || '',
+        content: this.extractTextFromBlocks(blogPost.content || []),
+        summary: blogPost.excerpt || '',
+        author: blogPost.author?.name || '',
+        categories: blogPost.categories?.map(c => c.title) || [],
+        tags: [], // Could be extracted from content or categories
+        published_at: blogPost.publishedAt,
+        url: `/blog/${blogPost.slug?.current || blogPost._id}`
+      }
+
+      // Process automation rules for blog published trigger
+      const automationResult = await this.processBlogPublishedTrigger(triggerData)
+      
+      if (!automationResult.success) {
+        errors.push(...automationResult.errors)
+      }
+
+      // Generate social media posts using BlogToSocialService
+      try {
+        const { BlogToSocialService } = await import('./blog-to-social')
+        
+        const socialResult = await BlogToSocialService.processNewBlogPost(
+          {
+            title: blogPost.title,
+            content: triggerData.content,
+            excerpt: blogPost.excerpt,
+            categories: triggerData.categories,
+            publishedAt: blogPost.publishedAt
+          },
+          blogPost._id,
+          {
+            platforms: ['linkedin', 'twitter'],
+            autoSchedule: true,
+            scheduleDelay: 30 // 30 minutes after blog publication
+          }
+        )
+
+        if (socialResult.success) {
+          socialPosts.push(...socialResult.posts)
+          console.log(`Generated ${socialResult.posts.length} social media posts`)
+        } else {
+          errors.push(`Social media generation failed: ${socialResult.error}`)
+        }
+      } catch (error) {
+        console.error('Error generating social media posts:', error)
+        errors.push(`Social media generation error: ${error instanceof Error ? error.message : 'Unknown error'}`)
+      }
+
+      // Track blog post analytics
+      try {
+        const { AnalyticsTracker } = await import('./analytics-tracker')
+        
+        const analyticsResult = await AnalyticsTracker.trackBlogPerformance(
+          blogPost._id,
+          {
+            views: 1, // Initial view count
+            likes: 0,
+            shares: 0,
+            comments: 0
+          }
+        )
+
+        if (analyticsResult.success) {
+          analyticsTracked = true
+          console.log('Blog post analytics tracking initialized')
+        } else {
+          errors.push(`Analytics tracking failed: ${analyticsResult.error}`)
+        }
+      } catch (error) {
+        console.error('Error tracking blog analytics:', error)
+        errors.push(`Analytics tracking error: ${error instanceof Error ? error.message : 'Unknown error'}`)
+      }
+
+      return {
+        success: errors.length === 0,
+        socialPosts,
+        analyticsTracked,
+        errors
+      }
+    } catch (error) {
+      console.error('Error processing blog published automation:', error)
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+      errors.push(errorMessage)
+      
+      return {
+        success: false,
+        socialPosts,
+        analyticsTracked,
+        errors
+      }
+    }
+  }
+
+  /**
+   * Extract text content from Sanity block content
+   */
+  private extractTextFromBlocks(blocks: any[]): string {
+    if (!Array.isArray(blocks)) return ''
+    
+    return blocks
+      .filter(block => block._type === 'block')
+      .map(block => {
+        if (block.children && Array.isArray(block.children)) {
+          return block.children
+            .filter((child: any) => child._type === 'span')
+            .map((child: any) => child.text || '')
+            .join('')
+        }
+        return ''
+      })
+      .join('\n\n')
+      .trim()
+  }
+
+  /**
    * Build template context from trigger data
    */
   private buildTemplateContext(triggerData: any, action: AutomationAction): TemplateContext {

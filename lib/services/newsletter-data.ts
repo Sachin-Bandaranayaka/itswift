@@ -14,7 +14,7 @@ export class NewsletterDataService {
   async getNewsletterStats(): Promise<NewsletterStats> {
     try {
       // Fetch all active subscribers
-      const { data: subscribers, error } = await supabaseAdmin
+      const { data: subscribers, error } = await getSupabaseAdmin()
         .from('newsletter_subscribers')
         .select('*')
         .eq('status', 'active');
@@ -64,7 +64,7 @@ export class NewsletterDataService {
   async getRecentNewsletterActivity(): Promise<ActivityItem[]> {
     try {
       // Get recent sent campaigns
-      const { data: campaigns, error: campaignError } = await supabaseAdmin
+      const { data: campaigns, error: campaignError } = await getSupabaseAdmin()
         .from('newsletter_campaigns')
         .select('*')
         .eq('status', 'sent')
@@ -76,7 +76,7 @@ export class NewsletterDataService {
       }
 
       // Get recent new subscribers
-      const { data: subscribers, error: subscriberError } = await supabaseAdmin
+      const { data: subscribers, error: subscriberError } = await getSupabaseAdmin()
         .from('newsletter_subscribers')
         .select('*')
         .eq('status', 'active')
@@ -93,7 +93,7 @@ export class NewsletterDataService {
       if (campaigns) {
         campaigns.forEach(campaign => {
           const openRate = campaign.open_rate ? `${campaign.open_rate}% open rate` : '';
-          const description = openRate 
+          const description = openRate
             ? `Newsletter sent to ${campaign.recipient_count} subscribers • ${openRate}`
             : `Newsletter sent to ${campaign.recipient_count} subscribers`;
 
@@ -148,7 +148,7 @@ export class NewsletterDataService {
       // First try to sync recent campaigns from Brevo for up-to-date data
       await this.syncAllRecentCampaignsFromBrevo(7); // Sync last 7 days
 
-      const { data: campaigns, error } = await supabaseAdmin
+      const { data: campaigns, error } = await getSupabaseAdmin()
         .from('newsletter_campaigns')
         .select('*')
         .eq('status', 'sent')
@@ -166,11 +166,11 @@ export class NewsletterDataService {
       }
 
       return campaigns.map(campaign => {
-        const opens = campaign.open_rate 
+        const opens = campaign.open_rate
           ? Math.round(campaign.recipient_count * (campaign.open_rate / 100))
           : 0;
-        
-        const clicks = campaign.click_rate 
+
+        const clicks = campaign.click_rate
           ? Math.round(campaign.recipient_count * (campaign.click_rate / 100))
           : 0;
 
@@ -210,7 +210,7 @@ export class NewsletterDataService {
   }> {
     try {
       // Get campaign data
-      const { data: campaign, error } = await supabaseAdmin
+      const { data: campaign, error } = await getSupabaseAdmin()
         .from('newsletter_campaigns')
         .select('*')
         .eq('id', campaignId)
@@ -226,9 +226,9 @@ export class NewsletterDataService {
       // Try to sync latest data from Brevo if available
       if (campaign.brevo_message_id) {
         await this.syncCampaignEngagementFromBrevo(campaignId);
-        
+
         // Refetch updated data
-        const { data: updatedCampaign } = await supabaseAdmin
+        const { data: updatedCampaign } = await getSupabaseAdmin()
           .from('newsletter_campaigns')
           .select('*')
           .eq('id', campaignId)
@@ -241,15 +241,15 @@ export class NewsletterDataService {
         }
       }
 
-      const opens = campaign.open_rate 
+      const opens = campaign.open_rate
         ? Math.round(campaign.recipient_count * (campaign.open_rate / 100))
         : 0;
-      
-      const clicks = campaign.click_rate 
+
+      const clicks = campaign.click_rate
         ? Math.round(campaign.recipient_count * (campaign.click_rate / 100))
         : 0;
 
-      const isRealtimeData = campaign.last_synced_at && 
+      const isRealtimeData = campaign.last_synced_at &&
         (new Date().getTime() - new Date(campaign.last_synced_at).getTime()) < 3600000; // Within 1 hour
 
       return {
@@ -279,8 +279,8 @@ export class NewsletterDataService {
   async getScheduledNewsletterCampaigns(): Promise<ScheduledItem[]> {
     try {
       const now = new Date().toISOString();
-      
-      const { data: campaigns, error } = await supabaseAdmin
+
+      const { data: campaigns, error } = await getSupabaseAdmin()
         .from('newsletter_campaigns')
         .select('*')
         .eq('status', 'scheduled')
@@ -327,7 +327,7 @@ export class NewsletterDataService {
       const cutoffDate = new Date();
       cutoffDate.setDate(cutoffDate.getDate() - days);
 
-      const { data: campaigns, error } = await supabaseAdmin
+      const { data: campaigns, error } = await getSupabaseAdmin()
         .from('newsletter_campaigns')
         .select('*')
         .eq('status', 'sent')
@@ -349,10 +349,10 @@ export class NewsletterDataService {
 
       const metrics = campaigns.reduce(
         (acc, campaign) => {
-          const opens = campaign.open_rate 
+          const opens = campaign.open_rate
             ? Math.round(campaign.recipient_count * (campaign.open_rate / 100))
             : 0;
-          const clicks = campaign.click_rate 
+          const clicks = campaign.click_rate
             ? Math.round(campaign.recipient_count * (campaign.click_rate / 100))
             : 0;
 
@@ -395,7 +395,7 @@ export class NewsletterDataService {
     newSubscribers: number;
   }>> {
     try {
-      const { data: subscribers, error } = await supabaseAdmin
+      const { data: subscribers, error } = await getSupabaseAdmin()
         .from('newsletter_subscribers')
         .select('subscribed_at, status')
         .eq('status', 'active')
@@ -412,7 +412,7 @@ export class NewsletterDataService {
       // Group subscribers by month
       const monthlyData: { [key: string]: number } = {};
       const now = new Date();
-      
+
       // Initialize months
       for (let i = months - 1; i >= 0; i--) {
         const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
@@ -455,7 +455,7 @@ export class NewsletterDataService {
   }> {
     try {
       // Get campaign from database to get the Brevo message ID
-      const { data: campaign, error: dbError } = await supabaseAdmin
+      const { data: campaign, error: dbError } = await getSupabaseAdmin()
         .from('newsletter_campaigns')
         .select('*')
         .eq('id', campaignId)
@@ -488,16 +488,16 @@ export class NewsletterDataService {
       }
 
       // Calculate rates based on recipient count
-      const openRate = campaign.recipient_count > 0 
+      const openRate = campaign.recipient_count > 0
         ? Math.round((stats.opens / campaign.recipient_count) * 100 * 100) / 100
         : 0;
-      
-      const clickRate = campaign.recipient_count > 0 
+
+      const clickRate = campaign.recipient_count > 0
         ? Math.round((stats.clicks / campaign.recipient_count) * 100 * 100) / 100
         : 0;
 
       // Update campaign with real-time engagement data
-      const { error: updateError } = await supabaseAdmin
+      const { error: updateError } = await getSupabaseAdmin()
         .from('newsletter_campaigns')
         .update({
           open_rate: openRate,
@@ -536,7 +536,7 @@ export class NewsletterDataService {
       cutoffDate.setDate(cutoffDate.getDate() - days);
 
       // Get recent sent campaigns that have Brevo message IDs
-      const { data: campaigns, error } = await supabaseAdmin
+      const { data: campaigns, error } = await getSupabaseAdmin()
         .from('newsletter_campaigns')
         .select('id, brevo_message_id')
         .eq('status', 'sent')
@@ -609,7 +609,7 @@ export class NewsletterDataService {
       // Sync recent campaigns first
       await this.syncAllRecentCampaignsFromBrevo(days);
 
-      const { data: campaigns, error } = await supabaseAdmin
+      const { data: campaigns, error } = await getSupabaseAdmin()
         .from('newsletter_campaigns')
         .select('*')
         .eq('status', 'sent')
@@ -632,10 +632,10 @@ export class NewsletterDataService {
       // Calculate totals
       const totals = campaigns.reduce(
         (acc, campaign) => {
-          const opens = campaign.open_rate 
+          const opens = campaign.open_rate
             ? Math.round(campaign.recipient_count * (campaign.open_rate / 100))
             : 0;
-          const clicks = campaign.click_rate 
+          const clicks = campaign.click_rate
             ? Math.round(campaign.recipient_count * (campaign.click_rate / 100))
             : 0;
 
@@ -662,10 +662,10 @@ export class NewsletterDataService {
       const trendData: { [key: string]: { opens: number; clicks: number } } = {};
       campaigns.forEach(campaign => {
         const date = new Date(campaign.sent_at || campaign.created_at).toISOString().split('T')[0];
-        const opens = campaign.open_rate 
+        const opens = campaign.open_rate
           ? Math.round(campaign.recipient_count * (campaign.open_rate / 100))
           : 0;
-        const clicks = campaign.click_rate 
+        const clicks = campaign.click_rate
           ? Math.round(campaign.recipient_count * (campaign.click_rate / 100))
           : 0;
 
@@ -685,10 +685,10 @@ export class NewsletterDataService {
         totalRecipients: totals.recipients,
         totalOpens: totals.opens,
         totalClicks: totals.clicks,
-        averageOpenRate: totals.campaigns > 0 
+        averageOpenRate: totals.campaigns > 0
           ? Math.round(totals.openRateSum / totals.campaigns * 100) / 100
           : 0,
-        averageClickRate: totals.campaigns > 0 
+        averageClickRate: totals.campaigns > 0
           ? Math.round(totals.clickRateSum / totals.campaigns * 100) / 100
           : 0,
         topPerformingSubjects: topPerforming,
@@ -723,7 +723,7 @@ export class NewsletterDataService {
       const basicStats = await this.getNewsletterStats();
 
       // Get campaign statistics
-      const { data: campaigns, error } = await supabaseAdmin
+      const { data: campaigns, error } = await getSupabaseAdmin()
         .from('newsletter_campaigns')
         .select('open_rate, click_rate, last_synced_at')
         .eq('status', 'sent')
@@ -740,19 +740,19 @@ export class NewsletterDataService {
       }
 
       const totalCampaigns = campaigns?.length || 0;
-      const averageOpenRate = totalCampaigns > 0 
+      const averageOpenRate = totalCampaigns > 0
         ? Math.round(campaigns.reduce((sum, c) => sum + (c.open_rate || 0), 0) / totalCampaigns * 100) / 100
         : 0;
-      
-      const averageClickRate = totalCampaigns > 0 
+
+      const averageClickRate = totalCampaigns > 0
         ? Math.round(campaigns.reduce((sum, c) => sum + (c.click_rate || 0), 0) / totalCampaigns * 100) / 100
         : 0;
 
       // Get most recent sync time
-      const lastSyncedAt = campaigns?.length > 0 
+      const lastSyncedAt = campaigns?.length > 0
         ? campaigns
-            .filter(c => c.last_synced_at)
-            .sort((a, b) => new Date(b.last_synced_at).getTime() - new Date(a.last_synced_at).getTime())[0]?.last_synced_at
+          .filter(c => c.last_synced_at)
+          .sort((a, b) => new Date(b.last_synced_at).getTime() - new Date(a.last_synced_at).getTime())[0]?.last_synced_at
         : undefined;
 
       return {

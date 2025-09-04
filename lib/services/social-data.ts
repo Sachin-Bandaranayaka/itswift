@@ -12,6 +12,7 @@ export class SocialDataService {
    */
   async getSocialStats(): Promise<SocialStats> {
     try {
+      const supabaseAdmin = getSupabaseAdmin();
       // Fetch all published social posts
       const { data: posts, error } = await supabaseAdmin
         .from('social_posts')
@@ -75,6 +76,7 @@ export class SocialDataService {
    */
   async getRecentSocialActivity(): Promise<ActivityItem[]> {
     try {
+      const supabaseAdmin = getSupabaseAdmin();
       const { data: posts, error } = await supabaseAdmin
         .from('social_posts')
         .select('*')
@@ -111,6 +113,7 @@ export class SocialDataService {
    */
   async getTopPerformingSocialContent(): Promise<PerformingContentItem[]> {
     try {
+      const supabaseAdmin = getSupabaseAdmin();
       const { data: posts, error } = await supabaseAdmin
         .from('social_posts')
         .select('*')
@@ -153,6 +156,7 @@ export class SocialDataService {
    */
   async getScheduledSocialPosts(): Promise<ScheduledItem[]> {
     try {
+      const supabaseAdmin = getSupabaseAdmin();
       const now = new Date().toISOString();
       
       const { data: posts, error } = await supabaseAdmin
@@ -206,6 +210,7 @@ export class SocialDataService {
     totalComments: number;
   }> {
     try {
+      const supabaseAdmin = getSupabaseAdmin();
       const cutoffDate = new Date();
       cutoffDate.setDate(cutoffDate.getDate() - days);
 

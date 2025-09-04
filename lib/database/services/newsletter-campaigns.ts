@@ -30,7 +30,7 @@ export class NewsletterCampaignsService {
       // Sanitize input
       const sanitizedInput = sanitizeNewsletterCampaignInput(input)
 
-      const { data, error } = await supabaseAdmin
+      const { data, error } = await getSupabaseAdmin()
         .from('newsletter_campaigns')
         .insert(sanitizedInput)
         .select()
@@ -58,7 +58,7 @@ export class NewsletterCampaignsService {
     id: string
   ): Promise<{ data: NewsletterCampaign | null; error: string | null }> {
     try {
-      const { data, error } = await supabaseAdmin
+      const { data, error } = await getSupabaseAdmin()
         .from('newsletter_campaigns')
         .select('*')
         .eq('id', id)
@@ -87,7 +87,7 @@ export class NewsletterCampaignsService {
     filters: FilterOptions = {}
   ): Promise<{ data: NewsletterCampaign[]; error: string | null; count?: number }> {
     try {
-      let query = supabaseAdmin
+      let query = getSupabaseAdmin()
         .from('newsletter_campaigns')
         .select('*', { count: 'exact' })
 
@@ -158,7 +158,7 @@ export class NewsletterCampaignsService {
         }
       }
 
-      const { data, error } = await supabaseAdmin
+      const { data, error } = await getSupabaseAdmin()
         .from('newsletter_campaigns')
         .update(updates)
         .eq('id', id)
@@ -185,7 +185,7 @@ export class NewsletterCampaignsService {
    */
   static async delete(id: string): Promise<{ success: boolean; error: string | null }> {
     try {
-      const { error } = await supabaseAdmin
+      const { error } = await getSupabaseAdmin()
         .from('newsletter_campaigns')
         .delete()
         .eq('id', id)
@@ -210,7 +210,7 @@ export class NewsletterCampaignsService {
    */
   static async getScheduledCampaigns(): Promise<{ data: NewsletterCampaign[]; error: string | null }> {
     try {
-      const { data, error } = await supabaseAdmin
+      const { data, error } = await getSupabaseAdmin()
         .from('newsletter_campaigns')
         .select('*')
         .eq('status', 'scheduled')
@@ -308,7 +308,7 @@ export class NewsletterCampaignsService {
     options: QueryOptions = {}
   ): Promise<{ data: NewsletterCampaign[]; error: string | null }> {
     try {
-      let query = supabaseAdmin
+      let query = getSupabaseAdmin()
         .from('newsletter_campaigns')
         .select('*')
         .ilike('subject', `%${searchTerm}%`)

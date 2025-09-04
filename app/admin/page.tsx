@@ -12,6 +12,7 @@ import {
   NetworkStatus, 
   DataFreshness 
 } from "@/components/admin/dashboard-error-fallback"
+import { BlogAnalyticsCard } from "@/components/admin/blog-analytics-card"
 import { useDashboardData } from "@/hooks/use-dashboard-data"
 import { useRetryMechanism } from "@/hooks/use-retry-mechanism"
 import {
@@ -270,8 +271,8 @@ function DashboardContent() {
       {/* Stats Cards with Real Data */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
-          title="Total Blog Posts"
-          value={blogStats?.totalPosts}
+          title="Blog Posts This Month"
+          value={blogStats?.publishedThisMonth}
           change={blogStats?.growthPercentage}
           icon={FileText}
           isLoading={isLoadingBlogStats}
@@ -373,6 +374,13 @@ function DashboardContent() {
             // TODO: Navigate to content scheduler
             console.log('Navigate to scheduler');
           }}
+        />
+
+        <BlogAnalyticsCard
+          topPerformingPosts={topPerformingContent.filter(item => item.type === 'blog')}
+          isLoading={isLoadingTopPerforming}
+          error={topPerformingError}
+          onRetry={refetchTopPerforming}
         />
 
         {/* AI Usage with Real Data */}

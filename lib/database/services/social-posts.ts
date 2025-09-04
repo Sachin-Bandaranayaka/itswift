@@ -28,7 +28,7 @@ export class SocialPostsService {
       // Sanitize input
       const sanitizedInput = sanitizeSocialPostInput(input)
 
-      const { data, error } = await supabaseAdmin
+      const { data, error } = await getSupabaseAdmin()
         .from('social_posts')
         .insert(sanitizedInput)
         .select()
@@ -54,7 +54,7 @@ export class SocialPostsService {
    */
   static async getById(id: string): Promise<{ data: SocialPost | null; error: string | null }> {
     try {
-      const { data, error } = await supabaseAdmin
+      const { data, error } = await getSupabaseAdmin()
         .from('social_posts')
         .select('*')
         .eq('id', id)
@@ -83,7 +83,7 @@ export class SocialPostsService {
     filters: FilterOptions = {}
   ): Promise<{ data: SocialPost[]; error: string | null; count?: number }> {
     try {
-      let query = supabaseAdmin
+      let query = getSupabaseAdmin()
         .from('social_posts')
         .select('*', { count: 'exact' })
 
@@ -157,7 +157,7 @@ export class SocialPostsService {
         }
       }
 
-      const { data, error } = await supabaseAdmin
+      const { data, error } = await getSupabaseAdmin()
         .from('social_posts')
         .update(updates)
         .eq('id', id)
@@ -184,7 +184,7 @@ export class SocialPostsService {
    */
   static async delete(id: string): Promise<{ success: boolean; error: string | null }> {
     try {
-      const { error } = await supabaseAdmin
+      const { error } = await getSupabaseAdmin()
         .from('social_posts')
         .delete()
         .eq('id', id)
@@ -209,7 +209,7 @@ export class SocialPostsService {
    */
   static async getScheduledPosts(): Promise<{ data: SocialPost[]; error: string | null }> {
     try {
-      const { data, error } = await supabaseAdmin
+      const { data, error } = await getSupabaseAdmin()
         .from('social_posts')
         .select('*')
         .eq('status', 'scheduled')

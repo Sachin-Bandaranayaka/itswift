@@ -13,7 +13,7 @@ export class AIUsageDataService {
   async getAIUsageStats(): Promise<AIUsageStats> {
     try {
       // Fetch all AI content generation logs
-      const { data: logs, error } = await supabaseAdmin
+      const { data: logs, error } = await getSupabaseAdmin()
         .from('ai_content_log')
         .select('*');
 
@@ -54,7 +54,7 @@ export class AIUsageDataService {
    */
   async getRecentAIActivity(): Promise<ActivityItem[]> {
     try {
-      const { data: logs, error } = await supabaseAdmin
+      const { data: logs, error } = await getSupabaseAdmin()
         .from('ai_content_log')
         .select('*')
         .order('created_at', { ascending: false })
@@ -97,7 +97,7 @@ export class AIUsageDataService {
       const cutoffDate = new Date();
       cutoffDate.setDate(cutoffDate.getDate() - days);
 
-      const { data: logs, error } = await supabaseAdmin
+      const { data: logs, error } = await getSupabaseAdmin()
         .from('ai_content_log')
         .select('*')
         .gte('created_at', cutoffDate.toISOString());
@@ -151,7 +151,7 @@ export class AIUsageDataService {
     tokensUsed: number;
   }>> {
     try {
-      const { data: logs, error } = await supabaseAdmin
+      const { data: logs, error } = await getSupabaseAdmin()
         .from('ai_content_log')
         .select('created_at, tokens_used')
         .order('created_at', { ascending: true });
@@ -204,7 +204,7 @@ export class AIUsageDataService {
     tokenGrowth: number;
   }> {
     try {
-      const { data: logs, error } = await supabaseAdmin
+      const { data: logs, error } = await getSupabaseAdmin()
         .from('ai_content_log')
         .select('created_at, tokens_used');
 
@@ -299,7 +299,7 @@ export class AIUsageDataService {
       const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
       // Get monthly usage
-      const { data: monthlyLogs, error: monthlyError } = await supabaseAdmin
+      const { data: monthlyLogs, error: monthlyError } = await getSupabaseAdmin()
         .from('ai_content_log')
         .select('tokens_used')
         .gte('created_at', startOfMonth.toISOString());
@@ -311,7 +311,7 @@ export class AIUsageDataService {
       const monthlyTokensUsed = (monthlyLogs || []).reduce((sum, log) => sum + (log.tokens_used || 0), 0);
 
       // Get daily usage
-      const { data: dailyLogs, error: dailyError } = await supabaseAdmin
+      const { data: dailyLogs, error: dailyError } = await getSupabaseAdmin()
         .from('ai_content_log')
         .select('tokens_used')
         .gte('created_at', startOfDay.toISOString());
@@ -370,7 +370,7 @@ export class AIUsageDataService {
     efficiencyTrend: 'improving' | 'declining' | 'stable';
   }> {
     try {
-      const { data: logs, error } = await supabaseAdmin
+      const { data: logs, error } = await getSupabaseAdmin()
         .from('ai_content_log')
         .select('content_type, tokens_used, created_at')
         .order('created_at', { ascending: false })

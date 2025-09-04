@@ -1,13 +1,23 @@
 import { SocialPostsService, NewsletterCampaignsService } from '@/lib/database/services'
-import { SocialPost, NewsletterCampaign } from '@/lib/database/types'
+import { SocialPost, NewsletterCampaign, BlogPost } from '@/lib/database/types'
 import { processScheduledPosts } from './social-media-publisher'
 import { NewsletterService } from './newsletter'
+import { BlogPostScheduler } from './blog-post-scheduler'
+
+// Import the BlogProcessingResult type
+interface BlogProcessingResult {
+  processed: number
+  successful: number
+  failed: number
+  errors: string[]
+  publishedPosts: string[]
+}
 
 interface ScheduledItem {
   id: string
-  type: 'social' | 'newsletter'
+  type: 'social' | 'newsletter' | 'blog'
   scheduledAt: Date
-  data: SocialPost | NewsletterCampaign
+  data: SocialPost | NewsletterCampaign | BlogPost
   retryCount?: number
   lastAttempt?: Date
   nextRetry?: Date
@@ -21,6 +31,7 @@ interface ProcessingResult {
   details: {
     social: { processed: number; successful: number; failed: number }
     newsletter: { processed: number; successful: number; failed: number }
+    blog: { processed: number; successful: number; failed: number }
   }
 }
 
@@ -32,8 +43,8 @@ interface RetryConfig {
 
 interface QueueItem {
   id: string
-  type: 'social' | 'newsletter'
-  data: SocialPost | NewsletterCampaign
+  type: 'social' | 'newsletter' | 'blog'
+  data: SocialPost | NewsletterCampaign | BlogPost
   priority: number
   retryCount: number
   maxRetries: number
@@ -51,6 +62,7 @@ interface SchedulerStats {
   byType: {
     social: { total: number; ready: number; failed: number }
     newsletter: { total: number; ready: number; failed: number }
+    blog: { total: number; ready: number; failed: number }
   }
   lastRun?: Date
   nextRun?: Date
@@ -70,10 +82,13 @@ export class ContentScheduler {
   private lastRun?: Date
   private nextRun?: Date
   private processingErrors: string[] = []
+  private blogScheduler: BlogPostScheduler
 
   private constructor() {
     // Initialize queue processing
     this.scheduleNextRun()
+    // Initialize blog post scheduler
+    this.blogScheduler = BlogPostScheduler.getInstance()
   }
 
   static getInstance(): ContentScheduler {
@@ -188,6 +203,19 @@ export class ContentScheduler {
         data: campaign
       })))
 
+      // Get scheduled blog posts
+      const blogResult = await this.blogScheduler.getScheduledBlogPosts()
+      if (blogResult.error) {
+        return { items: [], error: blogResult.error }
+      }
+
+      items.push(...blogResult.items.map(blogItem => ({
+        id: blogItem.id,
+        type: 'blog' as const,
+        scheduledAt: blogItem.scheduledAt,
+        data: blogItem.data as BlogPost
+      })))
+
       // Sort by scheduled time (oldest first)
       items.sort((a, b) => a.scheduledAt.getTime() - b.scheduledAt.getTime())
 
@@ -230,7 +258,8 @@ export class ContentScheduler {
       errors: [],
       details: {
         social: { processed: 0, successful: 0, failed: 0 },
-        newsletter: { processed: 0, successful: 0, failed: 0 }
+        newsletter: { processed: 0, successful: 0, failed: 0 },
+        blog: { processed: 0, successful: 0, failed: 0 }
       }
     }
 
@@ -271,16 +300,20 @@ export class ContentScheduler {
             result.successful++
             if (queueItem.type === 'social') {
               result.details.social.successful++
-            } else {
+            } else if (queueItem.type === 'newsletter') {
               result.details.newsletter.successful++
+            } else if (queueItem.type === 'blog') {
+              result.details.blog.successful++
             }
             this.removeFromQueue(queueItem.id)
           } else {
             result.failed++
             if (queueItem.type === 'social') {
               result.details.social.failed++
-            } else {
+            } else if (queueItem.type === 'newsletter') {
               result.details.newsletter.failed++
+            } else if (queueItem.type === 'blog') {
+              result.details.blog.failed++
             }
             
             // Handle retry logic
@@ -290,8 +323,10 @@ export class ContentScheduler {
           result.processed++
           if (queueItem.type === 'social') {
             result.details.social.processed++
-          } else {
+          } else if (queueItem.type === 'newsletter') {
             result.details.newsletter.processed++
+          } else if (queueItem.type === 'blog') {
+            result.details.blog.processed++
           }
 
         } catch (error) {
@@ -302,9 +337,12 @@ export class ContentScheduler {
           if (queueItem.type === 'social') {
             result.details.social.failed++
             result.details.social.processed++
-          } else {
+          } else if (queueItem.type === 'newsletter') {
             result.details.newsletter.failed++
             result.details.newsletter.processed++
+          } else if (queueItem.type === 'blog') {
+            result.details.blog.failed++
+            result.details.blog.processed++
           }
           
           await this.handleFailedItem(queueItem, error instanceof Error ? error.message : 'Unknown error')
@@ -336,6 +374,8 @@ export class ContentScheduler {
         return await this.processSingleSocialPost(queueItem.data as SocialPost)
       } else if (queueItem.type === 'newsletter') {
         return await this.processSingleNewsletter(queueItem.data as NewsletterCampaign)
+      } else if (queueItem.type === 'blog') {
+        return await this.processSingleBlogPost(queueItem.data as BlogPost)
       }
       
       return false
@@ -360,6 +400,10 @@ export class ContentScheduler {
         await SocialPostsService.update(queueItem.id, { status: 'failed' })
       } else if (queueItem.type === 'newsletter') {
         await NewsletterCampaignsService.update(queueItem.id, { status: 'failed' })
+      } else if (queueItem.type === 'blog') {
+        // For blog posts, we could add a comment or metadata to indicate failure
+        // For now, just log the failure
+        console.error(`Blog post ${queueItem.id} permanently failed to publish`)
       }
       
       this.removeFromQueue(queueItem.id)
@@ -420,9 +464,36 @@ export class ContentScheduler {
   }
 
   /**
+   * Process a single blog post
+   */
+  private async processSingleBlogPost(post: BlogPost): Promise<boolean> {
+    try {
+      // Use the blog scheduler to publish the post
+      const blogScheduler = BlogPostScheduler.getInstance()
+      const result = await blogScheduler.publishBlogPost({
+        _id: post._id,
+        title: post.title,
+        publishedAt: post.publishedAt || new Date().toISOString(),
+        status: 'scheduled'
+      })
+      
+      if (result) {
+        console.log(`Successfully published blog post ${post._id}`)
+        return true
+      } else {
+        console.error(`Failed to publish blog post ${post._id}`)
+        return false
+      }
+    } catch (error) {
+      console.error(`Error publishing blog post ${post._id}:`, error)
+      return false
+    }
+  }
+
+  /**
    * Retry failed content with exponential backoff
    */
-  async retryFailedContent(contentId: string, contentType: 'social' | 'newsletter'): Promise<boolean> {
+  async retryFailedContent(contentId: string, contentType: 'social' | 'newsletter' | 'blog'): Promise<boolean> {
     let attempt = 0
     let delay = this.retryConfig.retryDelayMs
 
@@ -451,6 +522,17 @@ export class ContentScheduler {
           // Process single campaign (would need to implement this method)
           // For now, just mark as failed after retries
           await NewsletterCampaignsService.update(contentId, { status: 'failed' })
+        } else if (contentType === 'blog') {
+          // Retry blog post
+          const blogScheduler = BlogPostScheduler.getInstance()
+          const result = await blogScheduler.forceProcessQueue()
+          
+          if (result.publishedPosts.includes(contentId)) {
+            console.log(`Successfully retried blog post ${contentId}`)
+            return true
+          } else {
+            throw new Error('Blog post retry failed')
+          }
         }
 
         console.log(`Successfully retried ${contentType} content ${contentId}`)
@@ -508,15 +590,19 @@ export class ContentScheduler {
       ).length
       const newsletterFailed = newsletters.filter(campaign => campaign.status === 'failed').length
 
+      // Get blog post statistics
+      const blogStats = await this.blogScheduler.getBlogSchedulingStats()
+      
       // Add processing errors to the list
       errors.push(...this.processingErrors)
+      errors.push(...blogStats.errors)
 
       return {
-        totalScheduled: socialTotal + newsletterTotal,
-        readyToProcess: socialReady + newsletterReady,
-        inQueue: this.processingQueue.size,
-        processing: this.isProcessing ? 1 : 0,
-        failed: socialFailed + newsletterFailed,
+        totalScheduled: socialTotal + newsletterTotal + blogStats.totalScheduled,
+        readyToProcess: socialReady + newsletterReady + blogStats.readyToProcess,
+        inQueue: this.processingQueue.size + blogStats.inQueue,
+        processing: (this.isProcessing ? 1 : 0) + (blogStats.processing ? 1 : 0),
+        failed: socialFailed + newsletterFailed + blogStats.failed,
         byType: {
           social: { 
             total: socialTotal, 
@@ -527,6 +613,11 @@ export class ContentScheduler {
             total: newsletterTotal, 
             ready: newsletterReady,
             failed: newsletterFailed
+          },
+          blog: {
+            total: blogStats.totalScheduled,
+            ready: blogStats.readyToProcess,
+            failed: blogStats.failed
           }
         },
         lastRun: this.lastRun,
@@ -543,7 +634,8 @@ export class ContentScheduler {
         failed: 0,
         byType: { 
           social: { total: 0, ready: 0, failed: 0 }, 
-          newsletter: { total: 0, ready: 0, failed: 0 } 
+          newsletter: { total: 0, ready: 0, failed: 0 },
+          blog: { total: 0, ready: 0, failed: 0 }
         },
         errors: [error instanceof Error ? error.message : 'Unknown error']
       }
@@ -564,13 +656,15 @@ export class ContentScheduler {
       database: boolean
       socialMedia: boolean
       newsletter: boolean
+      blog: boolean
     }
   }> {
     const errors: string[] = []
     const services = {
       database: true,
       socialMedia: true,
-      newsletter: true
+      newsletter: true,
+      blog: true
     }
     
     try {
@@ -609,6 +703,18 @@ export class ContentScheduler {
       } catch (error) {
         errors.push('Newsletter service error')
         services.newsletter = false
+      }
+
+      // Test blog post scheduler
+      try {
+        const blogHealth = await this.blogScheduler.healthCheck()
+        if (!blogHealth.healthy) {
+          errors.push(...blogHealth.errors)
+          services.blog = false
+        }
+      } catch (error) {
+        errors.push('Blog scheduler error')
+        services.blog = false
       }
 
       // Add processing errors
@@ -685,5 +791,43 @@ export class ContentScheduler {
   updateRetryConfig(config: Partial<RetryConfig>): void {
     this.retryConfig = { ...this.retryConfig, ...config }
     console.log('Updated retry configuration:', this.retryConfig)
+  }
+
+  /**
+   * Get blog post scheduler instance
+   */
+  getBlogScheduler(): BlogPostScheduler {
+    return this.blogScheduler
+  }
+
+  /**
+   * Process only scheduled blog posts
+   */
+  async processScheduledBlogPosts(): Promise<BlogProcessingResult> {
+    return await this.blogScheduler.processScheduledBlogPosts()
+  }
+
+  /**
+   * Schedule a blog post for publication
+   */
+  async scheduleBlogPost(postId: string, publishAt: Date): Promise<boolean> {
+    return await this.blogScheduler.scheduleBlogPost(postId, publishAt)
+  }
+
+  /**
+   * Unschedule a blog post
+   */
+  async unscheduleBlogPost(postId: string): Promise<boolean> {
+    return await this.blogScheduler.unscheduleBlogPost(postId)
+  }
+
+  /**
+   * Get all scheduled blog posts
+   */
+  async getAllScheduledBlogPosts(): Promise<{
+    posts: BlogPost[]
+    error: string | null
+  }> {
+    return await this.blogScheduler.getAllScheduledPosts()
   }
 }

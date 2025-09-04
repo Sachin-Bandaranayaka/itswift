@@ -11,4 +11,6 @@ export const client = createClient({
     apiVersion,
     useCdn: false, // if you're using ISR or on-demand revalidation
     token, // Add the token for write operations
+    perspective: 'published', // Only fetch published content
+    stega: false, // Disable stega for production
 }); 

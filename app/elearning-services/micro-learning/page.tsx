@@ -3,7 +3,7 @@
 import React, { useState } from "react"
 import Image from "next/image"
 import Contact from "@/components/contact"
-import { ArrowRight, CheckCircle, Award, BarChart, Layers, Users, ChevronDown, Clock, Target, Zap, Brain } from "lucide-react"
+import { CheckCircle, Award, BarChart, Layers, Users, Clock, Target, Zap, Brain, Play, Gamepad2, Smartphone, FileCheck, Wrench, Share2, Route, TrendingUp, Repeat, Film, Settings } from "lucide-react"
 
 interface FAQItem {
     question: string
@@ -12,7 +12,22 @@ interface FAQItem {
 }
 
 export default function MicroLearningPage() {
-    const [showFAQs, setShowFAQs] = useState(false)
+    const [openItems, setOpenItems] = useState<Record<string, boolean>>({
+        "0": true // First question open by default
+    })
+
+    const toggleItem = (itemIndex: number) => {
+        const itemKey = `${itemIndex}`
+        setOpenItems(prev => ({
+            ...prev,
+            [itemKey]: !prev[itemKey]
+        }))
+    }
+
+    const isOpen = (itemIndex: number) => {
+        const itemKey = `${itemIndex}`
+        return !!openItems[itemKey]
+    }
 
     const faqItems: FAQItem[] = [
         {
@@ -47,9 +62,9 @@ export default function MicroLearningPage() {
             {/* Hero Section */}
             <section className="relative text-white py-20 overflow-hidden">
                 <div className="absolute inset-0">
-                    <img 
-                        src="/IMAGES/4. micro learning/download (1).png" 
-                        alt="Micro-Learning Solutions Background" 
+                    <img
+                        src="/IMAGES/4. micro learning/download (1).png"
+                        alt="Micro-Learning Solutions Background"
                         className="w-full h-full object-cover"
                     />
                 </div>
@@ -62,7 +77,7 @@ export default function MicroLearningPage() {
                             Bite-sized learning modules that deliver maximum impact in minimum time
                         </p>
                         <div className="flex justify-center">
-                            <button 
+                            <button
                                 onClick={() => {
                                     const mainContent = document.getElementById('main-content');
                                     mainContent?.scrollIntoView({ behavior: 'smooth' });
@@ -83,17 +98,17 @@ export default function MicroLearningPage() {
                         <h2 className="text-3xl font-bold mb-8 text-center text-gray-900">
                             Transform Learning with Micro-Learning
                         </h2>
-                        
+
                         <div className="prose prose-lg max-w-none mb-12">
                             <p className="text-gray-700 mb-6">
-                                In today's fast-paced business environment, traditional lengthy training sessions are becoming obsolete. 
-                                Swift Solution's micro-learning approach delivers targeted, bite-sized content that fits seamlessly into 
+                                In today's fast-paced business environment, traditional lengthy training sessions are becoming obsolete.
+                                Swift Solution's micro-learning approach delivers targeted, bite-sized content that fits seamlessly into
                                 your employees' busy schedules while maximizing learning effectiveness.
                             </p>
-                            
+
                             <p className="text-gray-700 mb-6">
-                                Our micro-learning modules are designed based on cognitive science principles, ensuring optimal knowledge 
-                                retention and immediate application. Each module focuses on a single learning objective, making complex 
+                                Our micro-learning modules are designed based on cognitive science principles, ensuring optimal knowledge
+                                retention and immediate application. Each module focuses on a single learning objective, making complex
                                 topics digestible and actionable.
                             </p>
                         </div>
@@ -135,51 +150,149 @@ export default function MicroLearningPage() {
 
                         {/* FAQ Section */}
                         <div className="mb-16">
-                            <div className="flex items-center justify-between mb-8">
-                                <h3 className="text-2xl font-semibold text-gray-900">Frequently Asked Questions</h3>
-                                <button
-                                    onClick={() => setShowFAQs(!showFAQs)}
-                                    className="flex items-center space-x-2 text-orange-600 hover:text-orange-700 transition-colors duration-200"
-                                >
-                                    <span>{showFAQs ? 'Hide' : 'Show'} FAQs</span>
-                                    <ChevronDown className={`h-5 w-5 transform transition-transform duration-200 ${showFAQs ? 'rotate-180' : ''}`} />
-                                </button>
-                            </div>
-                            
-                            {showFAQs && (
-                                <div className="space-y-6">
-                                    {faqItems.map((faq, index) => (
-                                        <div key={index} className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
-                                            <div className="flex items-start space-x-3 mb-3">
-                                                {faq.icon}
-                                                <h4 className="text-lg font-semibold text-gray-900">{faq.question}</h4>
-                                            </div>
-                                            <p className="text-gray-700 ml-8 whitespace-pre-line">{faq.answer}</p>
-                                        </div>
-                                    ))}
+                            <div className="grid md:grid-cols-[1fr,2fr] gap-16 max-w-7xl mx-auto">
+                                {/* Left side - title */}
+                                <div>
+                                    <h3 className="text-4xl font-bold sticky top-24">
+                                        Frequently Asked Questions (FAQs) about Micro-Learning
+                                    </h3>
                                 </div>
-                            )}
+
+                                {/* Right side - FAQ content */}
+                                <div>
+                                    <div className="mb-12">
+                                        <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-6">
+                                            MICRO-LEARNING SOLUTIONS
+                                        </h4>
+                                        <div className="space-y-px">
+                                            {faqItems.map((faq, index) => {
+                                                const isItemOpen = isOpen(index);
+
+                                                return (
+                                                    <div key={index} className="border-t border-gray-200 first:border-t-0">
+                                                        <button
+                                                            onClick={() => toggleItem(index)}
+                                                            className="flex justify-between items-center w-full py-6 text-left"
+                                                        >
+                                                            <span className={`text-lg font-medium ${isItemOpen ? "text-blue-500" : "text-gray-900"}`}>
+                                                                {faq.question}
+                                                            </span>
+                                                            <span className="ml-6 flex-shrink-0">
+                                                                {isItemOpen ? (
+                                                                    <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                                                                    </svg>
+                                                                ) : (
+                                                                    <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                                                    </svg>
+                                                                )}
+                                                            </span>
+                                                        </button>
+                                                        {isItemOpen && (
+                                                            <div className="pb-6">
+                                                                <p className="text-gray-600 whitespace-pre-line">{faq.answer}</p>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         {/* Our Services */}
                         <div className="mb-16">
-                            <h3 className="text-2xl font-semibold mb-8 text-center text-gray-900">Our Micro-Learning Services</h3>
-                            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                            <div className="text-center mb-12">
+                                <h3 className="text-3xl font-bold mb-4 text-gray-900">Our Micro-Learning Services</h3>
+                                <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                                    Comprehensive solutions designed to deliver engaging and effective micro-learning experiences
+                                </p>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 {[
-                                    "Interactive Video Modules",
-                                    "Gamified Learning Paths",
-                                    "Mobile Learning Apps",
-                                    "Microlearning Assessments",
-                                    "Performance Support Tools",
-                                    "Social Learning Features",
-                                    "Adaptive Learning Paths",
-                                    "Real-time Analytics",
-                                    "Spaced Repetition Systems",
-                                    "Multimedia Content",
-                                    "Interactive Simulations"
+                                    {
+                                        title: "Interactive Video Modules",
+                                        description: "Engaging video content with interactive elements and assessments",
+                                        icon: <Play className="h-6 w-6" />,
+                                        color: "from-blue-500 to-blue-600"
+                                    },
+                                    {
+                                        title: "Gamified Learning Paths",
+                                        description: "Game-based learning with rewards, badges, and progress tracking",
+                                        icon: <Gamepad2 className="h-6 w-6" />,
+                                        color: "from-purple-500 to-purple-600"
+                                    },
+                                    {
+                                        title: "Mobile Learning Apps",
+                                        description: "Native mobile applications for learning on-the-go",
+                                        icon: <Smartphone className="h-6 w-6" />,
+                                        color: "from-green-500 to-green-600"
+                                    },
+                                    {
+                                        title: "Microlearning Assessments",
+                                        description: "Quick, focused assessments to reinforce learning objectives",
+                                        icon: <FileCheck className="h-6 w-6" />,
+                                        color: "from-orange-500 to-orange-600"
+                                    },
+                                    {
+                                        title: "Performance Support Tools",
+                                        description: "Just-in-time resources and job aids for immediate application",
+                                        icon: <Wrench className="h-6 w-6" />,
+                                        color: "from-red-500 to-red-600"
+                                    },
+                                    {
+                                        title: "Social Learning Features",
+                                        description: "Collaborative learning through discussions and peer interactions",
+                                        icon: <Share2 className="h-6 w-6" />,
+                                        color: "from-indigo-500 to-indigo-600"
+                                    },
+                                    {
+                                        title: "Adaptive Learning Paths",
+                                        description: "Personalized learning journeys based on individual progress",
+                                        icon: <Route className="h-6 w-6" />,
+                                        color: "from-teal-500 to-teal-600"
+                                    },
+                                    {
+                                        title: "Real-time Analytics",
+                                        description: "Comprehensive insights into learning progress and engagement",
+                                        icon: <TrendingUp className="h-6 w-6" />,
+                                        color: "from-pink-500 to-pink-600"
+                                    },
+                                    {
+                                        title: "Spaced Repetition Systems",
+                                        description: "Scientifically-backed repetition schedules for better retention",
+                                        icon: <Repeat className="h-6 w-6" />,
+                                        color: "from-yellow-500 to-yellow-600"
+                                    },
+                                    {
+                                        title: "Multimedia Content",
+                                        description: "Rich media experiences with videos, animations, and audio",
+                                        icon: <Film className="h-6 w-6" />,
+                                        color: "from-cyan-500 to-cyan-600"
+                                    },
+                                    {
+                                        title: "Interactive Simulations",
+                                        description: "Realistic scenarios and simulations for hands-on practice",
+                                        icon: <Settings className="h-6 w-6" />,
+                                        color: "from-emerald-500 to-emerald-600"
+                                    }
                                 ].map((service, index) => (
-                                    <div key={index} className="bg-gray-50 rounded-lg p-4 text-center hover:bg-orange-50 hover:text-orange-700 transition-colors duration-200">
-                                        <span className="text-sm font-medium">{service}</span>
+                                    <div key={index} className="group relative bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100">
+                                        <div className="p-6">
+                                            <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-r ${service.color} text-white mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                                                {service.icon}
+                                            </div>
+                                            <h4 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-gray-700 transition-colors">
+                                                {service.title}
+                                            </h4>
+                                            <p className="text-gray-600 text-sm leading-relaxed">
+                                                {service.description}
+                                            </p>
+                                        </div>
+                                        <div className={`absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r ${service.color} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left`}></div>
                                     </div>
                                 ))}
                             </div>
@@ -187,38 +300,68 @@ export default function MicroLearningPage() {
 
                         {/* Development Process */}
                         <div className="mb-16">
-                            <h3 className="text-2xl font-semibold mb-8 text-center text-gray-900">Development Process</h3>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                                {[
-                                    {
-                                        title: "Content Analysis",
-                                        description: "We analyze your existing content and identify optimal micro-learning opportunities.",
-                                        icon: <Users className="h-8 w-8 text-orange-500" />
-                                    },
-                                    {
-                                        title: "Module Design",
-                                        description: "Each module is designed with clear objectives and engaging interactive elements.",
-                                        icon: <Layers className="h-8 w-8 text-orange-500" />
-                                    },
-                                    {
-                                        title: "Development & Testing",
-                                        description: "We develop and rigorously test each module for optimal user experience.",
-                                        icon: <Award className="h-8 w-8 text-orange-500" />
-                                    },
-                                    {
-                                        title: "Deployment & Analytics",
-                                        description: "Seamless deployment with comprehensive analytics and performance tracking.",
-                                        icon: <BarChart className="h-8 w-8 text-orange-500" />
-                                    }
-                                ].map((step, index) => (
-                                    <div key={index} className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
-                                        <div className="bg-orange-50 p-3 rounded-full inline-block mb-4">
-                                            {step.icon}
+                            <div className="text-center mb-12">
+                                <h3 className="text-3xl font-bold mb-4 text-gray-900">Development Process</h3>
+                                <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                                    Our proven 4-step methodology ensures successful micro-learning implementation
+                                </p>
+                            </div>
+                            <div className="relative">
+                                {/* Connection Line */}
+                                <div className="hidden lg:block absolute top-24 left-0 right-0 h-0.5 bg-gradient-to-r from-orange-200 via-orange-300 to-orange-200"></div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                                    {[
+                                        {
+                                            step: "01",
+                                            title: "Content Analysis",
+                                            description: "We analyze your existing content and identify optimal micro-learning opportunities.",
+                                            icon: <Users className="h-8 w-8" />,
+                                            color: "from-blue-500 to-blue-600"
+                                        },
+                                        {
+                                            step: "02",
+                                            title: "Module Design",
+                                            description: "Each module is designed with clear objectives and engaging interactive elements.",
+                                            icon: <Layers className="h-8 w-8" />,
+                                            color: "from-purple-500 to-purple-600"
+                                        },
+                                        {
+                                            step: "03",
+                                            title: "Development & Testing",
+                                            description: "We develop and rigorously test each module for optimal user experience.",
+                                            icon: <Award className="h-8 w-8" />,
+                                            color: "from-green-500 to-green-600"
+                                        },
+                                        {
+                                            step: "04",
+                                            title: "Deployment & Analytics",
+                                            description: "Seamless deployment with comprehensive analytics and performance tracking.",
+                                            icon: <BarChart className="h-8 w-8" />,
+                                            color: "from-orange-500 to-orange-600"
+                                        }
+                                    ].map((step, index) => (
+                                        <div key={index} className="relative group">
+                                            {/* Step Number Circle */}
+                                            <div className={`absolute -top-6 left-1/2 transform -translate-x-1/2 w-12 h-12 bg-gradient-to-r ${step.color} rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg z-10 group-hover:scale-110 transition-transform duration-300`}>
+                                                {step.step}
+                                            </div>
+
+                                            {/* Card */}
+                                            <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 pt-12 border border-gray-100 group-hover:-translate-y-2">
+                                                <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-r ${step.color} text-white mb-6 group-hover:scale-105 transition-transform duration-300`}>
+                                                    {step.icon}
+                                                </div>
+                                                <h4 className="text-xl font-bold mb-4 text-gray-900 group-hover:text-gray-700 transition-colors">
+                                                    {step.title}
+                                                </h4>
+                                                <p className="text-gray-600 leading-relaxed">
+                                                    {step.description}
+                                                </p>
+                                            </div>
                                         </div>
-                                        <h4 className="text-xl font-semibold mb-3 text-gray-900">{step.title}</h4>
-                                        <p className="text-gray-700">{step.description}</p>
-                                    </div>
-                                ))}
+                                    ))}
+                                </div>
                             </div>
                         </div>
 

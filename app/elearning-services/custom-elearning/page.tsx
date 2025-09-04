@@ -13,6 +13,7 @@ import { ArrowRight, CheckCircle, Award, BarChart, Layers, Users, ChevronDown, T
 
 export default function CustomElearningPage() {
     const [showAllFaqs, setShowAllFaqs] = useState(false);
+    const [openFaq, setOpenFaq] = useState<number | null>(null);
 
     // All FAQ items
     const faqItems = [
@@ -747,47 +748,73 @@ export default function CustomElearningPage() {
             </section>
 
             {/* FAQ Section */}
-            <section id="faq" className="py-16 bg-gray-50">
+            <section id="faq" className="py-16 bg-white">
                 <div className="container mx-auto px-4">
-                    <div className="text-center mb-12">
-                        <h2 className="text-3xl font-bold mb-4 text-gray-900">
-                            Frequently Asked Questions
-                        </h2>
-                        <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                            Get answers to common questions about our custom eLearning solutions
-                        </p>
-                    </div>
+                    <div className="grid md:grid-cols-[1fr,2fr] gap-16 max-w-7xl mx-auto">
+                        {/* Left side - title */}
+                        <div>
+                            <h2 className="text-4xl font-bold sticky top-24">
+                                Frequently Asked Questions (FAQs) about Custom eLearning
+                            </h2>
+                        </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                        {/* Display first 2 FAQs by default, or all if showAllFaqs is true */}
-                        {faqItems.slice(0, showAllFaqs ? faqItems.length : 2).map((faq, index) => (
-                            <div key={index} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                                <div className="p-6">
-                                    <div className="flex items-center mb-4">
-                                        <div className="bg-orange-100 p-2 rounded-full mr-4">
-                                            {faq.icon}
-                                        </div>
-                                        <h3 className="text-xl font-semibold text-gray-900">
-                                            {faq.question}
-                                        </h3>
-                                    </div>
-                                    <div className="prose prose-orange max-w-none">
-                                        {faq.answer}
-                                    </div>
+                        {/* Right side - FAQ content */}
+                        <div>
+                            <div className="mb-12">
+                                <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-6">
+                                    CUSTOM ELEARNING SOLUTIONS
+                                </h3>
+                                <div className="space-y-px">
+                                    {faqItems.slice(0, showAllFaqs ? faqItems.length : 6).map((faq, index) => {
+                                        const isItemOpen = openFaq === index;
+
+                                        return (
+                                            <div key={index} className="border-t border-gray-200 first:border-t-0">
+                                                <button
+                                                    onClick={() => setOpenFaq(openFaq === index ? null : index)}
+                                                    className="flex justify-between items-center w-full py-6 text-left"
+                                                >
+                                                    <span className={`text-lg font-medium ${isItemOpen ? "text-blue-500" : "text-gray-900"}`}>
+                                                        {faq.question}
+                                                    </span>
+                                                    <span className="ml-6 flex-shrink-0">
+                                                        {isItemOpen ? (
+                                                            <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                                                            </svg>
+                                                        ) : (
+                                                            <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                                            </svg>
+                                                        )}
+                                                    </span>
+                                                </button>
+                                                {isItemOpen && (
+                                                    <div className="pb-6">
+                                                        <div className="text-gray-600">
+                                                            {faq.answer}
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        );
+                                    })}
                                 </div>
-                            </div>
-                        ))}
-                    </div>
 
-                    {/* View All FAQs Button */}
-                    <div className="text-center mt-10">
-                        <button
-                            onClick={() => setShowAllFaqs(!showAllFaqs)}
-                            className="inline-flex items-center justify-center px-6 py-3 bg-orange-500 text-white rounded-lg font-medium hover:bg-orange-600 transition-colors duration-200"
-                        >
-                            {showAllFaqs ? "Show Less" : "View All FAQs"}
-                            <ArrowRight className={`ml-2 h-4 w-4 ${showAllFaqs ? "rotate-90" : ""}`} />
-                        </button>
+                                {/* Show More/Less Button */}
+                                {faqItems.length > 6 && (
+                                    <div className="text-center mt-8">
+                                        <button
+                                            onClick={() => setShowAllFaqs(!showAllFaqs)}
+                                            className="inline-flex items-center justify-center px-6 py-3 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-colors duration-200"
+                                        >
+                                            {showAllFaqs ? "Show Less" : "Show More"}
+                                            <ArrowRight className={`ml-2 h-4 w-4 ${showAllFaqs ? "rotate-180" : ""}`} />
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>

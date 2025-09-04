@@ -627,45 +627,61 @@ export default function IltToElearningPage() {
             {/* FAQ Section */}
             <section id="faq" className="py-16 bg-white">
                 <div className="container mx-auto px-4">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8 }}
-                        className="text-center max-w-3xl mx-auto mb-12"
-                    >
-                        <h2 className="text-3xl font-bold mb-4 text-gray-900">
-                            Frequently Asked Questions About ILT to eLearning Conversion
-                        </h2>
-                        <p className="text-lg text-gray-700">
-                            Get answers to the most common questions about our ILT to eLearning conversion services.
-                        </p>
-                    </motion.div>
-
-                    <div className="max-w-3xl mx-auto">
-                        {faqItems.map((faq, index) => (
-                            <motion.div
-                                key={index}
+                    <div className="grid md:grid-cols-[1fr,2fr] gap-16 max-w-7xl mx-auto">
+                        {/* Left side - title */}
+                        <div>
+                            <motion.h2
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.5, delay: index * 0.1 }}
-                                className="mb-4"
+                                transition={{ duration: 0.6 }}
+                                className="text-4xl font-bold sticky top-24"
                             >
-                                <button
-                                    onClick={() => toggleFaq(index)}
-                                    className="flex items-center justify-between w-full p-5 bg-gray-50 hover:bg-gray-100 rounded-lg text-left transition-colors duration-200"
-                                >
-                                    <span className="text-lg font-medium text-gray-900">{faq.question}</span>
-                                    <ChevronDown className={`h-5 w-5 text-gray-500 transition-transform duration-200 ${openFaq === index ? 'rotate-180' : ''}`} />
-                                </button>
-                                {openFaq === index && (
-                                    <div className="p-5 border-t border-gray-200 bg-gray-50 rounded-b-lg">
-                                        <p className="text-gray-700">{faq.answer}</p>
-                                    </div>
-                                )}
-                            </motion.div>
-                        ))}
+                                Frequently Asked Questions (FAQs) about ILT to eLearning Conversion
+                            </motion.h2>
+                        </div>
+
+                        {/* Right side - FAQ content */}
+                        <div>
+                            <div className="mb-12">
+                                <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-6">
+                                    ILT TO ELEARNING CONVERSION
+                                </h3>
+                                <div className="space-y-px">
+                                    {faqItems.map((faq, index) => {
+                                        const isItemOpen = openFaq === index;
+
+                                        return (
+                                            <div key={index} className="border-t border-gray-200 first:border-t-0">
+                                                <button
+                                                    onClick={() => toggleFaq(index)}
+                                                    className="flex justify-between items-center w-full py-6 text-left"
+                                                >
+                                                    <span className={`text-lg font-medium ${isItemOpen ? "text-blue-500" : "text-gray-900"}`}>
+                                                        {faq.question}
+                                                    </span>
+                                                    <span className="ml-6 flex-shrink-0">
+                                                        {isItemOpen ? (
+                                                            <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                                                            </svg>
+                                                        ) : (
+                                                            <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                                            </svg>
+                                                        )}
+                                                    </span>
+                                                </button>
+                                                {isItemOpen && (
+                                                    <div className="pb-6">
+                                                        <p className="text-gray-600">{faq.answer}</p>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -686,15 +702,7 @@ export default function IltToElearningPage() {
                         <p className="text-xl mb-8 text-orange-100">
                             We focus on transforming your instructor-led training into effective digital learning experiences so you can focus on your core business objectives. Our Bangalore-based conversion services provide the perfect balance of instructional design expertise, technical capability, and cost-effectiveness for organizations targeting the US, European, and Middle East markets.
                         </p>
-                        <div className="flex flex-col sm:flex-row justify-center gap-4">
-                            <a href="#contact" className="inline-flex items-center justify-center px-6 py-3 bg-white text-orange-600 rounded-lg font-medium hover:bg-orange-50 transition-colors duration-200">
-                                Contact Us Today
-                                <ArrowRight className="ml-2 h-4 w-4" />
-                            </a>
-                            <a href="#" className="inline-flex items-center justify-center px-6 py-3 bg-orange-600 border border-white text-white rounded-lg font-medium hover:bg-orange-700 transition-colors duration-200">
-                                Request a Demo
-                            </a>
-                        </div>
+
                     </motion.div>
                 </div>
             </section>

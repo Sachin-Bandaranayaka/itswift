@@ -154,6 +154,37 @@ export interface AIContentLogInput {
   tokens_used?: number
 }
 
+// Blog post types for Sanity CMS integration
+export interface BlogPost {
+  _id: string
+  title: string
+  slug: { current: string }
+  author?: { 
+    _id: string
+    name: string 
+  }
+  mainImage?: { 
+    asset: { url: string }
+    alt?: string 
+  }
+  categories?: Array<{ 
+    _id: string
+    title: string 
+  }>
+  publishedAt?: string
+  body?: any[]
+  _createdAt: string
+  _updatedAt: string
+  status?: 'draft' | 'scheduled' | 'published' | 'archived'
+}
+
+export interface BlogPostScheduleData {
+  _id: string
+  title: string
+  publishedAt: string
+  status: 'scheduled'
+}
+
 // Validation schemas
 export interface ValidationResult {
   isValid: boolean

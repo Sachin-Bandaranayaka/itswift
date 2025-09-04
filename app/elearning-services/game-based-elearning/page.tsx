@@ -192,22 +192,16 @@ export default function GameBasedElearningPage() {
             <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto leading-relaxed">
               Transform learning into an engaging adventure with interactive games that boost retention and motivation
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <motion.button
+            <div className="flex justify-center">
+              <motion.a
+                href="#contact"
                 className="bg-yellow-500 hover:bg-yellow-600 text-black px-8 py-4 rounded-lg font-semibold transition-colors duration-300 flex items-center justify-center"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                Start Gaming
-                <Gamepad2 className="ml-2 h-5 w-5" />
-              </motion.button>
-              <motion.button
-                className="border-2 border-white text-white hover:bg-white hover:text-purple-600 px-8 py-4 rounded-lg font-semibold transition-colors duration-300"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                View Demo
-              </motion.button>
+                Get Started
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </motion.a>
             </div>
           </motion.div>
         </div>
@@ -450,45 +444,63 @@ export default function GameBasedElearningPage() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            className="text-center mb-16"
-            {...fadeInUp}
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-              Frequently Asked Questions
-            </h2>
-            <p className="text-xl text-gray-600">
-              Get answers to common questions about game-based learning
-            </p>
-          </motion.div>
-
-          <div className="space-y-4">
-            {faqs.map((faq, index) => (
-              <motion.div
-                key={index}
-                className="bg-white rounded-lg shadow-md overflow-hidden"
-                {...fadeInUp}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-[1fr,2fr] gap-16 max-w-7xl mx-auto">
+            {/* Left side - title */}
+            <div>
+              <motion.h2
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="text-4xl font-bold sticky top-24"
               >
-                <button
-                  className="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200"
-                  onClick={() => setExpandedFaq(expandedFaq === index ? null : index)}
-                >
-                  <span className="font-semibold text-gray-900">{faq.question}</span>
-                  <ArrowRight 
-                    className={`h-5 w-5 text-gray-500 transition-transform duration-200 ${
-                      expandedFaq === index ? 'rotate-90' : ''
-                    }`} 
-                  />
-                </button>
-                {expandedFaq === index && (
-                  <div className="px-6 pb-4">
-                    <p className="text-gray-600">{faq.answer}</p>
-                  </div>
-                )}
-              </motion.div>
-            ))}
+                Frequently Asked Questions (FAQs) about Game-Based Learning
+              </motion.h2>
+            </div>
+
+            {/* Right side - FAQ content */}
+            <div>
+              <div className="mb-12">
+                <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-6">
+                  GAME-BASED LEARNING
+                </h3>
+                <div className="space-y-px">
+                  {faqs.map((faq, index) => {
+                    const isItemOpen = expandedFaq === index;
+
+                    return (
+                      <div key={index} className="border-t border-gray-200 first:border-t-0">
+                        <button
+                          onClick={() => setExpandedFaq(expandedFaq === index ? null : index)}
+                          className="flex justify-between items-center w-full py-6 text-left"
+                        >
+                          <span className={`text-lg font-medium ${isItemOpen ? "text-blue-500" : "text-gray-900"}`}>
+                            {faq.question}
+                          </span>
+                          <span className="ml-6 flex-shrink-0">
+                            {isItemOpen ? (
+                              <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                              </svg>
+                            ) : (
+                              <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                              </svg>
+                            )}
+                          </span>
+                        </button>
+                        {isItemOpen && (
+                          <div className="pb-6">
+                            <p className="text-gray-600">{faq.answer}</p>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

@@ -5,7 +5,12 @@
 export interface BlogStats {
   totalPosts: number;
   publishedThisMonth: number;
+  publishedThisWeek?: number;
+  draftPosts?: number;
   growthPercentage: number;
+  weeklyGrowthPercentage?: number;
+  averagePostsPerWeek?: number;
+  lastPublishedAt?: Date | null;
 }
 
 export interface SocialStats {
@@ -29,6 +34,13 @@ export interface ActivityItem {
   timestamp: Date | string;
   status: 'published' | 'scheduled' | 'sent' | 'generated';
   platform?: string;
+  metadata?: {
+    slug?: string;
+    author?: string;
+    categories?: string[];
+    action?: string;
+    [key: string]: any;
+  };
 }
 
 export interface PerformingContentItem {
@@ -42,6 +54,18 @@ export interface PerformingContentItem {
     shares?: number;
     opens?: number;
     clicks?: number;
+    comments?: number;
+  };
+  metadata?: {
+    slug?: string;
+    author?: string;
+    categories?: string[];
+    publishedAt?: Date;
+    daysSincePublished?: number;
+    wordCount?: number;
+    hasImage?: boolean;
+    engagementRate?: string;
+    [key: string]: any;
   };
 }
 
@@ -51,6 +75,15 @@ export interface ScheduledItem {
   type: 'blog' | 'social' | 'newsletter';
   platform?: string;
   scheduledAt: Date | string;
+  metadata?: {
+    slug?: string;
+    author?: string;
+    categories?: string[];
+    hoursUntilPublish?: number;
+    timeUntilPublish?: string;
+    createdAt?: Date;
+    [key: string]: any;
+  };
 }
 
 export interface AIUsageStats {
