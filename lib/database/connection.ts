@@ -5,7 +5,7 @@ import { getSupabase, getSupabaseAdmin } from '../supabase'
  */
 export async function testDatabaseConnection(): Promise<boolean> {
   try {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from('social_posts')
       .select('count')
       .limit(1)
@@ -53,19 +53,23 @@ export async function checkDatabaseHealth(): Promise<{
   tables: Record<string, boolean>
   error?: string
 }> {
-  const tables = [
+  const requiredTables = [
     'social_posts',
     'newsletter_subscribers', 
     'newsletter_campaigns',
     'content_analytics',
-    'ai_content_log',
+    'ai_content_log'
+  ]
+
+  const optionalTables = [
     'automation_rules'
   ]
 
   const tableStatus: Record<string, boolean> = {}
 
   try {
-    for (const table of tables) {
+    // Check required tables
+    for (const table of requiredTables) {
       try {
         const { error } = await getSupabaseAdmin()
           .from(table)
@@ -78,10 +82,29 @@ export async function checkDatabaseHealth(): Promise<{
       }
     }
 
-    const allTablesHealthy = Object.values(tableStatus).every(status => status)
+    // Check optional tables (don't fail if they don't exist)
+    for (const table of optionalTables) {
+      try {
+        const { error } = await getSupabaseAdmin()
+          .from(table)
+          .select('count')
+          .limit(1)
+
+        tableStatus[table] = !error
+      } catch {
+        tableStatus[table] = false
+        // Don't log errors for optional tables during build
+        if (process.env.NODE_ENV !== 'production') {
+          console.warn(`Optional table '${table}' not found - this is expected if automation features are not yet set up`)
+        }
+      }
+    }
+
+    // Only required tables need to be healthy for success
+    const requiredTablesHealthy = requiredTables.every(table => tableStatus[table])
 
     return {
-      success: allTablesHealthy,
+      success: requiredTablesHealthy,
       tables: tableStatus
     }
   } catch (error) {

@@ -63,6 +63,11 @@ export class AutomationRulesService {
       const { data, error } = await query
 
       if (error) {
+        // Handle missing table gracefully during build/development
+        if (error.message?.includes("Could not find the table 'public.automation_rules'")) {
+          console.warn('Automation rules table not found - automation features not yet set up')
+          return { data: [], error: null }
+        }
         console.error('Error fetching automation rules:', error)
         return { data: [], error: error.message }
       }
@@ -90,6 +95,11 @@ export class AutomationRulesService {
         .single()
 
       if (error) {
+        // Handle missing table gracefully during build/development
+        if (error.message?.includes("Could not find the table 'public.automation_rules'")) {
+          console.warn('Automation rules table not found - automation features not yet set up')
+          return { data: null, error: null }
+        }
         console.error('Error fetching automation rule:', error)
         return { data: null, error: error.message }
       }

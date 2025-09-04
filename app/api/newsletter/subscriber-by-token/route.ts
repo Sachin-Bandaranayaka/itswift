@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { NewsletterSubscribersService } from '@/lib/database/services/newsletter-subscribers'
 
+export const dynamic = 'force-dynamic';
+
 /**
  * GET /api/newsletter/subscriber-by-token
  * Get subscriber information by unsubscribe token
