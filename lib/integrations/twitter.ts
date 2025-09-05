@@ -1,4 +1,6 @@
 // Twitter/X API integration for posting content
+import OAuth from 'oauth-1.0a'
+import crypto from 'crypto'
 
 interface TwitterConfig {
   apiKey: string
@@ -33,72 +35,38 @@ export class TwitterAPI {
   private config: TwitterConfig
   private baseUrl = 'https://api.twitter.com/2'
   private uploadUrl = 'https://upload.twitter.com/1.1'
+  private oauth: OAuth
 
   constructor(config: TwitterConfig) {
     this.config = config
-  }
-
-  /**
-   * Generate OAuth 1.0a signature for Twitter API v1.1
-   */
-  private generateOAuthSignature(
-    method: string,
-    url: string,
-    params: Record<string, string>
-  ): string {
-    // This is a simplified version - in production, use a proper OAuth library
-    // like 'oauth-1.0a' or similar
-    const crypto = require('crypto')
-    
-    const oauthParams = {
-      oauth_consumer_key: this.config.apiKey,
-      oauth_token: this.config.accessToken,
-      oauth_signature_method: 'HMAC-SHA1',
-      oauth_timestamp: Math.floor(Date.now() / 1000).toString(),
-      oauth_nonce: crypto.randomBytes(16).toString('hex'),
-      oauth_version: '1.0'
-    }
-
-    const allParams = { ...params, ...oauthParams }
-    const sortedParams = Object.keys(allParams)
-      .sort()
-      .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(allParams[key])}`)
-      .join('&')
-
-    const signatureBaseString = `${method}&${encodeURIComponent(url)}&${encodeURIComponent(sortedParams)}`
-    const signingKey = `${encodeURIComponent(this.config.apiSecret)}&${encodeURIComponent(this.config.accessTokenSecret)}`
-    
-    const signature = crypto
-      .createHmac('sha1', signingKey)
-      .update(signatureBaseString)
-      .digest('base64')
-
-    return signature
+    this.oauth = new OAuth({
+      consumer: {
+        key: config.apiKey,
+        secret: config.apiSecret,
+      },
+      signature_method: 'HMAC-SHA1',
+      hash_function(base_string, key) {
+        return crypto.createHmac('sha1', key).update(base_string).digest('base64')
+      },
+    })
   }
 
   /**
    * Generate OAuth 1.0a authorization header
    */
-  private generateOAuthHeader(method: string, url: string, params: Record<string, string> = {}): string {
-    const crypto = require('crypto')
-    
-    const oauthParams = {
-      oauth_consumer_key: this.config.apiKey,
-      oauth_token: this.config.accessToken,
-      oauth_signature_method: 'HMAC-SHA1',
-      oauth_timestamp: Math.floor(Date.now() / 1000).toString(),
-      oauth_nonce: crypto.randomBytes(16).toString('hex'),
-      oauth_version: '1.0'
+  private generateOAuthHeader(method: string, url: string, data?: any): string {
+    const token = {
+      key: this.config.accessToken,
+      secret: this.config.accessTokenSecret,
     }
 
-    const signature = this.generateOAuthSignature(method, url, { ...params, ...oauthParams })
-    oauthParams['oauth_signature'] = signature
+    const requestData = {
+      url,
+      method,
+      data,
+    }
 
-    const authHeader = 'OAuth ' + Object.keys(oauthParams)
-      .map(key => `${encodeURIComponent(key)}="${encodeURIComponent(oauthParams[key])}"`)
-      .join(', ')
-
-    return authHeader
+    return this.oauth.toHeader(this.oauth.authorize(requestData, token)).Authorization
   }
 
   /**
@@ -124,7 +92,7 @@ export class TwitterAPI {
       const response = await fetch(uploadUrl, {
         method: 'POST',
         headers: {
-          'Authorization': this.generateOAuthHeader('POST', uploadUrl),
+          'Authorization': this.generateOAuthHeader('POST', uploadUrl, params),
           'Content-Type': 'application/x-www-form-urlencoded'
         },
         body: new URLSearchParams(params)
@@ -144,9 +112,25 @@ export class TwitterAPI {
   }
 
   /**
-   * Post a tweet using Twitter API v2
+   * Post a tweet using Twitter API v2 with OAuth 1.0a
    */
   async createTweet(post: TwitterPost): Promise<TwitterPostResponse> {
+    // Check if we're in test mode
+    if (process.env.TWITTER_TEST_MODE === 'true') {
+      console.log('Twitter Test Mode: Simulating tweet creation', {
+        content: post.content,
+        mediaUrls: post.mediaUrls,
+        replyToTweetId: post.replyToTweetId,
+        quoteTweetId: post.quoteTweetId
+      })
+      
+      return {
+        id: `test_tweet_${Date.now()}`,
+        success: true,
+        url: `https://twitter.com/test/status/test_tweet_${Date.now()}`
+      }
+    }
+
     try {
       // Upload media if provided
       let mediaIds: string[] = []
@@ -178,11 +162,14 @@ export class TwitterAPI {
         tweetData.quote_tweet_id = post.quoteTweetId
       }
 
-      // Use Bearer Token for API v2
-      const response = await fetch(`${this.baseUrl}/tweets`, {
+      const url = `${this.baseUrl}/tweets`
+      
+      // Use OAuth 1.0a for posting (required for write operations)
+      // For JSON payloads, don't include body in OAuth signature
+      const response = await fetch(url, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${this.config.bearerToken}`,
+          'Authorization': this.generateOAuthHeader('POST', url),
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(tweetData)
@@ -215,10 +202,11 @@ export class TwitterAPI {
    */
   async deleteTweet(tweetId: string): Promise<boolean> {
     try {
-      const response = await fetch(`${this.baseUrl}/tweets/${tweetId}`, {
+      const url = `${this.baseUrl}/tweets/${tweetId}`
+      const response = await fetch(url, {
         method: 'DELETE',
         headers: {
-          'Authorization': `Bearer ${this.config.bearerToken}`
+          'Authorization': this.generateOAuthHeader('DELETE', url)
         }
       })
 

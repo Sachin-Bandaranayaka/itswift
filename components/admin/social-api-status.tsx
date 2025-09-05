@@ -239,7 +239,16 @@ export function SocialApiStatus({ className }: SocialApiStatusProps) {
                 </p>
               </div>
             </div>
-            <div>
+            <div className="flex items-center gap-2">
+              {status.linkedin.configured && !status.linkedin.tokenValid && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => window.open('/api/admin/social/linkedin/auth', '_blank')}
+                >
+                  Authorize LinkedIn
+                </Button>
+              )}
               {getStatusBadge(status.linkedin.configured, status.linkedin.tokenValid)}
             </div>
           </div>
@@ -268,10 +277,30 @@ export function SocialApiStatus({ className }: SocialApiStatusProps) {
         {!overallReady && (
           <div className="space-y-3">
             <h4 className="font-medium">Configuration Help</h4>
-            <div className="text-sm text-muted-foreground space-y-2">
-              <p><strong>LinkedIn:</strong> Set LINKEDIN_CLIENT_ID, LINKEDIN_CLIENT_SECRET, and LINKEDIN_ACCESS_TOKEN in your environment variables.</p>
-              <p><strong>Twitter/X:</strong> Set TWITTER_API_KEY, TWITTER_API_SECRET, TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_TOKEN_SECRET, and TWITTER_BEARER_TOKEN in your environment variables.</p>
-              <p>Restart the application after updating environment variables.</p>
+            <div className="text-sm text-muted-foreground space-y-3">
+              <div>
+                <p><strong>LinkedIn:</strong></p>
+                <ul className="list-disc list-inside ml-4 space-y-1">
+                  <li>Set LINKEDIN_CLIENT_ID and LINKEDIN_CLIENT_SECRET in your environment variables</li>
+                  <li>Click "Authorize LinkedIn" button above to get an access token</li>
+                  <li>Add the token to your .env.local file as LINKEDIN_ACCESS_TOKEN</li>
+                </ul>
+                {status.linkedin.configured && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="mt-2"
+                    onClick={() => window.open('/api/admin/social/linkedin/auth', '_blank')}
+                  >
+                    <Linkedin className="h-4 w-4 mr-2" />
+                    Get LinkedIn Access Token
+                  </Button>
+                )}
+              </div>
+              <div>
+                <p><strong>Twitter/X:</strong> Set TWITTER_API_KEY, TWITTER_API_SECRET, TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_TOKEN_SECRET, and TWITTER_BEARER_TOKEN in your environment variables.</p>
+              </div>
+              <p className="text-xs">Restart the application after updating environment variables.</p>
             </div>
           </div>
         )}

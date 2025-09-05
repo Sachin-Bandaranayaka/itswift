@@ -82,8 +82,13 @@ export function validateSocialPost(input: SocialPostInput): ValidationResult {
     const scheduledDate = new Date(input.scheduled_at)
     if (isNaN(scheduledDate.getTime())) {
       errors.push('Invalid scheduled date format')
-    } else if (scheduledDate < new Date()) {
-      errors.push('Scheduled date cannot be in the past')
+    } else {
+      // Allow a 1-minute buffer to account for processing time
+      const now = new Date()
+      const oneMinuteAgo = new Date(now.getTime() - 60 * 1000)
+      if (scheduledDate < oneMinuteAgo) {
+        errors.push('Scheduled date cannot be in the past')
+      }
     }
   }
 
@@ -159,8 +164,13 @@ export function validateNewsletterCampaign(input: NewsletterCampaignInput): Vali
     const scheduledDate = new Date(input.scheduled_at)
     if (isNaN(scheduledDate.getTime())) {
       errors.push('Invalid scheduled date format')
-    } else if (scheduledDate < new Date()) {
-      errors.push('Scheduled date cannot be in the past')
+    } else {
+      // Allow a 1-minute buffer to account for processing time
+      const now = new Date()
+      const oneMinuteAgo = new Date(now.getTime() - 60 * 1000)
+      if (scheduledDate < oneMinuteAgo) {
+        errors.push('Scheduled date cannot be in the past')
+      }
     }
   }
 

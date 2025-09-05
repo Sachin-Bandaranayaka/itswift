@@ -103,7 +103,17 @@ export class LinkedInAPI {
    * Post content to LinkedIn
    */
   async createPost(post: LinkedInPost): Promise<LinkedInPostResponse> {
+    // Test mode - if no access token, simulate success
     if (!this.config.accessToken) {
+      if (process.env.NODE_ENV === 'development' && process.env.LINKEDIN_TEST_MODE === 'true') {
+        console.log('LinkedIn Test Mode: Simulating post creation')
+        console.log('Post content:', post.content)
+        return {
+          id: `test-post-${Date.now()}`,
+          success: true,
+          url: `https://www.linkedin.com/feed/update/test-post-${Date.now()}`
+        }
+      }
       throw new Error('Access token required')
     }
 
