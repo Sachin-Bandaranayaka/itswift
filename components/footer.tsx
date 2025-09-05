@@ -1,5 +1,5 @@
 import Image from "next/image"
-import { Linkedin, Instagram, Youtube, Mail, Phone, Map } from "lucide-react"
+import { Linkedin, Instagram, Youtube, Mail, Phone, Map, Twitter } from "lucide-react"
 import Link from "next/link"
 
 export default function Footer() {
@@ -18,13 +18,13 @@ export default function Footer() {
             />
 
             <div className="flex space-x-4 mb-8">
-              <Link href="https://linkedin.com/company/swift-solution" className="hover:opacity-80 transition-opacity" target="_blank" rel="noopener noreferrer">
+              <Link href="https://x.com/itswiftdotcom" className="hover:opacity-80 transition-opacity" target="_blank" rel="noopener noreferrer">
+                <Twitter className="h-6 w-6 text-white" />
+              </Link>
+              <Link href="https://in.linkedin.com/company/swift-solution-pvt-ltd" className="hover:opacity-80 transition-opacity" target="_blank" rel="noopener noreferrer">
                 <Linkedin className="h-6 w-6 text-white" />
               </Link>
-              <Link href="https://instagram.com/swiftsolution" className="hover:opacity-80 transition-opacity" target="_blank" rel="noopener noreferrer">
-                <Instagram className="h-6 w-6 text-white" />
-              </Link>
-              <Link href="https://youtube.com/@swiftsolution" className="hover:opacity-80 transition-opacity" target="_blank" rel="noopener noreferrer">
+              <Link href="https://www.youtube.com/@swiftsolutionpvtltd" className="hover:opacity-80 transition-opacity" target="_blank" rel="noopener noreferrer">
                 <Youtube className="h-6 w-6 text-white" />
               </Link>
             </div>

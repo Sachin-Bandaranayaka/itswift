@@ -273,7 +273,7 @@ export default function Home() {
                       {study.industry}
                     </span>
                     <Button variant="outline" asChild size="sm">
-                      <Link href={`/case-studies/${study.id}`}>View Details</Link>
+                      <Link href="/case-studies">View Details</Link>
                     </Button>
                   </div>
                 </div>
