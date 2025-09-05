@@ -157,16 +157,20 @@ export default function SalesEnablementPage() {
               Empower your sales team with comprehensive training programs that drive revenue growth and improve performance
             </p>
             <div className="flex justify-center">
-              <Link href="/#contact">
-                <motion.button
-                  className="bg-yellow-500 hover:bg-yellow-600 text-black px-8 py-4 rounded-lg font-semibold transition-colors duration-300 flex items-center justify-center"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  Get Started
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </motion.button>
-              </Link>
+              <motion.button
+                className="bg-yellow-500 hover:bg-yellow-600 text-black px-8 py-4 rounded-lg font-semibold transition-colors duration-300 flex items-center justify-center cursor-pointer"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => {
+                  const contactSection = document.getElementById('contact-section');
+                  if (contactSection) {
+                    contactSection.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+              >
+                Get Started
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </motion.button>
             </div>
           </motion.div>
         </div>
@@ -417,7 +421,9 @@ export default function SalesEnablementPage() {
       </section>
 
       {/* Contact Section */}
-      <Contact />
+      <div id="contact-section">
+        <Contact />
+      </div>
     </div>
   );
 }

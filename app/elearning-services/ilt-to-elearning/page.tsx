@@ -717,16 +717,10 @@ export default function IltToElearningPage() {
                         transition={{ duration: 0.8 }}
                         className="max-w-5xl mx-auto"
                     >
-                        <div className="text-center mb-12">
-                            <h2 className="text-3xl font-bold text-gray-900 mb-4">Contact Us</h2>
-                            <p className="text-lg text-gray-700">
-                                Ready to transform your instructor-led training into effective digital learning experiences? Our Bangalore team is ready to help you reach audiences across the US, Europe, and Middle East with engaging, consistent training.
-                            </p>
-                            <p className="text-lg text-gray-700 mt-4">
-                                Contact us today to discuss how our ILT to eLearning conversion services can help you reduce costs, expand reach, and improve training effectiveness across your global operations.
-                            </p>
+
+                        <div className="mb-12">
+                            <Contact />
                         </div>
-                        <Contact />
                     </motion.div>
                 </div>
             </section>

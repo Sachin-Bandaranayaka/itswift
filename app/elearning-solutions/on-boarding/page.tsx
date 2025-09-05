@@ -459,9 +459,6 @@ export default function OnboardingPage() {
                             <a href="#contact" className="inline-flex items-center justify-center px-6 py-3 bg-white text-orange-600 rounded-lg font-medium hover:bg-orange-50 transition-colors duration-200">
                                 Schedule a Consultation
                             </a>
-                            <a href="#" className="inline-flex items-center justify-center px-6 py-3 bg-transparent border border-white text-white rounded-lg font-medium hover:bg-white/10 transition-colors duration-200">
-                                Download Brochure
-                            </a>
                         </div>
                     </div>
                 </div>
