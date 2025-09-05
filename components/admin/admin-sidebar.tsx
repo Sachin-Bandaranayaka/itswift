@@ -21,6 +21,7 @@ import {
   ChevronRight,
   Zap,
   Shield,
+  MessageSquare,
 } from "lucide-react"
 import { useState } from "react"
 
@@ -44,6 +45,11 @@ const navigation = [
     name: "Newsletter",
     href: "/admin/newsletter",
     icon: Mail,
+  },
+  {
+    name: "Contacts",
+    href: "/admin/contacts",
+    icon: MessageSquare,
   },
   {
     name: "Content Calendar",

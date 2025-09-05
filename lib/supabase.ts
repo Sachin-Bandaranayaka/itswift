@@ -55,6 +55,53 @@ export function getSupabaseAdmin() {
 export interface Database {
   public: {
     Tables: {
+      contact_submissions: {
+        Row: {
+          id: string
+          first_name: string
+          last_name: string | null
+          email: string
+          phone: string | null
+          company: string | null
+          message: string
+          status: 'new' | 'in_progress' | 'resolved' | 'closed'
+          submitted_at: string
+          responded_at: string | null
+          notes: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          first_name: string
+          last_name?: string | null
+          email: string
+          phone?: string | null
+          company?: string | null
+          message: string
+          status?: 'new' | 'in_progress' | 'resolved' | 'closed'
+          submitted_at?: string
+          responded_at?: string | null
+          notes?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          first_name?: string
+          last_name?: string | null
+          email?: string
+          phone?: string | null
+          company?: string | null
+          message?: string
+          status?: 'new' | 'in_progress' | 'resolved' | 'closed'
+          submitted_at?: string
+          responded_at?: string | null
+          notes?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
       social_posts: {
         Row: {
           id: string
