@@ -44,7 +44,7 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-lg sm:text-xl md:text-2xl text-white max-w-4xl mx-auto mt-6"
           >
-            We deliver measurable results and exceptional ROI with our award-winning, AI-driven eLearning solutions. Trusted by Google, Microsoft, and Siemens.
+            We deliver measurable results and exceptional ROI with our award-winning, AI-driven eLearning solutions.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -52,9 +52,17 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="mt-8 flex justify-center items-center"
           >
-            <Link href="/contact" className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 px-8 rounded-lg text-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl inline-block">
+            <button 
+              onClick={() => {
+                const contactSection = document.getElementById('contact');
+                if (contactSection) {
+                  contactSection.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+              className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 px-8 rounded-lg text-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl inline-block cursor-pointer"
+            >
               Get a Free AI Training Consultation
-            </Link>
+            </button>
           </motion.div>
         </div>
       </div>

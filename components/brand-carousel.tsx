@@ -37,7 +37,7 @@ export default function BrandCarousel() {
           transition={{ duration: 0.8 }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Trusted by Global Leaders and Bangalore's Top Companies</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">Trusted by Global leaders and Top companies in india</h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
             Join hundreds of companies that trust us with their eLearning needs
           </p>

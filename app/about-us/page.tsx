@@ -488,16 +488,7 @@ export default function AboutUsPage() {
                         <p className="text-xl text-gray-600 mb-8">
                             When you partner with Swift Solution, you are choosing one of the top eLearning companies in Bangalore with a proven track record of delivering excellence. We are passionate about helping your organization achieve its full potential through innovative and effective custom eLearning solutions.
                         </p>
-                        <div className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl p-8 text-white">
-                            <h3 className="text-2xl font-bold mb-4">Ready to Transform Your Learning Experience?</h3>
-                            <p className="text-orange-100 mb-6">
-                                Contact us today to discuss how we can help you improve performance and achieve your business objectives.
-                            </p>
-                            <a href="http://localhost:3000/#contact" className="bg-white text-orange-600 px-8 py-3 rounded-lg font-semibold hover:bg-orange-50 transition-colors duration-200 inline-flex items-center">
-                                Start Your AI-Powered Journey
-                                <ArrowRight className="h-5 w-5 ml-2" />
-                            </a>
-                        </div>
+
                     </div>
                 </div>
             </section>
