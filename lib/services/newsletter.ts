@@ -283,8 +283,15 @@ export class NewsletterService {
         }
       }
 
+      // Process template variables and prepare email content
+      const processedContent = this.processTemplateVariables(campaign.content, {
+        title: campaign.subject,
+        subject: campaign.subject,
+        date: new Date().toLocaleDateString()
+      })
+      
       // Prepare email content with unsubscribe links
-      const emailContent = this.addUnsubscribeLinksToContent(campaign.content, recipients)
+      const emailContent = this.addUnsubscribeLinksToContent(processedContent, recipients)
       
       // Generate text content from HTML content
       const textContent = this.generateTextContent(emailContent, campaign.subject)
@@ -435,6 +442,42 @@ export class NewsletterService {
         error: error instanceof Error ? error.message : 'Unknown error'
       }
     }
+  }
+
+  /**
+   * Process template variables (Handlebars-like syntax) before sending to Brevo
+   */
+  private processTemplateVariables(content: string, variables: Record<string, any>): string {
+    let processedContent = content
+
+    // Replace simple variables like {{title}}, {{subject}}, etc.
+    Object.entries(variables).forEach(([key, value]) => {
+      const regex = new RegExp(`\\{\\{${key}\\}\\}`, 'g')
+      processedContent = processedContent.replace(regex, String(value))
+    })
+
+    // Handle conditional blocks like {{#if cta_url}}...{{/if}}
+    // Remove them if the condition variable is not provided
+    processedContent = processedContent.replace(/\{\{#if\s+(\w+)\}\}[\s\S]*?\{\{\/if\}\}/g, (match, variable) => {
+      // If the variable exists and has a truthy value, keep the content inside
+      if (variables[variable]) {
+        // Extract content between the if tags and process it
+        const contentMatch = match.match(/\{\{#if\s+\w+\}\}([\s\S]*?)\{\{\/if\}\}/)
+        if (contentMatch) {
+          let innerContent = contentMatch[1]
+          // Replace variables in the inner content
+          Object.entries(variables).forEach(([key, value]) => {
+            const regex = new RegExp(`\\{\\{${key}\\}\\}`, 'g')
+            innerContent = innerContent.replace(regex, String(value))
+          })
+          return innerContent
+        }
+      }
+      // If variable doesn't exist or is falsy, remove the entire block
+      return ''
+    })
+
+    return processedContent
   }
 
   /**
