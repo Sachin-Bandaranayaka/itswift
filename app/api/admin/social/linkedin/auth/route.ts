@@ -30,6 +30,11 @@ export async function GET(request: NextRequest) {
             // Redirect to LinkedIn OAuth
             const linkedinAPI = createLinkedInAPI()
             const authUrl = linkedinAPI.getAuthUrl('linkedin-auth')
+            
+            // Add some debugging
+            console.log('🔗 LinkedIn Auth URL:', authUrl)
+            console.log('🔗 Redirect URI:', process.env.LINKEDIN_REDIRECT_URI)
+            
             return NextResponse.redirect(authUrl)
         }
 

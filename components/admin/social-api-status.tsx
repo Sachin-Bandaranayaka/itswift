@@ -286,15 +286,23 @@ export function SocialApiStatus({ className }: SocialApiStatusProps) {
                   <li>Add the token to your .env.local file as LINKEDIN_ACCESS_TOKEN</li>
                 </ul>
                 {status.linkedin.configured && (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="mt-2"
-                    onClick={() => window.open('/api/admin/social/linkedin/auth', '_blank')}
-                  >
-                    <Linkedin className="h-4 w-4 mr-2" />
-                    Get LinkedIn Access Token
-                  </Button>
+                  <div className="flex gap-2 mt-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => window.open('/api/admin/social/linkedin/auth', '_blank')}
+                    >
+                      <Linkedin className="h-4 w-4 mr-2" />
+                      Auto Authorize
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => window.open('/api/admin/social/linkedin/manual-auth', '_blank')}
+                    >
+                      Manual Setup
+                    </Button>
+                  </div>
                 )}
               </div>
               <div>
