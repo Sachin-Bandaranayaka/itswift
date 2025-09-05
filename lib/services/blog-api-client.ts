@@ -5,7 +5,17 @@ export class BlogApiClient {
     // For server-side requests, we need an absolute URL
     if (typeof window === 'undefined') {
       // Server-side: use environment variable or default
-      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.VERCEL_URL || 'http://localhost:3000';
+      let baseUrl = process.env.NEXT_PUBLIC_SITE_URL;
+      
+      if (!baseUrl && process.env.VERCEL_URL) {
+        // VERCEL_URL doesn't include protocol, so we need to add it
+        baseUrl = `https://${process.env.VERCEL_URL}`;
+      }
+      
+      if (!baseUrl) {
+        baseUrl = 'http://localhost:3000';
+      }
+      
       return `${baseUrl}/api/blog`;
     }
     // Client-side: relative URL is fine

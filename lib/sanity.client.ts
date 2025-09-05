@@ -9,8 +9,18 @@ export const client = createClient({
     projectId,
     dataset,
     apiVersion,
-    useCdn: false, // if you're using ISR or on-demand revalidation
+    useCdn: process.env.NODE_ENV === 'production', // Use CDN in production for better performance
     token, // Add the token for write operations
     perspective: 'published', // Only fetch published content
     stega: false, // Disable stega for production
-}); 
+});
+
+// Validate configuration in development
+if (process.env.NODE_ENV === 'development') {
+    if (!projectId || projectId === 'placeholder-project-id') {
+        console.warn('⚠️ Sanity project ID is not configured');
+    }
+    if (!token) {
+        console.warn('⚠️ Sanity API token is not configured');
+    }
+} 

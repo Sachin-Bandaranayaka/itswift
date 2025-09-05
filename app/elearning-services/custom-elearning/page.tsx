@@ -822,17 +822,6 @@ export default function CustomElearningPage() {
             {/* Contact Section */}
             <section id="contact" className="py-16 bg-white">
                 <div className="container mx-auto px-4">
-                    <div className="text-center mb-12">
-                        <h3 className="text-3xl font-bold mb-4 text-gray-900">
-                            Contact Information and Next Steps
-                        </h3>
-                        <p className="text-xl text-gray-600">
-                            Ready to Transform Your Training with Custom E-Learning?
-                        </p>
-                        <p className="text-lg text-gray-600 mt-4">
-                            Swift Solution Pvt Ltd - Custom E-Learning Excellence
-                        </p>
-                    </div>
                     <Contact />
                 </div>
             </section>
