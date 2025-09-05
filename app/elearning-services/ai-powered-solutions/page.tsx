@@ -6,45 +6,45 @@ import Contact from "@/components/contact"
 import { ArrowRight, CheckCircle, Award, BarChart, Layers, Users, ChevronDown, Brain, Zap, Target, TrendingUp, Lightbulb, Shield } from "lucide-react"
 
 export default function AIPoweredSolutionsPage() {
-    const [showAllFaqs, setShowAllFaqs] = useState(false);
+    const [openItems, setOpenItems] = useState<Record<string, boolean>>({
+        "0-0": true // First question open by default
+    });
+
+    const toggleItem = (categoryIndex: number, itemIndex: number) => {
+        const itemKey = `${categoryIndex}-${itemIndex}`
+        setOpenItems(prev => ({
+            ...prev,
+            [itemKey]: !prev[itemKey]
+        }))
+    }
+
+    const isOpen = (categoryIndex: number, itemIndex: number) => {
+        const itemKey = `${categoryIndex}-${itemIndex}`
+        return !!openItems[itemKey]
+    }
 
     // FAQ items
-    const faqItems = [
+    const faqCategories = [
         {
-            question: "What is generative AI, and how is it used in corporate training?",
-            icon: <Brain className="h-6 w-6 text-orange-600" />,
-            answer: (
-                <p className="text-gray-700">
-                    Generative AI is a type of artificial intelligence that can create new content, such as text, images, and video. In corporate training, it is used to automate course creation, generate realistic simulations, and create personalized learning materials, significantly reducing development time and costs while enhancing the quality and relevance of the content.
-                </p>
-            )
-        },
-        {
-            question: "How does personalized learning improve employee performance?",
-            icon: <Target className="h-6 w-6 text-orange-600" />,
-            answer: (
-                <p className="text-gray-700">
-                    Personalized learning improves employee performance by tailoring the learning experience to individual needs, preferences, and skill levels. This leads to higher engagement, better knowledge retention, and more effective application of skills on the job. By focusing on individual needs, personalized learning ensures that every employee receives the right training at the right time, maximizing their potential.
-                </p>
-            )
-        },
-        {
-            question: "Is AI-powered eLearning expensive to implement?",
-            icon: <BarChart className="h-6 w-6 text-orange-600" />,
-            answer: (
-                <p className="text-gray-700">
-                    While there is an initial investment, AI-powered eLearning often proves to be more cost-effective in the long run. The automation of content creation, the optimization of learning paths, and the ability to identify and address skills gaps proactively can lead to significant cost savings and a higher return on investment compared to traditional training methods.
-                </p>
-            )
-        },
-        {
-            question: "How do you ensure the security and privacy of our data?",
-            icon: <Shield className="h-6 w-6 text-orange-600" />,
-            answer: (
-                <p className="text-gray-700">
-                    At Swift Solution, we adhere to the highest standards of data security and privacy. We have a robust ethical AI framework in place and comply with all relevant data protection regulations. Your data is used solely for the purpose of enhancing the learning experience and is never shared with third parties.
-                </p>
-            )
+            title: "AI-POWERED ELEARNING SOLUTIONS",
+            faqs: [
+                {
+                    question: "What is generative AI, and how is it used in corporate training?",
+                    answer: "Generative AI is a type of artificial intelligence that can create new content, such as text, images, and video. In corporate training, it is used to automate course creation, generate realistic simulations, and create personalized learning materials, significantly reducing development time and costs while enhancing the quality and relevance of the content."
+                },
+                {
+                    question: "How does personalized learning improve employee performance?",
+                    answer: "Personalized learning improves employee performance by tailoring the learning experience to individual needs, preferences, and skill levels. This leads to higher engagement, better knowledge retention, and more effective application of skills on the job. By focusing on individual needs, personalized learning ensures that every employee receives the right training at the right time, maximizing their potential."
+                },
+                {
+                    question: "Is AI-powered eLearning expensive to implement?",
+                    answer: "While there is an initial investment, AI-powered eLearning often proves to be more cost-effective in the long run. The automation of content creation, the optimization of learning paths, and the ability to identify and address skills gaps proactively can lead to significant cost savings and a higher return on investment compared to traditional training methods."
+                },
+                {
+                    question: "How do you ensure the security and privacy of our data?",
+                    answer: "At Swift Solution, we adhere to the highest standards of data security and privacy. We have a robust ethical AI framework in place and comply with all relevant data protection regulations. Your data is used solely for the purpose of enhancing the learning experience and is never shared with third parties."
+                }
+            ]
         }
     ];
 
@@ -64,10 +64,18 @@ export default function AIPoweredSolutionsPage() {
                             We are not just an eLearning company; we are your strategic partner in building a future-ready workforce. Our AI-powered solutions deliver personalized, adaptive, and engaging learning experiences that drive unprecedented growth and ROI.
                         </p>
                         <div className="flex flex-col md:flex-row gap-4">
-                            <a href="/#contact" className="inline-flex items-center justify-center px-6 py-3 bg-white text-blue-600 rounded-lg font-medium hover:bg-blue-50 transition-colors duration-200">
+                            <button 
+                                onClick={() => {
+                                    const contactSection = document.getElementById('contact');
+                                    if (contactSection) {
+                                        contactSection.scrollIntoView({ behavior: 'smooth' });
+                                    }
+                                }}
+                                className="inline-flex items-center justify-center px-6 py-3 bg-white text-blue-600 rounded-lg font-medium hover:bg-blue-50 transition-colors duration-200 cursor-pointer"
+                            >
                                 Schedule a Free AI Solutions Demo
                                 <ArrowRight className="ml-2 h-4 w-4" />
-                            </a>
+                            </button>
                             <a href="#ai-solutions" className="inline-flex items-center justify-center px-6 py-3 bg-transparent border border-white text-white rounded-lg font-medium hover:bg-white/10 transition-colors duration-200">
                                 Explore AI Solutions
                             </a>
@@ -315,45 +323,60 @@ export default function AIPoweredSolutionsPage() {
             </section>
 
             {/* FAQ Section */}
-            <section id="faq" className="py-16 bg-gray-50">
+            <section id="faq" className="py-16 bg-white">
                 <div className="container mx-auto px-4">
-                    <div className="text-center mb-12">
-                        <h2 className="text-3xl font-bold mb-4 text-gray-900">
-                            Your Questions About AI in eLearning, Answered
-                        </h2>
-                        <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                            Get answers to common questions about our AI-powered eLearning solutions
-                        </p>
-                    </div>
+                    <div className="grid md:grid-cols-[1fr,2fr] gap-16 max-w-7xl mx-auto">
+                        {/* Left side - title */}
+                        <div>
+                            <h2 className="text-4xl font-bold sticky top-24">
+                                Your Questions About AI in eLearning, Answered
+                            </h2>
+                        </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                        {faqItems.slice(0, showAllFaqs ? faqItems.length : 2).map((faq, index) => (
-                            <div key={index} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                                <div className="p-6">
-                                    <div className="flex items-center mb-4">
-                                        <div className="bg-orange-100 p-2 rounded-full mr-4">
-                                            {faq.icon}
-                                        </div>
-                                        <h3 className="text-xl font-semibold text-gray-900">
-                                            {faq.question}
-                                        </h3>
-                                    </div>
-                                    <div className="prose prose-orange max-w-none">
-                                        {faq.answer}
+                        {/* Right side - FAQ content */}
+                        <div>
+                            {faqCategories.map((category, categoryIndex) => (
+                                <div key={categoryIndex} className="mb-12">
+                                    <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-6">
+                                        {category.title}
+                                    </h3>
+                                    <div className="space-y-px">
+                                        {category.faqs.map((faq, itemIndex) => {
+                                            const isItemOpen = isOpen(categoryIndex, itemIndex);
+
+                                            return (
+                                                <div key={itemIndex} className="border-t border-gray-200 first:border-t-0">
+                                                    <button
+                                                        onClick={() => toggleItem(categoryIndex, itemIndex)}
+                                                        className="flex justify-between items-center w-full py-6 text-left"
+                                                    >
+                                                        <span className={`text-lg font-medium ${isItemOpen ? "text-blue-500" : "text-gray-900"}`}>
+                                                            {faq.question}
+                                                        </span>
+                                                        <span className="ml-6 flex-shrink-0">
+                                                            {isItemOpen ? (
+                                                                <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                                                                </svg>
+                                                            ) : (
+                                                                <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                                                </svg>
+                                                            )}
+                                                        </span>
+                                                    </button>
+                                                    {isItemOpen && (
+                                                        <div className="pb-6">
+                                                            <p className="text-gray-600">{faq.answer}</p>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            );
+                                        })}
                                     </div>
                                 </div>
-                            </div>
-                        ))}
-                    </div>
-
-                    <div className="text-center mt-10">
-                        <button
-                            onClick={() => setShowAllFaqs(!showAllFaqs)}
-                            className="inline-flex items-center justify-center px-6 py-3 bg-orange-500 text-white rounded-lg font-medium hover:bg-orange-600 transition-colors duration-200"
-                        >
-                            {showAllFaqs ? "Show Less" : "View All FAQs"}
-                            <ArrowRight className={`ml-2 h-4 w-4 ${showAllFaqs ? "rotate-90" : ""}`} />
-                        </button>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </section>
@@ -368,10 +391,18 @@ export default function AIPoweredSolutionsPage() {
                         Partner with the leading AI-enabled eLearning solutions company in Bangalore and unlock the full potential of your workforce. Contact us today for a free demo and discover how our AI-powered solutions can transform your corporate training and drive unprecedented business growth.
                     </p>
                     <div className="flex justify-center">
-                        <a href="/#contact" className="inline-flex items-center justify-center px-8 py-3 bg-white text-blue-600 rounded-lg font-medium hover:bg-blue-50 transition-colors duration-200">
+                        <button 
+                            onClick={() => {
+                                const contactSection = document.getElementById('contact');
+                                if (contactSection) {
+                                    contactSection.scrollIntoView({ behavior: 'smooth' });
+                                }
+                            }}
+                            className="inline-flex items-center justify-center px-8 py-3 bg-white text-blue-600 rounded-lg font-medium hover:bg-blue-50 transition-colors duration-200 cursor-pointer"
+                        >
                             Get Free Demo
                             <ArrowRight className="ml-2 h-4 w-4" />
-                        </a>
+                        </button>
                     </div>
                 </div>
             </section>

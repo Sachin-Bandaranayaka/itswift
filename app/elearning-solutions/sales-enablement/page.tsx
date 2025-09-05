@@ -35,7 +35,22 @@ const staggerContainer = {
 
 export default function SalesEnablementPage() {
   const [activeTab, setActiveTab] = useState('overview');
-  const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
+  const [openItems, setOpenItems] = useState<Record<string, boolean>>({
+    "0-0": true // First question open by default
+  });
+
+  const toggleItem = (categoryIndex: number, itemIndex: number) => {
+    const itemKey = `${categoryIndex}-${itemIndex}`
+    setOpenItems(prev => ({
+      ...prev,
+      [itemKey]: !prev[itemKey]
+    }))
+  }
+
+  const isOpen = (categoryIndex: number, itemIndex: number) => {
+    const itemKey = `${categoryIndex}-${itemIndex}`
+    return !!openItems[itemKey]
+  }
 
   const benefits = [
     {
@@ -111,22 +126,27 @@ export default function SalesEnablementPage() {
     }
   ];
 
-  const faqs = [
+  const faqCategories = [
     {
-      question: "How long does it take to develop a sales enablement program?",
-      answer: "Development time varies based on scope and complexity, typically ranging from 6-12 weeks for comprehensive programs. We work with your timeline to ensure timely delivery."
-    },
-    {
-      question: "Can you integrate with our existing CRM system?",
-      answer: "Yes, we can integrate training content and tracking with most major CRM platforms including Salesforce, HubSpot, and Microsoft Dynamics."
-    },
-    {
-      question: "How do you measure the effectiveness of sales training?",
-      answer: "We track multiple metrics including completion rates, assessment scores, behavior change, and business impact metrics like conversion rates and revenue growth."
-    },
-    {
-      question: "Do you provide ongoing support after implementation?",
-      answer: "Yes, we offer various support packages including content updates, performance monitoring, and additional training modules as your needs evolve."
+      title: "SALES ENABLEMENT SOLUTIONS",
+      faqs: [
+        {
+          question: "How long does it take to develop a sales enablement program?",
+          answer: "Development time varies based on scope and complexity, typically ranging from 6-12 weeks for comprehensive programs. We work with your timeline to ensure timely delivery."
+        },
+        {
+          question: "Can you integrate with our existing CRM system?",
+          answer: "Yes, we can integrate training content and tracking with most major CRM platforms including Salesforce, HubSpot, and Microsoft Dynamics."
+        },
+        {
+          question: "How do you measure the effectiveness of sales training?",
+          answer: "We track multiple metrics including completion rates, assessment scores, behavior change, and business impact metrics like conversion rates and revenue growth."
+        },
+        {
+          question: "Do you provide ongoing support after implementation?",
+          answer: "Yes, we offer various support packages including content updates, performance monitoring, and additional training modules as your needs evolve."
+        }
+      ]
     }
   ];
 
@@ -377,45 +397,63 @@ export default function SalesEnablementPage() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            className="text-center mb-16"
-            {...fadeInUp}
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-              Frequently Asked Questions
-            </h2>
-            <p className="text-xl text-gray-600">
-              Get answers to common questions about our sales enablement solutions
-            </p>
-          </motion.div>
-
-          <div className="space-y-4">
-            {faqs.map((faq, index) => (
-              <motion.div
-                key={index}
-                className="bg-white rounded-lg shadow-md overflow-hidden"
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-[1fr,2fr] gap-16">
+            {/* Left side - title */}
+            <div>
+              <motion.h2
+                className="text-4xl font-bold sticky top-24"
                 {...fadeInUp}
               >
-                <button
-                  className="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50 transition-colors duration-200"
-                  onClick={() => setExpandedFaq(expandedFaq === index ? null : index)}
-                >
-                  <span className="font-semibold text-gray-900">{faq.question}</span>
-                  <ArrowRight 
-                    className={`h-5 w-5 text-gray-500 transition-transform duration-200 ${
-                      expandedFaq === index ? 'rotate-90' : ''
-                    }`} 
-                  />
-                </button>
-                {expandedFaq === index && (
-                  <div className="px-6 pb-4">
-                    <p className="text-gray-600">{faq.answer}</p>
+                Frequently Asked Questions (FAQs) about Sales Enablement Solutions
+              </motion.h2>
+            </div>
+
+            {/* Right side - FAQ content */}
+            <div>
+              {faqCategories.map((category, categoryIndex) => (
+                <motion.div key={categoryIndex} className="mb-12" {...fadeInUp}>
+                  <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-6">
+                    {category.title}
+                  </h3>
+                  <div className="space-y-px">
+                    {category.faqs.map((faq, itemIndex) => {
+                      const isItemOpen = isOpen(categoryIndex, itemIndex);
+
+                      return (
+                        <div key={itemIndex} className="border-t border-gray-200 first:border-t-0">
+                          <button
+                            onClick={() => toggleItem(categoryIndex, itemIndex)}
+                            className="flex justify-between items-center w-full py-6 text-left"
+                          >
+                            <span className={`text-lg font-medium ${isItemOpen ? "text-blue-500" : "text-gray-900"}`}>
+                              {faq.question}
+                            </span>
+                            <span className="ml-6 flex-shrink-0">
+                              {isItemOpen ? (
+                                <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                                </svg>
+                              ) : (
+                                <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                </svg>
+                              )}
+                            </span>
+                          </button>
+                          {isItemOpen && (
+                            <div className="pb-6">
+                              <p className="text-gray-600">{faq.answer}</p>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
-                )}
-              </motion.div>
-            ))}
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
       </section>

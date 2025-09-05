@@ -6,75 +6,53 @@ import Contact from "@/components/contact"
 import { ArrowRight, CheckCircle, Award, BarChart, Layers, Users, ChevronDown } from "lucide-react"
 
 export default function CompliancePage() {
-    const [showAllFaqs, setShowAllFaqs] = useState(false);
+    const [openItems, setOpenItems] = useState<Record<string, boolean>>({
+        "0-0": true // First question open by default
+    });
 
-    // All FAQ items
-    const faqItems = [
+    const toggleItem = (categoryIndex: number, itemIndex: number) => {
+        const itemKey = `${categoryIndex}-${itemIndex}`
+        setOpenItems(prev => ({
+            ...prev,
+            [itemKey]: !prev[itemKey]
+        }))
+    }
+
+    const isOpen = (categoryIndex: number, itemIndex: number) => {
+        const itemKey = `${categoryIndex}-${itemIndex}`
+        return !!openItems[itemKey]
+    }
+
+    // FAQ categories
+    const faqCategories = [
         {
-            question: "How quickly can you develop customized compliance training for our organization?",
-            icon: <BarChart className="h-6 w-6 text-orange-600" />,
-            answer: (
-                <>
-                    <p className="text-gray-700 mb-4">
-                        Using our rapid learning tools and methodologies, we can typically create customized compliance training within days. For more complex or extensive programs, our development timeline may extend to a few weeks, but we pride ourselves on our ability to meet urgent compliance training needs efficiently.
-                    </p>
-                </>
-            )
-        },
-        {
-            question: "Can your compliance training courses be accessed on mobile devices?",
-            icon: <Layers className="h-6 w-6 text-orange-600" />,
-            answer: (
-                <>
-                    <p className="text-gray-700 mb-4">
-                        Absolutely. All our online compliance training courses are fully responsive and can be accessed on any device—desktop computers, laptops, tablets, or smartphones. This flexibility ensures your employees can complete their training at their convenience, whether in the office or on the go.
-                    </p>
-                </>
-            )
-        },
-        {
-            question: "How do you ensure your compliance training meets specific regulatory requirements?",
-            icon: <Users className="h-6 w-6 text-orange-600" />,
-            answer: (
-                <>
-                    <p className="text-gray-700 mb-4">
-                        Our subject matter experts continuously monitor regulatory changes across industries and jurisdictions. We work closely with legal and compliance professionals to ensure our content accurately reflects current requirements, and we update our courses regularly as regulations evolve.
-                    </p>
-                </>
-            )
-        },
-        {
-            question: "What languages are available for your compliance training courses?",
-            icon: <Award className="h-6 w-6 text-orange-600" />,
-            answer: (
-                <>
-                    <p className="text-gray-700 mb-4">
-                        We can deliver our compliance training in multiple languages to accommodate diverse workforces. Our standard offerings include English, Hindi, and major regional Indian languages, but we can develop training in additional languages based on your specific requirements.
-                    </p>
-                </>
-            )
-        },
-        {
-            question: "How do you measure the effectiveness of compliance training?",
-            icon: <ChevronDown className="h-6 w-6 text-orange-600" />,
-            answer: (
-                <>
-                    <p className="text-gray-700 mb-4">
-                        We employ multiple assessment methods within our courses, including knowledge checks, scenario-based questions, and final assessments. Additionally, our LMS provides comprehensive analytics on completion rates, assessment scores, time spent on modules, and other key metrics to help you evaluate training effectiveness.
-                    </p>
-                </>
-            )
-        },
-        {
-            question: "Can you customize the look and feel of the training to match our brand?",
-            icon: <ChevronDown className="h-6 w-6 text-orange-600" />,
-            answer: (
-                <>
-                    <p className="text-gray-700 mb-4">
-                        Yes, we can fully customize the visual design of your compliance training to align with your organization's branding guidelines. This includes incorporating your logo, color scheme, typography, and other brand elements to create a seamless learning experience.
-                    </p>
-                </>
-            )
+            title: "ONLINE COMPLIANCE TRAINING SOLUTIONS",
+            faqs: [
+                {
+                    question: "How quickly can you develop customized compliance training for our organization?",
+                    answer: "Using our rapid learning tools and methodologies, we can typically create customized compliance training within days. For more complex or extensive programs, our development timeline may extend to a few weeks, but we pride ourselves on our ability to meet urgent compliance training needs efficiently."
+                },
+                {
+                    question: "Can your compliance training courses be accessed on mobile devices?",
+                    answer: "Absolutely. All our online compliance training courses are fully responsive and can be accessed on any device—desktop computers, laptops, tablets, or smartphones. This flexibility ensures your employees can complete their training at their convenience, whether in the office or on the go."
+                },
+                {
+                    question: "How do you ensure your compliance training meets specific regulatory requirements?",
+                    answer: "Our subject matter experts continuously monitor regulatory changes across industries and jurisdictions. We work closely with legal and compliance professionals to ensure our content accurately reflects current requirements, and we update our courses regularly as regulations evolve."
+                },
+                {
+                    question: "What languages are available for your compliance training courses?",
+                    answer: "We can deliver our compliance training in multiple languages to accommodate diverse workforces. Our standard offerings include English, Hindi, and major regional Indian languages, but we can develop training in additional languages based on your specific requirements."
+                },
+                {
+                    question: "How do you measure the effectiveness of compliance training?",
+                    answer: "We employ multiple assessment methods within our courses, including knowledge checks, scenario-based questions, and final assessments. Additionally, our LMS provides comprehensive analytics on completion rates, assessment scores, time spent on modules, and other key metrics to help you evaluate training effectiveness."
+                },
+                {
+                    question: "Can you customize the look and feel of the training to match our brand?",
+                    answer: "Yes, we can fully customize the visual design of your compliance training to align with your organization's branding guidelines. This includes incorporating your logo, color scheme, typography, and other brand elements to create a seamless learning experience."
+                }
+            ]
         }
     ];
 
@@ -401,47 +379,60 @@ export default function CompliancePage() {
             </section>
 
             {/* FAQ Section */}
-            <section id="faq" className="py-16 bg-gray-50">
+            <section id="faq" className="py-16 bg-white">
                 <div className="container mx-auto px-4">
-                    <div className="text-center mb-12">
-                        <h2 className="text-3xl font-bold mb-4 text-gray-900">
-                            FAQ: Online Compliance Training Courses
-                        </h2>
-                        <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                            Get answers to common questions about our online compliance training solutions
-                        </p>
-                    </div>
+                    <div className="grid md:grid-cols-[1fr,2fr] gap-16 max-w-7xl mx-auto">
+                        {/* Left side - title */}
+                        <div>
+                            <h2 className="text-4xl font-bold sticky top-24">
+                                Frequently Asked Questions (FAQs) about Online Compliance Training
+                            </h2>
+                        </div>
 
-                    <div className="max-w-3xl mx-auto">
-                        {/* Display all FAQs or just the first 3 based on state */}
-                        {(showAllFaqs ? faqItems : faqItems.slice(0, 3)).map((item, index) => (
-                            <div key={index} className="mb-6 bg-white rounded-xl shadow-sm overflow-hidden">
-                                <details className="group">
-                                    <summary className="flex items-center justify-between p-6 cursor-pointer">
-                                        <div className="flex items-center gap-4">
-                                            {item.icon}
-                                            <h3 className="text-lg font-medium text-gray-900">{item.question}</h3>
-                                        </div>
-                                        <ChevronDown className="h-5 w-5 text-gray-500 group-open:rotate-180 transition-transform" />
-                                    </summary>
-                                    <div className="px-6 pb-6 pt-2">
-                                        {item.answer}
+                        {/* Right side - FAQ content */}
+                        <div>
+                            {faqCategories.map((category, categoryIndex) => (
+                                <div key={categoryIndex} className="mb-12">
+                                    <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-6">
+                                        {category.title}
+                                    </h3>
+                                    <div className="space-y-px">
+                                        {category.faqs.map((faq, itemIndex) => {
+                                            const isItemOpen = isOpen(categoryIndex, itemIndex);
+
+                                            return (
+                                                <div key={itemIndex} className="border-t border-gray-200 first:border-t-0">
+                                                    <button
+                                                        onClick={() => toggleItem(categoryIndex, itemIndex)}
+                                                        className="flex justify-between items-center w-full py-6 text-left"
+                                                    >
+                                                        <span className={`text-lg font-medium ${isItemOpen ? "text-blue-500" : "text-gray-900"}`}>
+                                                            {faq.question}
+                                                        </span>
+                                                        <span className="ml-6 flex-shrink-0">
+                                                            {isItemOpen ? (
+                                                                <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                                                                </svg>
+                                                            ) : (
+                                                                <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                                                </svg>
+                                                            )}
+                                                        </span>
+                                                    </button>
+                                                    {isItemOpen && (
+                                                        <div className="pb-6">
+                                                            <p className="text-gray-600">{faq.answer}</p>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            );
+                                        })}
                                     </div>
-                                </details>
-                            </div>
-                        ))}
-
-                        {/* Show/Hide button */}
-                        {faqItems.length > 3 && (
-                            <div className="text-center mt-8">
-                                <button
-                                    onClick={() => setShowAllFaqs(!showAllFaqs)}
-                                    className="inline-flex items-center justify-center px-6 py-3 bg-orange-600 text-white rounded-lg font-medium hover:bg-orange-700 transition-colors duration-200"
-                                >
-                                    {showAllFaqs ? "Show Less" : "Show More FAQs"}
-                                </button>
-                            </div>
-                        )}
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </section>
