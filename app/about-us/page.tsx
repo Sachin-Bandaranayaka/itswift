@@ -30,6 +30,26 @@ export default function AboutUsPage() {
     const [showTeam, setShowTeam] = useState(false)
     const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null)
 
+    const scrollToAIJourney = () => {
+        const aiSection = document.getElementById('ai-journey-section')
+        if (aiSection) {
+            aiSection.scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            })
+        }
+    }
+
+    const scrollToLeadership = () => {
+        const leadershipSection = document.getElementById('leadership-section')
+        if (leadershipSection) {
+            leadershipSection.scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            })
+        }
+    }
+
     useEffect(() => {
         document.title = "Top AI-Powered eLearning Company in Bangalore, India | Swift Solution"
 
@@ -137,10 +157,16 @@ export default function AboutUsPage() {
                             Our existence hinges on one simple principle: improving your business performance. We are not just another vendor; we are a strategic partner recognized as one of the top eLearning companies in Bangalore.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <button className="bg-white text-orange-600 px-8 py-3 rounded-lg font-semibold hover:bg-orange-50 transition-colors duration-200">
+                            <button 
+                                onClick={scrollToAIJourney}
+                                className="bg-white text-orange-600 px-8 py-3 rounded-lg font-semibold hover:bg-orange-50 transition-colors duration-200"
+                            >
                                 Our AI Journey
                             </button>
-                            <button className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-orange-600 transition-colors duration-200">
+                            <button 
+                                onClick={scrollToLeadership}
+                                className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-orange-600 transition-colors duration-200"
+                            >
                                 Meet Our Leadership
                             </button>
                         </div>
@@ -234,7 +260,7 @@ export default function AboutUsPage() {
                 </div>
             </section>
             {/* AI Transformation Section */}
-            <section className="py-20 bg-white">
+            <section id="ai-journey-section" className="py-20 bg-white">
                 <div className="container mx-auto px-4">
                     <div className="max-w-6xl mx-auto">
                         <div className="text-center mb-16">
@@ -371,7 +397,7 @@ export default function AboutUsPage() {
                 </div>
             </section>
             {/* Leadership Team Section */}
-            <section className="py-16 bg-gradient-to-br from-gray-50 via-white to-orange-50">
+            <section id="leadership-section" className="py-16 bg-gradient-to-br from-gray-50 via-white to-orange-50">
                 <div className="container mx-auto px-4">
                     <div className="max-w-6xl mx-auto">
                         <div className="text-center mb-16">

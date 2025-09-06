@@ -64,7 +64,7 @@ export default function AIPoweredSolutionsPage() {
                             We are not just an eLearning company; we are your strategic partner in building a future-ready workforce. Our AI-powered solutions deliver personalized, adaptive, and engaging learning experiences that drive unprecedented growth and ROI.
                         </p>
                         <div className="flex flex-col md:flex-row gap-4">
-                            <button 
+                            <button
                                 onClick={() => {
                                     const contactSection = document.getElementById('contact');
                                     if (contactSection) {
@@ -391,7 +391,7 @@ export default function AIPoweredSolutionsPage() {
                         Partner with the leading AI-enabled eLearning solutions company in Bangalore and unlock the full potential of your workforce. Contact us today for a free demo and discover how our AI-powered solutions can transform your corporate training and drive unprecedented business growth.
                     </p>
                     <div className="flex justify-center">
-                        <button 
+                        <button
                             onClick={() => {
                                 const contactSection = document.getElementById('contact');
                                 if (contactSection) {

@@ -20,10 +20,7 @@ interface CaseStudy {
 }
 
 export default function CaseStudiesPage() {
-    const [selectedCategory, setSelectedCategory] = useState("All")
     const [showDetails, setShowDetails] = useState<number | null>(null)
-
-    const categories = ["All", "Technical Training", "Banking", "Manufacturing", "Education", "Safety Training", "Mobile Learning"]
 
     const caseStudies: CaseStudy[] = [
         {
@@ -168,9 +165,7 @@ export default function CaseStudiesPage() {
         }
     ]
 
-    const filteredCaseStudies = selectedCategory === "All" 
-        ? caseStudies 
-        : caseStudies.filter(study => study.tags.some(tag => tag.includes(selectedCategory.replace(" Training", ""))))
+
 
     return (
         <div className="w-full">
@@ -221,29 +216,9 @@ export default function CaseStudiesPage() {
             <section className="py-16 bg-white">
                 <div className="container mx-auto px-4">
                     <div className="max-w-6xl mx-auto">
-                        {/* Category Filter */}
-                        <div className="mb-12">
-                            <h3 className="text-2xl font-semibold mb-6 text-center text-gray-900">Filter by Category</h3>
-                            <div className="flex flex-wrap justify-center gap-3">
-                                {categories.map((category) => (
-                                    <button
-                                        key={category}
-                                        onClick={() => setSelectedCategory(category)}
-                                        className={`px-6 py-2 rounded-full font-medium transition-colors duration-200 ${
-                                            selectedCategory === category
-                                                ? 'bg-orange-600 text-white'
-                                                : 'bg-gray-100 text-gray-700 hover:bg-orange-100 hover:text-orange-700'
-                                        }`}
-                                    >
-                                        {category}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-
                         {/* Case Studies Grid */}
                         <div className="space-y-8">
-                            {filteredCaseStudies.map((study, index) => (
+                            {caseStudies.map((study, index) => (
                                 <div key={index} className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-shadow duration-300">
                                     <div className="p-8">
                                         <div className="flex flex-wrap gap-2 mb-4">

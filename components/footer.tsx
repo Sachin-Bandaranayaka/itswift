@@ -65,11 +65,6 @@ export default function Footer() {
                   Rapid eLearning
                 </Link>
               </li>
-              <li>
-                <Link href="/elearning-services" className="text-white hover:underline text-sm font-medium">
-                  See All Services →
-                </Link>
-              </li>
             </ul>
           </div>
 
