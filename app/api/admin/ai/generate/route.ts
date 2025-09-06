@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
           wordCount: maxLength ? Math.floor(maxLength / 6) : undefined
         })
         break
-      
+
       case 'social':
         result = await generateSocialPost({
           topic: prompt,
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
           includeHashtags: true
         })
         break
-      
+
       case 'newsletter':
         result = await generateNewsletter({
           topic: prompt,
@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
           targetAudience
         })
         break
-      
+
       default:
         // Fallback to general content generation
         result = await generateContent({
@@ -60,9 +60,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(result)
   } catch (error) {
     console.error('Error generating content:', error)
-    
+
     const errorMessage = error instanceof Error ? error.message : 'Failed to generate content'
-    
+
     return NextResponse.json(
       { error: errorMessage },
       { status: 500 }

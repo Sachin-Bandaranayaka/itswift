@@ -23,128 +23,148 @@ export default function CaseStudiesPage() {
     const [selectedCategory, setSelectedCategory] = useState("All")
     const [showDetails, setShowDetails] = useState<number | null>(null)
 
-    const categories = ["All", "Corporate Training", "Compliance", "Sales Training", "Technical Training", "Onboarding"]
+    const categories = ["All", "Technical Training", "Banking", "Manufacturing", "Education", "Safety Training", "Mobile Learning"]
 
     const caseStudies: CaseStudy[] = [
         {
-            title: "Global Sales Training Transformation",
-            client: "Fortune 500 Technology Company",
-            industry: "Technology",
-            challenge: "A multinational technology company needed to standardize sales training across 50+ countries while maintaining local relevance and reducing training costs by 40%.",
-            solution: "We developed a comprehensive blended learning solution featuring interactive modules, virtual reality product demonstrations, gamified assessments, and localized content in 12 languages.",
+            title: "Oil Rig Training with 3D BOP Simulations",
+            client: "Leading Oil & Gas Company",
+            industry: "Oil & Gas",
+            challenge: "Conventional classroom training could not replicate the rig environment or show internal BOP components. Technicians found it difficult to visualize complex subsystems, making it harder to apply theoretical knowledge in practice.",
+            solution: "Collaborated with SMEs to design detailed learning objectives aligned to real-world rig operations. Developed 3D animations and simulations of BOP units and subsystems with cross-sectional visualizations to explain internal mechanics. Integrated troubleshooting scenarios for hands-on learning.",
             results: [
-                "40% reduction in training costs",
-                "85% improvement in sales performance metrics",
-                "95% completion rate across all regions",
-                "60% faster time-to-productivity for new hires"
+                "Reduced training duration from 2 weeks to 1 week",
+                "50% improvement in comprehension of complex BOP operations",
+                "Improved productivity and reduced safety risks",
+                "Enhanced visualization of complex subsystems"
             ],
             metrics: [
-                { label: "Cost Reduction", value: "40%" },
-                { label: "Performance Improvement", value: "85%" },
-                { label: "Completion Rate", value: "95%" },
-                { label: "Time Savings", value: "60%" }
+                { label: "Training Time", value: "50%" },
+                { label: "Comprehension", value: "50%" },
+                { label: "Safety Risks", value: "Reduced" },
+                { label: "Productivity", value: "Improved" }
             ],
-            tags: ["Sales Training", "Multilingual", "VR", "Gamification"]
+            tags: ["Safety Training", "3D Simulation", "Oil & Gas", "Technical Training"]
         },
         {
-            title: "Healthcare Compliance Training Overhaul",
-            client: "Leading Healthcare Provider",
-            industry: "Healthcare",
-            challenge: "A major healthcare network required HIPAA and safety compliance training for 15,000+ employees with strict regulatory requirements and tight deadlines.",
-            solution: "We created scenario-based eLearning modules with branching simulations, real-world case studies, and automated compliance tracking integrated with their HRIS system.",
+            title: "Scalable Courseware for Global EdTech Leader",
+            client: "Global Education Services Provider",
+            industry: "Education Technology",
+            challenge: "Rapid expansion required creating large volumes of structured, high-quality content across multiple domains. Scaling content development without losing consistency was challenging, with strict university timelines requiring faster turnaround without compromising quality.",
+            solution: "Appointed dedicated project managers and engaged SMEs across domains. Created standardized templates, TOCs, and instructional design guides. Deployed robust quality assurance process including plagiarism checks and multi-level reviews. Tested content with pilot learners before rollout.",
             results: [
-                "100% regulatory compliance achieved",
-                "50% reduction in training time",
-                "90% employee satisfaction scores",
-                "Zero compliance violations post-training"
+                "Delivered high-quality courses faster while ensuring academic rigor",
+                "Enabled universities to launch programs on schedule without delays",
+                "Established scalable, repeatable framework for future course creation",
+                "Maintained consistency across multiple domains"
             ],
             metrics: [
-                { label: "Compliance Rate", value: "100%" },
-                { label: "Time Reduction", value: "50%" },
-                { label: "Satisfaction", value: "90%" },
-                { label: "Violations", value: "0" }
+                { label: "Quality", value: "High" },
+                { label: "Delivery Speed", value: "Faster" },
+                { label: "Schedule", value: "On Time" },
+                { label: "Scalability", value: "Achieved" }
             ],
-            tags: ["Compliance", "Healthcare", "Simulation", "Tracking"]
+            tags: ["Content Development", "EdTech", "Quality Assurance", "Scalability"]
         },
         {
-            title: "Manufacturing Safety Training Revolution",
-            client: "Global Manufacturing Corporation",
-            industry: "Manufacturing",
-            challenge: "A manufacturing giant needed to reduce workplace accidents and improve safety awareness across 200+ facilities worldwide while overcoming language barriers.",
-            solution: "We developed immersive VR safety training experiences, mobile-friendly microlearning modules, and AI-powered assessment tools with multilingual support.",
+            title: "Centralized Dealer Training for Furniture Brand",
+            client: "India's Top Furniture & Mattress Company",
+            industry: "Furniture & Retail",
+            challenge: "Dealer training was fragmented across regions, leading to inconsistency in product messaging. Traditional training was expensive, time-consuming, and lacked scalability needed to cover thousands of partners. Required multilingual, mobile-friendly, and motivating eLearning solution.",
+            solution: "Partnered with L&D teams to identify dealer-specific training needs. Developed microlearning videos (2–3 minutes each) to encourage regular engagement. Designed multilingual modules and deployed CMS integrated with cloud LMS. Introduced assessments and certifications for accountability.",
             results: [
-                "75% reduction in workplace accidents",
-                "92% improvement in safety knowledge retention",
-                "80% increase in safety reporting",
-                "$2M+ savings in insurance costs"
+                "1000+ employees trained and certified within first year",
+                "Reduced training costs by 60% compared to traditional methods",
+                "Improved consistency and engagement across dealer networks",
+                "Enhanced mobile accessibility for flexible learning"
             ],
             metrics: [
-                { label: "Accident Reduction", value: "75%" },
-                { label: "Knowledge Retention", value: "92%" },
-                { label: "Safety Reporting", value: "80%" },
-                { label: "Cost Savings", value: "$2M+" }
+                { label: "Employees Trained", value: "1000+" },
+                { label: "Cost Reduction", value: "60%" },
+                { label: "Consistency", value: "Improved" },
+                { label: "Engagement", value: "Enhanced" }
             ],
-            tags: ["Safety Training", "VR", "Manufacturing", "Mobile"]
+            tags: ["Dealer Training", "Microlearning", "Multilingual", "Mobile Learning"]
         },
         {
-            title: "Financial Services Onboarding Excellence",
-            client: "Major Investment Bank",
-            industry: "Financial Services",
-            challenge: "A leading investment bank needed to accelerate new employee onboarding while ensuring comprehensive knowledge of complex financial products and regulations.",
-            solution: "We created an adaptive learning platform with personalized learning paths, interactive financial simulations, and social learning features for peer collaboration.",
+            title: "Global Online Music & Dance Learning Platform",
+            client: "Bharatanatyam & Carnatic Vocal Training Platform",
+            industry: "Arts & Culture Education",
+            challenge: "Making quality Bharatanatyam and Carnatic vocal training accessible worldwide while maintaining cultural authenticity. Platform needed to combine live teacher-student interaction with recorded lessons, support global streaming, and respect traditional guru-shishya learning methods.",
+            solution: "Developed custom Moodle LMS integrated with APIs for live sessions using WebEx and Skype. Created over 400 hours of eLearning content including 250+ hours of high-quality videos. Built scalable video streaming infrastructure and designed CMS for independent content management.",
             results: [
-                "65% faster onboarding process",
-                "88% improvement in product knowledge scores",
-                "95% new hire retention rate",
-                "70% increase in early productivity"
+                "Established world's leading online music and dance eLearning platform",
+                "Secured VC funding for rapid growth and expansion",
+                "Gained adoption from learners in multiple countries",
+                "Successfully bridged cultural and geographic gaps"
             ],
             metrics: [
-                { label: "Onboarding Speed", value: "65%" },
-                { label: "Knowledge Scores", value: "88%" },
-                { label: "Retention Rate", value: "95%" },
-                { label: "Productivity", value: "70%" }
+                { label: "Content Hours", value: "400+" },
+                { label: "Video Content", value: "250+" },
+                { label: "Global Reach", value: "Multi-Country" },
+                { label: "Funding", value: "VC Secured" }
             ],
-            tags: ["Onboarding", "Financial Services", "Adaptive Learning", "Social Learning"]
+            tags: ["Arts Education", "Cultural Learning", "Live Streaming", "Global Platform"]
         },
         {
-            title: "Retail Customer Service Excellence",
-            client: "International Retail Chain",
-            industry: "Retail",
-            challenge: "A global retail chain with 5,000+ stores needed to improve customer service quality and reduce staff turnover while maintaining consistent brand experience.",
-            solution: "We developed mobile-first microlearning modules, gamified customer service scenarios, and real-time performance dashboards for managers.",
+            title: "Scalable Induction Training for Global Bank",
+            client: "Global Banking Operations Division",
+            industry: "Banking & Financial Services",
+            challenge: "Existing classroom-based induction was slow, expensive, and difficult to scale for rapidly expanding teams in HR, finance, IT, and customer support. Rising transaction volumes increased urgency to onboard new employees faster while maintaining training quality.",
+            solution: "Mapped over 300 processes with SMEs and built interactive simulations for critical workflows. Developed explainer videos to simplify complex systems. Created gamified assessments and real-time scenarios. Adopted blended model combining eLearning with reduced classroom sessions.",
             results: [
-                "45% improvement in customer satisfaction",
-                "30% reduction in staff turnover",
-                "80% increase in upselling success",
-                "25% boost in employee engagement"
+                "Reduced induction timelines by 30%",
+                "Improved complaint resolution and service quality",
+                "Delivered higher ROI per trained employee",
+                "Successfully scaled across multiple departments"
             ],
             metrics: [
-                { label: "Customer Satisfaction", value: "45%" },
-                { label: "Turnover Reduction", value: "30%" },
-                { label: "Upselling Success", value: "80%" },
-                { label: "Engagement", value: "25%" }
+                { label: "Timeline Reduction", value: "30%" },
+                { label: "Process Mapping", value: "300+" },
+                { label: "Service Quality", value: "Improved" },
+                { label: "ROI", value: "Higher" }
             ],
-            tags: ["Customer Service", "Retail", "Mobile Learning", "Gamification"]
+            tags: ["Banking", "Induction Training", "Process Simulation", "Blended Learning"]
         },
         {
-            title: "IT Skills Development Program",
-            client: "Global Consulting Firm",
-            industry: "Consulting",
-            challenge: "A major consulting firm needed to upskill 3,000+ consultants in emerging technologies while maintaining billable hour targets and project commitments.",
-            solution: "We created just-in-time learning modules, hands-on virtual labs, AI-powered skill assessments, and personalized learning recommendations.",
+            title: "Lean Training for 2000 Shopfloor Employees",
+            client: "India's Largest Automotive Battery Manufacturer",
+            industry: "Automotive Manufacturing",
+            challenge: "Training over 2000 shopfloor workers (mostly first-generation industrial employees) in lean manufacturing principles across multiple plants. Traditional classroom training was logistically unmanageable with limited qualified faculty, risking inconsistent delivery and productivity loss.",
+            solution: "Collaborated with Lean experts to design highly visual, scenario-based content. Created structured modules under 10 minutes each for first-time learners. Incorporated simulations and videos demonstrating lean principles. Deployed through cloud-hosted LMS with pre-tests, quizzes, and certifications.",
             results: [
-                "90% skill certification achievement",
-                "55% increase in project efficiency",
-                "40% improvement in client satisfaction",
-                "$5M+ increase in revenue from new capabilities"
+                "Trained over 200 employees in first 4 weeks, scaling to 2000",
+                "Achieved 50% reduction in training costs vs classroom training",
+                "Improved worker engagement through interactive, modular content",
+                "Ensured measurable outcomes through assessments and certification"
             ],
             metrics: [
-                { label: "Certification Rate", value: "90%" },
-                { label: "Efficiency Gain", value: "55%" },
-                { label: "Client Satisfaction", value: "40%" },
-                { label: "Revenue Impact", value: "$5M+" }
+                { label: "Initial Training", value: "200+" },
+                { label: "Cost Reduction", value: "50%" },
+                { label: "Target Scale", value: "2000" },
+                { label: "Engagement", value: "Improved" }
             ],
-            tags: ["Technical Training", "IT Skills", "Virtual Labs", "AI Assessment"]
+            tags: ["Manufacturing", "Lean Training", "Shopfloor", "Microlearning"]
+        },
+        {
+            title: "Digitized Training for Asia's Largest Bank",
+            client: "Asia's Largest Bank",
+            industry: "Banking & Financial Services",
+            challenge: "Traditional classroom-heavy training model struggled to keep pace with business demands for 240,000+ employees across thousands of branches. Geographically dispersed workforce had diverse learning needs, with costly, time-consuming, and inconsistent classroom training creating skill gaps.",
+            solution: "Developed SCORM/AICC compliant HTML5 courses compatible with multiple platforms. Created bite-sized mobile nuggets for anytime, anywhere access. Adopted gamification strategies to enhance motivation. Designed modules covering banking operations, HR, technology, and compliance optimized for multiple devices.",
+            results: [
+                "Scaled training to 240,000+ employees nationwide",
+                "Reduced dependency on physical training academies",
+                "Improved accessibility and learner engagement with mobile-first content",
+                "Enhanced consistency across all regions and branches"
+            ],
+            metrics: [
+                { label: "Employees Reached", value: "240K+" },
+                { label: "Mobile Access", value: "Enabled" },
+                { label: "Academy Dependency", value: "Reduced" },
+                { label: "Engagement", value: "Enhanced" }
+            ],
+            tags: ["Banking", "Mobile Learning", "Gamification", "Large Scale"]
         }
     ]
 
@@ -177,20 +197,20 @@ export default function CaseStudiesPage() {
                         </h2>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
                             <div className="bg-white rounded-xl shadow-md p-6">
-                                <div className="text-3xl font-bold text-orange-600 mb-2">500+</div>
-                                <div className="text-gray-700">Projects Delivered</div>
+                                <div className="text-3xl font-bold text-orange-600 mb-2">240K+</div>
+                                <div className="text-gray-700">Employees Trained</div>
                             </div>
                             <div className="bg-white rounded-xl shadow-md p-6">
-                                <div className="text-3xl font-bold text-orange-600 mb-2">200+</div>
-                                <div className="text-gray-700">Global Clients</div>
+                                <div className="text-3xl font-bold text-orange-600 mb-2">400+</div>
+                                <div className="text-gray-700">Hours of Content</div>
                             </div>
                             <div className="bg-white rounded-xl shadow-md p-6">
-                                <div className="text-3xl font-bold text-orange-600 mb-2">1M+</div>
-                                <div className="text-gray-700">Learners Trained</div>
+                                <div className="text-3xl font-bold text-orange-600 mb-2">60%</div>
+                                <div className="text-gray-700">Average Cost Reduction</div>
                             </div>
                             <div className="bg-white rounded-xl shadow-md p-6">
-                                <div className="text-3xl font-bold text-orange-600 mb-2">98%</div>
-                                <div className="text-gray-700">Client Satisfaction</div>
+                                <div className="text-3xl font-bold text-orange-600 mb-2">50%</div>
+                                <div className="text-gray-700">Training Time Reduction</div>
                             </div>
                         </div>
                     </div>
@@ -328,18 +348,18 @@ export default function CaseStudiesPage() {
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                             <div className="bg-white rounded-xl shadow-md p-6">
                                 <Clock className="h-12 w-12 text-orange-500 mx-auto mb-4" />
-                                <h3 className="text-xl font-semibold mb-2 text-gray-900">Faster Implementation</h3>
-                                <p className="text-gray-700">Average 50% reduction in training time across all projects</p>
+                                <h3 className="text-xl font-semibold mb-2 text-gray-900">Faster Training Delivery</h3>
+                                <p className="text-gray-700">Reduced training duration from 2 weeks to 1 week with improved comprehension</p>
                             </div>
                             <div className="bg-white rounded-xl shadow-md p-6">
                                 <TrendingUp className="h-12 w-12 text-orange-500 mx-auto mb-4" />
-                                <h3 className="text-xl font-semibold mb-2 text-gray-900">Improved Performance</h3>
-                                <p className="text-gray-700">Average 70% improvement in learning outcomes and job performance</p>
+                                <h3 className="text-xl font-semibold mb-2 text-gray-900">Massive Scale Achievement</h3>
+                                <p className="text-gray-700">Successfully trained 240,000+ employees across global operations</p>
                             </div>
                             <div className="bg-white rounded-xl shadow-md p-6">
                                 <Star className="h-12 w-12 text-orange-500 mx-auto mb-4" />
-                                <h3 className="text-xl font-semibold mb-2 text-gray-900">High Satisfaction</h3>
-                                <p className="text-gray-700">98% client satisfaction rate with 95% project completion success</p>
+                                <h3 className="text-xl font-semibold mb-2 text-gray-900">Cost Optimization</h3>
+                                <p className="text-gray-700">Average 50-60% reduction in training costs while improving quality</p>
                             </div>
                         </div>
                     </div>

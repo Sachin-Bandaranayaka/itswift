@@ -52,7 +52,6 @@ const menuItems: MenuItem[] = [
     submenu: [
       { title: "About Us", href: "/about-us" },
       { title: "Case studies", href: "/case-studies" },
-      { title: "Awards", href: "/awards" },
     ],
   },
   { title: "Blog", href: "/blog" },
