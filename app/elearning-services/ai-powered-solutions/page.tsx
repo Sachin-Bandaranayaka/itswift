@@ -53,7 +53,14 @@ export default function AIPoweredSolutionsPage() {
             {/* Hero Section with Background */}
             <section className="relative text-white py-20 overflow-hidden">
                 <div className="absolute inset-0">
-                    <div className="w-full h-full bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900"></div>
+                    <Image
+                        src="/images/ai powered elearning solutions.jpg"
+                        alt="AI-Powered eLearning Solutions"
+                        fill
+                        className="object-cover"
+                        priority
+                    />
+                    <div className="absolute inset-0 bg-black/50"></div>
                 </div>
                 <div className="container mx-auto px-4 relative z-10">
                     <div className="max-w-4xl" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.7)' }}>

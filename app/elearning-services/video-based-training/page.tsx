@@ -52,7 +52,17 @@ export default function VideoBasedTrainingPage() {
     return (
         <div className="w-full">
             {/* Hero Section */}
-            <section className="relative bg-gradient-to-r from-orange-500 to-orange-600 text-white py-20">
+            <section className="relative text-white py-20 overflow-hidden">
+                <div className="absolute inset-0">
+                    <Image
+                        src="/IMAGES/video based learning.jpg"
+                        alt="Video-Based Training Solutions"
+                        fill
+                        className="object-cover"
+                        priority
+                    />
+                    <div className="absolute inset-0 bg-black/50"></div>
+                </div>
                 <div className="container mx-auto px-4 relative z-10">
                     <div className="max-w-4xl mx-auto text-center" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.7)' }}>
                         <h1 className="text-4xl md:text-6xl font-bold mb-6">
