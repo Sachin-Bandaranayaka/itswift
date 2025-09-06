@@ -367,31 +367,55 @@ export default function AboutUsPage() {
             {/* FAQ Section */}
             <section className="py-16 bg-white">
                 <div className="container mx-auto px-4">
-                    <div className="max-w-4xl mx-auto">
-                        <div className="text-center mb-16">
-                            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
+                    <div className="grid md:grid-cols-[1fr,2fr] gap-16 max-w-7xl mx-auto">
+                        {/* Left side - title */}
+                        <div>
+                            <h2 className="text-4xl font-bold sticky top-24">
                                 Frequently Asked Questions (FAQs) about eLearning in Bangalore
                             </h2>
-                            <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-orange-600 mx-auto mb-6"></div>
                         </div>
 
-                        <div className="space-y-6">
-                            {faqs.map((faq, index) => (
-                                <div key={index} className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
-                                    <button
-                                        onClick={() => setExpandedFAQ(expandedFAQ === index ? null : index)}
-                                        className="w-full px-8 py-6 text-left flex items-center justify-between hover:bg-orange-50 transition-colors duration-200"
-                                    >
-                                        <h3 className="text-lg font-semibold text-gray-900 pr-4">{faq.question}</h3>
-                                        <ChevronDown className={`h-5 w-5 text-orange-500 transform transition-transform duration-200 ${expandedFAQ === index ? 'rotate-180' : ''}`} />
-                                    </button>
-                                    {expandedFAQ === index && (
-                                        <div className="px-8 pb-6">
-                                            <p className="text-gray-700 leading-relaxed">{faq.answer}</p>
-                                        </div>
-                                    )}
+                        {/* Right side - FAQ content */}
+                        <div>
+                            <div className="mb-12">
+                                <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-6">
+                                    ELEARNING IN BANGALORE
+                                </h3>
+                                <div className="space-y-px">
+                                    {faqs.map((faq, index) => {
+                                        const isItemOpen = expandedFAQ === index;
+
+                                        return (
+                                            <div key={index} className="border-t border-gray-200 first:border-t-0">
+                                                <button
+                                                    onClick={() => setExpandedFAQ(expandedFAQ === index ? null : index)}
+                                                    className="flex justify-between items-center w-full py-6 text-left"
+                                                >
+                                                    <span className={`text-lg font-medium ${isItemOpen ? "text-blue-500" : "text-gray-900"}`}>
+                                                        {faq.question}
+                                                    </span>
+                                                    <span className="ml-6 flex-shrink-0">
+                                                        {isItemOpen ? (
+                                                            <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                                                            </svg>
+                                                        ) : (
+                                                            <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                                            </svg>
+                                                        )}
+                                                    </span>
+                                                </button>
+                                                {isItemOpen && (
+                                                    <div className="pb-6">
+                                                        <p className="text-gray-600">{faq.answer}</p>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        );
+                                    })}
                                 </div>
-                            ))}
+                            </div>
                         </div>
                     </div>
                 </div>

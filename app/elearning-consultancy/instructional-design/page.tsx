@@ -227,38 +227,56 @@ export default function InstructionalDesignPage() {
             {/* FAQ Section */}
             <section id="faq" className="py-16 bg-white">
                 <div className="container mx-auto px-4">
-                    <div className="text-center mb-12">
-                        <h2 className="text-3xl font-bold mb-4 text-gray-900">
-                            FAQ: Instructional Design Services
-                        </h2>
-                        <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                            Get answers to common questions about our instructional design services
-                        </p>
-                    </div>
+                    <div className="grid md:grid-cols-[1fr,2fr] gap-16 max-w-7xl mx-auto">
+                        {/* Left side - title */}
+                        <div>
+                            <h2 className="text-4xl font-bold sticky top-24">
+                                Frequently Asked Questions (FAQs) about Instructional Design Services
+                            </h2>
+                        </div>
 
-                    <div className="max-w-3xl mx-auto">
-                        {faqs.map((faq, index) => (
-                            <div key={index} className="mb-4">
-                                <button
-                                    onClick={() => toggleFaq(index)}
-                                    className="w-full text-left p-6 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500"
-                                >
-                                    <div className="flex justify-between items-center">
-                                        <h3 className="text-lg font-semibold text-gray-900 pr-4">{faq.question}</h3>
-                                        <ChevronDown 
-                                            className={`h-5 w-5 text-gray-500 transition-transform duration-200 ${
-                                                openFaqIndex === index ? 'transform rotate-180' : ''
-                                            }`}
-                                        />
-                                    </div>
-                                </button>
-                                {openFaqIndex === index && (
-                                    <div className="mt-2 p-6 bg-gray-50 border border-gray-200 rounded-lg">
-                                        {faq.answer}
-                                    </div>
-                                )}
+                        {/* Right side - FAQ content */}
+                        <div>
+                            <div className="mb-12">
+                                <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-6">
+                                    INSTRUCTIONAL DESIGN
+                                </h3>
+                                <div className="space-y-px">
+                                    {faqs.map((faq, index) => {
+                                        const isItemOpen = openFaqIndex === index;
+
+                                        return (
+                                            <div key={index} className="border-t border-gray-200 first:border-t-0">
+                                                <button
+                                                    onClick={() => toggleFaq(index)}
+                                                    className="flex justify-between items-center w-full py-6 text-left"
+                                                >
+                                                    <span className={`text-lg font-medium ${isItemOpen ? "text-blue-500" : "text-gray-900"}`}>
+                                                        {faq.question}
+                                                    </span>
+                                                    <span className="ml-6 flex-shrink-0">
+                                                        {isItemOpen ? (
+                                                            <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                                                            </svg>
+                                                        ) : (
+                                                            <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                                            </svg>
+                                                        )}
+                                                    </span>
+                                                </button>
+                                                {isItemOpen && (
+                                                    <div className="pb-6">
+                                                        {faq.answer}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
                             </div>
-                        ))}
+                        </div>
                     </div>
                 </div>
             </section>

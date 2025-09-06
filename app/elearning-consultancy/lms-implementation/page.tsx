@@ -17,7 +17,7 @@ export default function LMSImplementationPage() {
             question: "How long does a typical Moodle LMS implementation take?",
             answer: (
                 <>
-                    <p className="text-gray-700 mb-4">
+                    <p className="text-gray-600 mb-4">
                         The timeline for Moodle LMS implementation varies based on complexity, customization requirements, and integration needs. A standard implementation typically takes 4-6 weeks, while more complex projects with extensive customization may require 8-12 weeks. Our agile implementation methodology ensures the fastest possible deployment without compromising quality or functionality.
                     </p>
                 </>
@@ -27,7 +27,7 @@ export default function LMSImplementationPage() {
             question: "Can you migrate our existing courses and user data from another LMS?",
             answer: (
                 <>
-                    <p className="text-gray-700 mb-4">
+                    <p className="text-gray-600 mb-4">
                         Absolutely. Our LMS migration services include comprehensive data transfer from virtually any learning platform to Moodle. We carefully map and migrate courses, user accounts, completion records, and other essential data to ensure continuity in your training programs. Our migration specialists have successfully completed transitions from platforms like Blackboard, Canvas, TalentLMS, and proprietary systems.
                     </p>
                 </>
@@ -37,7 +37,7 @@ export default function LMSImplementationPage() {
             question: "How do you ensure our Moodle LMS implementation is secure?",
             answer: (
                 <>
-                    <p className="text-gray-700 mb-4">
+                    <p className="text-gray-600 mb-4">
                         Security is paramount in our implementation process. We implement multiple layers of protection, including secure server configurations, encrypted data transmission, regular security updates, and role-based access controls. We also conduct security audits and vulnerability assessments to identify and address potential risks before they can be exploited.
                     </p>
                 </>
@@ -47,7 +47,7 @@ export default function LMSImplementationPage() {
             question: "What kind of support do you provide after implementation?",
             answer: (
                 <>
-                    <p className="text-gray-700 mb-4">
+                    <p className="text-gray-600 mb-4">
                         We offer comprehensive post-implementation support through our outsourced LMS support staff services. This includes technical maintenance, user support, content updates, system monitoring, and strategic guidance. Our support packages can be tailored to your specific needs, from basic technical assistance to full LMS administration and management.
                     </p>
                 </>
@@ -57,7 +57,7 @@ export default function LMSImplementationPage() {
             question: "Can you customize the Moodle interface to match our brand?",
             answer: (
                 <>
-                    <p className="text-gray-700 mb-4">
+                    <p className="text-gray-600 mb-4">
                         Yes, custom theme development is a core component of our implementation services. We create Moodle themes that perfectly align with your organizational branding, incorporating your logo, color scheme, typography, and other visual elements. This customization creates a seamless experience that reinforces your brand identity throughout the learning journey.
                     </p>
                 </>
@@ -67,7 +67,7 @@ export default function LMSImplementationPage() {
             question: "How does Moodle LMS implementation improve training ROI?",
             answer: (
                 <>
-                    <p className="text-gray-700 mb-4">
+                    <p className="text-gray-600 mb-4">
                         Professional Moodle implementation significantly improves training ROI through multiple mechanisms: reduced administrative overhead, decreased delivery costs, improved completion rates, better knowledge retention, and enhanced reporting capabilities. Our clients typically see ROI improvements of 30-50% compared to previous training approaches, with some reporting even higher returns based on specific use cases and metrics.
                     </p>
                 </>
@@ -194,155 +194,6 @@ export default function LMSImplementationPage() {
                 </div>
             </section>
 
-            {/* Introduction Section */}
-            <section className="py-16 bg-white">
-                <div className="container mx-auto px-4">
-                    <div className="max-w-4xl mx-auto">
-                        <div className="text-center mb-12">
-                            <h2 className="text-3xl font-bold mb-6 text-gray-900">
-                                Comprehensive Moodle LMS Implementation Services for Modern Organizations
-                            </h2>
-                            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                                Transform your corporate training with expert implementation that delivers results
-                            </p>
-                        </div>
-
-                        {/* Key Challenge Highlight */}
-                        <div className="bg-gradient-to-r from-orange-50 to-red-50 rounded-2xl p-8 mb-12 border-l-4 border-orange-500">
-                            <div className="flex items-start">
-                                <div className="bg-orange-100 rounded-full p-3 mr-6 flex-shrink-0">
-                                    <CheckCircle className="h-8 w-8 text-orange-600" />
-                                </div>
-                                <div>
-                                    <h3 className="text-xl font-bold text-gray-900 mb-3">The Modern Training Challenge</h3>
-                                    <p className="text-lg text-gray-700 leading-relaxed">
-                                        In today's rapidly evolving corporate landscape, implementing an effective Learning Management System (LMS) is no longer optional—it's <span className="font-semibold text-orange-600">essential for organizations committed to employee development and training excellence</span>. Traditional training approaches often struggle with scalability, consistency, and engagement, leading to poor knowledge retention and wasted resources.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Solution Highlight */}
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-12">
-                            <div>
-                                <div className="bg-orange-100 rounded-full p-4 w-16 h-16 flex items-center justify-center mb-6">
-                                    <Award className="h-8 w-8 text-orange-600" />
-                                </div>
-                                <h3 className="text-2xl font-bold text-gray-900 mb-4">Our Solution</h3>
-                                <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                                    At Swift Solution, we're transforming corporate training through <span className="font-semibold text-orange-600">expert Moodle LMS implementation services in Bangalore</span> that deliver powerful, customized learning experiences.
-                                </p>
-                                <div className="flex items-center text-orange-600">
-                                    <ArrowRight className="h-5 w-5 mr-2" />
-                                    <span className="font-medium">Proven expertise in Bangalore</span>
-                                </div>
-                            </div>
-                            <div className="bg-gray-50 rounded-2xl p-8">
-                                <h4 className="text-lg font-semibold text-gray-900 mb-4">What Sets Us Apart</h4>
-                                <ul className="space-y-3">
-                                    <li className="flex items-start">
-                                        <CheckCircle className="h-5 w-5 text-orange-500 mr-3 mt-0.5 flex-shrink-0" />
-                                        <span className="text-gray-700">Deep technical expertise</span>
-                                    </li>
-                                    <li className="flex items-start">
-                                        <CheckCircle className="h-5 w-5 text-orange-500 mr-3 mt-0.5 flex-shrink-0" />
-                                        <span className="text-gray-700">Instructional design knowledge</span>
-                                    </li>
-                                    <li className="flex items-start">
-                                        <CheckCircle className="h-5 w-5 text-orange-500 mr-3 mt-0.5 flex-shrink-0" />
-                                        <span className="text-gray-700">Customized learning experiences</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        {/* Our Approach */}
-                        <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-8 text-white">
-                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                                <div>
-                                    <div className="bg-orange-500 rounded-full p-3 w-12 h-12 flex items-center justify-center mb-4">
-                                        <Layers className="h-6 w-6 text-white" />
-                                    </div>
-                                    <h3 className="text-xl font-bold mb-4">Beyond Software Installation</h3>
-                                    <p className="text-gray-300 leading-relaxed">
-                                        We understand that successful LMS implementation isn't just about software installation—it's about <span className="text-orange-300 font-medium">creating a learning ecosystem that aligns perfectly with your organizational goals and culture</span>.
-                                    </p>
-                                </div>
-                                <div className="bg-white/10 rounded-xl p-6 backdrop-blur-sm">
-                                    <h4 className="text-lg font-semibold mb-4 text-orange-300">Our Impact</h4>
-                                    <p className="text-gray-200">
-                                        Through our comprehensive Moodle LMS implementation services, we help businesses across Bangalore and beyond deploy learning platforms that <span className="font-semibold">drive real engagement while accelerating workforce development</span>.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Why Professional Implementation Matters */}
-            <section className="py-16 bg-gray-50">
-                <div className="container mx-auto px-4">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                        <div className="relative h-96 rounded-xl overflow-hidden shadow-2xl">
-                            <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-orange-600 opacity-80"></div>
-                            <div className="absolute inset-0 flex flex-col items-center justify-center text-white p-8">
-                                <h3 className="text-2xl font-bold mb-6 text-center">Common DIY Implementation Challenges</h3>
-                                <ul className="space-y-4 w-full max-w-md">
-                                    <li className="flex items-start">
-                                        <CheckCircle className="h-6 w-6 text-orange-200 mr-3 flex-shrink-0 mt-0.5" />
-                                        <span>Technical complexities that delay deployment</span>
-                                    </li>
-                                    <li className="flex items-start">
-                                        <CheckCircle className="h-6 w-6 text-orange-200 mr-3 flex-shrink-0 mt-0.5" />
-                                        <span>Poor configuration leading to underutilized features</span>
-                                    </li>
-                                    <li className="flex items-start">
-                                        <CheckCircle className="h-6 w-6 text-orange-200 mr-3 flex-shrink-0 mt-0.5" />
-                                        <span>Inconsistent user experiences across devices</span>
-                                    </li>
-                                    <li className="flex items-start">
-                                        <CheckCircle className="h-6 w-6 text-orange-200 mr-3 flex-shrink-0 mt-0.5" />
-                                        <span>Inadequate integration with existing systems</span>
-                                    </li>
-                                    <li className="flex items-start">
-                                        <CheckCircle className="h-6 w-6 text-orange-200 mr-3 flex-shrink-0 mt-0.5" />
-                                        <span>Limited customization and branding options</span>
-                                    </li>
-                                    <li className="flex items-start">
-                                        <CheckCircle className="h-6 w-6 text-orange-200 mr-3 flex-shrink-0 mt-0.5" />
-                                        <span>Insufficient security measures for training data</span>
-                                    </li>
-                                    <li className="flex items-start">
-                                        <CheckCircle className="h-6 w-6 text-orange-200 mr-3 flex-shrink-0 mt-0.5" />
-                                        <span>Lack of scalability for growing training needs</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div>
-                            <h2 className="text-3xl font-bold mb-6 text-gray-900">
-                                Why Professional Moodle LMS Implementation Matters
-                            </h2>
-                            <div className="prose max-w-none">
-                                <p className="text-lg text-gray-700 mb-4">
-                                    Many organizations attempt DIY LMS implementation only to encounter significant challenges that compromise their training effectiveness.
-                                </p>
-                                <p className="text-lg text-gray-700 mb-6">
-                                    Swift Solution addresses these challenges through our expert Moodle LMS implementation services in Bangalore. We transform standard Moodle installations into powerful, customized learning platforms that perfectly align with your organizational requirements and technical environment.
-                                </p>
-                                <h3 className="text-xl font-semibold mb-4 text-gray-800">
-                                    Our Approach to Moodle LMS Implementation Excellence
-                                </h3>
-                                <p className="text-lg text-gray-700">
-                                    Using proven methodologies and best practices, we can efficiently implement, customize, and optimize your Moodle LMS to meet your specific organizational needs. Our implementation process is meticulously designed to minimize disruption while maximizing adoption, ensuring your new learning platform delivers the expected return on investment from day one.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
             {/* Services Section */}
             <section id="services" className="py-16 bg-white">
                 <div className="container mx-auto px-4">
@@ -421,69 +272,66 @@ export default function LMSImplementationPage() {
             </section>
 
             {/* FAQ Section */}
-            <section id="faq" className="py-16 bg-gray-50">
+            <section id="faq" className="py-16 bg-white">
                 <div className="container mx-auto px-4">
-                    <div className="text-center mb-12">
-                        <h2 className="text-3xl font-bold mb-4 text-gray-900">
-                            FAQ: Moodle LMS Implementation Services
-                        </h2>
-                        <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                            Get answers to common questions about our Moodle LMS implementation services
-                        </p>
-                    </div>
+                    <div className="grid md:grid-cols-[1fr,2fr] gap-16 max-w-7xl mx-auto">
+                        {/* Left side - title */}
+                        <div>
+                            <h2 className="text-4xl font-bold sticky top-24">
+                                Frequently Asked Questions (FAQs) about Moodle LMS Implementation Services
+                            </h2>
+                        </div>
 
-                    <div className="max-w-3xl mx-auto">
-                        {faqs.map((faq, index) => (
-                            <div key={index} className="mb-4">
-                                <button
-                                    onClick={() => toggleFaq(index)}
-                                    className={`flex justify-between items-center w-full p-5 text-left rounded-lg ${openFaqIndex === index ? 'bg-orange-50 border-orange-200' : 'bg-white border-gray-200'} border`}
-                                >
-                                    <h3 className="text-lg font-medium text-gray-900">{faq.question}</h3>
-                                    <span>
-                                        {openFaqIndex === index ? (
-                                            <ChevronDown className="h-5 w-5 text-orange-500 transform rotate-180 transition-transform duration-200" />
-                                        ) : (
-                                            <ChevronDown className="h-5 w-5 text-orange-500 transition-transform duration-200" />
-                                        )}
-                                    </span>
-                                </button>
-                                {openFaqIndex === index && (
-                                    <div className="p-5 border border-t-0 border-orange-200 bg-orange-50 rounded-b-lg">
-                                        {faq.answer}
-                                    </div>
-                                )}
+                        {/* Right side - FAQ content */}
+                        <div>
+                            <div className="mb-12">
+                                <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-6">
+                                    MOODLE LMS IMPLEMENTATION
+                                </h3>
+                                <div className="space-y-px">
+                                    {faqs.map((faq, index) => {
+                                        const isItemOpen = openFaqIndex === index;
+
+                                        return (
+                                            <div key={index} className="border-t border-gray-200 first:border-t-0">
+                                                <button
+                                                    onClick={() => toggleFaq(index)}
+                                                    className="flex justify-between items-center w-full py-6 text-left"
+                                                >
+                                                    <span className={`text-lg font-medium ${isItemOpen ? "text-blue-500" : "text-gray-900"}`}>
+                                                        {faq.question}
+                                                    </span>
+                                                    <span className="ml-6 flex-shrink-0">
+                                                        {isItemOpen ? (
+                                                            <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                                                            </svg>
+                                                        ) : (
+                                                            <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                                            </svg>
+                                                        )}
+                                                    </span>
+                                                </button>
+                                                {isItemOpen && (
+                                                    <div className="pb-6">
+                                                        {faq.answer}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
                             </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* CTA Section */}
-            <section className="py-16 bg-gradient-to-r from-orange-500 to-orange-600 text-white">
-                <div className="container mx-auto px-4">
-                    <div className="max-w-3xl mx-auto text-center">
-                        <h2 className="text-3xl font-bold mb-6">
-                            Partner with Swift Solution for Moodle LMS Implementation Excellence
-                        </h2>
-                        <p className="text-lg mb-8 text-orange-100">
-                            Don't settle for generic LMS implementations that fail to address your unique organizational needs. Partner with Swift Solution, one of the leading Moodle LMS implementation service providers in Bangalore, to develop a powerful, customized learning platform that transforms your training capabilities and accelerates workforce development.
-                        </p>
-                        <p className="text-lg mb-8 text-orange-100">
-                            Our team of certified Moodle specialists, instructional designers, and support professionals is ready to help you create an LMS implementation that not only meets your current requirements but also provides the flexibility and scalability to support your future growth.
-                        </p>
-                        <div className="flex flex-col md:flex-row justify-center gap-4">
-                            <a href="http://localhost:3000/#contact" className="inline-flex items-center justify-center px-6 py-3 bg-white text-orange-600 rounded-lg font-medium hover:bg-orange-50 transition-colors duration-200">
-                                Contact Us Today
-                                <ArrowRight className="ml-2 h-4 w-4" />
-                            </a>
                         </div>
                     </div>
                 </div>
             </section>
 
             {/* Contact Section */}
-            <Contact />
+            <section id="contact">
+                <Contact />
+            </section>
         </div>
-    );
-} 
+    )
+}
