@@ -184,7 +184,7 @@ export default function WebinarToElearningPage() {
                                     src="/IMAGES/webinar to elearning conversion.jpg"
                                     alt="Webinar to eLearning Conversion Process"
                                     width={600}
-                                    height={400}
+                                    height={300}
                                     className="w-full h-full object-cover"
                                 />
                             </div>
@@ -861,59 +861,60 @@ export default function WebinarToElearningPage() {
             </section>
 
             {/* FAQ Section */}
-            <section id="faq" className="py-16 bg-gradient-to-b from-gray-50 to-white">
+            <section id="faq" className="py-16 bg-white">
                 <div className="container mx-auto px-4">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8 }}
-                        className="text-center max-w-3xl mx-auto mb-12"
-                    >
-                        <h2 className="text-3xl font-bold mb-4 text-gray-900">
-                            Frequently Asked Questions About Webinar to eLearning Conversion
-                        </h2>
-                        <p className="text-lg text-gray-700">
-                            Get answers to common questions about our webinar conversion services.
-                        </p>
-                    </motion.div>
-
-                    <div className="max-w-3xl mx-auto">
-                        {faqItems.map((item, index) => (
+                    <div className="grid md:grid-cols-[1fr,2fr] gap-8 max-w-6xl mx-auto">
+                        {/* Left Column - Sticky Title */}
+                        <div className="md:sticky md:top-8 md:self-start">
                             <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
+                                initial={{ opacity: 0, x: -20 }}
+                                whileInView={{ opacity: 1, x: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ duration: 0.5, delay: index * 0.1 }}
-                                className="mb-4"
+                                transition={{ duration: 0.8 }}
                             >
-                                <div
-                                    className={`cursor-pointer border ${openFaq === index ? 'border-orange-500 bg-orange-50 rounded-t-lg' : 'border-gray-200 bg-white rounded-lg'} p-4 transition-colors duration-300`}
-                                    onClick={() => toggleFaq(index)}
-                                >
-                                    <div className="flex justify-between items-center">
-                                        <h3 className="text-lg font-medium text-gray-900">{item.question}</h3>
-                                        <button className="text-orange-500">
-                                            {openFaq === index ? (
-                                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7"></path>
-                                                </svg>
-                                            ) : (
-                                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
-                                                </svg>
-                                            )}
-                                        </button>
-                                    </div>
-                                </div>
-                                {openFaq === index && (
-                                    <div className="border border-t-0 border-orange-500 rounded-b-lg p-4 bg-white">
-                                        <p className="text-gray-700">{item.answer}</p>
-                                    </div>
-                                )}
+                                <h2 className="text-4xl font-bold text-gray-900 mb-4">
+                                    Frequently Asked Questions
+                                </h2>
+                                <p className="text-lg text-gray-600">
+                                    Get answers to common questions about our webinar conversion services.
+                                </p>
                             </motion.div>
-                        ))}
+                        </div>
+
+                        {/* Right Column - FAQ Items */}
+                        <div className="space-y-0">
+                            <div className="bg-orange-50 p-6 rounded-t-lg border-b border-orange-200">
+                                <h3 className="text-xl font-semibold text-orange-800 mb-2">
+                                    WEBINAR TO ELEARNING CONVERSION
+                                </h3>
+                            </div>
+                            
+                            {faqItems.map((item, index) => (
+                                <motion.div
+                                    key={index}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                                    className="border-b border-gray-200 last:border-b-0"
+                                >
+                                    <div
+                                        className="cursor-pointer p-6 hover:bg-gray-50 transition-colors duration-200"
+                                        onClick={() => toggleFaq(index)}
+                                    >
+                                        <div className="flex justify-between items-center">
+                                            <h3 className="text-lg font-medium text-gray-900 pr-4">{item.question}</h3>
+                                            <ChevronDown className={`h-5 w-5 text-gray-500 transition-transform duration-300 flex-shrink-0 ${openFaq === index ? 'rotate-180' : ''}`} />
+                                        </div>
+                                        {openFaq === index && (
+                                            <div className="mt-4 pt-4 border-t border-gray-100">
+                                                <p className="text-gray-700 leading-relaxed">{item.answer}</p>
+                                            </div>
+                                        )}
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </section>

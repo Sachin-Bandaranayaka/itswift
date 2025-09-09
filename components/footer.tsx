@@ -10,11 +10,11 @@ export default function Footer() {
           {/* Logo and Social Media */}
           <div className="md:col-span-3 flex flex-col items-center md:items-start">
             <Image
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Swift_logo_new-48e7x4KcotWKf5GFRg8E3csE2KomUV.png"
+              src="/IMAGES/Swift_logo_new.png"
               alt="Swift Solution"
-              width={200}
+              width={180}
               height={60}
-              className="w-auto h-12 mb-8 invert"
+              className="w-auto h-12 mb-8"
             />
 
             <div className="flex space-x-4 mb-8">

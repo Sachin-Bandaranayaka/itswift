@@ -2,6 +2,9 @@ import "@/styles/globals.css"
 import { Inter } from "next/font/google"
 import { Providers } from "@/components/providers"
 import { ConditionalLayout } from "@/components/conditional-layout"
+import GoogleAnalytics from "@/components/analytics/GoogleAnalytics"
+import LinkedInInsight from "@/components/analytics/LinkedInInsight"
+import MicrosoftClarity from "@/components/analytics/MicrosoftClarity"
 import type React from "react" // Added import for React
 
 const inter = Inter({ subsets: ["latin"] })
@@ -52,6 +55,9 @@ export const metadata = {
       "max-snippet": -1,
     },
   },
+  icons: {
+    apple: "/IMAGES/Swift_logo_new.png",
+  },
 }
 
 export default function RootLayout({
@@ -97,6 +103,15 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
+        {process.env.NEXT_PUBLIC_GA_ID && (
+          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
+        )}
+        {process.env.NEXT_PUBLIC_LINKEDIN_PARTNER_ID && (
+          <LinkedInInsight partnerId={process.env.NEXT_PUBLIC_LINKEDIN_PARTNER_ID} />
+        )}
+        {process.env.NEXT_PUBLIC_CLARITY_ID && (
+          <MicrosoftClarity clarityId={process.env.NEXT_PUBLIC_CLARITY_ID} />
+        )}
       </head>
       <body className={inter.className}>
         <Providers>
