@@ -2,24 +2,67 @@
 
 import { motion } from "framer-motion"
 import Link from "next/link"
+import { useState, useEffect, useRef } from "react"
 
 export default function Hero() {
+  const [isLoading, setIsLoading] = useState(true)
+  const [hasError, setHasError] = useState(false)
+  const [mounted, setMounted] = useState(false)
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
   return (
     <div className="relative overflow-hidden w-full">
       {/* Full-width video background */}
       <div className="absolute inset-0 w-full h-full overflow-hidden">
         <div className="w-full h-full" style={{ position: 'relative', paddingBottom: '56.25%' }}>
+          {/* Background with fallback */}
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900" />
+          
+          {/* Loading state */}
+          {isLoading && mounted && (
+            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900">
+              <div className="text-white text-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
+                <p className="text-lg">Loading video...</p>
+              </div>
+            </div>
+          )}
+          
+          {/* Error state */}
+          {hasError && mounted && (
+            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900">
+              <div className="text-white text-center">
+                <p className="text-lg">Unable to load video. Please refresh the page.</p>
+              </div>
+            </div>
+          )}
+          
+          {/* Video element - always render but control visibility */}
           <video
-            className="absolute inset-0 w-full h-full object-cover"
+            ref={videoRef}
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+              !mounted || isLoading ? 'opacity-0' : 'opacity-100'
+            }`}
             autoPlay
             muted
             loop
             playsInline
+            preload="metadata"
             style={{ objectPosition: "center" }}
+            onLoadedData={() => setIsLoading(false)}
+            onError={() => {
+              setHasError(true)
+              setIsLoading(false)
+            }}
           >
             <source src="/Banner Video V3.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
+
         </div>
         {/* Dark overlay with minimal opacity */}
         <div className="absolute inset-0 bg-black opacity-30 dark:opacity-40"></div>
