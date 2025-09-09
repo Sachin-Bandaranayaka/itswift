@@ -19,9 +19,13 @@ import {
   AlertCircle, 
   CheckCircle,
   Linkedin,
-  Twitter
+  Twitter,
+  Eye,
+  Edit
 } from "lucide-react"
 import { SocialPostInput } from '@/lib/database/types'
+import { SocialPostPreview } from './social-post-preview'
+import { MediaUpload } from './media-upload'
 
 interface SocialPostComposerProps {
   onSave?: (post: SocialPostInput) => void
@@ -66,6 +70,7 @@ export function SocialPostComposer({
   const [newMediaUrl, setNewMediaUrl] = useState('')
   const [scheduledAt, setScheduledAt] = useState(initialData?.scheduled_at || '')
   const [errors, setErrors] = useState<string[]>([])
+  const [activeTab, setActiveTab] = useState<'compose' | 'preview'>('compose')
 
   const currentPlatform = PLATFORM_LIMITS[platform]
   const characterCount = content.length
@@ -117,7 +122,7 @@ export function SocialPostComposer({
     setMediaUrls(mediaUrls.filter((_, i) => i !== index))
   }
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const formErrors = validateForm()
     if (formErrors.length > 0) {
       setErrors(formErrors)
@@ -134,7 +139,7 @@ export function SocialPostComposer({
     onSave?.(postData)
   }
 
-  const handleSchedule = () => {
+  const handleSchedule = async () => {
     const formErrors = validateForm()
     if (formErrors.length > 0) {
       setErrors(formErrors)
@@ -146,15 +151,76 @@ export function SocialPostComposer({
       return
     }
 
-    const postData: SocialPostInput = {
-      platform,
-      content: content.trim(),
-      media_urls: mediaUrls.length > 0 ? mediaUrls : undefined,
-      scheduled_at: scheduledAt,
-      status: 'scheduled'
+    try {
+      const response = await fetch('/api/social/posts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          content: content.trim(),
+          platforms: [platform],
+          scheduledAt: scheduledAt,
+          mediaUrls: mediaUrls.filter(url => url.trim() !== ''),
+          action: 'schedule'
+        }),
+      })
+
+      const result = await response.json()
+
+      if (result.success) {
+        const postData: SocialPostInput = {
+          platform,
+          content: content.trim(),
+          media_urls: mediaUrls.length > 0 ? mediaUrls : undefined,
+          scheduled_at: scheduledAt,
+          status: 'scheduled'
+        }
+        onSchedule?.(postData)
+      } else {
+        setErrors([result.error || 'Failed to schedule post'])
+      }
+    } catch (error) {
+      console.error('Schedule error:', error)
+      setErrors(['Failed to schedule post'])
+    }
+  }
+
+  const handlePublishNow = async () => {
+    const formErrors = validateForm()
+    if (formErrors.length > 0) {
+      setErrors(formErrors)
+      return
     }
 
-    onSchedule?.(postData)
+    try {
+      const response = await fetch('/api/social/posts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          content: content.trim(),
+          platforms: [platform],
+          mediaUrls: mediaUrls.filter(url => url.trim() !== ''),
+          action: 'publish'
+        }),
+      })
+
+      const result = await response.json()
+
+      if (result.success) {
+        // Reset form
+        setContent('')
+        setMediaUrls([])
+        setScheduledAt('')
+      } else {
+        setErrors([result.error || 'Failed to publish post'])
+      }
+    } catch (error) {
+      console.error('Publish error:', error)
+      setErrors(['Failed to publish post'])
+    }
   }
 
   const getPlatformSpecificPlaceholder = () => {
@@ -190,7 +256,7 @@ export function SocialPostComposer({
   }
 
   return (
-    <Card className="w-full max-w-4xl">
+    <Card className="w-full max-w-6xl">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Send className="h-5 w-5" />
@@ -201,6 +267,20 @@ export function SocialPostComposer({
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
+        {/* Compose/Preview Tabs */}
+        <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as 'compose' | 'preview')} className="w-full">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="compose" className="flex items-center gap-2">
+              <Edit className="h-4 w-4" />
+              Compose
+            </TabsTrigger>
+            <TabsTrigger value="preview" className="flex items-center gap-2">
+              <Eye className="h-4 w-4" />
+              Preview
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="compose" className="space-y-6 mt-6">
         {/* Platform Selection */}
         <div className="space-y-2">
           <Label htmlFor="platform">Platform</Label>
@@ -256,27 +336,15 @@ export function SocialPostComposer({
           </div>
         </div>
 
-        {/* Media URLs */}
+        {/* Media */}
         <div className="space-y-2">
-          <Label>Media URLs (optional)</Label>
-          <div className="flex gap-2">
-            <Input
-              placeholder="https://example.com/image.jpg"
-              value={newMediaUrl}
-              onChange={(e) => setNewMediaUrl(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && handleAddMediaUrl()}
-              disabled={isLoading}
-            />
-            <Button 
-              type="button" 
-              variant="outline" 
-              onClick={handleAddMediaUrl}
-              disabled={!newMediaUrl.trim() || isLoading}
-            >
-              <Image className="h-4 w-4 mr-2" />
-              Add
-            </Button>
-          </div>
+          <Label>Media (optional)</Label>
+          <MediaUpload
+             onUpload={(url: string) => {
+               setMediaUrls([...mediaUrls, url])
+             }}
+             maxFiles={5 - mediaUrls.length}
+           />
           
           {mediaUrls.length > 0 && (
             <div className="space-y-2">
@@ -298,6 +366,25 @@ export function SocialPostComposer({
               ))}
             </div>
           )}
+          
+          <div className="flex gap-2">
+            <Input
+              placeholder="Or add media URL manually"
+              value={newMediaUrl}
+              onChange={(e) => setNewMediaUrl(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && handleAddMediaUrl()}
+              disabled={isLoading}
+            />
+            <Button 
+              type="button" 
+              variant="outline" 
+              onClick={handleAddMediaUrl}
+              disabled={!newMediaUrl.trim() || isLoading}
+            >
+              <Image className="h-4 w-4 mr-2" />
+              Add URL
+            </Button>
+          </div>
         </div>
 
         {/* Scheduling */}
@@ -332,24 +419,117 @@ export function SocialPostComposer({
 
         <Separator />
 
-        {/* Actions */}
-        <div className="flex gap-3 justify-end">
-          <Button
-            variant="outline"
-            onClick={handleSave}
-            disabled={errors.length > 0 || isLoading}
-          >
-            Save Draft
-          </Button>
-          <Button
-            onClick={handleSchedule}
-            disabled={errors.length > 0 || isLoading}
-            className="flex items-center gap-2"
-          >
-            <Calendar className="h-4 w-4" />
-            {scheduledAt ? 'Schedule Post' : 'Save & Schedule'}
-          </Button>
-        </div>
+            {/* Actions */}
+            <div className="flex gap-3 justify-end">
+              <Button
+                variant="outline"
+                onClick={handleSave}
+                disabled={errors.length > 0 || isLoading}
+              >
+                Save Draft
+              </Button>
+              <Button
+                variant="outline"
+                onClick={handlePublishNow}
+                disabled={errors.length > 0 || isLoading}
+                className="flex items-center gap-2"
+              >
+                <Send className="h-4 w-4" />
+                Publish Now
+              </Button>
+              <Button
+                onClick={handleSchedule}
+                disabled={errors.length > 0 || isLoading}
+                className="flex items-center gap-2"
+              >
+                <Calendar className="h-4 w-4" />
+                {scheduledAt ? 'Schedule Post' : 'Save & Schedule'}
+              </Button>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="preview" className="space-y-6 mt-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Current Platform Preview */}
+              <div>
+                <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                  {currentPlatform.icon}
+                  {currentPlatform.name} Preview
+                </h3>
+                <SocialPostPreview
+                  platform={platform}
+                  content={content}
+                  mediaUrls={mediaUrls}
+                  scheduledAt={scheduledAt}
+                />
+              </div>
+
+              {/* Other Platform Preview */}
+              <div>
+                <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                  {platform === 'linkedin' ? (
+                    <>
+                      <Twitter className="h-4 w-4" />
+                      Twitter/X Preview
+                    </>
+                  ) : (
+                    <>
+                      <Linkedin className="h-4 w-4" />
+                      LinkedIn Preview
+                    </>
+                  )}
+                </h3>
+                <SocialPostPreview
+                  platform={platform === 'linkedin' ? 'twitter' : 'linkedin'}
+                  content={content}
+                  mediaUrls={mediaUrls}
+                  scheduledAt={scheduledAt}
+                />
+                <div className="mt-2 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                  <p className="text-sm text-yellow-800">
+                    <strong>Note:</strong> This is how your content would look on {platform === 'linkedin' ? 'Twitter/X' : 'LinkedIn'}. 
+                    Character limits and formatting may differ.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Preview Actions */}
+            <div className="flex gap-3 justify-end pt-4 border-t">
+              <Button
+                variant="outline"
+                onClick={() => setActiveTab('compose')}
+              >
+                <Edit className="h-4 w-4 mr-2" />
+                Edit Post
+              </Button>
+              <Button
+                variant="outline"
+                onClick={handleSave}
+                disabled={errors.length > 0 || isLoading}
+              >
+                Save Draft
+              </Button>
+              <Button
+                variant="outline"
+                onClick={handlePublishNow}
+                disabled={errors.length > 0 || isLoading}
+                className="flex items-center gap-2"
+              >
+                <Send className="h-4 w-4" />
+                Publish Now
+              </Button>
+              <Button
+                onClick={handleSchedule}
+                disabled={errors.length > 0 || isLoading}
+                className="flex items-center gap-2"
+              >
+                <Calendar className="h-4 w-4" />
+                {scheduledAt ? 'Schedule Post' : 'Save & Schedule'}
+              </Button>
+            </div>
+          </TabsContent>
+        </Tabs>
       </CardContent>
     </Card>
   )

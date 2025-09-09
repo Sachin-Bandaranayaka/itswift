@@ -14,6 +14,7 @@ process.env.TWITTER_API_SECRET = 'test-twitter-secret'
 process.env.NEXTAUTH_SECRET = 'test-nextauth-secret'
 process.env.ADMIN_USERNAME = 'admin'
 process.env.ADMIN_PASSWORD_HASH = '$2a$12$hashedpassword'
+process.env.AYRSHARE_API_KEY = process.env.AYRSHARE_API_KEY || '4521F78B-21C54BF3-9A04FAA8-40417679'
 
 // Mock Next.js router
 vi.mock('next/navigation', () => ({

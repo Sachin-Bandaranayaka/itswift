@@ -11,7 +11,7 @@ import { SocialPostList } from "@/components/admin/social-post-list"
 import { ContentCalendar } from "@/components/admin/content-calendar"
 import { OptimalTimingSuggestions } from "@/components/admin/optimal-timing-suggestions"
 import { BulkScheduler } from "@/components/admin/bulk-scheduler"
-import { SocialApiStatus } from "@/components/admin/social-api-status"
+import { AyrshareApiStatus } from "@/components/admin/ayrshare-api-status"
 import { SocialPost, SocialPostInput } from '@/lib/database/types'
 
 export default function SocialMediaManagement() {
@@ -32,7 +32,7 @@ export default function SocialMediaManagement() {
   const fetchPosts = async () => {
     try {
       setIsLoading(true)
-      const response = await fetch('/api/admin/social/posts')
+      const response = await fetch('/api/admin/social/ayrshare/posts')
       const result = await response.json()
 
       if (!response.ok) {
@@ -59,7 +59,7 @@ export default function SocialMediaManagement() {
       let response
       if (editingPost) {
         // Update existing post
-        response = await fetch(`/api/admin/social/posts/${editingPost.id}`, {
+        response = await fetch(`/api/admin/social/ayrshare/posts/${editingPost.id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ export default function SocialMediaManagement() {
         })
       } else {
         // Create new post
-        response = await fetch('/api/admin/social/posts', {
+        response = await fetch('/api/admin/social/ayrshare/posts', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -122,7 +122,7 @@ export default function SocialMediaManagement() {
     }
 
     try {
-      const response = await fetch(`/api/admin/social/posts/${postId}`, {
+      const response = await fetch(`/api/admin/social/ayrshare/posts/${postId}`, {
         method: 'DELETE',
       })
 
@@ -165,7 +165,7 @@ export default function SocialMediaManagement() {
       
       // Schedule all posts
       const promises = bulkPosts.map(postData => 
-        fetch('/api/admin/social/posts', {
+        fetch('/api/admin/social/ayrshare/posts', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -207,7 +207,7 @@ export default function SocialMediaManagement() {
     try {
       setIsSubmitting(true)
       
-      const response = await fetch('/api/admin/social/publish', {
+      const response = await fetch('/api/admin/social/ayrshare/publish', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -375,7 +375,7 @@ export default function SocialMediaManagement() {
         </TabsContent>
 
         <TabsContent value="settings" className="space-y-6">
-          <SocialApiStatus />
+          <AyrshareApiStatus />
         </TabsContent>
       </Tabs>
     </div>

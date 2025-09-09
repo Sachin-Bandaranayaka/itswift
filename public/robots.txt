@@ -1,0 +1,60 @@
+# Robots.txt for itswift.com
+# Allow standard search engines
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://www.itswift.com/sitemap.xml
+
+# Explicitly allow common LLM/AI crawlers (optional; adjust to your policy)
+User-agent: GPTBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# For AI training access from Google/Bing/Apple/Common Crawl (optional—be intentional)
+User-agent: Google-Extended
+Allow: /
+
+User-agent: AdsBot-Google
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+# Disallow private/admin areas
+Disallow: /admin/
+Disallow: /api/
+Disallow: /studio/
+Disallow: /_next/
+Disallow: /.well-known/
+
+# Disallow utility pages that shouldn't be indexed
+Disallow: /unsubscribe/
+Disallow: /*?*utm_*
+Disallow: /*?*ref=*
+Disallow: /*?*source=*
+
+# Allow important files
+Allow: /sitemap.xml
+Allow: /robots.txt
+Allow: /favicon.ico
+
+# Crawl delay (optional - be conservative)
+Crawl-delay: 1

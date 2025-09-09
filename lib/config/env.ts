@@ -14,6 +14,9 @@ export interface EnvironmentConfig {
   brevo: {
     apiKey: string
   }
+  ayrshare: {
+    apiKey: string
+  }
   linkedin: {
     clientId: string
     clientSecret: string
@@ -48,6 +51,7 @@ export function validateEnvironment(): {
     'SUPABASE_SERVICE_ROLE_KEY',
     'OPENAI_API_KEY',
     'BREVO_API_KEY',
+    'AYRSHARE_API_KEY',
     'LINKEDIN_CLIENT_ID',
     'LINKEDIN_CLIENT_SECRET',
     'TWITTER_API_KEY',
@@ -83,6 +87,9 @@ export function validateEnvironment(): {
     },
     brevo: {
       apiKey: process.env.BREVO_API_KEY!
+    },
+    ayrshare: {
+      apiKey: process.env.AYRSHARE_API_KEY!
     },
     linkedin: {
       clientId: process.env.LINKEDIN_CLIENT_ID!,

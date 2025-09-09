@@ -3,7 +3,7 @@
 import React, { useState } from "react"
 import Image from "next/image"
 import Contact from "@/components/contact"
-import { ArrowRight, CheckCircle, Award, BarChart, Layers, Users, ChevronDown, Phone, Mail, FileText, Calendar, Target, BookOpen, Lightbulb } from "lucide-react"
+import { ArrowRight, CheckCircle, BarChart, Layers, Target, BookOpen, Lightbulb } from "lucide-react"
 
 export default function InstructionalDesignPage() {
     const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);

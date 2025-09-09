@@ -38,6 +38,80 @@ const nextConfig = {
     parallelServerBuildTraces: true,
     parallelServerCompiles: true,
   },
+  async redirects() {
+    return [
+      // Legacy URL redirects for SEO migration
+      {
+        source: '/services/:path*',
+        destination: '/elearning-services/:path*',
+        permanent: true, // 301 redirect
+      },
+      {
+        source: '/solutions/:path*',
+        destination: '/elearning-solutions/:path*',
+        permanent: true,
+      },
+      {
+        source: '/consultancy/:path*',
+        destination: '/elearning-consultancy/:path*',
+        permanent: true,
+      },
+      // Common legacy patterns
+      {
+        source: '/service/:path*',
+        destination: '/elearning-services/:path*',
+        permanent: true,
+      },
+      {
+        source: '/solution/:path*',
+        destination: '/elearning-solutions/:path*',
+        permanent: true,
+      },
+    ];
+  },
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=600, stale-while-revalidate=86400',
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY',
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block',
+          },
+        ],
+      },
+      {
+        source: '/sitemap.xml',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=3600, stale-while-revalidate=86400',
+          },
+        ],
+      },
+      {
+        source: '/robots.txt',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=3600, stale-while-revalidate=86400',
+          },
+        ],
+      },
+    ];
+  },
 }
 
 mergeConfig(nextConfig, userConfig)
