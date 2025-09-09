@@ -22,6 +22,89 @@ interface CaseStudy {
 export default function CaseStudiesPage() {
     const [showDetails, setShowDetails] = useState<number | null>(null)
 
+    const generatePDF = (study: CaseStudy, index: number) => {
+        // Create a new window with the case study content
+        const printWindow = window.open('', '_blank')
+        if (!printWindow) return
+
+        const htmlContent = `
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>${study.title} - Case Study</title>
+                <style>
+                    body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; color: #333; }
+                    .header { border-bottom: 3px solid #ea580c; padding-bottom: 20px; margin-bottom: 30px; }
+                    .title { color: #ea580c; font-size: 28px; font-weight: bold; margin-bottom: 10px; }
+                    .client { font-size: 18px; color: #666; margin-bottom: 5px; }
+                    .industry { font-size: 16px; color: #888; }
+                    .section { margin: 25px 0; }
+                    .section-title { color: #ea580c; font-size: 18px; font-weight: bold; margin-bottom: 10px; border-left: 4px solid #ea580c; padding-left: 10px; }
+                    .metrics { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin: 20px 0; }
+                    .metric { background: #f97316; color: white; padding: 15px; border-radius: 8px; text-align: center; }
+                    .metric-value { font-size: 24px; font-weight: bold; }
+                    .metric-label { font-size: 14px; opacity: 0.9; }
+                    .results { margin: 15px 0; }
+                    .result-item { margin: 8px 0; padding-left: 20px; position: relative; }
+                    .result-item:before { content: "✓"; position: absolute; left: 0; color: #16a34a; font-weight: bold; }
+                    .tags { margin: 20px 0; }
+                    .tag { background: #fed7aa; color: #ea580c; padding: 5px 12px; border-radius: 20px; font-size: 12px; margin-right: 8px; display: inline-block; }
+                    @media print { body { margin: 20px; } }
+                </style>
+            </head>
+            <body>
+                <div class="header">
+                    <div class="title">${study.title}</div>
+                    <div class="client">Client: ${study.client}</div>
+                    <div class="industry">Industry: ${study.industry}</div>
+                </div>
+                
+                <div class="tags">
+                    ${study.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                </div>
+
+                <div class="metrics">
+                    ${study.metrics.map(metric => `
+                        <div class="metric">
+                            <div class="metric-value">${metric.value}</div>
+                            <div class="metric-label">${metric.label}</div>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Challenge</div>
+                    <p>${study.challenge}</p>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Solution</div>
+                    <p>${study.solution}</p>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Results Achieved</div>
+                    <div class="results">
+                        ${study.results.map(result => `<div class="result-item">${result}</div>`).join('')}
+                    </div>
+                </div>
+
+                <script>
+                    window.onload = function() {
+                        window.print();
+                        window.onafterprint = function() {
+                            window.close();
+                        }
+                    }
+                </script>
+            </body>
+            </html>
+        `
+
+        printWindow.document.write(htmlContent)
+        printWindow.document.close()
+    }
+
     const caseStudies: CaseStudy[] = [
         {
             title: "Oil Rig Training with 3D BOP Simulations",
@@ -173,7 +256,8 @@ export default function CaseStudiesPage() {
             <section className="relative bg-gradient-to-r from-orange-500 to-orange-600 text-white py-20">
                 {/* Banner Image */}
                 <div 
-                    className="absolute inset-0 z-0"
+                    className="absolute inset-0 z-0 opacity-30"
+                    suppressHydrationWarning
                     style={{
                         backgroundImage: 'url("/IMAGES/elearning case studies.jpg")',
                         backgroundSize: 'cover',
@@ -310,7 +394,10 @@ export default function CaseStudiesPage() {
                                                 <ChevronDown className={`h-5 w-5 transform transition-transform duration-200 ${showDetails === index ? 'rotate-180' : ''}`} />
                                             </button>
                                             
-                                            <button className="flex items-center space-x-2 bg-orange-600 text-white px-6 py-2 rounded-lg hover:bg-orange-700 transition-colors duration-200">
+                                            <button 
+                                                onClick={() => generatePDF(study, index)}
+                                                className="flex items-center space-x-2 bg-orange-600 text-white px-6 py-2 rounded-lg hover:bg-orange-700 transition-colors duration-200"
+                                            >
                                                 <span>Download PDF</span>
                                                 <ExternalLink className="h-4 w-4" />
                                             </button>
