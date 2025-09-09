@@ -180,10 +180,13 @@ export default function WebinarToElearningPage() {
                         </div>
                         <div className="relative rounded-xl overflow-hidden shadow-xl">
                             <div className="aspect-w-16 aspect-h-9 bg-gray-100">
-                                {/* Replace with actual image */}
-                                <div className="w-full h-full bg-gradient-to-br from-orange-100 to-orange-200 flex items-center justify-center">
-                                    <FileText className="h-24 w-24 text-orange-500 opacity-50" />
-                                </div>
+                                <Image
+                                    src="/IMAGES/webinar to elearning conversion.jpg"
+                                    alt="Webinar to eLearning Conversion Process"
+                                    width={600}
+                                    height={400}
+                                    className="w-full h-full object-cover"
+                                />
                             </div>
                         </div>
                     </motion.div>
