@@ -696,55 +696,6 @@ export default function RapidElearningPage() {
                 </div>
             </section>
 
-            {/* Related Blog Posts Section (Placeholder) */}
-            <section className="py-16 bg-gray-50">
-                <div className="container mx-auto px-4">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8 }}
-                        className="text-center max-w-3xl mx-auto mb-12"
-                    >
-                        <h2 className="text-3xl font-bold mb-4 text-gray-900">
-                            Related Resources
-                        </h2>
-                        <p className="text-lg text-gray-700">
-                            Explore our latest insights, guides, and case studies about rapid e-learning development.
-                        </p>
-                    </motion.div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                        {/* Placeholder for blog cards */}
-                        {[1, 2, 3].map((item, index) => (
-                            <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.5, delay: index * 0.1 }}
-                                className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300"
-                            >
-                                <div className="h-48 bg-orange-100 flex items-center justify-center">
-                                    <FileText className="h-16 w-16 text-orange-300" />
-                                </div>
-                                <div className="p-6">
-                                    <h3 className="text-xl font-semibold mb-3 text-gray-900">
-                                        Blog Post Title {item}
-                                    </h3>
-                                    <p className="text-gray-700 mb-4">
-                                        Short description of the blog post goes here. This is a placeholder for actual content.
-                                    </p>
-                                    <a href="#" className="text-orange-600 font-medium hover:text-orange-700 inline-flex items-center">
-                                        Read More
-                                        <ArrowRight className="ml-2 h-4 w-4" />
-                                    </a>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
-            </section>
         </div>
     );
 }
