@@ -2,48 +2,61 @@
 
 import Image from "next/image"
 import { motion } from "framer-motion"
+import DynamicContent from "./dynamic-content"
 
 export default function Services() {
     const services = [
         {
-            title: "Unmatched Experience and a Proven Track Record",
+            titleKey: "service_1_title",
+            titleFallback: "Unmatched Experience and a Proven Track Record",
             icon: "/icons/custom-learning.svg",
-            description: "With over 20 years of experience, we have a proven track record of delivering high-impact eLearning solutions to a diverse clientele. Our portfolio showcases our ability to handle projects of any scale and complexity, delivering exceptional results every time.",
+            descriptionKey: "service_1_description",
+            descriptionFallback: "With over 20 years of experience, we have a proven track record of delivering high-impact eLearning solutions to a diverse clientele. Our portfolio showcases our ability to handle projects of any scale and complexity, delivering exceptional results every time.",
             iconBg: "bg-blue-100",
             iconColor: "text-blue-500"
         },
         {
-            title: "A Team of Passionate Learning Experts",
+            titleKey: "service_2_title",
+            titleFallback: "A Team of Passionate Learning Experts",
             icon: "/icons/rapid-learning.svg",
-            description: "Our team of learning consultants, instructional designers, and developers are the heart of our organization. Their passion for learning and commitment to excellence are the driving forces behind our success. This is why we are consistently recognized as one of the top eLearning companies in Bangalore.",
+            descriptionKey: "service_2_description",
+            descriptionFallback: "Our team of learning consultants, instructional designers, and developers are the heart of our organization. Their passion for learning and commitment to excellence are the driving forces behind our success. This is why we are consistently recognized as one of the top eLearning companies in Bangalore.",
             iconBg: "bg-orange-100",
             iconColor: "text-orange-500"
         },
         {
-            title: "Trusted by Global Leaders like Google, Microsoft, and Siemens",
+            titleKey: "service_3_title",
+            titleFallback: "Trusted by Global Leaders like Google, Microsoft, and Siemens",
             icon: "/icons/microlearning.svg",
-            description: "Our client list speaks for itself. We are proud to have partnered with some of the world's leading companies, including Google, Microsoft, and Siemens. This is a testament to our ability to deliver world-class eLearning solutions that meet the highest standards of quality and effectiveness.",
+            descriptionKey: "service_3_description",
+            descriptionFallback: "Our client list speaks for itself. We are proud to have partnered with some of the world's leading companies, including Google, Microsoft, and Siemens. This is a testament to our ability to deliver world-class eLearning solutions that meet the highest standards of quality and effectiveness.",
             iconBg: "bg-green-100",
             iconColor: "text-green-500"
         },
         {
-            title: "AI-Enabled eLearning Solutions: The Future of Corporate Training",
+            titleKey: "service_4_title",
+            titleFallback: "AI-Enabled eLearning Solutions: The Future of Corporate Training",
             icon: "/icons/interactive-learning.svg",
-            description: "As a visionary AI-enabled eLearning solutions company in Bangalore, we are pioneering the use of artificial intelligence to create personalized, adaptive, and engaging learning experiences. Our AI-powered solutions are designed to optimize learning outcomes and maximize your return on investment.",
+            descriptionKey: "service_4_description",
+            descriptionFallback: "As a visionary AI-enabled eLearning solutions company in Bangalore, we are pioneering the use of artificial intelligence to create personalized, adaptive, and engaging learning experiences. Our AI-powered solutions are designed to optimize learning outcomes and maximize your return on investment.",
             iconBg: "bg-purple-100",
             iconColor: "text-purple-500"
         },
         {
-            title: "Personalized Learning Paths for Maximum Impact",
+            titleKey: "service_5_title",
+            titleFallback: "Personalized Learning Paths for Maximum Impact",
             icon: "/icons/payroll.svg",
-            description: "Our AI-driven platform analyzes individual learner data to create personalized learning paths that cater to their unique needs and learning styles. This ensures that every employee receives the right training at the right time, maximizing knowledge retention and application.",
+            descriptionKey: "service_5_description",
+            descriptionFallback: "Our AI-driven platform analyzes individual learner data to create personalized learning paths that cater to their unique needs and learning styles. This ensures that every employee receives the right training at the right time, maximizing knowledge retention and application.",
             iconBg: "bg-amber-100",
             iconColor: "text-amber-500"
         },
         {
-            title: "Gamification and Interactive Content That Engages and Inspires",
+            titleKey: "service_6_title",
+            titleFallback: "Gamification and Interactive Content That Engages and Inspires",
             icon: "/icons/training.svg",
-            description: "We believe that learning should be an enjoyable and immersive experience. That's why we incorporate gamification, simulations, and interactive content into our eLearning solutions. This not only makes learning more engaging but also improves knowledge retention and application.",
+            descriptionKey: "service_6_description",
+            descriptionFallback: "We believe that learning should be an enjoyable and immersive experience. That's why we incorporate gamification, simulations, and interactive content into our eLearning solutions. This not only makes learning more engaging but also improves knowledge retention and application.",
             iconBg: "bg-indigo-100",
             iconColor: "text-indigo-500"
         }
@@ -58,8 +71,18 @@ export default function Services() {
                     transition={{ duration: 0.8 }}
                     className="max-w-3xl mx-auto text-center mb-16"
                 >
-                    <h2 className="text-4xl font-bold mb-4">Why Swift Solution is the Best eLearning Company in Bangalore</h2>
-                    <p className="text-xl text-gray-600">Choosing the right eLearning partner is a critical decision for any organization. Here's why Swift Solution is the undisputed choice for businesses seeking the best eLearning company in Bangalore.</p>
+                    <DynamicContent 
+                        sectionKey="services_title" 
+                        pageSlug="home"
+                        fallback={<h2 className="text-4xl font-bold mb-4">Why Swift Solution is the Best eLearning Company in Bangalore</h2>}
+                    />
+                    <DynamicContent 
+                        sectionKey="services_description" 
+                        pageSlug="home"
+                        fallback={
+                            <p className="text-xl text-gray-600">Choosing the right eLearning partner is a critical decision for any organization. Here's why Swift Solution is the undisputed choice for businesses seeking the best eLearning company in Bangalore.</p>
+                        }
+                    />
                 </motion.div>
 
                 <div className="max-w-7xl mx-auto overflow-hidden rounded-lg border border-gray-200">
@@ -78,7 +101,7 @@ export default function Services() {
                                             <div className="relative w-6 h-6">
                                                 <Image
                                                     src={service.icon}
-                                                    alt={service.title}
+                                                    alt={service.titleFallback}
                                                     fill
                                                     className="object-contain"
                                                     onError={(e) => {
@@ -94,8 +117,20 @@ export default function Services() {
                                             </svg>
                                         </div>
                                     </div>
-                                    <h3 className="text-xl font-semibold text-gray-800 mb-3">{service.title}</h3>
-                                    <p className="text-gray-600 flex-grow">{service.description}</p>
+                                    <DynamicContent
+                                        sectionKey={service.titleKey}
+                                        pageSlug="home"
+                                        as="h3"
+                                        className="text-xl font-semibold text-gray-800 mb-3"
+                                        fallback={service.titleFallback}
+                                    />
+                                    <DynamicContent
+                                        sectionKey={service.descriptionKey}
+                                        pageSlug="home"
+                                        as="p"
+                                        className="text-gray-600 flex-grow"
+                                        fallback={service.descriptionFallback}
+                                    />
                                 </div>
                             </motion.div>
                         ))}
@@ -104,4 +139,4 @@ export default function Services() {
             </div>
         </section>
     )
-} 
+}

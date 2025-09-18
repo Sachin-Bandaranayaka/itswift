@@ -260,3 +260,99 @@ export interface ServiceResult<T> {
   error?: string
   message?: string
 }
+
+// Content Management Types
+export interface Page {
+  id: string
+  slug: string
+  title: string
+  description?: string
+  meta_title?: string
+  meta_description?: string
+  meta_keywords?: string
+  is_active?: boolean
+  created_at?: string
+  updated_at?: string
+}
+
+export interface PageInsert {
+  slug: string
+  title: string
+  description?: string
+  meta_title?: string
+  meta_description?: string
+  meta_keywords?: string
+  is_active?: boolean
+}
+
+export interface PageUpdate {
+  slug?: string
+  title?: string
+  description?: string
+  meta_title?: string
+  meta_description?: string
+  meta_keywords?: string
+  is_active?: boolean
+}
+
+export interface PageContentSection {
+  id: string
+  page_id?: string
+  section_key: string
+  section_type: string
+  content: string
+  content_html?: string
+  display_order?: number
+  is_active?: boolean
+  created_at?: string
+  updated_at?: string
+}
+
+export interface PageContentSectionInsert {
+  page_id?: string
+  section_key: string
+  section_type?: string
+  content: string
+  content_html?: string
+  display_order?: number
+  is_active?: boolean
+}
+
+export interface PageContentSectionUpdate {
+  page_id?: string
+  section_key?: string
+  section_type?: string
+  content?: string
+  content_html?: string
+  display_order?: number
+  is_active?: boolean
+}
+
+export interface PageContentVersion {
+  id: string
+  section_id?: string
+  content: string
+  content_html?: string
+  version_number: number
+  status?: string
+  created_by?: string
+  created_at?: string
+  published_at?: string
+}
+
+export interface PageContentVersionInsert {
+  section_id?: string
+  content: string
+  content_html?: string
+  version_number: number
+  status?: string
+  created_by?: string
+}
+
+export interface PageContentVersionUpdate {
+  content?: string
+  content_html?: string
+  status?: string
+  created_by?: string
+  published_at?: string
+}

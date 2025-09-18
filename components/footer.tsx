@@ -44,28 +44,42 @@ export default function Footer() {
           {/* eLearning Services */}
           <div className="md:col-span-3">
             <h3 className="text-lg font-bold mb-6">eLearning Services</h3>
-            <ul className="space-y-3">
-              <li>
-                <Link href="/elearning-services/custom-elearning" className="text-white hover:underline text-sm">
+            <div className="grid grid-cols-1 gap-y-3">
+              {/* First column of services */}
+              <div className="space-y-3">
+                <Link href="/elearning-services/ai-powered-solutions" className="block text-white hover:underline text-sm">
+                  AI-Powered eLearning Solutions
+                </Link>
+                <Link href="/elearning-services/custom-elearning" className="block text-white hover:underline text-sm">
                   Custom eLearning
                 </Link>
-              </li>
-              <li>
-                <Link href="/elearning-services/micro-learning" className="text-white hover:underline text-sm">
+                <Link href="/elearning-services/micro-learning" className="block text-white hover:underline text-sm">
                   Micro Learning
                 </Link>
-              </li>
-              <li>
-                <Link href="/elearning-services/video-based-training" className="text-white hover:underline text-sm">
+                <Link href="/elearning-services/video-based-training" className="block text-white hover:underline text-sm">
                   Video Based Training
                 </Link>
-              </li>
-              <li>
-                <Link href="/elearning-services/rapid-elearning" className="text-white hover:underline text-sm">
+                <Link href="/elearning-services/ilt-to-elearning" className="block text-white hover:underline text-sm">
+                  ILT to eLearning Conversion
+                </Link>
+              </div>
+              
+              {/* Second column of services */}
+              <div className="space-y-3 mt-4">
+                <Link href="/elearning-services/webinar-to-elearning" className="block text-white hover:underline text-sm">
+                  Webinar to eLearning Conversion
+                </Link>
+                <Link href="/elearning-services/game-based-elearning" className="block text-white hover:underline text-sm">
+                  Game Based eLearning
+                </Link>
+                <Link href="/elearning-services/translation-localization" className="block text-white hover:underline text-sm">
+                  eLearning Translation & Localization
+                </Link>
+                <Link href="/elearning-services/rapid-elearning" className="block text-white hover:underline text-sm">
                   Rapid eLearning
                 </Link>
-              </li>
-            </ul>
+              </div>
+            </div>
           </div>
 
           {/* eLearning Solutions */}

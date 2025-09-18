@@ -1,4 +1,5 @@
 import Image from "next/image"
+import DynamicContent from "./dynamic-content"
 
 export default function ValueProposition() {
     const propositions = [
@@ -69,22 +70,38 @@ export default function ValueProposition() {
             <section className="pt-16 pb-48 bg-[#FF6B38] dark:bg-[#CC5630]">
                 <div className="container mx-auto px-4">
                     <div className="max-w-3xl mx-auto text-center">
-                        <h2 className="text-3xl font-bold mb-4 text-white">Your Trusted eLearning Solutions Provider in Bangalore for Over 20+Years</h2>
+                        <DynamicContent 
+                            sectionKey="value_proposition_title" 
+                            pageSlug="home"
+                            fallback={<h2 className="text-3xl font-bold mb-4 text-white">Your Trusted eLearning Solutions Provider in Bangalore for Over 20+Years</h2>}
+                        />
                         <hr className="w-24 border-t-2 border-white mx-auto my-6" />
 
                         {/* Company description text added here */}
                         <div className="max-w-3xl mx-auto text-white text-center mt-8 mb-12 leading-relaxed">
-                            <h3 className="text-xl font-semibold mb-4">Driving Business Growth with Custom eLearning Content</h3>
-                            <p className="mb-4">
-                                Swift Solution Pvt Ltd has led India's Learning & Development industry for 20+ years. Shaping India's L&D industry for 20+ years. Not just a vendor — a partner in transformation. Blending deep expertise with AI-driven innovation. Rooted in ethics, built on lasting client trust. Leading the next evolution of Learning & Development.
-                            </p>
-                            <p className="mb-4">
-                                As a leading eLearning company in Bangalore, our team of learning experts combine deep instructional design expertise with cutting-edge technology to create engaging and effective learning experiences that deliver measurable results.
-                            </p>
-                            <h3 className="text-xl font-semibold mb-4">Our Unwavering Commitment to Quality and Innovation</h3>
-                            <p>
-                                Our core values of client-centricity, innovation, and measurable impact are the pillars of our success. We continuously explore new technologies and instructional design methodologies to ensure that our solutions are at the forefront of the industry. This commitment to excellence is what sets us apart from other eLearning companies in Bangalore.
-                            </p>
+                            <DynamicContent 
+                                sectionKey="value_proposition_subtitle" 
+                                pageSlug="home"
+                                fallback={<h3 className="text-xl font-semibold mb-4">Driving Business Growth with Custom eLearning Content</h3>}
+                            />
+                            <DynamicContent 
+                                sectionKey="value_proposition_description" 
+                                pageSlug="home"
+                                fallback={
+                                    <>
+                                        <p className="mb-4">
+                                            Swift Solution Pvt Ltd has led India's Learning & Development industry for 20+ years. Shaping India's L&D industry for 20+ years. Not just a vendor — a partner in transformation. Blending deep expertise with AI-driven innovation. Rooted in ethics, built on lasting client trust. Leading the next evolution of Learning & Development.
+                                        </p>
+                                        <p className="mb-4">
+                                            As a leading eLearning company in Bangalore, our team of learning experts combine deep instructional design expertise with cutting-edge technology to create engaging and effective learning experiences that deliver measurable results.
+                                        </p>
+                                        <h3 className="text-xl font-semibold mb-4">Our Unwavering Commitment to Quality and Innovation</h3>
+                                        <p>
+                                            Our core values of client-centricity, innovation, and measurable impact are the pillars of our success. We continuously explore new technologies and instructional design methodologies to ensure that our solutions are at the forefront of the industry. This commitment to excellence is what sets us apart from other eLearning companies in Bangalore.
+                                        </p>
+                                    </>
+                                }
+                            />
                         </div>
                     </div>
                 </div>

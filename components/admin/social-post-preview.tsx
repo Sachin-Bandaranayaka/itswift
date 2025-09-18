@@ -73,7 +73,7 @@ export function SocialPostPreview({
             {/* Author Info */}
             <div className="flex items-start gap-3">
               <Avatar className="h-12 w-12">
-                <AvatarImage src={authorAvatar} />
+                <AvatarImage src={authorAvatar} alt={`${authorName} profile picture`} />
                 <AvatarFallback className="bg-blue-100 text-blue-600">
                   {authorName.split(' ').map(n => n[0]).join('').toUpperCase()}
                 </AvatarFallback>
@@ -162,7 +162,7 @@ export function SocialPostPreview({
           {/* Author Info */}
           <div className="flex items-start gap-3">
             <Avatar className="h-10 w-10">
-              <AvatarImage src={authorAvatar} />
+              <AvatarImage src={authorAvatar} alt={`${authorName} profile picture`} />
               <AvatarFallback className="bg-gray-100">
                 {authorName.split(' ').map(n => n[0]).join('').toUpperCase()}
               </AvatarFallback>

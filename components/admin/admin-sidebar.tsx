@@ -22,6 +22,7 @@ import {
   Zap,
   Shield,
   MessageSquare,
+  Edit3,
 } from "lucide-react"
 import { useState } from "react"
 
@@ -35,6 +36,11 @@ const navigation = [
     name: "Blog Posts",
     href: "/admin/blog",
     icon: FileText,
+  },
+  {
+    name: "Content Management",
+    href: "/admin/content",
+    icon: Edit3,
   },
   {
     name: "Social Media",

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react"
 import Head from "next/head"
 import Image from "next/image"
 import Contact from "@/components/contact"
+// Removed import of getPageContent as we'll use the public API
 import { ArrowRight, CheckCircle, Award, BarChart, Layers, Users, ChevronDown, Target, Globe, Lightbulb, Heart, Star, Trophy, Brain, Zap, Shield } from "lucide-react"
 
 
@@ -29,6 +30,8 @@ interface FAQ {
 export default function AboutUsPage() {
     const [showTeam, setShowTeam] = useState(false)
     const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null)
+    const [content, setContent] = useState<Record<string, string>>({})
+    const [loading, setLoading] = useState(true)
 
     const scrollToAIJourney = () => {
         const aiSection = document.getElementById('ai-journey-section')
@@ -51,6 +54,25 @@ export default function AboutUsPage() {
     }
 
     useEffect(() => {
+        const loadContent = async () => {
+            try {
+                const response = await fetch('/api/content?page=about-us')
+                const data = await response.json()
+                
+                if (data.success) {
+                    setContent(data.data.content)
+                } else {
+                    console.error('Error loading page content:', data.error)
+                }
+            } catch (error) {
+                console.error('Error loading page content:', error)
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        loadContent()
+
         document.title = "Top AI-Powered eLearning Company in Bangalore, India | Swift Solution"
 
         // Update meta description
@@ -75,6 +97,11 @@ export default function AboutUsPage() {
             document.head.appendChild(meta)
         }
     }, [])
+
+    // Helper function to get content with fallback
+    const getContent = (key: string, fallback: string) => {
+        return content[key] || fallback
+    }
 
     const teamMembers: TeamMember[] = [
         {
@@ -151,10 +178,10 @@ export default function AboutUsPage() {
                 <div className="container mx-auto px-4 relative z-10">
                     <div className="max-w-6xl mx-auto text-center" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.7)' }}>
                         <h1 className="text-4xl md:text-6xl font-bold mb-6">
-                            About Swift Solution: Pioneering the Future of Corporate Training in Bangalore
+                            {getContent('about_swift_solution_title', 'About Swift Solution: Pioneering the Future of Corporate Training in Bangalore')}
                         </h1>
                         <p className="text-xl md:text-2xl mb-8 text-orange-100 max-w-4xl mx-auto">
-                            Our existence hinges on one simple principle: improving your business performance. We are not just another vendor; we are a strategic partner recognized as one of the top eLearning companies in Bangalore.
+                            {getContent('our_existence_hinges_description', 'Our existence hinges on one simple principle: improving your business performance. We are not just another vendor; we are a strategic partner recognized as one of the top eLearning companies in Bangalore.')}
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <button 
@@ -180,11 +207,11 @@ export default function AboutUsPage() {
                     <div className="max-w-6xl mx-auto">
                         <div className="text-center mb-16">
                             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
-                                Our Foundation: Three Decades of L&D Mastery and Client Success
+                                {getContent('our_foundation_three_title', 'Our Foundation: Three Decades of L&D Mastery and Client Success')}
                             </h2>
                             <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-orange-600 mx-auto mb-6"></div>
                             <p className="text-xl text-gray-600 max-w-4xl mx-auto">
-                                Our professional identity is built on a fundamental understanding of the Indian L&D ecosystem, which has historically been fragmented and lacking in standardized, systematic approaches. Our journey has been a deliberate effort to build structure, quality, and consistency where it is rare.
+                                {getContent('our_professional_identity_description', 'Our professional identity is built on a fundamental understanding of the Indian L&D ecosystem, which has historically been fragmented and lacking in standardized, systematic approaches. Our journey has been a deliberate effort to build structure, quality, and consistency where it is rare.')}
                             </p>
                         </div>
 

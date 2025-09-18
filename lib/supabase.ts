@@ -289,6 +289,129 @@ export interface Database {
           created_at?: string
         }
       }
+      pages: {
+        Row: {
+          id: string
+          slug: string
+          title: string
+          description: string | null
+          meta_title: string | null
+          meta_description: string | null
+          meta_keywords: string | null
+          is_active: boolean | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          slug: string
+          title: string
+          description?: string | null
+          meta_title?: string | null
+          meta_description?: string | null
+          meta_keywords?: string | null
+          is_active?: boolean | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          slug?: string
+          title?: string
+          description?: string | null
+          meta_title?: string | null
+          meta_description?: string | null
+          meta_keywords?: string | null
+          is_active?: boolean | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+      }
+      page_content_sections: {
+        Row: {
+          id: string
+          page_id: string | null
+          section_key: string
+          section_type: string | null
+          content: string
+          content_html: string | null
+          display_order: number | null
+          is_active: boolean | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          page_id?: string | null
+          section_key: string
+          section_type?: string | null
+          content: string
+          content_html?: string | null
+          display_order?: number | null
+          is_active?: boolean | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          page_id?: string | null
+          section_key?: string
+          section_type?: string | null
+          content?: string
+          content_html?: string | null
+          display_order?: number | null
+          is_active?: boolean | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+      }
+      page_content_versions: {
+        Row: {
+          id: string
+          section_id: string | null
+          content: string
+          content_html: string | null
+          version_number: number
+          status: string | null
+          created_by: string | null
+          created_at: string | null
+          published_at: string | null
+        }
+        Insert: {
+          id?: string
+          section_id?: string | null
+          content: string
+          content_html?: string | null
+          version_number: number
+          status?: string | null
+          created_by?: string | null
+          created_at?: string | null
+          published_at?: string | null
+        }
+        Update: {
+          id?: string
+          section_id?: string | null
+          content?: string
+          content_html?: string | null
+          version_number?: number
+          status?: string | null
+          created_by?: string | null
+          created_at?: string | null
+          published_at?: string | null
+        }
+      }
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      [_ in never]: never
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
     }
   }
 }

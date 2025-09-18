@@ -1,11 +1,10 @@
 "use client"
 
 import { motion } from "framer-motion"
-import Link from "next/link"
 import { useState, useEffect, useRef } from "react"
 import DynamicContent from "@/components/dynamic-content"
 
-export default function Hero() {
+export default function HeroDynamic() {
   const [isLoading, setIsLoading] = useState(true)
   const [hasError, setHasError] = useState(false)
   const [mounted, setMounted] = useState(false)
@@ -80,10 +79,16 @@ export default function Hero() {
             className="text-xl sm:text-2xl md:text-4xl lg:text-5xl tracking-tight font-extrabold text-white max-w-5xl mx-auto"
           >
             <DynamicContent
-              sectionKey="hero_title"
+              sectionKey="hero-title"
               pageSlug="home"
               as="span"
-              fallback="Top eLearning Company in Bangalore: AI-Powered Corporate Training"
+              fallback={
+                <>
+                  <span className="inline block mb-2 md:mb-0 md:inline">Top eLearning Company in Bangalore: </span>
+                  <span className="inline-block text-white bg-black bg-opacity-50 px-2 py-1 rounded">AI-Powered Corporate Training</span>
+                </>
+              }
+              className="inline-block"
             />
           </motion.h1>
           <motion.p
@@ -93,7 +98,7 @@ export default function Hero() {
             className="text-lg sm:text-xl md:text-2xl text-white max-w-4xl mx-auto mt-6"
           >
             <DynamicContent
-              sectionKey="hero_subtitle"
+              sectionKey="hero-description"
               pageSlug="home"
               as="span"
               fallback="We deliver measurable results and exceptional ROI with our award-winning, AI-driven eLearning solutions."
@@ -105,26 +110,26 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="mt-8 flex justify-center items-center"
           >
-            <button 
-              onClick={() => {
-                const contactSection = document.getElementById('contact');
-                if (contactSection) {
-                  contactSection.scrollIntoView({ behavior: 'smooth' });
-                }
-              }}
-              className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 px-8 rounded-lg text-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl inline-block cursor-pointer"
-            >
-              <DynamicContent
-                sectionKey="cta_button"
-                pageSlug="home"
-                as="span"
-                fallback="Get a Free AI Training Consultation"
-              />
-            </button>
+            <DynamicContent
+              sectionKey="hero-cta-button"
+              pageSlug="home"
+              fallback={
+                <button 
+                  onClick={() => {
+                    const contactSection = document.getElementById('contact');
+                    if (contactSection) {
+                      contactSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }}
+                  className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 px-8 rounded-lg text-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl inline-block cursor-pointer"
+                >
+                  Get a Free AI Training Consultation
+                </button>
+              }
+            />
           </motion.div>
         </div>
       </div>
     </div>
   )
 }
-

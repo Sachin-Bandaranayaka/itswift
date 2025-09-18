@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
+import DynamicContent from "@/components/dynamic-content"
 
 export default function ContactPage() {
     const [formState, setFormState] = useState({
@@ -85,12 +86,20 @@ export default function ContactPage() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
                     >
-                        <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                            Contact Swift Solution
-                        </h1>
-                        <p className="text-xl text-orange-100 max-w-3xl mx-auto">
-                            Ready to transform your corporate training? Get in touch with Bangalore's leading eLearning company for a free consultation.
-                        </p>
+                        <DynamicContent 
+                            sectionKey="contact_hero_title" 
+                            pageSlug="contact" 
+                            fallback="Contact Swift Solution"
+                            as="h1"
+                            className="text-4xl md:text-5xl font-bold text-white mb-6"
+                        />
+                        <DynamicContent 
+                            sectionKey="contact_hero_description" 
+                            pageSlug="contact" 
+                            fallback="Ready to transform your corporate training? Get in touch with Bangalore's leading eLearning company for a free consultation."
+                            as="p"
+                            className="text-xl text-orange-100 max-w-3xl mx-auto"
+                        />
                     </motion.div>
                 </div>
             </section>
@@ -107,12 +116,20 @@ export default function ContactPage() {
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.8 }}
                                 >
-                                    <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                                        Get a Free Consultation
-                                    </h2>
-                                    <p className="text-gray-600 mb-8">
-                                        Fill out the form below and our team will get back to you within 24 hours to discuss your eLearning needs.
-                                    </p>
+                                    <DynamicContent 
+                                        sectionKey="contact_form_title" 
+                                        pageSlug="contact" 
+                                        fallback="Get a Free Consultation"
+                                        as="h2"
+                                        className="text-3xl font-bold text-gray-900 mb-4"
+                                    />
+                                    <DynamicContent 
+                                        sectionKey="contact_form_description" 
+                                        pageSlug="contact" 
+                                        fallback="Fill out the form below and our team will get back to you within 24 hours to discuss your eLearning needs."
+                                        as="p"
+                                        className="text-gray-600 mb-8"
+                                    />
 
                                     <AnimatePresence>
                                         {!isSubmitted ? (
@@ -126,7 +143,11 @@ export default function ContactPage() {
                                                 <div className="grid md:grid-cols-2 gap-6">
                                                     <div>
                                                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                                                            First Name *
+                                                            <DynamicContent 
+                                                                sectionKey="first_name_label" 
+                                                                pageSlug="contact" 
+                                                                fallback="First Name *" 
+                                                            />
                                                         </label>
                                                         <input
                                                             type="text"
@@ -139,7 +160,11 @@ export default function ContactPage() {
                                                     </div>
                                                     <div>
                                                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                                                            Last Name
+                                                            <DynamicContent 
+                                                                sectionKey="last_name_label" 
+                                                                pageSlug="contact" 
+                                                                fallback="Last Name" 
+                                                            />
                                                         </label>
                                                         <input
                                                             type="text"
@@ -152,7 +177,11 @@ export default function ContactPage() {
 
                                                 <div>
                                                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                                                        Email Address *
+                                                        <DynamicContent 
+                                                            sectionKey="email_label" 
+                                                            pageSlug="contact" 
+                                                            fallback="Email Address *" 
+                                                        />
                                                     </label>
                                                     <input
                                                         type="email"
@@ -167,7 +196,11 @@ export default function ContactPage() {
                                                 <div className="grid md:grid-cols-2 gap-6">
                                                     <div>
                                                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                                                            Phone Number
+                                                            <DynamicContent 
+                                                                sectionKey="phone_label" 
+                                                                pageSlug="contact" 
+                                                                fallback="Phone Number" 
+                                                            />
                                                         </label>
                                                         <input
                                                             type="tel"
@@ -178,7 +211,11 @@ export default function ContactPage() {
                                                     </div>
                                                     <div>
                                                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                                                            Company
+                                                            <DynamicContent 
+                                                                sectionKey="company_label" 
+                                                                pageSlug="contact" 
+                                                                fallback="Company" 
+                                                            />
                                                         </label>
                                                         <input
                                                             type="text"
@@ -191,7 +228,11 @@ export default function ContactPage() {
 
                                                 <div>
                                                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                                                        Message *
+                                                        <DynamicContent 
+                                                            sectionKey="message_label" 
+                                                            pageSlug="contact" 
+                                                            fallback="Message *" 
+                                                        />
                                                     </label>
                                                     <textarea
                                                         rows={5}
@@ -216,7 +257,19 @@ export default function ContactPage() {
                                                         disabled={isSubmitting}
                                                         className="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 rounded-lg transition-colors duration-200"
                                                     >
-                                                        {isSubmitting ? "Sending..." : "Send Message"}
+                                                        {isSubmitting ? (
+                                                            <DynamicContent 
+                                                                sectionKey="sending_button" 
+                                                                pageSlug="contact" 
+                                                                fallback="Sending..." 
+                                                            />
+                                                        ) : (
+                                                            <DynamicContent 
+                                                                sectionKey="send_message_button" 
+                                                                pageSlug="contact" 
+                                                                fallback="Send Message" 
+                                                            />
+                                                        )}
                                                     </Button>
                                                 </div>
                                             </motion.form>
@@ -231,15 +284,29 @@ export default function ContactPage() {
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                                     </svg>
                                                 </div>
-                                                <h3 className="text-2xl font-bold text-gray-900 mb-4">Thank You!</h3>
+                                                <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                                                    <DynamicContent 
+                                                        sectionKey="success_title" 
+                                                        pageSlug="contact" 
+                                                        fallback="Thank You!" 
+                                                    />
+                                                </h3>
                                                 <p className="text-gray-600 mb-6">
-                                                    Your message has been sent successfully. Our team will get back to you within 24 hours.
+                                                    <DynamicContent 
+                                                        sectionKey="success_message" 
+                                                        pageSlug="contact" 
+                                                        fallback="Your message has been sent successfully. Our team will get back to you within 24 hours." 
+                                                    />
                                                 </p>
                                                 <Button
                                                     onClick={() => setIsSubmitted(false)}
                                                     className="bg-orange-500 hover:bg-orange-600 text-white"
                                                 >
-                                                    Send Another Message
+                                                    <DynamicContent 
+                                                        sectionKey="send_another_button" 
+                                                        pageSlug="contact" 
+                                                        fallback="Send Another Message" 
+                                                    />
                                                 </Button>
                                             </motion.div>
                                         )}
@@ -255,7 +322,13 @@ export default function ContactPage() {
                                     transition={{ duration: 0.8 }}
                                     className="h-full flex flex-col justify-center"
                                 >
-                                    <h3 className="text-3xl font-bold mb-8">Contact Information</h3>
+                                    <h3 className="text-3xl font-bold mb-8">
+                                        <DynamicContent 
+                                            sectionKey="contact_info_title" 
+                                            pageSlug="contact" 
+                                            fallback="Contact Information" 
+                                        />
+                                    </h3>
 
                                     {/* Bangalore Office */}
                                     <div className="mb-10">
@@ -263,7 +336,11 @@ export default function ContactPage() {
                                             <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                                 <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
                                             </svg>
-                                            India Office
+                                            <DynamicContent 
+                                                sectionKey="india_office_title" 
+                                                pageSlug="contact" 
+                                                fallback="India Office" 
+                                            />
                                         </h4>
                                         <div className="space-y-3 text-orange-100">
                                             <div className="flex items-start">
@@ -299,7 +376,11 @@ export default function ContactPage() {
                                             <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                                 <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
                                             </svg>
-                                            USA Partner
+                                            <DynamicContent 
+                                                sectionKey="usa_partner_title" 
+                                                pageSlug="contact" 
+                                                fallback="USA Partner" 
+                                            />
                                         </h4>
                                         <div className="space-y-3 text-orange-100">
                                             <div className="flex items-start">
@@ -334,11 +415,35 @@ export default function ContactPage() {
 
                                     {/* Business Hours */}
                                     <div className="mt-10">
-                                        <h4 className="text-xl font-semibold mb-4">Business Hours</h4>
+                                        <h4 className="text-xl font-semibold mb-4">
+                                            <DynamicContent 
+                                                sectionKey="business_hours_title" 
+                                                pageSlug="contact" 
+                                                fallback="Business Hours" 
+                                            />
+                                        </h4>
                                         <div className="space-y-2 text-orange-100">
-                                            <p>Monday - Friday: 9:00 AM - 6:00 PM IST</p>
-                                            <p>Saturday: 10:00 AM - 2:00 PM IST</p>
-                                            <p>Sunday: Closed</p>
+                                            <p>
+                                                <DynamicContent 
+                                                    sectionKey="weekday_hours" 
+                                                    pageSlug="contact" 
+                                                    fallback="Monday - Friday: 9:00 AM - 6:00 PM IST" 
+                                                />
+                                            </p>
+                                            <p>
+                                                <DynamicContent 
+                                                    sectionKey="saturday_hours" 
+                                                    pageSlug="contact" 
+                                                    fallback="Saturday: 10:00 AM - 2:00 PM IST" 
+                                                />
+                                            </p>
+                                            <p>
+                                                <DynamicContent 
+                                                    sectionKey="sunday_hours" 
+                                                    pageSlug="contact" 
+                                                    fallback="Sunday: Closed" 
+                                                />
+                                            </p>
                                         </div>
                                     </div>
                                 </motion.div>
