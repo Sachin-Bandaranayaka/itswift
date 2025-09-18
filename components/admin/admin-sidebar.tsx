@@ -174,7 +174,7 @@ export function AdminSidebar() {
                 Admin User
               </p>
               <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
-                admin@swiftsolution.com
+                admin@itswift.com
               </p>
             </div>
           </div>

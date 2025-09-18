@@ -10,7 +10,7 @@ import type React from "react" // Added import for React
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://swiftsolution.com'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.itswift.com'),
   title: "Top eLearning Company in Bangalore for AI-Powered Corporate Training | Swift Solution",
   description:
     "Boost your workforce performance with the top eLearning company in Bangalore. Swift Solution delivers AI-powered, custom eLearning solutions for corporate training. Get a free demo!",
@@ -19,12 +19,12 @@ export const metadata = {
   creator: "Swift Solution",
   publisher: "Swift Solution",
   alternates: {
-    canonical: "https://swiftsolution.com",
+    canonical: "https://www.itswift.com",
   },
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://swiftsolution.com",
+    url: "https://www.itswift.com",
     siteName: "Swift Solution",
     title: "Top eLearning Company in Bangalore for AI-Powered Corporate Training | Swift Solution",
     description: "Boost your workforce performance with the top eLearning company in Bangalore. Swift Solution delivers AI-powered, custom eLearning solutions for corporate training. Get a free demo!",
@@ -42,7 +42,7 @@ export const metadata = {
     title: "Top eLearning Company in Bangalore for AI-Powered Corporate Training | Swift Solution",
     description: "Boost your workforce performance with the top eLearning company in Bangalore. Swift Solution delivers AI-powered, custom eLearning solutions for corporate training. Get a free demo!",
     images: ["/og-image.jpg"],
-    creator: "@SwiftSolution",
+    creator: "@ITSwift",
   },
   robots: {
     index: true,
@@ -70,8 +70,8 @@ export default function RootLayout({
     "@type": "Organization",
     "name": "Swift Solution",
     "description": "Top eLearning Company in Bangalore for AI-Powered Corporate Training",
-    "url": "https://swiftsolution.com",
-    "logo": "https://swiftsolution.com/logo.png",
+    "url": "https://www.itswift.com",
+    "logo": "https://www.itswift.com/logo.png",
     "contactPoint": {
       "@type": "ContactPoint",
       "telephone": "+91-80-1234-5678",
@@ -89,7 +89,7 @@ export default function RootLayout({
     },
     "sameAs": [
       "https://www.linkedin.com/company/swift-solution",
-      "https://twitter.com/SwiftSolution"
+      "https://twitter.com/ITSwift"
     ],
     "foundingDate": "1994",
     "numberOfEmployees": "50-200",

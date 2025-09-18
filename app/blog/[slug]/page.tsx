@@ -60,7 +60,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             };
         }
 
-        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://swiftsolution.com';
+        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.itswift.com';
         const postUrl = `${siteUrl}/blog/${params.slug}`;
         const imageUrl = post.mainImage ? urlForImage(post.mainImage)?.width(1200).height(630).url() : `${siteUrl}/og-image.jpg`;
         
@@ -110,7 +110,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
                 title: post.title,
                 description,
                 images: [imageUrl || ''],
-                creator: '@SwiftSolution',
+                creator: '@ITSwift',
             },
             robots: {
                 index: true,
@@ -155,7 +155,7 @@ export default async function BlogPost({ params }: Props) {
         }
 
         // Generate structured data for SEO
-        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://swiftsolution.com';
+        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.itswift.com';
         const postUrl = `${siteUrl}/blog/${params.slug}`;
         const imageUrl = post.mainImage ? urlForImage(post.mainImage)?.url() : undefined;
         
@@ -416,4 +416,4 @@ export default async function BlogPost({ params }: Props) {
             </div>
         );
     }
-} 
+}

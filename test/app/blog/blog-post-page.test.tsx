@@ -64,7 +64,7 @@ describe('BlogPost Page', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     // Set up environment variable
-    process.env.NEXT_PUBLIC_SITE_URL = 'https://swiftsolution.com'
+    process.env.NEXT_PUBLIC_SITE_URL = 'https://www.itswift.com'
   })
 
   describe('generateMetadata', () => {

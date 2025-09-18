@@ -90,7 +90,7 @@ export default function Home() {
     "provider": {
       "@type": "Organization",
       "name": "Swift Solution",
-      "url": "https://swiftsolution.com"
+      "url": "https://www.itswift.com"
     },
     "areaServed": {
       "@type": "Place",

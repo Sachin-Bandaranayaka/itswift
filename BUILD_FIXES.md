@@ -43,7 +43,7 @@ This document summarizes the fixes applied to resolve the Next.js build errors.
 **Problem**: Missing `metadataBase` property causing social media image warnings
 
 **Solution**:
-- Added `metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://swiftsolution.com')` to root layout metadata
+- Added `metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.itswift.com')` to root layout metadata
 
 ## ⚠️ Remaining Issue
 

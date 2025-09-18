@@ -474,7 +474,7 @@ export class BrevoService {
   async createUnsubscribeLink(email: string, campaignId?: string): Promise<string> {
     try {
       // Generate base unsubscribe URL
-      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://swiftsolution.com'
+      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.itswift.com'
       
       // Get subscriber to get their unsubscribe token
       const subscriber = await this.getSubscriberByEmail(email)
@@ -494,7 +494,7 @@ export class BrevoService {
     } catch (error) {
       console.error('Error creating unsubscribe link:', error)
       // Fallback to generic unsubscribe link
-      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://swiftsolution.com'
+      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.itswift.com'
       return `${baseUrl}/unsubscribe?email=${encodeURIComponent(email)}`
     }
   }

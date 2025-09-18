@@ -254,7 +254,7 @@ export class NewsletterService {
         } catch (error) {
           console.warn(`Failed to create unsubscribe link for ${subscriber.email}:`, error)
           // Fallback to generic unsubscribe link
-          const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://swiftsolution.com'
+          const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.itswift.com'
           unsubscribeUrl = `${baseUrl}/unsubscribe?email=${encodeURIComponent(subscriber.email)}`
         }
 
