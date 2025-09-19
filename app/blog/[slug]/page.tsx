@@ -134,11 +134,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 // Error fallback component for blog post
-function BlogPostErrorFallback({ error, onRetry }: { error: Error; onRetry?: () => void }) {
+function BlogPostErrorFallback({ errorMessage, onRetry }: { errorMessage: string; onRetry?: () => void }) {
     return (
         <div className="container mx-auto px-4 py-12">
             <BlogErrorFallback
-                error={error}
+                error={errorMessage}
                 onRetry={onRetry}
                 showRetry={false}
             />
@@ -370,7 +370,7 @@ export default async function BlogPost({ params }: Props) {
             if (error.message.includes('fetch') || error.message.includes('network')) {
                 return (
                     <BlogPostErrorFallback 
-                        error={new Error('Unable to load blog post. Please check your internet connection and try again.')}
+                        errorMessage={'Unable to load blog post. Please check your internet connection and try again.'}
                     />
                 );
             }
@@ -378,7 +378,7 @@ export default async function BlogPost({ params }: Props) {
             if (error.message.includes('timeout')) {
                 return (
                     <BlogPostErrorFallback 
-                        error={new Error('Blog post loading timed out. Please try again.')}
+                        errorMessage={'Blog post loading timed out. Please try again.'}
                     />
                 );
             }

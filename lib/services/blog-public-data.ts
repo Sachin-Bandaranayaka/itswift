@@ -51,11 +51,14 @@ export class BlogPublicDataService {
    */
   static async getAllPublishedPosts(): Promise<BlogPost[]> {
     try {
+      console.log('BlogPublicDataService.getAllPublishedPosts - Starting fetch');
       const posts = await withRetry(
         () => client.fetch(publishedPostsQuery),
         3,
         1000
       );
+      console.log('BlogPublicDataService.getAllPublishedPosts - Fetched posts:', posts?.length || 0);
+      console.log('BlogPublicDataService.getAllPublishedPosts - Post IDs:', posts?.map((p: BlogPost) => p._id) || []);
       return posts || [];
     } catch (error) {
       console.error('Error fetching published posts:', error);
@@ -264,6 +267,8 @@ export class BlogPublicDataService {
    */
   static async getFilteredPosts(filters: BlogPostFilters): Promise<BlogPost[]> {
     try {
+      console.log('BlogPublicDataService.getFilteredPosts - Filters:', filters);
+      
       let posts: BlogPost[];
 
       // Only allow published posts for public API
@@ -273,6 +278,7 @@ export class BlogPublicDataService {
 
       // Get all published posts as base
       posts = await this.getAllPublishedPosts();
+      console.log('BlogPublicDataService.getFilteredPosts - Initial posts count:', posts.length);
 
       // Apply date range filtering
       if (filters.dateFrom || filters.dateTo) {

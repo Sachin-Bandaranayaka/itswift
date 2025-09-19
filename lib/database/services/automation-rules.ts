@@ -1,6 +1,6 @@
 // Automation Rules Database Service
 
-import { getSupabase } from '@/lib/supabase'
+import { getSupabaseAdmin } from '@/lib/supabase'
 import { 
   AutomationRule, 
   AutomationRuleInput, 
@@ -26,7 +26,7 @@ export class AutomationRulesService {
     } = {}
   ): Promise<{ data: AutomationRule[]; error: string | null }> {
     try {
-      const supabase = getSupabase()
+      const supabase = getSupabaseAdmin()
       let query = supabase
         .from('automation_rules')
         .select('*')
@@ -87,7 +87,7 @@ export class AutomationRulesService {
    */
   static async getById(id: string): Promise<{ data: AutomationRule | null; error: string | null }> {
     try {
-      const supabase = getSupabase()
+      const supabase = getSupabaseAdmin()
       const { data, error } = await supabase
         .from('automation_rules')
         .select('*')
@@ -125,7 +125,7 @@ export class AutomationRulesService {
         return { data: null, error: validation.errors.join(', ') }
       }
 
-      const supabase = getSupabase()
+      const supabase = getSupabaseAdmin()
       const { data, error } = await supabase
         .from('automation_rules')
         .insert([{
@@ -163,7 +163,7 @@ export class AutomationRulesService {
         }
       }
 
-      const supabase = getSupabase()
+      const supabase = getSupabaseAdmin()
       const { data, error } = await supabase
         .from('automation_rules')
         .update(updates)
@@ -191,7 +191,7 @@ export class AutomationRulesService {
    */
   static async delete(id: string): Promise<{ success: boolean; error: string | null }> {
     try {
-      const supabase = getSupabase()
+      const supabase = getSupabaseAdmin()
       const { error } = await supabase
         .from('automation_rules')
         .delete()
@@ -219,7 +219,7 @@ export class AutomationRulesService {
     triggerType: 'blog_published' | 'time_based' | 'engagement_threshold' | 'manual'
   ): Promise<{ data: AutomationRule[]; error: string | null }> {
     try {
-      const supabase = getSupabase()
+      const supabase = getSupabaseAdmin()
       const { data, error } = await supabase
         .from('automation_rules')
         .select('*')
@@ -247,18 +247,33 @@ export class AutomationRulesService {
    */
   static async updateExecution(id: string): Promise<{ success: boolean; error: string | null }> {
     try {
-      const supabase = getSupabase()
-      const { error } = await supabase
+      const supabase = getSupabaseAdmin()
+
+      // Read current execution_count
+      const { data: currentData, error: fetchError } = await supabase
+        .from('automation_rules')
+        .select('execution_count')
+        .eq('id', id)
+        .single()
+
+      if (fetchError) {
+        console.error('Error fetching current execution count:', fetchError)
+        return { success: false, error: fetchError.message }
+      }
+
+      const newCount = (currentData?.execution_count || 0) + 1
+
+      const { error: updateError } = await supabase
         .from('automation_rules')
         .update({
-          execution_count: supabase.raw('execution_count + 1'),
+          execution_count: newCount,
           last_executed: new Date().toISOString()
         })
         .eq('id', id)
 
-      if (error) {
-        console.error('Error updating rule execution:', error)
-        return { success: false, error: error.message }
+      if (updateError) {
+        console.error('Error updating rule execution:', updateError)
+        return { success: false, error: updateError.message }
       }
 
       return { success: true, error: null }
@@ -276,20 +291,35 @@ export class AutomationRulesService {
    */
   static async toggleActive(id: string): Promise<{ data: AutomationRule | null; error: string | null }> {
     try {
-      // First get current status
-      const { data: current, error: fetchError } = await this.getById(id)
-      if (fetchError || !current) {
-        return { data: null, error: fetchError || 'Rule not found' }
+      const supabase = getSupabaseAdmin()
+      // Get current rule
+      const { data: current, error: fetchError } = await supabase
+        .from('automation_rules')
+        .select('is_active')
+        .eq('id', id)
+        .single()
+
+      if (fetchError) {
+        console.error('Error fetching rule for toggle:', fetchError)
+        return { data: null, error: fetchError.message }
       }
 
-      // Toggle the status
-      return await this.update(id, { is_active: !current.is_active })
+      const { data, error } = await supabase
+        .from('automation_rules')
+        .update({ is_active: !current?.is_active })
+        .eq('id', id)
+        .select()
+        .single()
+
+      if (error) {
+        console.error('Error toggling rule active state:', error)
+        return { data: null, error: error.message }
+      }
+
+      return { data, error: null }
     } catch (error) {
       console.error('Error in toggleActive:', error)
-      return { 
-        data: null, 
-        error: error instanceof Error ? error.message : 'Unknown error' 
-      }
+      return { data: null, error: error instanceof Error ? error.message : 'Unknown error' }
     }
   }
 

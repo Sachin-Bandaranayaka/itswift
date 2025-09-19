@@ -4,10 +4,9 @@ import { createClient } from '@supabase/supabase-js'
 let supabaseClient: ReturnType<typeof createClient> | null = null
 let supabaseAdminClient: ReturnType<typeof createClient> | null = null
 
-function getSupabaseConfig() {
+function getPublicSupabaseConfig() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
   if (!supabaseUrl) {
     throw new Error('NEXT_PUBLIC_SUPABASE_URL is required')
@@ -17,17 +16,28 @@ function getSupabaseConfig() {
     throw new Error('NEXT_PUBLIC_SUPABASE_ANON_KEY is required')
   }
 
+  return { supabaseUrl, supabaseAnonKey }
+}
+
+function getServiceSupabaseConfig() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+
+  if (!supabaseUrl) {
+    throw new Error('NEXT_PUBLIC_SUPABASE_URL is required')
+  }
+
   if (!supabaseServiceKey) {
     throw new Error('SUPABASE_SERVICE_ROLE_KEY is required for admin operations')
   }
 
-  return { supabaseUrl, supabaseAnonKey, supabaseServiceKey }
+  return { supabaseUrl, supabaseServiceKey }
 }
 
 // Client for browser/client-side operations
 export function getSupabase() {
   if (!supabaseClient) {
-    const { supabaseUrl, supabaseAnonKey } = getSupabaseConfig()
+    const { supabaseUrl, supabaseAnonKey } = getPublicSupabaseConfig()
     supabaseClient = createClient(supabaseUrl, supabaseAnonKey)
   }
   return supabaseClient
@@ -36,7 +46,7 @@ export function getSupabase() {
 // Admin client for server-side operations with elevated privileges
 export function getSupabaseAdmin() {
   if (!supabaseAdminClient) {
-    const { supabaseUrl, supabaseServiceKey } = getSupabaseConfig()
+    const { supabaseUrl, supabaseServiceKey } = getServiceSupabaseConfig()
     supabaseAdminClient = createClient(supabaseUrl, supabaseServiceKey, {
       auth: {
         autoRefreshToken: false,

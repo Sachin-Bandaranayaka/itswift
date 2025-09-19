@@ -56,7 +56,7 @@ export async function isAdminAuthenticated(request: NextRequest): Promise<boolea
 /**
  * API route protection helper
  */
-export async function withAdminAuth(
+export function withAdminAuth(
   handler: (req: NextRequest) => Promise<NextResponse>
 ) {
   return async (req: NextRequest) => {

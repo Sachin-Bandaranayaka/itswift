@@ -9,7 +9,7 @@ export const client = createClient({
     projectId,
     dataset,
     apiVersion,
-    useCdn: process.env.NODE_ENV === 'production', // Use CDN in production for better performance
+    useCdn: false, // Use CDN in production for better performance
     token, // Add the token for write operations
     perspective: 'published', // Only fetch published content
     stega: false, // Disable stega for production
@@ -23,4 +23,4 @@ if (process.env.NODE_ENV === 'development') {
     if (!token) {
         console.warn('⚠️ Sanity API token is not configured');
     }
-} 
+}
