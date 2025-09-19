@@ -86,7 +86,7 @@ export default function Hero() {
               fallback="Top eLearning Company in Bangalore: AI-Powered Corporate Training"
             />
           </motion.h1>
-          <motion.p
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -98,7 +98,7 @@ export default function Hero() {
               as="span"
               fallback="We deliver measurable results and exceptional ROI with our award-winning, AI-driven eLearning solutions."
             />
-          </motion.p>
+          </motion.div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

@@ -99,15 +99,15 @@ export function Navbar() {
         }`}
     >
       <div className="container mx-auto px-4">
-        <nav className="flex items-center justify-between h-20">
+        <nav className="flex items-center justify-between h-28">
           {/* Logo */}
           <Link href="/" className="flex-shrink-0 relative z-50">
             <Image
               src="/IMAGES/Swift_logo_new copy.svg"
               alt="Swift Solution - Growth thru Creativity"
-              width={300}
-              height={100}
-              className="w-auto h-20"
+              width={360}
+              height={120}
+              className="w-auto h-24"
             />
           </Link>
 

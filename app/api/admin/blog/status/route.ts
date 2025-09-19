@@ -53,7 +53,8 @@ export async function POST(request: NextRequest) {
     const transaction = client.transaction()
     
     for (const postId of postIds) {
-      transaction.patch(postId).set(updateData)
+      const patch = client.patch(postId).set(updateData)
+      transaction.patch(patch)
     }
 
     const result = await transaction.commit()
@@ -78,9 +79,9 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      updatedPosts: result.length,
+      updatedPosts: postIds.length,
       status,
-      message: `Successfully updated ${result.length} posts to ${status}`
+      message: `Successfully updated ${postIds.length} posts to ${status}`
     })
   } catch (error) {
     console.error('Error updating post status:', error)

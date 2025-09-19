@@ -1,3 +1,4 @@
 {"timestamp":"2025-09-05T09:37:12.309Z","action":"bulk_delete","postIds":["y2o6JFwqoQl4SzvUypXOd9"],"userAgent":"node","ip":"::1"}
 {"timestamp":"2025-09-05T09:37:18.710Z","action":"bulk_delete","postIds":["XNTHNl9DGRXrW5aqeSZlFB"],"userAgent":"node","ip":"::1"}
 {"timestamp":"2025-09-05T09:37:26.335Z","action":"bulk_delete","postIds":["y2o6JFwqoQl4SzvUypZmSB"],"userAgent":"node","ip":"::1"}
+{"timestamp":"2025-09-19T07:26:07.298Z","action":"status_change","postIds":["kWkIvI7T6XFbABGiWHQSh6"],"newStatus":"published","publishedAt":"2025-09-19T07:26:05.357Z","userAgent":"node","ip":"::1"}

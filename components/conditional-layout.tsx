@@ -13,13 +13,14 @@ import { CheckCircle } from "lucide-react"
 export function ConditionalLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const isAdminAuth = pathname.startsWith('/admin/login') || pathname === '/admin/login'
+  const isAdminPage = pathname.startsWith('/admin')
   const isHomepage = pathname === '/'
 
   return (
     <>
-      {!isAdminAuth && <Navbar />}
+      {!isAdminPage && <Navbar />}
       {children}
-      {!isAdminAuth && !isHomepage && (
+      {!isAdminPage && !isHomepage && (
         <>
           {/* Newsletter Signup Section - Only show on non-homepage */}
           <section className="py-16 bg-gradient-to-br from-blue-600 to-indigo-700 dark:from-blue-800 dark:to-indigo-900">
@@ -75,7 +76,7 @@ export function ConditionalLayout({ children }: { children: React.ReactNode }) {
           <Footer />
         </>
       )}
-      {!isAdminAuth && (
+      {!isAdminPage && (
         <>
           <ChatWidget />
           <BackToTop />
