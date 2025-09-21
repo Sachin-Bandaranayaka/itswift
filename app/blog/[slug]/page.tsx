@@ -131,8 +131,8 @@ export default async function BlogPost({ params }: Props) {
                             
                             <span>{readingTime} min read</span>
                             
-                            {post.views && post.views > 0 && (
-                                <span>{post.views.toLocaleString()} views</span>
+                            {post.view_count && post.view_count > 0 && (
+                                <span>{post.view_count.toLocaleString()} views</span>
                             )}
                         </div>
                     </header>

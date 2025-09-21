@@ -12,7 +12,7 @@ export interface BlogPost {
   category_id: string
   status: 'draft' | 'published' | 'archived'
   is_featured: boolean
-  views: number
+  view_count: number
   published_at?: string
   meta_title?: string
   meta_description?: string
@@ -60,7 +60,7 @@ export interface PaginationOptions {
 
 export class BlogSupabaseService {
   private mockService = new BlogMockService()
-  private useMockData = true // TODO: Set to false when database tables are created
+  private useMockData = false // Database tables are now created and ready to use
   private _supabase: ReturnType<typeof getSupabase> | null = null
 
   private get supabase() {
@@ -244,19 +244,19 @@ export class BlogSupabaseService {
       return this.mockService.incrementViews(postId)
     }
 
-    // Get current views count
+    // Get current view_count
     const { data: post, error: fetchError } = await this.supabase
       .from('blog_posts')
-      .select('views')
+      .select('view_count')
       .eq('id', postId)
       .single()
 
     if (fetchError) throw fetchError
 
-    // Update with incremented views
+    // Update with incremented view_count
     const { error } = await this.supabase
       .from('blog_posts')
-      .update({ views: (post?.views || 0) + 1 } as any)
+      .update({ view_count: (post?.view_count || 0) + 1 })
       .eq('id', postId)
 
     if (error) throw error

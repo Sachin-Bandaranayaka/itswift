@@ -38,7 +38,7 @@ export interface BlogPost {
   category_id?: string
   status: 'draft' | 'published' | 'archived'
   is_featured: boolean
-  views: number
+  view_count: number
   published_at?: string
   meta_title?: string
   meta_description?: string

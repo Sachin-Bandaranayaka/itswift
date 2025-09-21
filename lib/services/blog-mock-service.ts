@@ -84,7 +84,7 @@ const mockPosts: BlogPost[] = [
     category_id: '1',
     status: 'published',
     is_featured: true,
-    views: 1250,
+    view_count: 1250,
     published_at: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days ago
     meta_title: 'The Future of eLearning: Trends to Watch in 2024',
     meta_description: 'Discover the key trends shaping the future of eLearning and how they will impact corporate training programs.',
@@ -121,7 +121,7 @@ const mockPosts: BlogPost[] = [
     category_id: '2',
     status: 'published',
     is_featured: false,
-    views: 890,
+    view_count: 890,
     published_at: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(), // 14 days ago
     meta_title: 'Building Effective Corporate Training Programs',
     meta_description: 'Learn how to design and implement training programs that drive real business results.',
@@ -158,7 +158,7 @@ const mockPosts: BlogPost[] = [
     category_id: '3',
     status: 'published',
     is_featured: false,
-    views: 675,
+    view_count: 675,
     published_at: new Date(Date.now() - 21 * 24 * 60 * 60 * 1000).toISOString(), // 21 days ago
     meta_title: 'Leveraging Technology for Better Learning Outcomes',
     meta_description: 'Explore how modern technology can enhance learning experiences and improve training effectiveness.',
@@ -195,7 +195,7 @@ const mockPosts: BlogPost[] = [
     category_id: '2',
     status: 'published',
     is_featured: true,
-    views: 1100,
+    view_count: 1100,
     published_at: new Date(Date.now() - 28 * 24 * 60 * 60 * 1000).toISOString(), // 28 days ago
     meta_title: 'Measuring Training ROI: A Comprehensive Guide',
     meta_description: 'Learn how to calculate and demonstrate the return on investment for your training programs.',
@@ -232,7 +232,7 @@ const mockPosts: BlogPost[] = [
     category_id: '1',
     status: 'published',
     is_featured: false,
-    views: 820,
+    view_count: 820,
     published_at: new Date(Date.now() - 35 * 24 * 60 * 60 * 1000).toISOString(), // 35 days ago
     meta_title: 'Creating Engaging Microlearning Content',
     meta_description: 'Discover best practices for developing bite-sized learning content that maximizes retention.',
@@ -269,7 +269,7 @@ const mockPosts: BlogPost[] = [
     category_id: '2',
     status: 'published',
     is_featured: false,
-    views: 950,
+    view_count: 950,
     published_at: new Date(Date.now() - 42 * 24 * 60 * 60 * 1000).toISOString(), // 42 days ago
     meta_title: 'The Psychology of Adult Learning',
     meta_description: 'Understanding how adults learn differently and how to design training programs accordingly.',
@@ -377,7 +377,7 @@ export class BlogMockService {
     await new Promise(resolve => setTimeout(resolve, 100))
     const post = mockPosts.find(p => p.id === postId)
     if (post) {
-      post.views += 1
+      post.view_count += 1
     }
   }
 }

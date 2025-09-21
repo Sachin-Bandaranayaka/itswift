@@ -486,7 +486,7 @@ export interface Database {
           category_id: string | null
           status: 'draft' | 'published' | 'archived'
           is_featured: boolean
-          views: number
+          view_count: number
           published_at: string | null
           meta_title: string | null
           meta_description: string | null
@@ -505,7 +505,7 @@ export interface Database {
           category_id?: string | null
           status?: 'draft' | 'published' | 'archived'
           is_featured?: boolean
-          views?: number
+          view_count?: number
           published_at?: string | null
           meta_title?: string | null
           meta_description?: string | null
@@ -524,7 +524,7 @@ export interface Database {
           category_id?: string | null
           status?: 'draft' | 'published' | 'archived'
           is_featured?: boolean
-          views?: number
+          view_count?: number
           published_at?: string | null
           meta_title?: string | null
           meta_description?: string | null
