@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { RichTextEditor } from "./rich-text-editor"
+import { CloudinaryImageUpload } from "./cloudinary-image-upload"
 import { 
   X, 
   Save, 
@@ -29,7 +30,7 @@ interface BlogPost {
   title: string
   slug?: string
   author?: { name: string, id: string }
-  featured_image?: string
+  featured_image_url?: string
   categories?: Array<{ name: string, id: string }>
   published_at?: string
   excerpt?: string
@@ -68,7 +69,7 @@ export function BlogPostEditor({ post, onClose, onSave }: BlogPostEditorProps) {
         content: post.content || '',
         publishedAt: post.published_at ? new Date(post.published_at).toISOString().slice(0, 16) : '',
         categories: post.categories?.map(cat => cat.name) || [],
-        mainImageUrl: post.featured_image || '',
+        mainImageUrl: post.featured_image_url || '',
         mainImageAlt: '',
         autoGenerateSocial: true
       })
@@ -110,7 +111,7 @@ export function BlogPostEditor({ post, onClose, onSave }: BlogPostEditorProps) {
         excerpt: formData.excerpt,
         slug: formData.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
         status: 'draft',
-        featured_image: formData.mainImageUrl || null,
+        featured_image_url: formData.mainImageUrl || null,
         published_at: formData.publishedAt || null,
         author_id: 'cae5f613-5fc0-42aa-8a2b-8ea5e451ab99', // Admin User author ID
         category_id: null // Single category ID as expected by the API
@@ -267,49 +268,14 @@ export function BlogPostEditor({ post, onClose, onSave }: BlogPostEditorProps) {
             />
           </div>
 
-          {/* Main Image */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="mainImageUrl">Featured Image URL</Label>
-              <Input
-                id="mainImageUrl"
-                placeholder="https://example.com/image.jpg"
-                value={formData.mainImageUrl}
-                onChange={(e) => handleInputChange('mainImageUrl', e.target.value)}
-              />
-            </div>
-            <div>
-              <Label htmlFor="mainImageAlt">Image Alt Text</Label>
-              <Input
-                id="mainImageAlt"
-                placeholder="Describe the image for accessibility"
-                value={formData.mainImageAlt}
-                onChange={(e) => handleInputChange('mainImageAlt', e.target.value)}
-              />
-            </div>
-          </div>
-
-          {/* Image Preview */}
-          {formData.mainImageUrl && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-base flex items-center">
-                  <ImageIcon className="h-4 w-4 mr-2" />
-                  Featured Image Preview
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <img
-                  src={formData.mainImageUrl}
-                  alt={formData.mainImageAlt || 'Featured image'}
-                  className="w-full max-w-md h-48 object-cover rounded-lg"
-                  onError={(e) => {
-                    e.currentTarget.style.display = 'none'
-                  }}
-                />
-              </CardContent>
-            </Card>
-          )}
+          {/* Featured Image Upload */}
+          <CloudinaryImageUpload
+            value={formData.mainImageUrl}
+            onChange={(url) => handleInputChange('mainImageUrl', url)}
+            onAltTextChange={(altText) => handleInputChange('mainImageAlt', altText)}
+            altText={formData.mainImageAlt}
+            label="Featured Image"
+          />
 
           {/* Content */}
           <div>
