@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { BlogPublicDataService } from '@/lib/services/blog-public-data';
+import { blogService } from '@/lib/services/blog.service';
+import { BlogPostFilters } from '@/lib/types/blog';
 
 export const dynamic = 'force-dynamic';
 
@@ -35,37 +36,27 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ success: false, error: 'Invalid dateTo parameter. Must be a valid ISO date string' }, { status: 400 });
     }
 
-    // Sorting
-    const sortByParam = (searchParams.get('sortBy') as 'publishedAt' | 'title' | '_createdAt' | null);
-    const allowedSortBy = ['publishedAt', 'title', '_createdAt'] as const;
-    const sortBy = sortByParam || 'publishedAt';
-    if (!allowedSortBy.includes(sortBy as any)) {
-      return NextResponse.json({ success: false, error: 'Invalid sortBy parameter. Must be one of: publishedAt, title, _createdAt' }, { status: 400 });
-    }
-
-    const orderParam = (searchParams.get('order') as 'asc' | 'desc' | null);
-    const order: 'asc' | 'desc' = orderParam || 'desc';
-    if (order !== 'asc' && order !== 'desc') {
-      return NextResponse.json({ success: false, error: 'Invalid order parameter. Must be either asc or desc' }, { status: 400 });
-    }
-
     // Enforce published-only status
     const statusParam = searchParams.get('status');
     if (statusParam && statusParam !== 'published') {
       return NextResponse.json({ success: false, error: 'Only published posts are available through public API' }, { status: 400 });
     }
 
-    const filters = {
-      status: 'published' as const,
-      category,
+    const filters: BlogPostFilters = {
+      status: 'published',
       search,
-      dateFrom,
-      dateTo,
-      sortBy,
-      order,
+      date_from: dateFrom,
+      date_to: dateTo,
     };
 
-    const result = await BlogPublicDataService.getFilteredPaginatedPosts(filters, page, limit);
+    // Handle category filter - could be category slug or ID
+    if (category) {
+      // For now, assume it's a category ID. In a real implementation,
+      // you might want to look up the category by slug first
+      filters.category_id = category;
+    }
+
+    const result = await blogService.getPosts(filters, page, limit);
 
     const body = {
       success: true as const,

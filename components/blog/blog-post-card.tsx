@@ -5,8 +5,7 @@ import Image from "next/image"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { urlForImage } from "@/lib/sanity.image"
-import { BlogPost } from "@/lib/services/blog-public-data"
+import { BlogPost } from "@/lib/services/blog-supabase-service"
 import { Calendar, User, ImageIcon } from "lucide-react"
 
 interface BlogPostCardProps {
@@ -17,8 +16,8 @@ export function BlogPostCard({ post }: BlogPostCardProps) {
   const [imageError, setImageError] = useState(false)
   const [imageLoading, setImageLoading] = useState(true)
   
-  const imageUrl = post.mainImage ? urlForImage(post.mainImage)?.width(400).height(250).url() : null
-  const publishedDate = post.publishedAt ? new Date(post.publishedAt).toLocaleDateString('en-US', {
+  const imageUrl = post.featured_image_url || null
+  const publishedDate = post.published_at ? new Date(post.published_at).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
@@ -44,7 +43,7 @@ export function BlogPostCard({ post }: BlogPostCardProps) {
           )}
           <Image
             src={imageUrl}
-            alt={post.mainImage?.alt || post.title}
+            alt={post.title}
             fill
             className="object-cover"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -63,15 +62,15 @@ export function BlogPostCard({ post }: BlogPostCardProps) {
       
       <div className="p-6">
         <div className="flex flex-wrap gap-2 mb-3">
-          {post.categories?.map((category) => (
-            <Badge key={category.title} variant="secondary" className="text-xs">
-              {category.title}
+          {post.category && (
+            <Badge variant="secondary" className="text-xs">
+              {post.category.name}
             </Badge>
-          ))}
+          )}
         </div>
         
         <h2 className="text-xl font-semibold mb-2 hover:text-primary transition-colors">
-          <Link href={`/blog/${post.slug.current}`} className="line-clamp-2 block">
+          <Link href={`/blog/${post.slug}`} className="line-clamp-2 block">
             {post.title}
           </Link>
         </h2>
@@ -101,7 +100,7 @@ export function BlogPostCard({ post }: BlogPostCardProps) {
         </div>
         
         <Button variant="outline" asChild className="w-full">
-          <Link href={`/blog/${post.slug.current}`}>
+          <Link href={`/blog/${post.slug}`}>
             Read More
           </Link>
         </Button>

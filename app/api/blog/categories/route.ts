@@ -1,39 +1,31 @@
-import { NextResponse } from 'next/server';
-import { BlogPublicDataService } from '@/lib/services/blog-public-data';
+import { NextResponse } from 'next/server'
+import { blogService } from '@/lib/services/blog.service'
 
 export async function GET() {
   try {
-    const categories = await BlogPublicDataService.getAvailableCategories();
+    const categories = await blogService.getCategories()
 
-    const body = {
-      success: true as const,
-      data: {
-        categories,
-        count: categories.length,
-      },
+    return NextResponse.json({
+      success: true,
+      data: categories,
       meta: {
         timestamp: new Date().toISOString(),
-      },
-    };
-
-    return NextResponse.json(body, {
+        total: categories.length
+      }
+    }, {
       headers: {
-        'Cache-Control': 'public, s-maxage=600, stale-while-revalidate=1200',
-      },
-    });
+        'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600'
+      }
+    })
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Unknown error';
-    const body = {
-      success: false as const,
-      error: 'Failed to fetch blog categories',
-      message,
-    };
-
-    return NextResponse.json(body, {
-      status: 500,
-      headers: {
-        'Cache-Control': 'public, s-maxage=60',
+    console.error('Error fetching blog categories:', error)
+    return NextResponse.json(
+      { 
+        success: false, 
+        error: 'Failed to fetch blog categories',
+        message: error instanceof Error ? error.message : 'Unknown error'
       },
-    });
+      { status: 500 }
+    )
   }
 }

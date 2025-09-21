@@ -34,17 +34,17 @@ import { toast } from "sonner"
 export type BlogPostStatus = 'draft' | 'scheduled' | 'published' | 'archived'
 
 interface BlogPost {
-  _id: string
+  id: string
   title: string
-  slug: { current: string }
+  slug: string
   author?: { name: string }
   mainImage?: { asset: { url: string }, alt?: string }
-  categories?: Array<{ title: string }>
-  publishedAt?: string
+  categories?: Array<{ name: string }>
+  published_at?: string
   excerpt?: string
   body?: any[]
-  _createdAt: string
-  _updatedAt: string
+  created_at: string
+  updated_at: string
 }
 
 interface BlogStatusManagerProps {
@@ -69,8 +69,8 @@ export function BlogStatusManager({
   const [bulkAction, setBulkAction] = useState<string>('')
 
   const getPostStatus = (post: BlogPost): { status: BlogPostStatus, label: string, variant: 'default' | 'secondary' | 'outline' | 'destructive' } => {
-    if (post.publishedAt) {
-      const publishDate = new Date(post.publishedAt)
+    if (post.published_at) {
+    const publishDate = new Date(post.published_at)
       const now = new Date()
       if (publishDate <= now) {
         return { status: 'published', label: 'Published', variant: 'default' }
@@ -97,8 +97,9 @@ export function BlogStatusManager({
   }
 
   const handleSelectAll = (checked: boolean) => {
+    const postsArray = Array.isArray(posts) ? posts : []
     if (checked) {
-      onSelectionChange(posts.map(post => post._id))
+      onSelectionChange(postsArray.map(post => post.id))
     } else {
       onSelectionChange([])
     }
@@ -184,26 +185,30 @@ export function BlogStatusManager({
     }
   }
 
-  const isAllSelected = posts.length > 0 && selectedPosts.length === posts.length
-  const isPartiallySelected = selectedPosts.length > 0 && selectedPosts.length < posts.length
+  const postsArray = Array.isArray(posts) ? posts : []
+  const isAllSelected = postsArray.length > 0 && selectedPosts.length === postsArray.length
+  const isPartiallySelected = selectedPosts.length > 0 && selectedPosts.length < postsArray.length
 
   return (
     <div className="space-y-4">
       {/* Bulk Actions Bar */}
-      {posts.length > 0 && (
+      {postsArray.length > 0 && (
         <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
           <div className="flex items-center gap-4">
             <Checkbox
               checked={isAllSelected}
               ref={(el) => {
-                if (el) el.indeterminate = isPartiallySelected
+                if (el) {
+                  const checkbox = el.querySelector('input[type="checkbox"]') as HTMLInputElement
+                  if (checkbox) checkbox.indeterminate = isPartiallySelected
+                }
               }}
               onCheckedChange={handleSelectAll}
             />
             <span className="text-sm text-gray-600 dark:text-gray-400">
               {selectedPosts.length > 0 
-                ? `${selectedPosts.length} of ${posts.length} selected`
-                : `Select all ${posts.length} posts`
+                ? `${selectedPosts.length} of ${postsArray.length} selected`
+                : `Select all ${postsArray.length} posts`
               }
             </span>
           </div>
@@ -261,13 +266,13 @@ export function BlogStatusManager({
 
       {/* Posts List with Status Management */}
       <div className="space-y-2">
-        {posts.map((post) => {
+        {Array.isArray(posts) && posts.map((post) => {
           const status = getPostStatus(post)
-          const isSelected = selectedPosts.includes(post._id)
+          const isSelected = selectedPosts.includes(post.id)
 
           return (
             <div
-              key={post._id}
+              key={post.id}
               className={`flex items-center gap-4 p-4 border rounded-lg transition-colors ${
                 isSelected 
                   ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800' 
@@ -276,7 +281,7 @@ export function BlogStatusManager({
             >
               <Checkbox
                 checked={isSelected}
-                onCheckedChange={(checked) => handleSelectPost(post._id, checked as boolean)}
+                onCheckedChange={(checked) => handleSelectPost(post.id, checked as boolean)}
               />
 
               <div className="flex-1 min-w-0">
@@ -296,16 +301,16 @@ export function BlogStatusManager({
                   )}
                   <span className="flex items-center gap-1">
                     <Calendar className="h-3 w-3" />
-                    {post.publishedAt 
-                      ? new Date(post.publishedAt).toLocaleDateString()
-                      : new Date(post._createdAt).toLocaleDateString()
-                    }
+                    {post.published_at
+                    ? new Date(post.published_at).toLocaleDateString()
+                    : new Date(post.created_at).toLocaleDateString()
+                  }
                   </span>
                   {post.categories && post.categories.length > 0 && (
                     <div className="flex gap-1">
                       {post.categories.slice(0, 2).map((category, index) => (
                         <Badge key={index} variant="outline" className="text-xs">
-                          {category.title}
+                          {category.name}
                         </Badge>
                       ))}
                       {post.categories.length > 2 && (
@@ -323,7 +328,7 @@ export function BlogStatusManager({
                 <Select
                   value={status.status}
                   onValueChange={(newStatus: BlogPostStatus) => 
-                    handleSingleStatusChange(post._id, newStatus)
+                    handleSingleStatusChange(post.id, newStatus)
                   }
                 >
                   <SelectTrigger className="w-32">
@@ -364,20 +369,20 @@ export function BlogStatusManager({
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    <DropdownMenuItem onClick={() => onDuplicatePost(post._id)}>
+                    <DropdownMenuItem onClick={() => onDuplicatePost(post.id)}>
                       <Copy className="h-4 w-4 mr-2" />
                       Duplicate
                     </DropdownMenuItem>
-                    {post.publishedAt && (
-                      <DropdownMenuItem 
-                        onClick={() => window.open(`/blog/${post.slug.current}`, '_blank')}
-                      >
+                    {post.published_at && (
+                        <DropdownMenuItem 
+                          onClick={() => window.open(`/blog/${post.slug}`, '_blank')}
+                        >
                         <Eye className="h-4 w-4 mr-2" />
                         View Published
                       </DropdownMenuItem>
                     )}
                     <DropdownMenuItem 
-                      onClick={() => handleSingleStatusChange(post._id, 'archived')}
+                      onClick={() => handleSingleStatusChange(post.id, 'archived')}
                     >
                       <Archive className="h-4 w-4 mr-2" />
                       Archive
@@ -385,7 +390,7 @@ export function BlogStatusManager({
                     <DropdownMenuItem 
                       onClick={() => {
                         if (confirm('Are you sure you want to delete this post?')) {
-                          onDeletePosts([post._id])
+                          onDeletePosts([post.id])
                         }
                       }}
                       className="text-red-600"

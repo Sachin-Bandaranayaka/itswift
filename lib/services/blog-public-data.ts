@@ -1,10 +1,4 @@
-import { client } from '@/lib/sanity.client';
-import { 
-  publishedPostsQuery, 
-  paginatedPublishedPostsQuery, 
-  publishedPostsCountQuery 
-} from '@/lib/queries';
-import { postBySlugQuery } from '@/lib/queries';
+import { BlogService } from '@/lib/services/blog.service';
 import { ExternalServiceError, withRetry } from '@/lib/utils/error-handler';
 
 export interface BlogPost {
@@ -46,358 +40,148 @@ export interface BlogPageData {
 
 export class BlogPublicDataService {
   private static readonly DEFAULT_POSTS_PER_PAGE = 9;
+  private static blogService = new BlogService();
 
   /**
-   * Fetch a single blog post by slug (includes body, author bio, etc.)
+   * Get a single blog post by slug
    */
   static async getPostBySlug(slug: string): Promise<any | null> {
     try {
-      if (!slug || typeof slug !== 'string') {
-        throw new Error('Invalid slug');
-      }
-
-      const post = await withRetry(
-        () => client.fetch(postBySlugQuery, { slug }),
-        3,
-        1000
-      );
-
-      return post || null;
+      // TODO: Implement with Supabase
+      // For now, return null
+      return null;
     } catch (error) {
       console.error('Error fetching post by slug:', error);
-
-      if (error instanceof Error) {
-        if (error.message.includes('fetch') || error.message.includes('network')) {
-          throw new ExternalServiceError(
-            'Unable to connect to content management system',
-            'Sanity CMS',
-            { originalError: error.message }
-          );
-        }
-      }
-
-      throw new ExternalServiceError(
-        'Failed to fetch blog post',
-        'Sanity CMS',
-        { originalError: error instanceof Error ? error.message : String(error) }
-      );
+      throw new ExternalServiceError('Failed to fetch blog post', 'BLOG_FETCH_ERROR');
     }
   }
 
   /**
-   * Fetch all published blog posts
+   * Get all published blog posts
    */
   static async getAllPublishedPosts(): Promise<BlogPost[]> {
     try {
-      console.log('BlogPublicDataService.getAllPublishedPosts - Starting fetch');
-      const posts = await withRetry(
-        () => client.fetch(publishedPostsQuery),
-        3,
-        1000
-      );
-      console.log('BlogPublicDataService.getAllPublishedPosts - Fetched posts:', posts?.length || 0);
-      console.log('BlogPublicDataService.getAllPublishedPosts - Post IDs:', posts?.map((p: BlogPost) => p._id) || []);
-      return posts || [];
+      // TODO: Implement with Supabase
+      // For now, return empty array
+      return [];
     } catch (error) {
-      console.error('Error fetching published posts:', error);
-      
-      if (error instanceof Error) {
-        if (error.message.includes('fetch') || error.message.includes('network')) {
-          throw new ExternalServiceError(
-            'Unable to connect to content management system',
-            'Sanity CMS',
-            { originalError: error.message }
-          );
-        }
-        
-        if (error.message.includes('timeout')) {
-          throw new ExternalServiceError(
-            'Content loading timed out',
-            'Sanity CMS',
-            { originalError: error.message }
-          );
-        }
-      }
-      
-      throw new ExternalServiceError(
-        'Failed to fetch blog posts from content management system',
-        'Sanity CMS',
-        { originalError: error instanceof Error ? error.message : String(error) }
-      );
+      console.error('Error fetching all published posts:', error);
+      throw new ExternalServiceError('Failed to fetch published posts', 'BLOG_FETCH_ERROR');
     }
   }
 
   /**
-   * Fetch paginated published blog posts
+   * Get paginated published blog posts
    */
   static async getPaginatedPublishedPosts(
     page: number = 1,
     postsPerPage: number = this.DEFAULT_POSTS_PER_PAGE
   ): Promise<BlogPageData> {
     try {
-      // Validate pagination parameters
-      if (page < 1) {
-        throw new Error('Page number must be greater than 0');
-      }
-      
-      if (postsPerPage < 1 || postsPerPage > 100) {
-        throw new Error('Posts per page must be between 1 and 100');
-      }
-
-      // Calculate pagination parameters
-      const start = (page - 1) * postsPerPage;
-      const end = start + postsPerPage;
-
-      // Fetch posts and total count in parallel with retry
-      const [posts, totalPosts] = await Promise.all([
-        withRetry(
-          () => client.fetch(paginatedPublishedPostsQuery, { start, end }),
-          3,
-          1000
-        ),
-        withRetry(
-          () => client.fetch(publishedPostsCountQuery),
-          3,
-          1000
-        )
-      ]);
-
-      // Calculate pagination info
-      const totalPages = Math.ceil((totalPosts || 0) / postsPerPage);
-      const pagination: PaginationInfo = {
-        currentPage: page,
-        totalPages,
-        totalPosts: totalPosts || 0,
-        postsPerPage,
-        hasNext: page < totalPages,
-        hasPrev: page > 1
-      };
-
+      // TODO: Implement with Supabase
+      // For now, return empty pagination data
       return {
-        posts: posts || [],
-        pagination
+        posts: [],
+        pagination: {
+          currentPage: page,
+          totalPages: 0,
+          totalPosts: 0,
+          postsPerPage,
+          hasNext: false,
+          hasPrev: false
+        }
       };
     } catch (error) {
       console.error('Error fetching paginated posts:', error);
-      
-      if (error instanceof Error) {
-        if (error.message.includes('Page number') || error.message.includes('Posts per page')) {
-          throw error; // Re-throw validation errors as-is
-        }
-        
-        if (error.message.includes('fetch') || error.message.includes('network')) {
-          throw new ExternalServiceError(
-            'Unable to connect to content management system',
-            'Sanity CMS',
-            { originalError: error.message }
-          );
-        }
-      }
-      
-      throw new ExternalServiceError(
-        'Failed to fetch paginated blog posts',
-        'Sanity CMS',
-        { originalError: error instanceof Error ? error.message : String(error) }
-      );
+      throw new ExternalServiceError('Failed to fetch paginated posts', 'BLOG_FETCH_ERROR');
     }
   }
 
   /**
-   * Get posts sorted by different criteria
+   * Get sorted published blog posts
    */
   static async getSortedPublishedPosts(
     sortBy: 'publishedAt' | 'title' = 'publishedAt',
     order: 'asc' | 'desc' = 'desc'
   ): Promise<BlogPost[]> {
     try {
-      const posts = await this.getAllPublishedPosts();
-      
-      return posts.sort((a, b) => {
-        let comparison = 0;
-        
-        if (sortBy === 'publishedAt') {
-          const dateA = new Date(a.publishedAt || a._createdAt);
-          const dateB = new Date(b.publishedAt || b._createdAt);
-          comparison = dateA.getTime() - dateB.getTime();
-        } else if (sortBy === 'title') {
-          comparison = a.title.localeCompare(b.title);
-        }
-        
-        return order === 'desc' ? -comparison : comparison;
-      });
+      // TODO: Implement with Supabase
+      // For now, return empty array
+      return [];
     } catch (error) {
       console.error('Error fetching sorted posts:', error);
-      throw new Error('Failed to fetch sorted blog posts');
+      throw new ExternalServiceError('Failed to fetch sorted posts', 'BLOG_FETCH_ERROR');
     }
   }
 
   /**
-   * Filter posts by category
+   * Get blog posts by category
    */
   static async getPostsByCategory(categoryTitle: string): Promise<BlogPost[]> {
     try {
-      const posts = await this.getAllPublishedPosts();
-      return posts.filter(post => 
-        post.categories?.some(category => 
-          category.title.toLowerCase() === categoryTitle.toLowerCase()
-        )
-      );
+      // TODO: Implement with Supabase
+      // For now, return empty array
+      return [];
     } catch (error) {
       console.error('Error fetching posts by category:', error);
-      throw new Error('Failed to fetch posts by category');
+      throw new ExternalServiceError('Failed to fetch posts by category', 'BLOG_FETCH_ERROR');
     }
   }
 
   /**
-   * Search posts by title or excerpt
+   * Search blog posts
    */
   static async searchPosts(query: string): Promise<BlogPost[]> {
     try {
-      const posts = await this.getAllPublishedPosts();
-      const searchTerm = query.toLowerCase();
-      
-      return posts.filter(post => 
-        post.title.toLowerCase().includes(searchTerm) ||
-        (post.excerpt && post.excerpt.toLowerCase().includes(searchTerm))
-      );
+      // TODO: Implement with Supabase
+      // For now, return empty array
+      return [];
     } catch (error) {
       console.error('Error searching posts:', error);
-      throw new Error('Failed to search blog posts');
+      throw new ExternalServiceError('Failed to search posts', 'BLOG_SEARCH_ERROR');
     }
   }
 
   /**
-   * Get unique categories from all published posts
+   * Get available categories
    */
   static async getAvailableCategories(): Promise<string[]> {
     try {
-      const posts = await this.getAllPublishedPosts();
-      const categories = new Set<string>();
-      
-      posts.forEach(post => {
-        post.categories?.forEach(category => {
-          if (category.title && category.title.trim()) {
-            categories.add(category.title.trim());
-          }
-        });
-      });
-      
-      return Array.from(categories).sort();
+      // TODO: Implement with Supabase
+      // For now, return empty array
+      return [];
     } catch (error) {
       console.error('Error fetching categories:', error);
-      
-      // If we can't fetch posts, return empty array instead of throwing
-      if (error instanceof ExternalServiceError) {
-        console.warn('Returning empty categories due to service error:', error.message);
-        return [];
-      }
-      
-      throw new ExternalServiceError(
-        'Failed to fetch blog categories',
-        'Sanity CMS',
-        { originalError: error instanceof Error ? error.message : String(error) }
-      );
+      throw new ExternalServiceError('Failed to fetch categories', 'BLOG_FETCH_ERROR');
     }
   }
 
   /**
-   * Filter posts by publication status and date range
+   * Get filtered blog posts
    */
   static async getFilteredPosts(filters: BlogPostFilters): Promise<BlogPost[]> {
     try {
-      console.log('BlogPublicDataService.getFilteredPosts - Filters:', filters);
-      
-      let posts: BlogPost[];
-
-      // Only allow published posts for public API
-      if (filters.status && filters.status !== 'published') {
-        throw new Error('Only published posts are available through public API');
-      }
-
-      // Get all published posts as base
-      posts = await this.getAllPublishedPosts();
-      console.log('BlogPublicDataService.getFilteredPosts - Initial posts count:', posts.length);
-
-      // Apply date range filtering
-      if (filters.dateFrom || filters.dateTo) {
-        posts = posts.filter(post => {
-          const postDate = new Date(post.publishedAt || post._createdAt);
-          
-          if (filters.dateFrom) {
-            const fromDate = new Date(filters.dateFrom);
-            if (postDate < fromDate) return false;
-          }
-          
-          if (filters.dateTo) {
-            const toDate = new Date(filters.dateTo);
-            if (postDate > toDate) return false;
-          }
-          
-          return true;
-        });
-      }
-
-      // Apply category filtering
-      if (filters.category) {
-        posts = posts.filter(post => 
-          post.categories?.some(category => 
-            category.title.toLowerCase() === filters.category!.toLowerCase()
-          )
-        );
-      }
-
-      // Apply search filtering
-      if (filters.search) {
-        const searchTerm = filters.search.toLowerCase();
-        posts = posts.filter(post => 
-          post.title.toLowerCase().includes(searchTerm) ||
-          (post.excerpt && post.excerpt.toLowerCase().includes(searchTerm))
-        );
-      }
-
-      // Apply sorting
-      const sortBy = filters.sortBy || 'publishedAt';
-      const order = filters.order || 'desc';
-      
-      posts.sort((a, b) => {
-        let comparison = 0;
-        
-        if (sortBy === 'publishedAt') {
-          const dateA = new Date(a.publishedAt || a._createdAt);
-          const dateB = new Date(b.publishedAt || b._createdAt);
-          comparison = dateA.getTime() - dateB.getTime();
-        } else if (sortBy === 'title') {
-          comparison = a.title.localeCompare(b.title);
-        } else if (sortBy === '_createdAt') {
-          const dateA = new Date(a._createdAt);
-          const dateB = new Date(b._createdAt);
-          comparison = dateA.getTime() - dateB.getTime();
-        }
-        
-        return order === 'desc' ? -comparison : comparison;
-      });
-
-      return posts;
+      // TODO: Implement with Supabase
+      // For now, return empty array
+      return [];
     } catch (error) {
-      console.error('Error filtering posts:', error);
-      throw new Error('Failed to filter blog posts');
+      console.error('Error fetching filtered posts:', error);
+      throw new ExternalServiceError('Failed to fetch filtered posts', 'BLOG_FETCH_ERROR');
     }
   }
 
   /**
-   * Validate that a post is published (publishedAt is not null and not in future)
+   * Check if a post is published
    */
   static isPostPublished(post: BlogPost): boolean {
     if (!post.publishedAt) return false;
-    
     const publishedDate = new Date(post.publishedAt);
     const now = new Date();
-    
     return publishedDate <= now;
   }
 
   /**
-   * Get posts with enhanced filtering and pagination
+   * Get filtered and paginated blog posts
    */
   static async getFilteredPaginatedPosts(
     filters: BlogPostFilters,
@@ -405,36 +189,27 @@ export class BlogPublicDataService {
     postsPerPage: number = this.DEFAULT_POSTS_PER_PAGE
   ): Promise<BlogPageData> {
     try {
-      const filteredPosts = await this.getFilteredPosts(filters);
-      
-      // Apply pagination
-      const startIndex = (page - 1) * postsPerPage;
-      const endIndex = startIndex + postsPerPage;
-      const paginatedPosts = filteredPosts.slice(startIndex, endIndex);
-      
-      // Calculate pagination info
-      const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
-      const pagination: PaginationInfo = {
-        currentPage: page,
-        totalPages,
-        totalPosts: filteredPosts.length,
-        postsPerPage,
-        hasNext: page < totalPages,
-        hasPrev: page > 1
-      };
-
+      // TODO: Implement with Supabase
+      // For now, return empty pagination data
       return {
-        posts: paginatedPosts,
-        pagination
+        posts: [],
+        pagination: {
+          currentPage: page,
+          totalPages: 0,
+          totalPosts: 0,
+          postsPerPage,
+          hasNext: false,
+          hasPrev: false
+        }
       };
     } catch (error) {
-      console.error('Error getting filtered paginated posts:', error);
-      throw new Error('Failed to fetch filtered blog posts');
+      console.error('Error fetching filtered paginated posts:', error);
+      throw new ExternalServiceError('Failed to fetch filtered paginated posts', 'BLOG_FETCH_ERROR');
     }
   }
 
   /**
-   * Alias method for API compatibility
+   * Get paginated posts (alias for getFilteredPaginatedPosts)
    */
   static async getPaginatedPosts(
     filters: BlogPostFilters,

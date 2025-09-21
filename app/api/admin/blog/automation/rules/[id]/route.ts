@@ -219,23 +219,9 @@ async function handleExecuteBlogAutomationRule(
     }
 
     // Fetch blog post data
-    const { client } = await import('@/lib/sanity.client')
-    const blogPost = await client.fetch(`
-      *[_type == "post" && _id == $blogPostId][0] {
-        _id,
-        title,
-        slug,
-        body,
-        excerpt,
-        author-> {
-          name
-        },
-        categories[]-> {
-          title
-        },
-        publishedAt
-      }
-    `, { blogPostId })
+    const { BlogService } = await import('@/lib/services/blog.service')
+    const blogService = new BlogService()
+    const blogPost = await blogService.getPostById(blogPostId)
 
     if (!blogPost) {
       return NextResponse.json(
@@ -247,6 +233,18 @@ async function handleExecuteBlogAutomationRule(
       )
     }
 
+    // Transform Supabase data to match expected structure
+    const transformedBlogPost = {
+      _id: blogPost.id,
+      title: blogPost.title,
+      slug: { current: blogPost.slug },
+      content: blogPost.content ? [{ _type: 'block', children: [{ text: blogPost.content }] }] : [],
+      excerpt: blogPost.excerpt,
+      author: blogPost.author ? { name: blogPost.author.name } : undefined,
+      categories: blogPost.category ? [{ title: blogPost.category.name }] : [],
+      publishedAt: blogPost.published_at || new Date().toISOString()
+    }
+
     const automationEngine = AutomationEngine.getInstance()
     
     // Execute the specific rule manually
@@ -254,7 +252,7 @@ async function handleExecuteBlogAutomationRule(
       user_id: 'admin', // Could be extracted from auth
       trigger_reason: 'Manual execution from admin interface',
       context: {
-        blogPost,
+        blogPost: transformedBlogPost,
         executedAt: new Date().toISOString()
       }
     })
@@ -262,12 +260,12 @@ async function handleExecuteBlogAutomationRule(
     return NextResponse.json({
       success: result.success,
       message: result.success 
-        ? `Automation rule executed successfully for "${blogPost.title}"`
+        ? `Automation rule executed successfully for "${transformedBlogPost.title}"`
         : 'Automation rule execution failed',
       data: {
         ruleId: params.id,
         blogPostId,
-        blogPostTitle: blogPost.title,
+        blogPostTitle: transformedBlogPost.title,
         executionResult: result,
         createdContentIds: result.created_content_ids
       }

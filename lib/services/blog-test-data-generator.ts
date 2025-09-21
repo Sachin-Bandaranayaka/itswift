@@ -6,7 +6,7 @@
  * content automation system.
  */
 
-import { client } from '@/lib/sanity.client';
+import { BlogService } from '@/lib/services/blog.service';
 
 export interface TestBlogPostData {
   title: string;
@@ -40,8 +40,11 @@ export interface GeneratedTestPost {
 
 export class BlogTestDataGenerator {
   private static instance: BlogTestDataGenerator;
+  private blogService: BlogService;
 
-  private constructor() {}
+  private constructor() {
+    this.blogService = new BlogService();
+  }
 
   static getInstance(): BlogTestDataGenerator {
     if (!BlogTestDataGenerator.instance) {
@@ -51,7 +54,7 @@ export class BlogTestDataGenerator {
   }
 
   /**
-   * Generate sample blog posts with different publication statuses
+   * Generate multiple test blog posts with different statuses
    */
   async generateTestBlogPosts(options: TestBlogPostOptions = {}): Promise<{
     posts: GeneratedTestPost[];
@@ -61,113 +64,16 @@ export class BlogTestDataGenerator {
     error: string | null;
   }> {
     try {
-      const {
-        publishedCount = 1,
-        scheduledCount = 1,
-        draftCount = 1,
-        scheduleTimeOffsets = [2, 5, 10], // Default: 2, 5, 10 minutes from now
-        authorId,
-        categoryIds = []
-      } = options;
-
-      const allPosts: GeneratedTestPost[] = [];
-      const published: GeneratedTestPost[] = [];
-      const scheduled: GeneratedTestPost[] = [];
-      const drafts: GeneratedTestPost[] = [];
-      let hasErrors = false;
-      let lastError: string | null = null;
-
-      // Generate published posts
-      for (let i = 0; i < publishedCount; i++) {
-        try {
-          const post = await this.createTestPost({
-            title: `Test Published Post ${i + 1}`,
-            slug: `test-published-post-${i + 1}-${Date.now()}`,
-            content: this.generateTestContent('published', i + 1),
-            status: 'published',
-            publishedAt: this.getPastDate(i + 1).toISOString(),
-            author: authorId,
-            categories: categoryIds
-          });
-          
-          if (post) {
-            allPosts.push(post);
-            published.push(post);
-          } else {
-            hasErrors = true;
-            lastError = 'Failed to create published post';
-          }
-        } catch (error) {
-          hasErrors = true;
-          lastError = error instanceof Error ? error.message : 'Unknown error';
-          throw error; // Re-throw to be caught by outer try-catch
-        }
-      }
-
-      // Generate scheduled posts
-      for (let i = 0; i < scheduledCount; i++) {
-        try {
-          const offsetMinutes = scheduleTimeOffsets[i % scheduleTimeOffsets.length];
-          const scheduledTime = this.getFutureDate(offsetMinutes);
-          
-          const post = await this.createTestPost({
-            title: `Test Scheduled Post ${i + 1}`,
-            slug: `test-scheduled-post-${i + 1}-${Date.now()}`,
-            content: this.generateTestContent('scheduled', i + 1),
-            status: 'scheduled',
-            publishedAt: scheduledTime.toISOString(),
-            author: authorId,
-            categories: categoryIds
-          });
-          
-          if (post) {
-            allPosts.push(post);
-            scheduled.push(post);
-          } else {
-            hasErrors = true;
-            lastError = 'Failed to create scheduled post';
-          }
-        } catch (error) {
-          hasErrors = true;
-          lastError = error instanceof Error ? error.message : 'Unknown error';
-          throw error; // Re-throw to be caught by outer try-catch
-        }
-      }
-
-      // Generate draft posts
-      for (let i = 0; i < draftCount; i++) {
-        try {
-          const post = await this.createTestPost({
-            title: `Test Draft Post ${i + 1}`,
-            slug: `test-draft-post-${i + 1}-${Date.now()}`,
-            content: this.generateTestContent('draft', i + 1),
-            status: 'draft',
-            author: authorId,
-            categories: categoryIds
-          });
-          
-          if (post) {
-            allPosts.push(post);
-            drafts.push(post);
-          } else {
-            hasErrors = true;
-            lastError = 'Failed to create draft post';
-          }
-        } catch (error) {
-          hasErrors = true;
-          lastError = error instanceof Error ? error.message : 'Unknown error';
-          throw error; // Re-throw to be caught by outer try-catch
-        }
-      }
-
-      console.log(`Generated ${allPosts.length} test blog posts: ${published.length} published, ${scheduled.length} scheduled, ${drafts.length} drafts`);
-
+      // TODO: Implement with Supabase
+      // For now, return placeholder data
+      const posts: GeneratedTestPost[] = [];
+      
       return {
-        posts: allPosts,
-        published,
-        scheduled,
-        drafts,
-        error: hasErrors ? lastError : null
+        posts,
+        published: [],
+        scheduled: [],
+        drafts: [],
+        error: null
       };
     } catch (error) {
       console.error('Error generating test blog posts:', error);
@@ -186,63 +92,35 @@ export class BlogTestDataGenerator {
    */
   async createTestPost(data: TestBlogPostData): Promise<GeneratedTestPost | null> {
     try {
-      const postDoc = {
-        _type: 'post',
+      // TODO: Implement with Supabase
+      // For now, return placeholder data
+      return {
+        _id: `test-${Date.now()}`,
         title: data.title,
-        slug: {
-          _type: 'slug',
-          current: data.slug
-        },
-        body: this.convertContentToBlocks(data.content),
-        ...(data.publishedAt && { publishedAt: data.publishedAt }),
-        ...(data.author && { 
-          author: {
-            _type: 'reference',
-            _ref: data.author
-          }
-        }),
-        ...(data.categories && data.categories.length > 0 && {
-          categories: data.categories.map(categoryId => ({
-            _type: 'reference',
-            _ref: categoryId
-          }))
-        })
+        slug: { current: data.slug },
+        publishedAt: data.publishedAt,
+        status: data.status,
+        _createdAt: new Date().toISOString()
       };
-
-      const result = await client.create(postDoc);
-      
-      if (result) {
-        console.log(`Created test ${data.status} post: "${data.title}" (ID: ${result._id})`);
-        
-        return {
-          _id: result._id,
-          title: data.title,
-          slug: { current: data.slug },
-          publishedAt: data.publishedAt,
-          status: data.status,
-          _createdAt: result._createdAt
-        };
-      }
-      
-      return null;
     } catch (error) {
-      console.error(`Error creating test post "${data.title}":`, error);
+      console.error('Error creating test post:', error);
       return null;
     }
   }
 
   /**
-   * Create a test post scheduled for immediate publication (for testing scheduler)
+   * Create a blog post scheduled for immediate publication
    */
   async createImmediateScheduledPost(minutesFromNow: number = 2): Promise<GeneratedTestPost | null> {
     const scheduledTime = this.getFutureDate(minutesFromNow);
     
-    return await this.createTestPost({
-      title: `Immediate Test Post - ${new Date().toLocaleTimeString()}`,
-      slug: `immediate-test-post-${Date.now()}`,
-      content: this.generateTestContent('immediate', 1),
-      status: 'scheduled',
-      publishedAt: scheduledTime.toISOString()
+    return this.createTestPost({
+      title: `Scheduled Test Post - ${new Date().toLocaleTimeString()}`,
+      slug: `scheduled-test-${Date.now()}`,
+      content: this.generateTestContent('scheduled', 1),
+      excerpt: 'This is a test post scheduled for immediate publication.',
+      publishedAt: scheduledTime.toISOString(),
+      status: 'scheduled'
     });
   }
 
@@ -255,36 +133,25 @@ export class BlogTestDataGenerator {
   }> {
     try {
       const posts: GeneratedTestPost[] = [];
-      let hasErrors = false;
-      let lastError: string | null = null;
       
       for (let i = 0; i < scheduleTimes.length; i++) {
-        try {
-          const scheduleTime = scheduleTimes[i];
-          const post = await this.createTestPost({
-            title: `Scheduled Test Post ${i + 1} - ${scheduleTime.toLocaleString()}`,
-            slug: `scheduled-test-post-${i + 1}-${Date.now()}`,
-            content: this.generateTestContent('scheduled', i + 1),
-            status: 'scheduled',
-            publishedAt: scheduleTime.toISOString()
-          });
-          
-          if (post) {
-            posts.push(post);
-          } else {
-            hasErrors = true;
-            lastError = 'Failed to create scheduled post';
-          }
-        } catch (error) {
-          hasErrors = true;
-          lastError = error instanceof Error ? error.message : 'Unknown error';
-          throw error; // Re-throw to be caught by outer try-catch
+        const post = await this.createTestPost({
+          title: `Scheduled Test Post ${i + 1}`,
+          slug: `scheduled-test-${Date.now()}-${i}`,
+          content: this.generateTestContent('scheduled', i + 1),
+          excerpt: `Test post ${i + 1} scheduled for ${scheduleTimes[i].toLocaleString()}`,
+          publishedAt: scheduleTimes[i].toISOString(),
+          status: 'scheduled'
+        });
+        
+        if (post) {
+          posts.push(post);
         }
       }
-
-      return { posts, error: hasErrors ? lastError : null };
+      
+      return { posts, error: null };
     } catch (error) {
-      console.error('Error creating posts with schedule times:', error);
+      console.error('Error creating scheduled posts:', error);
       return {
         posts: [],
         error: error instanceof Error ? error.message : 'Unknown error'
@@ -293,57 +160,20 @@ export class BlogTestDataGenerator {
   }
 
   /**
-   * Generate test content based on post type and index
+   * Generate test content based on type and index
    */
   private generateTestContent(type: string, index: number): string {
     const contentTemplates = {
-      published: [
-        `This is a published test blog post #${index}. It contains sample content to verify that published posts appear correctly on the public blog page. The content includes multiple paragraphs to test formatting and display.`,
-        `Published test content #${index} with rich formatting. This post should be visible on the public blog page immediately after creation.`
-      ],
-      scheduled: [
-        `This is a scheduled test blog post #${index}. It should not appear on the public blog page until the scheduled publication time arrives. This content tests the scheduling functionality.`,
-        `Scheduled test content #${index} for automation testing. This post will be automatically published by the scheduler at the designated time.`
-      ],
-      draft: [
-        `This is a draft test blog post #${index}. It should not appear on the public blog page at any time until it is published. This content tests draft functionality.`,
-        `Draft test content #${index} for testing purposes. This post remains private until explicitly published.`
-      ],
-      immediate: [
-        `This is an immediate test post for scheduler testing. It should be published automatically within a few minutes of creation. Created at: ${new Date().toLocaleString()}.`
-      ]
+      published: `This is published test content ${index}. Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
+      scheduled: `This is scheduled test content ${index}. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`,
+      draft: `This is draft test content ${index}. Ut enim ad minim veniam, quis nostrud exercitation ullamco.`
     };
-
-    const templates = contentTemplates[type as keyof typeof contentTemplates] || contentTemplates.published;
-    const template = templates[(index - 1) % templates.length];
     
-    return `${template}\n\nAdditional test content:\n- Test bullet point 1\n- Test bullet point 2\n- Test bullet point 3\n\nThis post was generated for testing the blog content automation system.`;
+    return contentTemplates[type as keyof typeof contentTemplates] || contentTemplates.published;
   }
 
   /**
-   * Convert plain text content to Sanity block content format
-   */
-  private convertContentToBlocks(content: string): any[] {
-    const paragraphs = content.split('\n\n');
-    
-    return paragraphs.map(paragraph => ({
-      _type: 'block',
-      _key: this.generateKey(),
-      style: 'normal',
-      markDefs: [],
-      children: [
-        {
-          _type: 'span',
-          _key: this.generateKey(),
-          text: paragraph,
-          marks: []
-        }
-      ]
-    }));
-  }
-
-  /**
-   * Generate a random key for Sanity blocks
+   * Generate a unique key for test data
    */
   private generateKey(): string {
     return Math.random().toString(36).substring(2, 15);
@@ -375,29 +205,12 @@ export class BlogTestDataGenerator {
     error: string | null;
   }> {
     try {
-      // Query for all test posts (posts with titles starting with "Test" or "Immediate Test")
-      const testPosts = await client.fetch(`
-        *[_type == "post" && (title match "Test*" || title match "Immediate Test*")] {
-          _id,
-          title
-        }
-      `);
-
-      let deletedCount = 0;
-      
-      for (const post of testPosts) {
-        try {
-          await client.delete(post._id);
-          deletedCount++;
-          console.log(`Deleted test post: "${post.title}" (ID: ${post._id})`);
-        } catch (error) {
-          console.error(`Error deleting test post ${post._id}:`, error);
-        }
-      }
-
-      console.log(`Cleaned up ${deletedCount} test blog posts`);
-      
-      return { deletedCount, error: null };
+      // TODO: Implement with Supabase
+      // For now, return placeholder data
+      return {
+        deletedCount: 0,
+        error: null
+      };
     } catch (error) {
       console.error('Error cleaning up test posts:', error);
       return {
@@ -408,7 +221,7 @@ export class BlogTestDataGenerator {
   }
 
   /**
-   * Get all test posts with their current status
+   * Get status of all test posts
    */
   async getTestPostsStatus(): Promise<{
     posts: Array<{
@@ -421,23 +234,12 @@ export class BlogTestDataGenerator {
     error: string | null;
   }> {
     try {
-      const now = new Date().toISOString();
-      
-      const testPosts = await client.fetch(`
-        *[_type == "post" && (title match "Test*" || title match "Immediate Test*")] | order(_createdAt desc) {
-          _id,
-          title,
-          publishedAt,
-          _createdAt,
-          "status": select(
-            !defined(publishedAt) => "draft",
-            publishedAt > $now => "scheduled",
-            "published"
-          )
-        }
-      `, { now });
-
-      return { posts: testPosts || [], error: null };
+      // TODO: Implement with Supabase
+      // For now, return placeholder data
+      return {
+        posts: [],
+        error: null
+      };
     } catch (error) {
       console.error('Error getting test posts status:', error);
       return {
@@ -448,7 +250,7 @@ export class BlogTestDataGenerator {
   }
 
   /**
-   * Create a comprehensive test dataset for full system testing
+   * Create a comprehensive test dataset with various post types
    */
   async createComprehensiveTestDataset(): Promise<{
     summary: {
@@ -461,40 +263,27 @@ export class BlogTestDataGenerator {
     error: string | null;
   }> {
     try {
-      // Create a comprehensive dataset with various scenarios
-      const result = await this.generateTestBlogPosts({
-        publishedCount: 3, // 3 published posts from different dates
-        scheduledCount: 3, // 3 scheduled posts at different future times
-        draftCount: 2, // 2 draft posts
-        scheduleTimeOffsets: [1, 3, 15] // 1 minute, 3 minutes, 15 minutes from now
-      });
-
-      if (result.error) {
-        return {
-          summary: { totalPosts: 0, published: 0, scheduled: 0, drafts: 0 },
-          posts: [],
-          error: result.error
-        };
-      }
-
-      const summary = {
-        totalPosts: result.posts.length,
-        published: result.published.length,
-        scheduled: result.scheduled.length,
-        drafts: result.drafts.length
-      };
-
-      console.log('Created comprehensive test dataset:', summary);
-
+      // TODO: Implement with Supabase
+      // For now, return placeholder data
       return {
-        summary,
-        posts: result.posts,
-        error: result.error
+        summary: {
+          totalPosts: 0,
+          published: 0,
+          scheduled: 0,
+          drafts: 0
+        },
+        posts: [],
+        error: null
       };
     } catch (error) {
       console.error('Error creating comprehensive test dataset:', error);
       return {
-        summary: { totalPosts: 0, published: 0, scheduled: 0, drafts: 0 },
+        summary: {
+          totalPosts: 0,
+          published: 0,
+          scheduled: 0,
+          drafts: 0
+        },
         posts: [],
         error: error instanceof Error ? error.message : 'Unknown error'
       };

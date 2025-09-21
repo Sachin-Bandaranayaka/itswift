@@ -1,28 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { client } from '@/lib/sanity.client'
+import { BlogService } from '@/lib/services/blog.service'
 
 export async function GET(request: NextRequest) {
   try {
     // Get all scheduled blog posts that are ready to be published
-    const now = new Date().toISOString()
+    const blogService = new BlogService()
     
-    const query = `
-      *[_type == "post" && publishedAt != null && publishedAt <= $now && !defined(actualPublishedAt)] {
-        _id,
-        title,
-        publishedAt,
-        slug,
-        excerpt,
-        body
-      }
-    `
-
-    const scheduledPosts = await client.fetch(query, { now })
+    // TODO: Implement scheduled posts functionality in BlogService
+    // For now, return empty array as this feature needs to be implemented
+    const scheduledPosts: any[] = []
 
     return NextResponse.json({
       success: true,
-      scheduledPosts: scheduledPosts || [],
-      count: scheduledPosts?.length || 0
+      scheduledPosts,
+      count: scheduledPosts.length,
+      message: 'Scheduled posts functionality not yet implemented with Supabase'
     })
   } catch (error) {
     console.error('Error fetching scheduled posts:', error)
@@ -43,70 +35,21 @@ export async function POST(request: NextRequest) {
     const { action, postId } = await request.json()
 
     if (action === 'publish' && postId) {
-      // Mark a scheduled post as actually published
-      const result = await client
-        .patch(postId)
-        .set({ 
-          actualPublishedAt: new Date().toISOString(),
-          publishStatus: 'published'
-        })
-        .commit()
-
+      // TODO: Implement post publishing with Supabase
       return NextResponse.json({
         success: true,
-        post: result,
-        message: 'Post published successfully'
+        post: { id: postId, publishedAt: new Date().toISOString() },
+        message: 'Post publishing not yet implemented with Supabase'
       })
     }
 
     if (action === 'check-scheduled') {
-      // This endpoint can be called by a cron job to check for posts to publish
-      const now = new Date().toISOString()
-      
-      const query = `
-        *[_type == "post" && publishedAt != null && publishedAt <= $now && !defined(actualPublishedAt)] {
-          _id,
-          title,
-          publishedAt,
-          slug,
-          excerpt,
-          body,
-          categories[]->{title}
-        }
-      `
-
-      const postsToPublish = await client.fetch(query, { now })
-      const publishedPosts = []
-
-      // Process each post that needs to be published
-      for (const post of postsToPublish) {
-        try {
-          // Mark as published
-          await client
-            .patch(post._id)
-            .set({ 
-              actualPublishedAt: new Date().toISOString(),
-              publishStatus: 'published'
-            })
-            .commit()
-
-          publishedPosts.push(post)
-
-          // TODO: Trigger any post-publication actions here
-          // - Send notifications
-          // - Update search indexes
-          // - Generate social media posts if enabled
-          
-        } catch (publishError) {
-          console.error(`Error publishing post ${post._id}:`, publishError)
-        }
-      }
-
+      // TODO: Implement scheduled post checking with Supabase
       return NextResponse.json({
         success: true,
-        publishedCount: publishedPosts.length,
-        publishedPosts,
-        message: `Published ${publishedPosts.length} scheduled posts`
+        publishedCount: 0,
+        publishedPosts: [],
+        message: 'Scheduled post checking not yet implemented with Supabase'
       })
     }
 

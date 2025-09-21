@@ -10,7 +10,7 @@ import { Search, X, Filter } from "lucide-react"
 export interface BlogFilters {
   search: string
   category: string
-  sortBy: 'publishedAt' | 'title'
+  sortBy: 'published_at' | 'title'
   sortOrder: 'asc' | 'desc'
 }
 
@@ -45,13 +45,13 @@ export function BlogFiltersComponent({
     onFiltersChange({
       search: '',
       category: '',
-      sortBy: 'publishedAt',
+      sortBy: 'published_at',
       sortOrder: 'desc'
     })
   }
 
   const hasActiveFilters = filters.search || filters.category || 
-    filters.sortBy !== 'publishedAt' || filters.sortOrder !== 'desc'
+    filters.sortBy !== 'published_at' || filters.sortOrder !== 'desc'
 
   return (
     <div className="space-y-4 mb-8">
@@ -110,8 +110,8 @@ export function BlogFiltersComponent({
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="publishedAt-desc">Newest First</SelectItem>
-            <SelectItem value="publishedAt-asc">Oldest First</SelectItem>
+            <SelectItem value="published_at-desc">Newest First</SelectItem>
+            <SelectItem value="published_at-asc">Oldest First</SelectItem>
             <SelectItem value="title-asc">Title A-Z</SelectItem>
             <SelectItem value="title-desc">Title Z-A</SelectItem>
           </SelectContent>
@@ -157,14 +157,14 @@ export function BlogFiltersComponent({
             </Badge>
           )}
           
-          {(filters.sortBy !== 'publishedAt' || filters.sortOrder !== 'desc') && (
+          {(filters.sortBy !== 'published_at' || filters.sortOrder !== 'desc') && (
             <Badge variant="secondary" className="gap-1">
-              Sort: {filters.sortBy === 'publishedAt' ? 'Date' : 'Title'} ({filters.sortOrder === 'desc' ? 'Desc' : 'Asc'})
+              Sort: {filters.sortBy === 'published_at' ? 'Date' : 'Title'} ({filters.sortOrder === 'desc' ? 'Desc' : 'Asc'})
               <Button
                 variant="ghost"
                 size="sm"
                 className="h-4 w-4 p-0 hover:bg-transparent"
-                onClick={() => onFiltersChange({ ...filters, sortBy: 'publishedAt', sortOrder: 'desc' })}
+                onClick={() => onFiltersChange({ ...filters, sortBy: 'published_at', sortOrder: 'desc' })}
               >
                 <X className="h-3 w-3" />
               </Button>

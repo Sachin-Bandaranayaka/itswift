@@ -67,26 +67,10 @@ async function handleTriggerBlogAutomation(request: NextRequest) {
       )
     }
 
-    // Fetch blog post data from Sanity
-    const { client } = await import('@/lib/sanity.client')
-    const blogPost = await client.fetch(`
-      *[_type == "post" && _id == $blogPostId][0] {
-        _id,
-        title,
-        slug,
-        body,
-        excerpt,
-        author-> {
-          name
-        },
-        categories[]-> {
-          title
-        },
-        publishedAt,
-        _createdAt,
-        _updatedAt
-      }
-    `, { blogPostId })
+    // Fetch blog post data from Supabase
+    const { BlogService } = await import('@/lib/services/blog.service')
+    const blogService = new BlogService()
+    const blogPost = await blogService.getPostById(blogPostId)
 
     if (!blogPost) {
       return NextResponse.json(
@@ -100,15 +84,27 @@ async function handleTriggerBlogAutomation(request: NextRequest) {
 
     const automationEngine = AutomationEngine.getInstance()
     
+    // Transform Supabase data to match expected structure
+    const transformedBlogPost = {
+      _id: blogPost.id,
+      title: blogPost.title,
+      slug: { current: blogPost.slug },
+      content: blogPost.content ? [{ _type: 'block', children: [{ text: blogPost.content }] }] : [],
+      excerpt: blogPost.excerpt,
+      author: blogPost.author ? { name: blogPost.author.name } : undefined,
+      categories: blogPost.category ? [{ title: blogPost.category.name }] : [],
+      publishedAt: blogPost.published_at || new Date().toISOString()
+    }
+    
     // Process blog automation
-    const result = await automationEngine.processBlogPublishedWithAutomation(blogPost)
+    const result = await automationEngine.processBlogPublishedWithAutomation(transformedBlogPost)
 
     return NextResponse.json({
       success: true,
-      message: `Blog automation triggered for "${blogPost.title}"`,
+      message: `Blog automation triggered for "${transformedBlogPost.title}"`,
       data: {
         blogPostId,
-        blogPostTitle: blogPost.title,
+        blogPostTitle: transformedBlogPost.title,
         socialPostsGenerated: result.socialPosts.length,
         analyticsTracked: result.analyticsTracked,
         automationSuccess: result.success,

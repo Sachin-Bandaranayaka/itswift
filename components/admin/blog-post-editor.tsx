@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
+import { RichTextEditor } from "./rich-text-editor"
 import { 
   X, 
   Save, 
@@ -24,17 +25,18 @@ import { toast } from "sonner"
 import { BlogVersionHistory } from "./blog-version-history"
 
 interface BlogPost {
-  _id?: string
+  id?: string
   title: string
-  slug?: { current: string }
-  author?: { name: string, _id: string }
-  mainImage?: { asset: { url: string }, alt?: string }
-  categories?: Array<{ title: string, _id: string }>
-  publishedAt?: string
+  slug?: string
+  author?: { name: string, id: string }
+  featured_image?: string
+  categories?: Array<{ name: string, id: string }>
+  published_at?: string
   excerpt?: string
-  body?: any[]
-  _createdAt?: string
-  _updatedAt?: string
+  content?: string
+  status?: 'draft' | 'published' | 'scheduled' | 'archived'
+  created_at?: string
+  updated_at?: string
 }
 
 interface BlogPostEditorProps {
@@ -63,11 +65,11 @@ export function BlogPostEditor({ post, onClose, onSave }: BlogPostEditorProps) {
       setFormData({
         title: post.title || '',
         excerpt: post.excerpt || '',
-        content: post.body ? convertBodyToText(post.body) : '',
-        publishedAt: post.publishedAt ? new Date(post.publishedAt).toISOString().slice(0, 16) : '',
-        categories: post.categories?.map(cat => cat.title) || [],
-        mainImageUrl: post.mainImage?.asset?.url || '',
-        mainImageAlt: post.mainImage?.alt || '',
+        content: post.content || '',
+        publishedAt: post.published_at ? new Date(post.published_at).toISOString().slice(0, 16) : '',
+        categories: post.categories?.map(cat => cat.name) || [],
+        mainImageUrl: post.featured_image || '',
+        mainImageAlt: '',
         autoGenerateSocial: true
       })
     }
@@ -102,24 +104,33 @@ export function BlogPostEditor({ post, onClose, onSave }: BlogPostEditorProps) {
     setIsSaving(true)
     
     try {
-      const response = await fetch('/api/admin/blog/save', {
-        method: 'POST',
+      const saveData = {
+        title: formData.title,
+        content: formData.content,
+        excerpt: formData.excerpt,
+        slug: formData.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
+        status: 'draft',
+        featured_image: formData.mainImageUrl || null,
+        published_at: formData.publishedAt || null,
+        author_id: 'cae5f613-5fc0-42aa-8a2b-8ea5e451ab99', // Admin User author ID
+        category_id: null // Single category ID as expected by the API
+      }
+
+      const url = post?.id ? `/api/admin/blog/posts/${post.id}` : '/api/admin/blog/posts'
+      const method = post?.id ? 'PUT' : 'POST'
+
+      const response = await fetch(url, {
+        method,
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          ...formData,
-          id: post?._id,
-          isUpdate: !!post?._id,
-          categories: Array.isArray(formData.categories) ? formData.categories.join(', ') : formData.categories
-        }),
+        body: JSON.stringify(saveData),
       })
 
       if (!response.ok) {
         throw new Error('Failed to save blog post')
       }
 
-      const data = await response.json()
       toast.success(post ? 'Blog post updated successfully!' : 'Blog post created successfully!')
       onSave()
     } catch (error) {
@@ -303,17 +314,11 @@ export function BlogPostEditor({ post, onClose, onSave }: BlogPostEditorProps) {
           {/* Content */}
           <div>
             <Label htmlFor="content">Content *</Label>
-            <Textarea
-              id="content"
-              placeholder="Write your blog post content here..."
+            <RichTextEditor
               value={formData.content}
-              onChange={(e) => handleInputChange('content', e.target.value)}
-              rows={20}
-              className="font-mono text-sm"
+              onChange={(value) => handleInputChange('content', value)}
+              placeholder="Write your blog post content here..."
             />
-            <p className="text-xs text-gray-500 mt-1">
-              Note: This is a simplified editor. For rich text editing, consider integrating with Sanity Studio.
-            </p>
           </div>
 
           {/* Publishing Options */}
@@ -433,9 +438,9 @@ export function BlogPostEditor({ post, onClose, onSave }: BlogPostEditorProps) {
       </div>
 
       {/* Version History Modal */}
-      {post && (
+      {post && post.id && (
         <BlogVersionHistory
-          postId={post._id}
+          postId={post.id}
           isOpen={showVersionHistory}
           onClose={() => setShowVersionHistory(false)}
         />

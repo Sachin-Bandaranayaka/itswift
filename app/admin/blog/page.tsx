@@ -23,17 +23,18 @@ import { BlogAutomationManager } from "@/components/admin/blog-automation-manage
 import { toast } from "sonner"
 
 interface BlogPost {
-  _id: string
+  id: string
   title: string
-  slug: { current: string }
-  author?: { name: string }
-  mainImage?: { asset: { url: string }, alt?: string }
-  categories?: Array<{ title: string }>
-  publishedAt?: string
+  slug: string
+  author?: { name: string, id: string }
+  featured_image?: string
+  categories?: Array<{ name: string, id: string }>
+  published_at?: string
   excerpt?: string
-  body?: any[]
-  _createdAt: string
-  _updatedAt: string
+  content?: string
+  status: 'draft' | 'published' | 'scheduled' | 'archived'
+  created_at: string
+  updated_at: string
 }
 
 export default function BlogManagement() {
@@ -47,7 +48,7 @@ export default function BlogManagement() {
   
   // Filter states
   const [searchTerm, setSearchTerm] = useState('')
-  const [statusFilter, setStatusFilter] = useState<BlogPostStatus>('all')
+  const [statusFilter, setStatusFilter] = useState<string>('all')
   const [sortBy, setSortBy] = useState<SortOption>('newest')
   const [authorFilter, setAuthorFilter] = useState('all')
   const [categoryFilter, setCategoryFilter] = useState('all')
@@ -69,21 +70,60 @@ export default function BlogManagement() {
       // Build query parameters
       const params = new URLSearchParams()
       if (statusFilter !== 'all') params.append('status', statusFilter)
-      if (authorFilter && authorFilter !== 'all') params.append('author', authorFilter)
-      if (categoryFilter && categoryFilter !== 'all') params.append('category', categoryFilter)
-      if (dateRange.start) params.append('startDate', dateRange.start)
-      if (dateRange.end) params.append('endDate', dateRange.end)
+      if (authorFilter && authorFilter !== 'all') params.append('author_id', authorFilter)
+      if (categoryFilter && categoryFilter !== 'all') params.append('category_id', categoryFilter)
+      if (dateRange.start) params.append('start_date', dateRange.start)
+      if (dateRange.end) params.append('end_date', dateRange.end)
       if (searchTerm) params.append('search', searchTerm)
-      if (sortBy) params.append('sortBy', sortBy)
+      if (sortBy) params.append('sort_by', sortBy)
+      
+      // Add cache-busting parameter to ensure fresh data
+      params.append('_t', Date.now().toString())
 
-      const response = await fetch(`/api/admin/blog/status?${params.toString()}`)
+      console.log('Fetching posts with params:', params.toString())
+      const response = await fetch(`/api/admin/blog/posts?${params.toString()}`, {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache'
+        }
+      })
+      console.log('Response status:', response.status, response.statusText)
+      
       if (response.ok) {
         const data = await response.json()
-        setPosts(data.posts || [])
-        setFilteredPosts(data.posts || [])
-        setStats(data.stats || { total: 0, published: 0, scheduled: 0, draft: 0, archived: 0 })
-        setAvailableAuthors(data.filters?.authors || [])
-        setAvailableCategories(data.filters?.categories || [])
+        console.log('API Response data:', data)
+        const posts = data.data?.posts || []
+        console.log('Extracted posts:', posts)
+        console.log('Posts by status:', {
+          published: posts.filter((p: BlogPost) => p.status === 'published').map((p: BlogPost) => ({ id: p.id, title: p.title, status: p.status })),
+          draft: posts.filter((p: BlogPost) => p.status === 'draft').map((p: BlogPost) => ({ id: p.id, title: p.title, status: p.status })),
+          scheduled: posts.filter((p: BlogPost) => p.status === 'scheduled').map((p: BlogPost) => ({ id: p.id, title: p.title, status: p.status })),
+          archived: posts.filter((p: BlogPost) => p.status === 'archived').map((p: BlogPost) => ({ id: p.id, title: p.title, status: p.status }))
+        })
+        setPosts(posts)
+        setFilteredPosts(posts)
+        
+        // Calculate stats from posts
+        const statsData = {
+          total: posts.length,
+          published: posts.filter((p: BlogPost) => p.status === 'published').length,
+          scheduled: posts.filter((p: BlogPost) => p.status === 'scheduled').length,
+          draft: posts.filter((p: BlogPost) => p.status === 'draft').length,
+          archived: posts.filter((p: BlogPost) => p.status === 'archived').length
+        }
+        console.log('Calculated stats:', statsData)
+        setStats(statsData)
+        
+        // Extract unique authors and categories
+        const authors = [...new Set(posts.map((p: BlogPost) => p.author?.name).filter(Boolean))]
+        const categories = [...new Set(posts.flatMap((p: BlogPost) => p.categories?.map(c => c.name) || []))]
+        setAvailableAuthors(authors)
+        setAvailableCategories(categories)
+      } else {
+        console.error('Response not ok:', response.status, response.statusText)
+        const errorText = await response.text()
+        console.error('Error response body:', errorText)
+        toast.error(`Failed to fetch posts: ${response.status} ${response.statusText}`)
       }
     } catch (error) {
       console.error('Error fetching posts:', error)
@@ -93,58 +133,101 @@ export default function BlogManagement() {
     }
   }
 
-  const handleStatusChange = async (postIds: string[], newStatus: BlogPostStatus, publishedAt?: string) => {
+  const handleStatusChange = async (postIds: string[], newStatus: string, publishedAt?: string) => {
     try {
-      const response = await fetch('/api/admin/blog/status', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ postIds, status: newStatus, publishedAt })
-      })
+      console.log('Starting status change:', { postIds, newStatus, publishedAt })
+      
+      // Update each post individually
+      for (const postId of postIds) {
+        console.log(`Updating post ${postId} to status ${newStatus}`)
+        const response = await fetch(`/api/admin/blog/posts/${postId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+            status: newStatus, 
+            published_at: publishedAt 
+          })
+        })
 
-      if (!response.ok) {
-        throw new Error('Failed to update status')
+        if (!response.ok) {
+          throw new Error(`Failed to update status for post ${postId}`)
+        }
+        
+        const result = await response.json()
+        console.log(`Post ${postId} update result:`, result)
       }
 
-      await fetchPosts() // Refresh the list
+      // Clear selection first
+      setSelectedPosts([])
+      
+      // Force multiple refreshes to ensure data consistency
+      await fetchPosts()
+      
+      // Add a small delay and refresh again to ensure database consistency
+      setTimeout(async () => {
+        await fetchPosts()
+      }, 500)
+      
+      toast.success('Post status updated successfully')
     } catch (error) {
       console.error('Error updating status:', error)
+      toast.error('Failed to update post status')
       throw error
     }
   }
 
   const handleDeletePosts = async (postIds: string[]) => {
     try {
-      const response = await fetch('/api/admin/blog/bulk', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'delete', postIds })
-      })
+      // Delete each post individually
+      for (const postId of postIds) {
+        const response = await fetch(`/api/admin/blog/posts/${postId}`, {
+          method: 'DELETE'
+        })
 
-      if (!response.ok) {
-        throw new Error('Failed to delete posts')
+        if (!response.ok) {
+          throw new Error(`Failed to delete post ${postId}`)
+        }
       }
 
       await fetchPosts() // Refresh the list
       setSelectedPosts([]) // Clear selection
+      toast.success('Posts deleted successfully')
     } catch (error) {
       console.error('Error deleting posts:', error)
+      toast.error('Failed to delete posts')
       throw error
     }
   }
 
   const handleDuplicatePost = async (postId: string) => {
     try {
-      const response = await fetch('/api/admin/blog/bulk', {
+      // Get the original post
+      const originalPost = posts.find(p => p.id === postId)
+      if (!originalPost) {
+        throw new Error('Post not found')
+      }
+
+      // Create a duplicate with modified title
+      const duplicateData = {
+        title: `${originalPost.title} (Copy)`,
+        slug: `${originalPost.slug}-copy-${Date.now()}`,
+        content: originalPost.content,
+        excerpt: originalPost.excerpt,
+        status: 'draft',
+        author_id: originalPost.author?.id,
+        category_ids: originalPost.categories?.map(c => c.id) || []
+      }
+
+      const response = await fetch('/api/admin/blog/posts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'duplicate', duplicatePostId: postId })
+        body: JSON.stringify(duplicateData)
       })
 
       if (!response.ok) {
         throw new Error('Failed to duplicate post')
       }
 
-      const data = await response.json()
       toast.success('Post duplicated successfully')
       await fetchPosts() // Refresh the list
     } catch (error) {

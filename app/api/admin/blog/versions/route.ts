@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { client } from '@/lib/sanity.client'
 
 export async function GET(request: NextRequest) {
   try {
@@ -13,24 +12,12 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    // Query to fetch document history from Sanity
-    // Note: This is a simplified version. Sanity's document history API requires special permissions
-    const query = `
-      *[_type == "post" && _id == $postId] {
-        _id,
-        _rev,
-        _createdAt,
-        _updatedAt,
-        title,
-        "version": _rev
-      } | order(_updatedAt desc)
-    `
-
-    const versions = await client.fetch(query, { postId })
-
+    // TODO: Implement versioning with Supabase
+    // For now, return empty versions as Supabase doesn't have built-in versioning like Sanity
     return NextResponse.json({
       success: true,
-      versions: versions || []
+      versions: [],
+      message: 'Versioning not yet implemented with Supabase'
     })
   } catch (error) {
     console.error('Error fetching post versions:', error)
@@ -49,30 +36,25 @@ export async function POST(request: NextRequest) {
   try {
     const { postId, action, metadata } = await request.json()
 
-    if (!postId) {
+    if (!postId || !action) {
       return NextResponse.json(
-        { success: false, error: 'Post ID is required' },
+        { success: false, error: 'Post ID and action are required' },
         { status: 400 }
       )
     }
 
-    // Create a version history entry
-    // This would typically be stored in a separate collection for version tracking
-    const versionEntry = {
-      _type: 'postVersion',
-      postId,
-      action, // 'created', 'updated', 'published', 'scheduled'
-      metadata: metadata || {},
-      timestamp: new Date().toISOString(),
-      _createdAt: new Date().toISOString()
-    }
-
-    const result = await client.create(versionEntry)
-
+    // TODO: Implement version history with Supabase
+    // For now, return success without creating actual version entries
     return NextResponse.json({
       success: true,
-      version: result,
-      message: 'Version history entry created'
+      version: {
+        id: `temp-${Date.now()}`,
+        postId,
+        action,
+        metadata: metadata || {},
+        timestamp: new Date().toISOString()
+      },
+      message: 'Version history not yet implemented with Supabase'
     })
   } catch (error) {
     console.error('Error creating version history:', error)

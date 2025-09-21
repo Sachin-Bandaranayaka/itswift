@@ -410,6 +410,129 @@ export interface Database {
           published_at?: string | null
         }
       }
+      blog_authors: {
+        Row: {
+          id: string
+          name: string
+          slug: string
+          bio: string | null
+          avatar_url: string | null
+          email: string | null
+          social_links: any | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          slug: string
+          bio?: string | null
+          avatar_url?: string | null
+          email?: string | null
+          social_links?: any | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          slug?: string
+          bio?: string | null
+          avatar_url?: string | null
+          email?: string | null
+          social_links?: any | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      blog_categories: {
+        Row: {
+          id: string
+          name: string
+          slug: string
+          description: string | null
+          color: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          slug: string
+          description?: string | null
+          color?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          slug?: string
+          description?: string | null
+          color?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      blog_posts: {
+        Row: {
+          id: string
+          title: string
+          slug: string
+          excerpt: string | null
+          content: string
+          featured_image_url: string | null
+          author_id: string
+          category_id: string | null
+          status: 'draft' | 'published' | 'archived'
+          is_featured: boolean
+          views: number
+          published_at: string | null
+          meta_title: string | null
+          meta_description: string | null
+          meta_keywords: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          title: string
+          slug: string
+          excerpt?: string | null
+          content: string
+          featured_image_url?: string | null
+          author_id: string
+          category_id?: string | null
+          status?: 'draft' | 'published' | 'archived'
+          is_featured?: boolean
+          views?: number
+          published_at?: string | null
+          meta_title?: string | null
+          meta_description?: string | null
+          meta_keywords?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          title?: string
+          slug?: string
+          excerpt?: string | null
+          content?: string
+          featured_image_url?: string | null
+          author_id?: string
+          category_id?: string | null
+          status?: 'draft' | 'published' | 'archived'
+          is_featured?: boolean
+          views?: number
+          published_at?: string | null
+          meta_title?: string | null
+          meta_description?: string | null
+          meta_keywords?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
     }
     Views: {
       [_ in never]: never

@@ -3,7 +3,12 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { PaginationInfo } from "@/lib/services/blog-public-data"
+interface PaginationInfo {
+  currentPage: number
+  totalPages: number
+  hasPrev: boolean
+  hasNext: boolean
+}
 
 interface BlogPaginationProps {
   pagination: PaginationInfo

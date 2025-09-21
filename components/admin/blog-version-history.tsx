@@ -17,10 +17,10 @@ import {
 import { toast } from "sonner"
 
 interface VersionEntry {
-  _id: string
-  _rev: string
-  _createdAt: string
-  _updatedAt: string
+  id: string
+  revision: string
+  created_at: string
+  updated_at: string
   title: string
   version: string
 }
@@ -124,7 +124,7 @@ export function BlogVersionHistory({ postId, isOpen, onClose }: BlogVersionHisto
           ) : (
             <div className="space-y-4">
               {versions.map((version, index) => (
-                <Card key={version._id} className="relative">
+                <Card key={version.id} className="relative">
                   <CardHeader className="pb-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
@@ -132,7 +132,7 @@ export function BlogVersionHistory({ postId, isOpen, onClose }: BlogVersionHisto
                         <div>
                           <CardTitle className="text-base">{version.title}</CardTitle>
                           <CardDescription className="text-sm">
-                            {formatDate(version._updatedAt)}
+                            {formatDate(version.updated_at)}
                           </CardDescription>
                         </div>
                       </div>
@@ -143,12 +143,12 @@ export function BlogVersionHistory({ postId, isOpen, onClose }: BlogVersionHisto
                     <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
                       <div className="flex items-center gap-1">
                         <Clock className="h-3 w-3" />
-                        <span>Rev: {version._rev}</span>
+                        <span>Rev: {version.revision}</span>
                       </div>
                       <div className="flex items-center gap-1">
                         <Calendar className="h-3 w-3" />
                         <span>
-                          {version._createdAt !== version._updatedAt ? 'Modified' : 'Created'}
+                          {version.created_at !== version.updated_at ? 'Modified' : 'Created'}
                         </span>
                       </div>
                     </div>

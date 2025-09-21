@@ -9,12 +9,11 @@ import { BlogFiltersComponent, BlogFilters } from "@/components/blog/blog-filter
 import { BlogErrorFallback, BlogEmptyFallback, BlogNoResultsFallback } from "@/components/blog/blog-error-fallback"
 import { BlogComponentErrorBoundary } from "@/components/blog/blog-error-boundary"
 import { useBlogDataErrorHandling } from "@/hooks/use-blog-error-handling"
-import { BlogApiClient } from "@/lib/services/blog-api-client"
-import { BlogPost, BlogPageData } from "@/lib/services/blog-public-data"
+import { BlogSupabaseService, BlogPost } from '@/lib/services/blog-supabase-service'
 
 export function BlogPageContent() {
   const searchParams = useSearchParams()
-  const [blogData, setBlogData] = useState<BlogPageData | null>(null)
+  const [blogData, setBlogData] = useState<{ posts: BlogPost[], pagination: any } | null>(null)
   const [allPosts, setAllPosts] = useState<BlogPost[]>([])
   const [filteredPosts, setFilteredPosts] = useState<BlogPost[]>([])
   const [categories, setCategories] = useState<string[]>([])
@@ -63,14 +62,15 @@ export function BlogPageContent() {
     clearError()
 
     const result = await fetchWithErrorHandling(async () => {
+      const blogService = new BlogSupabaseService()
       const [postsData, availableCategories] = await Promise.all([
-        BlogApiClient.getPaginatedPosts(1, 100), // Get all posts for client-side filtering
-        BlogApiClient.getCategories()
+        blogService.getPosts({ status: 'published' }, { limit: 100 }), // Get all posts for client-side filtering
+        blogService.getCategories()
       ])
 
       return { 
         posts: postsData.posts, 
-        availableCategories: availableCategories.map(cat => cat.title)
+        availableCategories: availableCategories.map((cat: any) => cat.name)
       }
     })
 
@@ -97,9 +97,7 @@ export function BlogPageContent() {
     // Apply category filter
     if (filters.category) {
       filtered = filtered.filter(post =>
-        post.categories?.some(category => 
-          category.title === filters.category
-        )
+        post.category?.name === filters.category
       )
     }
 
@@ -108,8 +106,8 @@ export function BlogPageContent() {
       let comparison = 0
       
       if (filters.sortBy === 'publishedAt') {
-        const dateA = new Date(a.publishedAt || a._createdAt)
-        const dateB = new Date(b.publishedAt || b._createdAt)
+        const dateA = new Date(a.published_at || a.created_at)
+        const dateB = new Date(b.published_at || b.created_at)
         comparison = dateA.getTime() - dateB.getTime()
       } else if (filters.sortBy === 'title') {
         comparison = a.title.localeCompare(b.title)
@@ -222,8 +220,8 @@ export function BlogPageContent() {
       ) : (
         <>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {blogData.posts.map((post) => (
-              <BlogComponentErrorBoundary key={post._id} componentName="Blog Post Card">
+            {blogData.posts.map((post: BlogPost) => (
+              <BlogComponentErrorBoundary key={post.id} componentName="Blog Post Card">
                 <BlogPostCard post={post} />
               </BlogComponentErrorBoundary>
             ))}
