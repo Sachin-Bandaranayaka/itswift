@@ -7,7 +7,7 @@
  */
 
 import { BlogTestDataGenerator, GeneratedTestPost, TestBlogPostOptions } from '@/lib/services/blog-test-data-generator';
-import { client } from '@/lib/sanity.client';
+import { BlogService } from '@/lib/services/blog.service';
 
 export interface BlogTestScenario {
   name: string;
@@ -19,6 +19,7 @@ export interface BlogTestScenario {
 
 export class BlogTestHelpers {
   private static generator = BlogTestDataGenerator.getInstance();
+  private static blogService = new BlogService();
 
   /**
    * Create test posts for basic functionality testing
@@ -80,20 +81,7 @@ export class BlogTestHelpers {
    */
   static async verifyPostExists(postId: string, expectedStatus: 'draft' | 'scheduled' | 'published'): Promise<boolean> {
     try {
-      const now = new Date().toISOString();
-      
-      const post = await client.fetch(`
-        *[_type == "post" && _id == $postId][0] {
-          _id,
-          title,
-          publishedAt,
-          "status": select(
-            !defined(publishedAt) => "draft",
-            publishedAt > $now => "scheduled",
-            "published"
-          )
-        }
-      `, { postId, now });
+      const post = await this.blogService.getPostById(postId);
 
       if (!post) {
         console.error(`Post ${postId} not found`);
@@ -117,15 +105,8 @@ export class BlogTestHelpers {
    */
   static async verifyPublishedPostsVisible(postIds: string[]): Promise<boolean> {
     try {
-      const now = new Date().toISOString();
-      
-      const publishedPosts = await client.fetch(`
-        *[_type == "post" && publishedAt <= $now && publishedAt != null] {
-          _id
-        }
-      `, { now });
-
-      const publishedIds = publishedPosts.map((post: any) => post._id);
+      const response = await this.blogService.getPosts({ status: 'published' }, 1, 1000);
+      const publishedIds = response.posts.map((post: any) => post.id);
       
       for (const postId of postIds) {
         if (!publishedIds.includes(postId)) {
@@ -146,15 +127,8 @@ export class BlogTestHelpers {
    */
   static async verifyScheduledPostsHidden(postIds: string[]): Promise<boolean> {
     try {
-      const now = new Date().toISOString();
-      
-      const publishedPosts = await client.fetch(`
-        *[_type == "post" && publishedAt <= $now && publishedAt != null] {
-          _id
-        }
-      `, { now });
-
-      const publishedIds = publishedPosts.map((post: any) => post._id);
+      const response = await this.blogService.getPosts({ status: 'published' }, 1, 1000);
+      const publishedIds = response.posts.map((post: any) => post.id);
       
       for (const postId of postIds) {
         if (publishedIds.includes(postId)) {

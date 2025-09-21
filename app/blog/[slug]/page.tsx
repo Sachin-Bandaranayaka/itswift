@@ -7,6 +7,7 @@ import { notFound } from 'next/navigation';
 import { SocialShareButtons } from '@/components/blog/social-share-buttons';
 import { BlogErrorBoundary } from '@/components/blog/blog-error-boundary';
 import { BlogErrorFallback } from '@/components/blog/blog-error-fallback';
+import { BlogJsonLd } from '@/components/blog/blog-json-ld';
 
 type Post = BlogPost;
 
@@ -95,8 +96,18 @@ export default async function BlogPost({ params }: Props) {
         const publishedDate = post.published_at ? new Date(post.published_at) : null;
         const readingTime = calculateReadingTime(post.content || '');
 
+        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.itswift.com';
+        const fullUrl = `${siteUrl}/blog/${post.slug}`;
+
         return (
             <BlogErrorBoundary>
+                {/* JSON-LD Structured Data */}
+                <BlogJsonLd 
+                    post={post} 
+                    fullUrl={fullUrl}
+                    siteUrl={siteUrl}
+                />
+                
                 <article className="max-w-4xl mx-auto px-4 py-8">
                     {/* Header */}
                     <header className="mb-8">
