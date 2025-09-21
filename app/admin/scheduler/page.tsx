@@ -1,5 +1,6 @@
 'use client'
 
+import { useMemo } from 'react'
 import { SchedulerMonitor } from '@/components/admin/scheduler-monitor'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ContentCalendar } from '@/components/admin/content-calendar'
@@ -19,6 +20,9 @@ interface BlogPost {
 export default function SchedulerPage() {
   const { toast } = useToast()
   
+  // Memoize empty filters to prevent infinite re-renders
+  const emptyFilters = useMemo(() => ({}), [])
+  
   const {
     socialPosts,
     newsletters,
@@ -27,7 +31,7 @@ export default function SchedulerPage() {
     error,
     refetch,
     rescheduleContent
-  } = useContentCalendar()
+  } = useContentCalendar(emptyFilters)
 
   const handleEditPost = (post: SocialPost) => {
     window.location.href = `/admin/social?edit=${post.id}`

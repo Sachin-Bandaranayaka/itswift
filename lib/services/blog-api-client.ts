@@ -52,7 +52,19 @@ export class BlogApiClient {
       throw new Error(`Failed to fetch posts: ${response.statusText}`);
     }
 
-    return response.json();
+    const body = await response.json();
+
+    // New envelope shape { success, data: { posts, pagination }, meta }
+    if (body && typeof body === 'object' && 'success' in body && 'data' in body) {
+      return body.data as BlogPageData;
+    }
+
+    // Backward compatibility: raw data shape
+    if (body && body.posts && body.pagination) {
+      return body as BlogPageData;
+    }
+
+    throw new Error('Unexpected response format for posts');
   }
 
   /**
@@ -65,7 +77,25 @@ export class BlogApiClient {
       throw new Error(`Failed to fetch categories: ${response.statusText}`);
     }
 
-    return response.json();
+    const body = await response.json();
+
+    // New envelope shape { success, data: { categories: string[] } }
+    if (body && typeof body === 'object' && body.success === true && body.data?.categories) {
+      const categories: string[] = body.data.categories;
+      return categories.map((t) => ({ title: t }));
+    }
+
+    // If API returns string[] directly
+    if (Array.isArray(body) && body.every((x) => typeof x === 'string')) {
+      return (body as string[]).map((t) => ({ title: t }));
+    }
+
+    // Backward compatibility: already array of { title }
+    if (Array.isArray(body) && body.every((x) => typeof x === 'object' && x && 'title' in x)) {
+      return body as Array<{ title: string }>;
+    }
+
+    throw new Error('Unexpected response format for categories');
   }
 
   /**
@@ -81,6 +111,18 @@ export class BlogApiClient {
       throw new Error(`Failed to fetch post: ${response.statusText}`);
     }
 
-    return response.json();
+    const body = await response.json();
+
+    // Envelope shape
+    if (body && typeof body === 'object' && body.success === true && body.data) {
+      return body.data as BlogPost;
+    }
+
+    // Raw post
+    if (body && typeof body === 'object' && '_id' in body) {
+      return body as BlogPost;
+    }
+
+    throw new Error('Unexpected response format for post');
   }
 }

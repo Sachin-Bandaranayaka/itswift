@@ -1,37 +1,51 @@
 // API route for A/B testing management
 
 import { NextRequest, NextResponse } from 'next/server'
-import { ContentOptimizer } from '@/lib/services/content-optimizer'
-
-// Mock database - in real implementation, this would use a proper database
-let abTests: any[] = []
+import { ABTestService } from '@/lib/services/ab-test-service'
+import { ABTestFilters } from '@/types/ab-test'
 
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
+    
+    // Parse and validate filters
+    const filters: ABTestFilters = {}
+    
     const status = searchParams.get('status')
+    if (status && ['draft', 'running', 'paused', 'completed', 'archived'].includes(status)) {
+      filters.status = status as ABTestFilters['status']
+    }
+    
     const contentType = searchParams.get('content_type')
-
-    let filteredTests = abTests
-
-    if (status) {
-      filteredTests = filteredTests.filter(test => test.status === status)
+    if (contentType && ['blog', 'social', 'newsletter'].includes(contentType)) {
+      filters.content_type = contentType as ABTestFilters['content_type']
+    }
+    
+    const platform = searchParams.get('platform')
+    if (platform && ['facebook', 'twitter', 'linkedin', 'instagram', 'email'].includes(platform)) {
+      filters.platform = platform as ABTestFilters['platform']
     }
 
-    if (contentType) {
-      filteredTests = filteredTests.filter(test => test.content_type === contentType)
-    }
+    const tests = await ABTestService.getAll(filters)
 
     return NextResponse.json({ 
       success: true, 
-      data: filteredTests,
-      count: filteredTests.length
+      data: tests,
+      count: tests.length
     })
   } catch (error) {
     console.error('Error fetching A/B tests:', error)
+    
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+    const statusCode = errorMessage.includes('not found') ? 404 : 500
+    
     return NextResponse.json(
-      { error: 'Internal server error', details: error instanceof Error ? error.message : 'Unknown error' },
-      { status: 500 }
+      { 
+        success: false,
+        error: 'Failed to fetch A/B tests', 
+        details: errorMessage 
+      },
+      { status: statusCode }
     )
   }
 }
@@ -40,46 +54,29 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     
-    const { 
-      name,
-      description,
-      content_type,
-      platform,
-      test_type,
-      original_content,
-      variant_count = 2
-    } = body
-
-    // Validate required fields
-    if (!name || !description || !content_type || !test_type || !original_content) {
+    // Validate request body structure
+    if (!body || typeof body !== 'object') {
       return NextResponse.json(
-        { error: 'Missing required fields: name, description, content_type, test_type, original_content' },
+        { 
+          success: false,
+          error: 'Invalid request body' 
+        },
         { status: 400 }
       )
     }
 
-    // Generate variants using AI
-    const variants = await ContentOptimizer.createABTestVariants(
-      original_content,
-      test_type,
-      variant_count
-    )
-
-    // Create new A/B test
-    const newTest = {
-      id: Date.now().toString(),
-      name,
-      description,
-      content_type,
-      platform: platform || undefined,
-      status: 'draft',
-      variants,
-      results: [],
-      confidence_level: 0,
-      created_at: new Date().toISOString()
+    const testData = {
+      name: body.name,
+      description: body.description,
+      content_type: body.content_type,
+      platform: body.platform,
+      test_type: body.test_type,
+      original_content: body.original_content,
+      variant_count: body.variant_count || 2
     }
 
-    abTests.push(newTest)
+    // Create A/B test using service layer (includes validation)
+    const newTest = await ABTestService.create(testData)
 
     return NextResponse.json({ 
       success: true, 
@@ -88,9 +85,21 @@ export async function POST(request: NextRequest) {
     }, { status: 201 })
   } catch (error) {
     console.error('Error creating A/B test:', error)
+    
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+    
+    // Handle validation errors with 400 status
+    const statusCode = errorMessage.includes('Missing required fields') || 
+                      errorMessage.includes('must be between') ||
+                      errorMessage.includes('must be at least') ? 400 : 500
+    
     return NextResponse.json(
-      { error: 'Internal server error', details: error instanceof Error ? error.message : 'Unknown error' },
-      { status: 500 }
+      { 
+        success: false,
+        error: 'Failed to create A/B test', 
+        details: errorMessage 
+      },
+      { status: statusCode }
     )
   }
 }

@@ -5,18 +5,19 @@ import { motion } from "framer-motion"
 import Image from "next/image"
 
 const logos = [
-  "/Logos (3)/Logos/Swiggy_logo_bml6he.png",
-  "/Logos (3)/Logos/Ujjivan-Logo_0.png",
-  "/Logos (3)/Logos/standard-chartered-bank-new-20211713.jpg",
-  "/Logos (3)/Logos/ORRA_W.png",
-  "/Logos (3)/Logos/greenko.png",
-  "/Logos (3)/Logos/Epson_Logo.png",
-  "/Logos (3)/Logos/BEL-Logo-PNG.png",
-  "/Logos (3)/Logos/BD.png",
-  "/Logos (3)/Logos/Ashok-Leyland-Brand-Logo.png",
-  "/Logos (3)/Logos/C-DAC_Logo.png",
-  "/Logos (3)/Logos/Colruyt_logo.svg.png",
-  "/Logos (3)/Logos/FlSmidth_Logo.svg.png",
+  "/IMAGES/new logos/Flipkart_logo.png",
+  "/IMAGES/new logos/Google_2015_logo.svg.png",
+  "/IMAGES/new logos/HGS.jpg",
+  "/IMAGES/new logos/ITC_Limited.png",
+  "/IMAGES/new logos/KPMG_logo.png",
+  "/IMAGES/new logos/ONGC.jpg",
+  "/IMAGES/new logos/RR.jpg",
+  "/IMAGES/new logos/SBI.jpg",
+  "/IMAGES/new logos/Swiggy_Logo.png",
+  "/IMAGES/new logos/Zepto.png",
+  "/IMAGES/new logos/microsoft.jpg",
+  "/IMAGES/new logos/mrf-logo.png",
+  "/IMAGES/new logos/novo.jpg",
 ]
 
 export default function BrandCarousel() {

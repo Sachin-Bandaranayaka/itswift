@@ -4,6 +4,7 @@ import {
   paginatedPublishedPostsQuery, 
   publishedPostsCountQuery 
 } from '@/lib/queries';
+import { postBySlugQuery } from '@/lib/queries';
 import { ExternalServiceError, withRetry } from '@/lib/utils/error-handler';
 
 export interface BlogPost {
@@ -45,6 +46,43 @@ export interface BlogPageData {
 
 export class BlogPublicDataService {
   private static readonly DEFAULT_POSTS_PER_PAGE = 9;
+
+  /**
+   * Fetch a single blog post by slug (includes body, author bio, etc.)
+   */
+  static async getPostBySlug(slug: string): Promise<any | null> {
+    try {
+      if (!slug || typeof slug !== 'string') {
+        throw new Error('Invalid slug');
+      }
+
+      const post = await withRetry(
+        () => client.fetch(postBySlugQuery, { slug }),
+        3,
+        1000
+      );
+
+      return post || null;
+    } catch (error) {
+      console.error('Error fetching post by slug:', error);
+
+      if (error instanceof Error) {
+        if (error.message.includes('fetch') || error.message.includes('network')) {
+          throw new ExternalServiceError(
+            'Unable to connect to content management system',
+            'Sanity CMS',
+            { originalError: error.message }
+          );
+        }
+      }
+
+      throw new ExternalServiceError(
+        'Failed to fetch blog post',
+        'Sanity CMS',
+        { originalError: error instanceof Error ? error.message : String(error) }
+      );
+    }
+  }
 
   /**
    * Fetch all published blog posts

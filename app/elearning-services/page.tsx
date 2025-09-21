@@ -102,6 +102,7 @@ export default function ElearningServicesPage() {
                                         sectionKey={service.titleKey} 
                                         pageSlug="elearning-services" 
                                         fallback={service.titleFallback} 
+                                        as="span"
                                     />
                                 </h3>
                                 <p className="text-gray-600 mb-6">
@@ -109,6 +110,7 @@ export default function ElearningServicesPage() {
                                         sectionKey={service.descriptionKey} 
                                         pageSlug="elearning-services" 
                                         fallback={service.descriptionFallback} 
+                                        as="span"
                                     />
                                 </p>
                                 <Link href={service.href} className="inline-flex items-center text-orange-600 font-medium group-hover:text-orange-700">
@@ -116,6 +118,7 @@ export default function ElearningServicesPage() {
                                         sectionKey="learn_more_text" 
                                         pageSlug="elearning-services" 
                                         fallback="Learn more" 
+                                        as="span"
                                     />
                                     <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-2 duration-300" />
                                 </Link>

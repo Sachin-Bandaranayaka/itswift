@@ -69,8 +69,27 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
-    const { action, config } = body
+    const searchParams = request.nextUrl.searchParams
+    const urlAction = searchParams.get('action')
+    
+    let body: any = {}
+    let action = urlAction
+    let config = undefined
+    
+    // Try to parse JSON body if present, but don't fail if empty
+    try {
+      const text = await request.text()
+      if (text.trim()) {
+        body = JSON.parse(text)
+        action = body.action || urlAction
+        config = body.config
+      }
+    } catch (jsonError) {
+      // If JSON parsing fails but we have URL action, continue
+      if (!urlAction) {
+        throw jsonError
+      }
+    }
     
     const scheduler = BackgroundScheduler.getInstance()
 

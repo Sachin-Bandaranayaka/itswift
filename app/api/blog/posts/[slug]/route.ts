@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { client } from '@/lib/sanity.client';
-import { postBySlugQuery } from '@/lib/queries';
+import { BlogPublicDataService } from '@/lib/services/blog-public-data';
 
 export async function GET(
   request: NextRequest,
@@ -8,21 +7,36 @@ export async function GET(
 ) {
   try {
     const { slug } = params;
-    
-    const post = await client.fetch(postBySlugQuery, { slug });
-    
+
+    const post = await BlogPublicDataService.getPostBySlug(slug);
+
     if (!post) {
       return NextResponse.json(
-        { error: 'Post not found' },
+        {
+          success: false as const,
+          error: 'Post not found',
+          message: `No post found for slug: ${slug}`,
+        },
         { status: 404 }
       );
     }
-    
-    return NextResponse.json(post);
-  } catch (error) {
-    console.error('Error fetching blog post:', error);
+
     return NextResponse.json(
-      { error: 'Failed to fetch blog post' },
+      {
+        success: true as const,
+        data: post,
+        meta: { timestamp: new Date().toISOString() },
+      },
+      {
+        headers: {
+          'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600',
+        },
+      }
+    );
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json(
+      { success: false as const, error: 'Failed to fetch blog post', message },
       { status: 500 }
     );
   }

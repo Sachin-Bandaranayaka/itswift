@@ -147,6 +147,7 @@ export default function ContactPage() {
                                                                 sectionKey="first_name_label" 
                                                                 pageSlug="contact" 
                                                                 fallback="First Name *" 
+                                                                as="span"
                                                             />
                                                         </label>
                                                         <input
@@ -327,6 +328,7 @@ export default function ContactPage() {
                                             sectionKey="contact_info_title" 
                                             pageSlug="contact" 
                                             fallback="Contact Information" 
+                                            as="span"
                                         />
                                     </h3>
 
@@ -340,6 +342,7 @@ export default function ContactPage() {
                                                 sectionKey="india_office_title" 
                                                 pageSlug="contact" 
                                                 fallback="India Office" 
+                                                as="span"
                                             />
                                         </h4>
                                         <div className="space-y-3 text-orange-100">
@@ -380,6 +383,7 @@ export default function ContactPage() {
                                                 sectionKey="usa_partner_title" 
                                                 pageSlug="contact" 
                                                 fallback="USA Partner" 
+                                                as="span"
                                             />
                                         </h4>
                                         <div className="space-y-3 text-orange-100">
@@ -420,6 +424,7 @@ export default function ContactPage() {
                                                 sectionKey="business_hours_title" 
                                                 pageSlug="contact" 
                                                 fallback="Business Hours" 
+                                                as="span"
                                             />
                                         </h4>
                                         <div className="space-y-2 text-orange-100">
@@ -428,6 +433,7 @@ export default function ContactPage() {
                                                     sectionKey="weekday_hours" 
                                                     pageSlug="contact" 
                                                     fallback="Monday - Friday: 9:00 AM - 6:00 PM IST" 
+                                                    as="span"
                                                 />
                                             </p>
                                             <p>
@@ -435,6 +441,7 @@ export default function ContactPage() {
                                                     sectionKey="saturday_hours" 
                                                     pageSlug="contact" 
                                                     fallback="Saturday: 10:00 AM - 2:00 PM IST" 
+                                                    as="span"
                                                 />
                                             </p>
                                             <p>
@@ -442,6 +449,7 @@ export default function ContactPage() {
                                                     sectionKey="sunday_hours" 
                                                     pageSlug="contact" 
                                                     fallback="Sunday: Closed" 
+                                                    as="span"
                                                 />
                                             </p>
                                         </div>

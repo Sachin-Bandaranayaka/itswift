@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { client } from '@/lib/sanity.client'
+import { AuditLogger } from '@/lib/services/audit-logger'
 
 export async function POST(request: NextRequest) {
   try {
@@ -60,22 +61,13 @@ export async function POST(request: NextRequest) {
     const result = await transaction.commit()
 
     // Log the status change for audit purposes
-    try {
-      await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/admin/blog/audit`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          action: 'status_change',
-          postIds,
-          newStatus: status,
-          publishedAt,
-          timestamp: new Date().toISOString()
-        })
-      })
-    } catch (auditError) {
-      console.error('Error logging status change:', auditError)
-      // Don't fail the main operation for audit logging errors
-    }
+    await AuditLogger.logEntry({
+      action: 'status_change',
+      postIds,
+      newStatus: status,
+      publishedAt,
+      timestamp: new Date().toISOString()
+    }, request.headers)
 
     return NextResponse.json({
       success: true,

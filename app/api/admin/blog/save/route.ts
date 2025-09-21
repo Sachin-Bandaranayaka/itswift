@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { client } from '@/lib/sanity.client'
 import { BlogToSocialService } from '@/lib/services/blog-to-social'
+import { VersionHistoryService } from '@/lib/services/version-history'
 
 export async function POST(request: NextRequest) {
   try {
@@ -88,24 +89,15 @@ export async function POST(request: NextRequest) {
     }
 
     // Create version history entry
-    try {
-      await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/admin/blog/versions`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          postId: result._id,
-          action: isUpdate ? (wasJustPublished ? 'published' : 'updated') : 'created',
-          metadata: {
-            title: title.trim(),
-            publishedAt: publishedAt || null,
-            hasSchedule: !!publishedAt && new Date(publishedAt) > new Date()
-          }
-        })
-      })
-    } catch (versionError) {
-      console.error('Error creating version history:', versionError)
-      // Don't fail the main operation for version history errors
-    }
+    await VersionHistoryService.createEntry({
+      postId: result._id,
+      action: isUpdate ? (wasJustPublished ? 'published' : 'updated') : 'created',
+      metadata: {
+        title: title.trim(),
+        publishedAt: publishedAt || null,
+        hasSchedule: !!publishedAt && new Date(publishedAt) > new Date()
+      }
+    })
 
     // Auto-generate social media posts if the post is being published
     let socialPosts = []

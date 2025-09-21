@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { client } from '@/lib/sanity.client'
+import { AuditLogger } from '@/lib/services/audit-logger'
 
 export async function POST(request: NextRequest) {
   try {
@@ -32,19 +33,11 @@ export async function POST(request: NextRequest) {
         await transaction.commit()
 
         // Log the deletion for audit purposes
-        try {
-          await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/admin/blog/audit`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              action: 'bulk_delete',
-              postIds,
-              timestamp: new Date().toISOString()
-            })
-          })
-        } catch (auditError) {
-          console.error('Error logging bulk delete:', auditError)
-        }
+        await AuditLogger.logEntry({
+          action: 'bulk_delete',
+          postIds,
+          timestamp: new Date().toISOString()
+        }, request.headers)
 
         return NextResponse.json({
           success: true,
@@ -92,20 +85,12 @@ export async function POST(request: NextRequest) {
         const duplicatedPost = await client.create(duplicateData)
 
         // Log the duplication for audit purposes
-        try {
-          await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/admin/blog/audit`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              action: 'duplicate',
-              originalPostId: duplicatePostId,
-              newPostId: duplicatedPost._id,
-              timestamp: new Date().toISOString()
-            })
-          })
-        } catch (auditError) {
-          console.error('Error logging duplication:', auditError)
-        }
+        await AuditLogger.logEntry({
+          action: 'duplicate',
+          originalPostId: duplicatePostId,
+          newPostId: duplicatedPost._id,
+          timestamp: new Date().toISOString()
+        }, request.headers)
 
         return NextResponse.json({
           success: true,

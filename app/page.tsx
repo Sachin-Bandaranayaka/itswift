@@ -133,6 +133,145 @@ export default function Home() {
       />
       <main>
       <Hero />
+      
+      {/* Swift Solution Unique Value Proposition Section - Moved to appear after Hero */}
+      <section className="py-20 bg-white relative overflow-hidden">
+
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="max-w-5xl mx-auto text-center"
+          >
+            {/* Enhanced title with gradient and better typography */}
+            <div className="mb-6">
+              <span className="inline-block px-4 py-2 bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 rounded-full text-sm font-semibold tracking-wide uppercase mb-4">
+                Why Choose Swift Solution
+              </span>
+            </div>
+            
+            <DynamicContent 
+              sectionKey="unique_value_title" 
+              pageSlug="home" 
+              fallback="The Swift Solution Unique Value Proposition"
+              as="h2"
+              className="text-5xl md:text-6xl font-bold mb-8 text-gray-900 leading-tight"
+            />
+            
+            <DynamicContent 
+              sectionKey="unique_value_description" 
+              pageSlug="home" 
+              fallback="We bring together three rarely combined strengths that set us apart in the eLearning industry:"
+              as="div"
+              className="text-xl md:text-2xl text-gray-700 mb-16 max-w-4xl mx-auto leading-relaxed"
+            />
+
+            {/* Enhanced cards with orange-focused design and white background */}
+            <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="group relative"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl transform rotate-1 group-hover:rotate-2 transition-transform duration-300"></div>
+                <div className="relative bg-white rounded-2xl p-8 lg:p-10 shadow-xl border border-orange-100 transform group-hover:-translate-y-2 transition-all duration-300">
+                  <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center mb-6 mx-auto">
+                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-2xl lg:text-3xl font-bold mb-4 text-orange-600">
+                    <DynamicContent 
+                      sectionKey="domain_expertise_title" 
+                      pageSlug="home" 
+                      fallback="Domain Expertise"
+                      as="span"
+                    />
+                  </h3>
+                  <p className="text-gray-600 text-lg leading-relaxed">
+                    <DynamicContent 
+                      sectionKey="domain_expertise_description" 
+                      pageSlug="home" 
+                      fallback="30 years of client success and market insight, delivering proven results across industries."
+                      as="span"
+                    />
+                  </p>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="group relative"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-400 to-orange-500 rounded-2xl transform -rotate-1 group-hover:-rotate-2 transition-transform duration-300"></div>
+                <div className="relative bg-white rounded-2xl p-8 lg:p-10 shadow-xl border border-orange-100 transform group-hover:-translate-y-2 transition-all duration-300">
+                  <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-orange-500 rounded-xl flex items-center justify-center mb-6 mx-auto">
+                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-2xl lg:text-3xl font-bold mb-4 text-orange-500">
+                    <DynamicContent 
+                      sectionKey="ai_transformation_title" 
+                      pageSlug="home" 
+                      fallback="Authentic AI Transformation"
+                      as="span"
+                    />
+                  </h3>
+                  <p className="text-gray-600 text-lg leading-relaxed">
+                    <DynamicContent 
+                      sectionKey="ai_transformation_description" 
+                      pageSlug="home" 
+                      fallback="A two-year journey with measurable results and enterprise adoption, leading the AI revolution in eLearning."
+                      as="span"
+                    />
+                  </p>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="group relative"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-600 to-orange-700 rounded-2xl transform rotate-1 group-hover:rotate-2 transition-transform duration-300"></div>
+                <div className="relative bg-white rounded-2xl p-8 lg:p-10 shadow-xl border border-orange-100 transform group-hover:-translate-y-2 transition-all duration-300">
+                  <div className="w-16 h-16 bg-gradient-to-br from-orange-600 to-orange-700 rounded-xl flex items-center justify-center mb-6 mx-auto">
+                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-2xl lg:text-3xl font-bold mb-4 text-orange-700">
+                    <DynamicContent 
+                      sectionKey="ethical_leadership_title" 
+                      pageSlug="home" 
+                      fallback="Ethical Leadership"
+                      as="span"
+                    />
+                  </h3>
+                  <p className="text-gray-600 text-lg leading-relaxed">
+                    <DynamicContent 
+                      sectionKey="ethical_leadership_description" 
+                      pageSlug="home" 
+                      fallback="Transparent, value-driven practices that build lasting trust and partnerships with our clients."
+                      as="span"
+                    />
+                  </p>
+                </div>
+              </motion.div>
+            </div>
+            
+
+          </motion.div>
+        </div>
+      </section>
+      
       <BrandCarousel />
       <ValueProposition />
       <Services />
@@ -335,6 +474,7 @@ export default function Home() {
                         sectionKey={study.clientKey} 
                         pageSlug="home" 
                         fallback={study.clientFallback}
+                        as="span"
                       />
                     </h3>
                   </div>
@@ -347,6 +487,7 @@ export default function Home() {
                       sectionKey={study.titleKey} 
                       pageSlug="home" 
                       fallback={study.titleFallback}
+                      as="span"
                     />
                   </h3>
 
@@ -357,6 +498,7 @@ export default function Home() {
                         sectionKey={study.challengeKey} 
                         pageSlug="home" 
                         fallback={study.challengeFallback}
+                        as="span"
                       />
                     </p>
                   </div>
@@ -368,6 +510,7 @@ export default function Home() {
                         sectionKey={study.solutionKey} 
                         pageSlug="home" 
                         fallback={study.solutionFallback}
+                        as="span"
                       />
                     </p>
                   </div>
@@ -384,6 +527,7 @@ export default function Home() {
                                 sectionKey={result.metricKey} 
                                 pageSlug="home" 
                                 fallback={result.metricFallback}
+                                as="span"
                               />
                             </span>
                             <span className="text-gray-600 dark:text-gray-400 text-sm">
@@ -391,6 +535,7 @@ export default function Home() {
                                 sectionKey={result.descriptionKey} 
                                 pageSlug="home" 
                                 fallback={result.descriptionFallback}
+                                as="span"
                               />
                             </span>
                           </div>
@@ -408,6 +553,7 @@ export default function Home() {
                         sectionKey={study.industryKey} 
                         pageSlug="home" 
                         fallback={study.industryFallback}
+                        as="span"
                       />
                     </span>
                     <Button variant="outline" asChild size="sm">
@@ -433,100 +579,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Unique Value Proposition Section */}
-      <section className="py-16 bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-800 dark:to-gray-900">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="max-w-4xl mx-auto text-center"
-          >
-            <DynamicContent 
-              sectionKey="unique_value_title" 
-              pageSlug="home" 
-              fallback="The Swift Solution Unique Value Proposition"
-              as="h2"
-              className="text-4xl font-bold mb-8 dark:text-white"
-            />
-            <DynamicContent 
-              sectionKey="unique_value_description" 
-              pageSlug="home" 
-              fallback="We bring together three rarely combined strengths:"
-              as="div"
-              className="text-xl text-gray-700 dark:text-gray-300 mb-12"
-            />
 
-            <div className="grid md:grid-cols-3 gap-8">
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg"
-              >
-                <h3 className="text-2xl font-bold mb-4 text-blue-600 dark:text-blue-400">
-                  <DynamicContent 
-                    sectionKey="domain_expertise_title" 
-                    pageSlug="home" 
-                    fallback="Domain Expertise"
-                  />
-                </h3>
-                <p className="text-gray-600 dark:text-gray-300">
-                  <DynamicContent 
-                    sectionKey="domain_expertise_description" 
-                    pageSlug="home" 
-                    fallback="30 years of client success and market insight."
-                  />
-                </p>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg"
-              >
-                <h3 className="text-2xl font-bold mb-4 text-green-600 dark:text-green-400">
-                  <DynamicContent 
-                    sectionKey="ai_transformation_title" 
-                    pageSlug="home" 
-                    fallback="Authentic AI Transformation"
-                  />
-                </h3>
-                <p className="text-gray-600 dark:text-gray-300">
-                  <DynamicContent 
-                    sectionKey="ai_transformation_description" 
-                    pageSlug="home" 
-                    fallback="A two-year journey with measurable results and enterprise adoption."
-                  />
-                </p>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg"
-              >
-                <h3 className="text-2xl font-bold mb-4 text-purple-600 dark:text-purple-400">
-                  <DynamicContent 
-                    sectionKey="ethical_leadership_title" 
-                    pageSlug="home" 
-                    fallback="Ethical Leadership"
-                  />
-                </h3>
-                <p className="text-gray-600 dark:text-gray-300">
-                  <DynamicContent 
-                    sectionKey="ethical_leadership_description" 
-                    pageSlug="home" 
-                    fallback="Transparent, value-driven practices that build lasting trust."
-                  />
-                </p>
-              </motion.div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
 
       <Contact />
 
@@ -545,6 +598,7 @@ export default function Home() {
                 sectionKey="newsletter_title" 
                 pageSlug="home" 
                 fallback="Stay Ahead with Expert Insights"
+                as="span"
               />
             </h2>
             <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
@@ -552,6 +606,7 @@ export default function Home() {
                 sectionKey="newsletter_description" 
                 pageSlug="home" 
                 fallback="Get the latest trends, best practices, and exclusive content delivered to your inbox. Join thousands of learning professionals who trust our insights."
+                as="span"
               />
             </p>
             

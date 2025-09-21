@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import { SocialPost, NewsletterCampaign } from '@/lib/database/types'
 
 interface BlogPost {
@@ -35,6 +35,21 @@ export function useContentCalendar(filters: CalendarFilters = {}): UseContentCal
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
+  // Memoize filters to prevent unnecessary re-renders
+  const memoizedFilters = useMemo(() => ({
+    contentType: filters.contentType,
+    platform: filters.platform,
+    status: filters.status,
+    dateFrom: filters.dateFrom,
+    dateTo: filters.dateTo
+  }), [
+    filters.contentType,
+    filters.platform,
+    filters.status,
+    filters.dateFrom,
+    filters.dateTo
+  ])
+
   const fetchCalendarData = useCallback(async () => {
     try {
       setIsLoading(true)
@@ -42,11 +57,11 @@ export function useContentCalendar(filters: CalendarFilters = {}): UseContentCal
 
       const searchParams = new URLSearchParams()
       
-      if (filters.contentType) searchParams.set('contentType', filters.contentType)
-      if (filters.platform) searchParams.set('platform', filters.platform)
-      if (filters.status) searchParams.set('status', filters.status)
-      if (filters.dateFrom) searchParams.set('dateFrom', filters.dateFrom)
-      if (filters.dateTo) searchParams.set('dateTo', filters.dateTo)
+      if (memoizedFilters.contentType) searchParams.set('contentType', memoizedFilters.contentType)
+      if (memoizedFilters.platform) searchParams.set('platform', memoizedFilters.platform)
+      if (memoizedFilters.status) searchParams.set('status', memoizedFilters.status)
+      if (memoizedFilters.dateFrom) searchParams.set('dateFrom', memoizedFilters.dateFrom)
+      if (memoizedFilters.dateTo) searchParams.set('dateTo', memoizedFilters.dateTo)
 
       const response = await fetch(`/api/admin/calendar?${searchParams.toString()}`)
       
@@ -69,7 +84,7 @@ export function useContentCalendar(filters: CalendarFilters = {}): UseContentCal
     } finally {
       setIsLoading(false)
     }
-  }, [filters])
+  }, [memoizedFilters])
 
   const rescheduleContent = useCallback(async (
     contentId: string, 
