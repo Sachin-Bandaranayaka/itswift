@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { AyrshareAPI } from '@/lib/integrations/ayrshare'
 import { getSupabaseAdmin } from '@/lib/supabase'
+import { SocialPostsService } from '@/lib/database/services/social-posts'
 
 export async function POST(request: NextRequest) {
   try {
@@ -106,27 +107,19 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '50')
     const status = searchParams.get('status')
 
-    const supabase = getSupabaseAdmin()
+    // Use SocialPostsService for consistency
+    const filters = status ? { status } : {}
+    const options = { limit }
     
-    let query = supabase
-      .from('social_posts')
-      .select('*')
-      .order('created_at', { ascending: false })
-      .limit(limit)
+    const result = await SocialPostsService.getAll(options, filters)
 
-    if (status) {
-      query = query.eq('status', status)
-    }
-
-    const { data: posts, error } = await query
-
-    if (error) {
-      throw new Error(`Database error: ${error.message}`)
+    if (result.error) {
+      throw new Error(result.error)
     }
 
     return NextResponse.json({
       success: true,
-      data: posts || []
+      data: result.data || []
     })
 
   } catch (error) {

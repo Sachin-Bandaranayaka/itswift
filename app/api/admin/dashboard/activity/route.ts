@@ -38,7 +38,11 @@ export async function GET(request: NextRequest) {
 
     // Sort by timestamp and return top 10
     const sortedActivities = activities
-      .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())
+      .sort((a, b) => {
+        const dateA = typeof a.timestamp === 'string' ? new Date(a.timestamp) : a.timestamp;
+        const dateB = typeof b.timestamp === 'string' ? new Date(b.timestamp) : b.timestamp;
+        return dateB.getTime() - dateA.getTime();
+      })
       .slice(0, 10);
 
     // Collect any errors

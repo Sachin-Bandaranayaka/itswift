@@ -11,16 +11,9 @@ import {
   FileText,
   Share2,
   Mail,
-  Calendar,
   BarChart3,
-  Settings,
-  Bot,
-  Users,
-  Clock,
   ChevronLeft,
   ChevronRight,
-  Zap,
-  Shield,
   MessageSquare,
   Edit3,
 } from "lucide-react"
@@ -58,44 +51,9 @@ const navigation = [
     icon: MessageSquare,
   },
   {
-    name: "Content Calendar",
-    href: "/admin/calendar",
-    icon: Calendar,
-  },
-  {
-    name: "Scheduler",
-    href: "/admin/scheduler",
-    icon: Clock,
-  },
-  {
     name: "Analytics",
     href: "/admin/analytics",
     icon: BarChart3,
-  },
-  {
-    name: "AI Assistant",
-    href: "/admin/ai",
-    icon: Bot,
-  },
-  {
-    name: "Automation",
-    href: "/admin/automation",
-    icon: Zap,
-  },
-  {
-    name: "Subscribers",
-    href: "/admin/subscribers",
-    icon: Users,
-  },
-  {
-    name: "Security",
-    href: "/admin/security",
-    icon: Shield,
-  },
-  {
-    name: "Settings",
-    href: "/admin/settings",
-    icon: Settings,
   },
 ]
 

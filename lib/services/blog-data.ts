@@ -3,6 +3,7 @@
  */
 
 import { BlogService } from '@/lib/services/blog.service';
+import { getSupabase } from '@/lib/supabase';
 import { BlogStats, ActivityItem, ScheduledItem, PerformingContentItem } from '@/lib/types/dashboard';
 import { isThisMonth, isLastMonth, calculateGrowth, isThisWeek, isLastWeek } from '@/lib/utils/dashboard-utils';
 
@@ -18,17 +19,106 @@ export class BlogDataService {
    */
   async getBlogStats(): Promise<BlogStats> {
     try {
-      // TODO: Implement with Supabase
-      // For now, return placeholder data
+      const supabase = getSupabase();
+      
+      // Get current date boundaries
+      const now = new Date();
+      const startOfThisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+      const startOfLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+      const endOfLastMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+      const startOfThisWeek = new Date(now);
+      startOfThisWeek.setDate(now.getDate() - now.getDay());
+      startOfThisWeek.setHours(0, 0, 0, 0);
+      const startOfLastWeek = new Date(startOfThisWeek);
+      startOfLastWeek.setDate(startOfThisWeek.getDate() - 7);
+
+      // Execute all queries in parallel
+      const [
+        totalPostsResult,
+        publishedPostsResult,
+        draftPostsResult,
+        thisMonthResult,
+        lastMonthResult,
+        thisWeekResult,
+        lastWeekResult,
+        lastPublishedResult
+      ] = await Promise.all([
+        // Total posts
+        supabase.from('blog_posts').select('id', { count: 'exact' }),
+        
+        // Published posts
+        supabase.from('blog_posts').select('id', { count: 'exact' }).eq('status', 'published'),
+        
+        // Draft posts
+        supabase.from('blog_posts').select('id', { count: 'exact' }).eq('status', 'draft'),
+        
+        // Published this month
+        supabase.from('blog_posts')
+          .select('id', { count: 'exact' })
+          .eq('status', 'published')
+          .gte('published_at', startOfThisMonth.toISOString()),
+        
+        // Published last month
+        supabase.from('blog_posts')
+          .select('id', { count: 'exact' })
+          .eq('status', 'published')
+          .gte('published_at', startOfLastMonth.toISOString())
+          .lte('published_at', endOfLastMonth.toISOString()),
+        
+        // Published this week
+        supabase.from('blog_posts')
+          .select('id', { count: 'exact' })
+          .eq('status', 'published')
+          .gte('published_at', startOfThisWeek.toISOString()),
+        
+        // Published last week
+        supabase.from('blog_posts')
+          .select('id', { count: 'exact' })
+          .eq('status', 'published')
+          .gte('published_at', startOfLastWeek.toISOString())
+          .lt('published_at', startOfThisWeek.toISOString()),
+        
+        // Last published post
+        supabase.from('blog_posts')
+          .select('published_at')
+          .eq('status', 'published')
+          .order('published_at', { ascending: false })
+          .limit(1)
+          .single()
+      ]);
+
+      // Calculate statistics
+      const totalPosts = totalPostsResult.count || 0;
+      const publishedPosts = publishedPostsResult.count || 0;
+      const draftPosts = draftPostsResult.count || 0;
+      const publishedThisMonth = thisMonthResult.count || 0;
+      const publishedLastMonth = lastMonthResult.count || 0;
+      const publishedThisWeek = thisWeekResult.count || 0;
+      const publishedLastWeek = lastWeekResult.count || 0;
+
+      // Calculate growth percentages
+      const growthPercentage = calculateGrowth(publishedThisMonth, publishedLastMonth);
+      const weeklyGrowthPercentage = calculateGrowth(publishedThisWeek, publishedLastWeek);
+
+      // Calculate average posts per week (based on last 4 weeks)
+      const fourWeeksAgo = new Date(now);
+      fourWeeksAgo.setDate(now.getDate() - 28);
+      const lastFourWeeksResult = await supabase.from('blog_posts')
+        .select('id', { count: 'exact' })
+        .eq('status', 'published')
+        .gte('published_at', fourWeeksAgo.toISOString());
+      
+      const averagePostsPerWeek = Math.round((lastFourWeeksResult.count || 0) / 4);
+
       return {
-        totalPosts: 0,
-        publishedThisMonth: 0,
-        publishedThisWeek: 0,
-        draftPosts: 0,
-        growthPercentage: 0,
-        weeklyGrowthPercentage: 0,
-        averagePostsPerWeek: 0,
-        lastPublishedAt: null
+        totalPosts,
+        publishedThisMonth,
+        publishedThisWeek,
+        draftPosts,
+        growthPercentage,
+        weeklyGrowthPercentage,
+        averagePostsPerWeek,
+        lastPublishedAt: (lastPublishedResult.data as any)?.published_at || null
       };
     } catch (error) {
       console.error('Error fetching blog stats:', error);
@@ -41,9 +131,82 @@ export class BlogDataService {
    */
   async getRecentBlogActivity(): Promise<ActivityItem[]> {
     try {
-      // TODO: Implement with Supabase
-      // For now, return empty array
-      return [];
+      const supabase = getSupabase();
+      
+      // Get recent blog posts (published, updated, or created in the last 30 days)
+      const thirtyDaysAgo = new Date();
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+      
+      const { data: recentPosts, error } = await supabase
+        .from('blog_posts')
+        .select(`
+          id,
+          title,
+          slug,
+          status,
+          created_at,
+          updated_at,
+          published_at,
+          author:blog_authors(name)
+        `)
+        .or(`created_at.gte.${thirtyDaysAgo.toISOString()},updated_at.gte.${thirtyDaysAgo.toISOString()},published_at.gte.${thirtyDaysAgo.toISOString()}`)
+        .order('updated_at', { ascending: false })
+        .limit(10);
+
+      if (error) {
+        console.error('Error fetching recent blog activity:', error);
+        return [];
+      }
+
+      // Transform posts into activity items
+      const activities: ActivityItem[] = [];
+      
+      for (const post of recentPosts || []) {
+        const postData = post as any;
+        
+        // Determine the most recent activity type
+        const createdAt = new Date(postData.created_at);
+        const updatedAt = new Date(postData.updated_at);
+        const publishedAt = postData.published_at ? new Date(postData.published_at) : null;
+        
+        let activityType = 'created';
+        let activityDate = createdAt;
+        
+        if (publishedAt && publishedAt > activityDate) {
+          activityType = 'published';
+          activityDate = publishedAt;
+        } else if (updatedAt > createdAt) {
+          activityType = 'updated';
+          activityDate = updatedAt;
+        }
+        
+        // Determine status based on post status and activity type
+        let status: 'published' | 'scheduled' | 'sent' | 'generated' = 'generated';
+        if (postData.status === 'published' || activityType === 'published') {
+          status = 'published';
+        } else if (postData.status === 'scheduled') {
+          status = 'scheduled';
+        }
+        
+        activities.push({
+          id: `blog-${postData.id}-${activityType}`,
+          type: 'blog',
+          title: `Blog post ${activityType}`,
+          description: `"${postData.title}" was ${activityType}${postData.author?.name ? ` by ${postData.author.name}` : ''}`,
+          timestamp: activityDate.toISOString(),
+          status,
+          metadata: {
+            postId: postData.id,
+            postTitle: postData.title,
+            postSlug: postData.slug,
+            postStatus: postData.status,
+            authorName: postData.author?.name,
+            activityType
+          }
+        });
+      }
+      
+      return activities;
     } catch (error) {
       console.error('Error fetching recent blog activity:', error);
       return [];
