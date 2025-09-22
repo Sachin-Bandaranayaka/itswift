@@ -16,6 +16,7 @@ import {
   ChevronRight,
   MessageSquare,
   Edit3,
+  HelpCircle,
 } from "lucide-react"
 import { useState } from "react"
 
@@ -49,6 +50,11 @@ const navigation = [
     name: "Contacts",
     href: "/admin/contacts",
     icon: MessageSquare,
+  },
+  {
+    name: "FAQ Management",
+    href: "/admin/faqs",
+    icon: HelpCircle,
   },
   {
     name: "Analytics",

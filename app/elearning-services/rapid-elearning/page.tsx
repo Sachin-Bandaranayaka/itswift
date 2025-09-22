@@ -4,6 +4,7 @@ import React, { useState } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
 import Contact from "@/components/contact"
+import DynamicFAQ from "@/components/dynamic-faq"
 import Link from "next/link"
 import {
     ArrowRight,
@@ -32,40 +33,6 @@ import {
 } from "lucide-react"
 
 export default function RapidElearningPage() {
-    const [openFaq, setOpenFaq] = useState<number | null>(null);
-    const [showAllFaqs, setShowAllFaqs] = useState(false);
-
-    const toggleFaq = (index: number) => {
-        setOpenFaq(openFaq === index ? null : index);
-    };
-
-    // FAQ items
-    const faqItems = [
-        {
-            question: "What types of training are best suited for rapid e-learning development?",
-            answer: "Rapid e-learning is ideal for compliance training, product knowledge, software training, process training, and any content that requires frequent updates. Complex simulations or highly customized interactions may require traditional development approaches. For Indian companies, compliance and product training often see the greatest ROI."
-        },
-        {
-            question: "How quickly can you develop a typical e-learning course using rapid tools?",
-            answer: "A standard 30-minute interactive e-learning module can typically be developed in 2-3 weeks using our rapid methodology, compared to 6-8 weeks with traditional custom development. Our Bangalore team works in your time zone for seamless communication."
-        },
-        {
-            question: "Will rapid e-learning content work on our learning management system (LMS)?",
-            answer: "Yes, we develop all rapid e-learning content to SCORM, xAPI (Tin Can), or AICC standards, ensuring compatibility with virtually any modern LMS platform including popular systems in India like Moodle, TalentLMS, and proprietary corporate LMS solutions."
-        },
-        {
-            question: "Do you support content development in Indian languages?",
-            answer: "Absolutely. We have extensive experience developing multilingual content in Hindi, Tamil, Telugu, Kannada, Bengali, Marathi, Gujarati, and other Indian languages. Our localization process ensures cultural relevance, not just translation."
-        },
-        {
-            question: "How do you ensure quality when developing content rapidly?",
-            answer: "Our quality assurance process includes rigorous testing protocols, instructional design reviews, and technical validation to ensure all rapid e-learning content meets our high standards for effectiveness and user experience. We follow a structured QA methodology with multiple checkpoints."
-        },
-        {
-            question: "Can rapid e-learning content be updated easily if our information changes?",
-            answer: "Absolutely. One of the primary advantages of rapid authoring tools is the ability to quickly update content without rebuilding entire courses. This makes maintenance much more efficient and cost-effective, especially for compliance training that requires regular updates."
-        }
-    ];
 
     // Define benefits
     const benefits = [
@@ -572,79 +539,11 @@ export default function RapidElearningPage() {
             </section>
 
             {/* FAQ Section */}
-            <section id="faq" className="py-16 bg-white">
-                <div className="container mx-auto px-4">
-                    <div className="grid md:grid-cols-[1fr,2fr] gap-16 max-w-7xl mx-auto">
-                        {/* Left side - title */}
-                        <div>
-                            <motion.h2
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.6 }}
-                                className="text-4xl font-bold sticky top-24"
-                            >
-                                Frequently Asked Questions (FAQs) about Rapid E-Learning Development
-                            </motion.h2>
-                        </div>
-
-                        {/* Right side - FAQ content */}
-                        <div>
-                            <div className="mb-12">
-                                <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-6">
-                                    RAPID E-LEARNING DEVELOPMENT
-                                </h3>
-                                <div className="space-y-px">
-                                    {faqItems.slice(0, showAllFaqs ? faqItems.length : 4).map((faq, index) => {
-                                        const isItemOpen = openFaq === index;
-
-                                        return (
-                                            <div key={index} className="border-t border-gray-200 first:border-t-0">
-                                                <button
-                                                    onClick={() => toggleFaq(index)}
-                                                    className="flex justify-between items-center w-full py-6 text-left"
-                                                >
-                                                    <span className={`text-lg font-medium ${isItemOpen ? "text-blue-500" : "text-gray-900"}`}>
-                                                        {faq.question}
-                                                    </span>
-                                                    <span className="ml-6 flex-shrink-0">
-                                                        {isItemOpen ? (
-                                                            <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-                                                            </svg>
-                                                        ) : (
-                                                            <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                                            </svg>
-                                                        )}
-                                                    </span>
-                                                </button>
-                                                {isItemOpen && (
-                                                    <div className="pb-6">
-                                                        <p className="text-gray-600">{faq.answer}</p>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                                
-                                {/* Show More/Less Button */}
-                                {faqItems.length > 4 && (
-                                    <div className="text-center mt-8">
-                                        <button
-                                            onClick={() => setShowAllFaqs(!showAllFaqs)}
-                                            className="inline-flex items-center justify-center px-6 py-3 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-colors duration-200"
-                                        >
-                                            {showAllFaqs ? "Show Less" : "Show More"}
-                                            <ChevronDown className={`ml-2 h-4 w-4 ${showAllFaqs ? "rotate-180" : ""}`} />
-                                        </button>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <DynamicFAQ 
+                pageSlug="rapid-elearning" 
+                title="Frequently Asked Questions (FAQs) about Rapid E-Learning Development"
+                className="py-16 bg-white"
+            />
 
             {/* Call To Action Section */}
             <section className="py-16 bg-gradient-to-r from-orange-500 to-orange-600 text-white">

@@ -1,61 +1,12 @@
 "use client"
 
-import React, { useState } from "react"
+import React from "react"
 import Image from "next/image"
 import Contact from "@/components/contact"
+import DynamicFAQ from "@/components/dynamic-faq"
 import { CheckCircle, Award, BarChart, Layers, Users, Clock, Target, Zap, Brain, Play, Gamepad2, Smartphone, FileCheck, Wrench, Share2, Route, TrendingUp, Repeat, Film, Settings } from "lucide-react"
 
-interface FAQItem {
-    question: string
-    answer: string
-    icon: React.ReactNode
-}
-
 export default function MicroLearningPage() {
-    const [openItems, setOpenItems] = useState<Record<string, boolean>>({
-        "0": true // First question open by default
-    })
-
-    const toggleItem = (itemIndex: number) => {
-        const itemKey = `${itemIndex}`
-        setOpenItems(prev => ({
-            ...prev,
-            [itemKey]: !prev[itemKey]
-        }))
-    }
-
-    const isOpen = (itemIndex: number) => {
-        const itemKey = `${itemIndex}`
-        return !!openItems[itemKey]
-    }
-
-    const faqItems: FAQItem[] = [
-        {
-            question: "What is micro-learning and how does it differ from traditional eLearning?",
-            answer: "Micro-learning delivers content in small, focused chunks that can be consumed in 2-10 minutes. Unlike traditional eLearning courses that may take hours, micro-learning modules focus on specific learning objectives, making them perfect for busy professionals who need just-in-time learning.",
-            icon: <Clock className="h-5 w-5 text-orange-500" />
-        },
-        {
-            question: "How effective is micro-learning for knowledge retention?",
-            answer: "Research shows that micro-learning can improve knowledge retention by up to 80% compared to traditional learning methods. The spaced repetition and focused content delivery align with how our brains naturally process and retain information.",
-            icon: <Brain className="h-5 w-5 text-orange-500" />
-        },
-        {
-            question: "What types of content work best for micro-learning?",
-            answer: "Micro-learning works exceptionally well for: \n• Product knowledge updates\n• Compliance training\n• Skill-based tutorials\n• Safety procedures\n• Software training\n• Sales techniques\n• Customer service protocols",
-            icon: <Target className="h-5 w-5 text-orange-500" />
-        },
-        {
-            question: "How do you ensure engagement in such short learning modules?",
-            answer: "We use interactive elements like quizzes, scenarios, gamification, and multimedia content. Each module includes clear learning objectives, engaging visuals, and immediate feedback to maintain learner attention and motivation throughout the brief learning experience.",
-            icon: <Zap className="h-5 w-5 text-orange-500" />
-        },
-        {
-            question: "Can micro-learning modules be integrated with our existing LMS?",
-            answer: "Yes, our micro-learning modules are designed to be SCORM and xAPI compliant, ensuring seamless integration with most Learning Management Systems. We also provide detailed analytics and progress tracking capabilities.",
-            icon: <CheckCircle className="h-5 w-5 text-orange-500" />
-        }
-    ]
 
     return (
         <div className="w-full">
@@ -149,59 +100,11 @@ export default function MicroLearningPage() {
                         </div>
 
                         {/* FAQ Section */}
-                        <div className="mb-16">
-                            <div className="grid md:grid-cols-[1fr,2fr] gap-16 max-w-7xl mx-auto">
-                                {/* Left side - title */}
-                                <div>
-                                    <h3 className="text-4xl font-bold sticky top-24">
-                                        Frequently Asked Questions (FAQs) about Micro-Learning
-                                    </h3>
-                                </div>
-
-                                {/* Right side - FAQ content */}
-                                <div>
-                                    <div className="mb-12">
-                                        <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-6">
-                                            MICRO-LEARNING SOLUTIONS
-                                        </h4>
-                                        <div className="space-y-px">
-                                            {faqItems.map((faq, index) => {
-                                                const isItemOpen = isOpen(index);
-
-                                                return (
-                                                    <div key={index} className="border-t border-gray-200 first:border-t-0">
-                                                        <button
-                                                            onClick={() => toggleItem(index)}
-                                                            className="flex justify-between items-center w-full py-6 text-left"
-                                                        >
-                                                            <span className={`text-lg font-medium ${isItemOpen ? "text-blue-500" : "text-gray-900"}`}>
-                                                                {faq.question}
-                                                            </span>
-                                                            <span className="ml-6 flex-shrink-0">
-                                                                {isItemOpen ? (
-                                                                    <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-                                                                    </svg>
-                                                                ) : (
-                                                                    <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                                                    </svg>
-                                                                )}
-                                                            </span>
-                                                        </button>
-                                                        {isItemOpen && (
-                                                            <div className="pb-6">
-                                                                <p className="text-gray-600 whitespace-pre-line">{faq.answer}</p>
-                                                            </div>
-                                                        )}
-                                                    </div>
-                                                );
-                                            })}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <DynamicFAQ 
+                            pageSlug="micro-learning"
+                            title="Frequently Asked Questions (FAQs) about Micro-Learning"
+                            className="mb-16"
+                        />
 
                         {/* Our Services */}
                         <div className="mb-16">

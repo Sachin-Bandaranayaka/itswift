@@ -533,6 +533,41 @@ export interface Database {
           updated_at?: string
         }
       }
+      faqs: {
+        Row: {
+          id: string
+          question: string
+          answer: string
+          category: string
+          page_slug: string
+          display_order: number
+          is_active: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          question: string
+          answer: string
+          category: string
+          page_slug: string
+          display_order?: number
+          is_active?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          question?: string
+          answer?: string
+          category?: string
+          page_slug?: string
+          display_order?: number
+          is_active?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+      }
     }
     Views: {
       [_ in never]: never

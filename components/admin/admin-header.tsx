@@ -14,11 +14,18 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Bell, Search, Plus, LogOut, User, Settings } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
+import { signOut } from "next-auth/react"
 
 export function AdminHeader() {
-  const handleLogout = () => {
-    // TODO: Implement logout functionality
-    console.log("Logout clicked")
+  const handleLogout = async () => {
+    try {
+      await signOut({ 
+        callbackUrl: '/admin/login',
+        redirect: true 
+      })
+    } catch (error) {
+      console.error('Logout error:', error)
+    }
   }
 
   return (

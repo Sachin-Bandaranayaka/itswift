@@ -6,7 +6,7 @@ import ValueProposition from "@/components/value-proposition"
 import Services from "@/components/services"
 import Outsourcing from "@/components/outsourcing"
 import Stats from "@/components/stats"
-import FAQ from "@/components/faq"
+import DynamicFAQ from "@/components/dynamic-faq"
 import BrandCarousel from "@/components/brand-carousel"
 import Contact from "@/components/contact"
 import Footer from "@/components/footer"
@@ -427,7 +427,7 @@ export default function Home() {
 
       <Outsourcing />
       <Stats />
-      <FAQ />
+      <DynamicFAQ pageSlug="homepage" title="Frequently Asked Questions" />
 
       {/* Case Studies Section */}
       <section className="py-16 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950">
