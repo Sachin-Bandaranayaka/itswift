@@ -27,7 +27,8 @@ import {
   Trash2,
   Copy,
   Eye,
-  EyeOff
+  EyeOff,
+  Edit
 } from "lucide-react"
 import { toast } from "sonner"
 
@@ -37,12 +38,13 @@ interface BlogPost {
   id: string
   title: string
   slug: string
-  author?: { name: string }
-  mainImage?: { asset: { url: string }, alt?: string }
-  categories?: Array<{ name: string }>
+  author?: { name: string, id: string }
+  featured_image?: string
+  categories?: Array<{ name: string, id: string }>
   published_at?: string
   excerpt?: string
-  body?: any[]
+  content?: string
+  status: 'draft' | 'published' | 'scheduled' | 'archived'
   created_at: string
   updated_at: string
 }
@@ -54,6 +56,7 @@ interface BlogStatusManagerProps {
   onStatusChange: (postIds: string[], newStatus: BlogPostStatus, publishedAt?: string) => void
   onDeletePosts: (postIds: string[]) => void
   onDuplicatePost: (postId: string) => void
+  onEditPost: (post: BlogPost) => void
   onRefresh: () => void
 }
 
@@ -64,21 +67,23 @@ export function BlogStatusManager({
   onStatusChange,
   onDeletePosts,
   onDuplicatePost,
+  onEditPost,
   onRefresh
 }: BlogStatusManagerProps) {
   const [bulkAction, setBulkAction] = useState<string>('')
 
   const getPostStatus = (post: BlogPost): { status: BlogPostStatus, label: string, variant: 'default' | 'secondary' | 'outline' | 'destructive' } => {
-    if (post.published_at) {
-    const publishDate = new Date(post.published_at)
-      const now = new Date()
-      if (publishDate <= now) {
+    switch (post.status) {
+      case 'published':
         return { status: 'published', label: 'Published', variant: 'default' }
-      } else {
+      case 'scheduled':
         return { status: 'scheduled', label: 'Scheduled', variant: 'secondary' }
-      }
+      case 'archived':
+        return { status: 'archived', label: 'Archived', variant: 'destructive' }
+      case 'draft':
+      default:
+        return { status: 'draft', label: 'Draft', variant: 'outline' }
     }
-    return { status: 'draft', label: 'Draft', variant: 'outline' }
   }
 
   const getStatusIcon = (status: BlogPostStatus) => {
@@ -369,6 +374,10 @@ export function BlogStatusManager({
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={() => onEditPost(post)}>
+                      <Edit className="h-4 w-4 mr-2" />
+                      Edit
+                    </DropdownMenuItem>
                     <DropdownMenuItem onClick={() => onDuplicatePost(post.id)}>
                       <Copy className="h-4 w-4 mr-2" />
                       Duplicate

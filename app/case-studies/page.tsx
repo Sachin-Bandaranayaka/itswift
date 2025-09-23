@@ -3,7 +3,7 @@
 import React, { useState } from "react"
 import Image from "next/image"
 import Contact from "@/components/contact"
-import { ArrowRight, CheckCircle, Award, BarChart, Layers, Users, ChevronDown, Building, TrendingUp, Clock, Target, Star, ExternalLink } from "lucide-react"
+import { ArrowRight, CheckCircle, Award, BarChart, Layers, Users, ChevronDown, Building, TrendingUp, Clock, Target, Star, ExternalLink, Phone, Mail } from "lucide-react"
 
 interface CaseStudy {
     title: string
@@ -17,10 +17,66 @@ interface CaseStudy {
         value: string
     }[]
     tags: string[]
+    detailedContent?: {
+        snapshot?: {
+            client: string
+            challenge: string
+            solution: string
+            results: string[]
+        }
+        introduction?: string
+        challengeDetails?: {
+            title: string
+            content: string
+            points: string[]
+            quote?: {
+                text: string
+                author: string
+            }
+        }
+        solutionDetails?: {
+            title: string
+            content: string
+            components: {
+                title: string
+                description: string
+            }[]
+            quote?: {
+                text: string
+                author: string
+            }
+        }
+        resultsDetails?: {
+            title: string
+            content: string
+            achievements: {
+                title: string
+                description: string
+            }[]
+        }
+        conclusion?: {
+            title: string
+            content: string
+            callToAction: {
+                title: string
+                content: string
+                contact: {
+                    phone: string
+                    email: string
+                    website: string
+                }
+            }
+        }
+    }
 }
 
 export default function CaseStudiesPage() {
     const [showDetails, setShowDetails] = useState<number | null>(null)
+    
+    // Utility function to format text with asterisk markdown
+    const formatText = (text: string) => {
+        return text.replace(/\*([^*]+)\*/g, '<strong>$1</strong>')
+    }
 
     const generatePDF = (study: CaseStudy, index: number) => {
         // Create a new window with the case study content
@@ -74,18 +130,18 @@ export default function CaseStudiesPage() {
 
                 <div class="section">
                     <div class="section-title">Challenge</div>
-                    <p>${study.challenge}</p>
+                    <p>${formatText(study.challenge)}</p>
                 </div>
 
                 <div class="section">
                     <div class="section-title">Solution</div>
-                    <p>${study.solution}</p>
+                    <p>${formatText(study.solution)}</p>
                 </div>
 
                 <div class="section">
                     <div class="section-title">Results Achieved</div>
                     <div class="results">
-                        ${study.results.map(result => `<div class="result-item">${result}</div>`).join('')}
+                        ${study.results.map(result => `<div class="result-item">${formatText(result)}</div>`).join('')}
                     </div>
                 </div>
 
@@ -107,6 +163,551 @@ export default function CaseStudiesPage() {
 
     const caseStudies: CaseStudy[] = [
         {
+            title: "How Swift Solution Built a Global Online Music & Dance Learning Platform",
+            client: "Visionary Music & Dance Learning Platform",
+            industry: "Education & Cultural Arts",
+            challenge: "Making traditional Indian arts accessible to a global audience while preserving cultural authenticity and scaling a guru-shishya tradition digitally.",
+            solution: "A custom Moodle LMS with live and recorded content, integrated with WebEx and Skype, featuring over 400 hours of eLearning content and scalable video streaming infrastructure.",
+            results: [
+            "Established the world's leading online music and dance eLearning platform",
+            "Secured VC funding for rapid growth and expansion",
+            "Gained adoption from learners in multiple countries",
+            "Created global platform for cultural exchange"
+        ],
+            metrics: [
+                { label: "Content Hours", value: "400+" },
+                { label: "Video Content", value: "250+ hrs" },
+                { label: "Global Reach", value: "Multi-country" },
+                { label: "Funding Status", value: "VC Secured" }
+            ],
+            tags: ["Cultural Arts", "Moodle LMS", "Live Streaming", "Video Content", "Global Platform"],
+            detailedContent: {
+                snapshot: {
+                    client: "Visionary Music & Dance Learning Platform",
+                    challenge: "Making traditional Indian arts accessible to a global audience",
+                    solution: "A custom Moodle LMS with live and recorded content, integrated with WebEx and Skype",
+                    results: [
+                "Established the world's leading online music and dance eLearning platform",
+                "Secured VC funding for rapid growth and expansion",
+                "Gained adoption from learners in multiple countries"
+            ]
+                },
+                introduction: "A visionary project to bring the rich traditions of Bharatanatyam and Carnatic vocal training to a global audience was facing a major hurdle: how to scale a culturally authentic learning experience. The founders wanted to create a digital-first platform that could connect students with qualified teachers, regardless of their location, while preserving the sanctity of the guru-shishya tradition. They partnered with Swift Solution to build a custom eLearning platform that would bridge the gap between tradition and technology.",
+                challengeDetails: {
+                    title: "The Challenge: Blending Tradition with Technology",
+                    content: "The project presented a unique set of challenges:",
+                    points: [
+                        "Cultural Authenticity: The platform needed to respect and preserve the cultural traditions of Bharatanatyam and Carnatic music, ensuring an authentic learning experience for students",
+                        "Scalability: The platform had to be scalable enough to handle a global audience, with high-quality streaming and reliable performance",
+                        "Live and Recorded Content: The platform needed to support both live, interactive sessions with teachers and a rich library of recorded lessons",
+                        "Content Management: The client team needed to be able to update and manage the content independently, without relying on technical support"
+                    ],
+                    quote: {
+                        text: "We had a vision to share our culture with the world, but we didn't know how to make it a reality. We needed a partner who understood our vision and could help us bring it to life.",
+                        author: "Founder, Music & Dance Platform"
+                    }
+                },
+                solutionDetails: {
+                    title: "The Solution: A Custom Moodle LMS",
+                    content: "Swift Solution developed a custom Moodle LMS that was designed to meet the unique needs of the music and dance platform. Our solution included:",
+                    components: [
+                        {
+                            title: "Live and Recorded Content",
+                            description: "We integrated the LMS with WebEx and Skype to support live, interactive sessions, and we created over 400 hours of eLearning content, including 250+ hours of high-quality videos"
+                        },
+                        {
+                            title: "Scalable Infrastructure",
+                            description: "We built a scalable video streaming infrastructure that was capable of handling a global user base"
+                        },
+                        {
+                            title: "Custom CMS",
+                            description: "We designed a custom CMS that allowed the client team to update and manage the content independently"
+                        },
+                        {
+                            title: "Certification Programs",
+                            description: "We created certification programs ranging from short-term courses to diploma-level offerings, providing students with a structured pathway to success"
+                        }
+                    ],
+                    quote: {
+                        text: "Swift Solution's custom Moodle LMS was the perfect solution for us. It gave us the flexibility and scalability we needed to create a truly unique learning experience.",
+                        author: "Founder, Music & Dance Platform"
+                    }
+                },
+                resultsDetails: {
+                    title: "The Results: A Global Platform for Cultural Exchange",
+                    content: "The custom eLearning platform was a huge success, delivering significant results for the music and dance platform:",
+                    achievements: [
+                        {
+                            title: "Global Reach",
+                            description: "The platform has been adopted by learners in multiple countries, bridging cultural and geographic gaps"
+                        },
+                        {
+                            title: "VC Funding",
+                            description: "The platform has secured VC funding for rapid growth and expansion into related domains like yoga and wellness"
+                        },
+                        {
+                            title: "Industry Leadership",
+                            description: "The platform has established itself as the world's leading online music and dance eLearning platform"
+                        },
+                        {
+                            title: "Cultural Preservation",
+                            description: "Successfully preserved and promoted cultural traditions through technology, connecting students with qualified teachers globally"
+                        }
+                    ]
+                },
+                conclusion: {
+                    title: "Conclusion: A Harmony of Tradition and Technology",
+                    content: "This case study demonstrates the power of technology to preserve and promote cultural traditions. By partnering with Swift Solution, the music and dance platform was able to create a global platform for cultural exchange, connecting students with qualified teachers and preserving the rich traditions of Bharatanatyam and Carnatic music for future generations.",
+                    callToAction: {
+                        title: "Ready to Build Your Own Learning Platform?",
+                        content: "If you have a vision for a unique learning platform, we can help you bring it to life. Contact us today for a free consultation and learn how Swift Solution can help you achieve your goals.",
+                        contact: {
+                            phone: "+91-80-23215884",
+                            email: "info@itswift.com",
+                            website: "https://www.itswift.com/contact-us"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            title: "How Swift Solution Scaled Induction Training for a Global Bank",
+            client: "Global Bank",
+            industry: "Banking & Financial Services",
+            challenge: "Slow, expensive, and unscalable classroom-based induction training that couldn't keep up with rapidly expanding teams and rising transaction volumes.",
+            solution: "A blended learning program with eLearning modules, interactive simulations, gamified assessments, and standardized templates to modernize the traditional induction program.",
+            results: [
+                "30% reduction in induction timelines",
+                "Improved complaint resolution and service quality",
+                "Higher ROI per trained employee",
+                "Scalable solution for global workforce"
+            ],
+            metrics: [
+                { label: "Timeline Reduction", value: "30%" },
+                { label: "Process Simulations", value: "300+" },
+                { label: "Cost Efficiency", value: "Higher ROI" },
+                { label: "Service Quality", value: "Improved" }
+            ],
+            tags: ["Banking", "Induction Training", "Blended Learning", "Process Simulation", "Gamification"],
+            detailedContent: {
+                snapshot: {
+                    client: "Global Bank",
+                    challenge: "Slow, expensive, and unscalable classroom-based induction training",
+                    solution: "A blended learning program with eLearning modules, interactive simulations, and gamified assessments",
+                    results: [
+                        "30% reduction in induction timelines",
+                        "Improved complaint resolution and service quality",
+                        "Higher ROI per trained employee"
+                    ]
+                },
+                introduction: "A global banking operations division was struggling to keep up with the demands of its rapidly expanding teams. The company's existing induction program was entirely classroom-based, making it slow, expensive, and difficult to scale. With rising transaction volumes and an urgent need to onboard new employees faster, the bank turned to Swift Solution to develop a modern, blended learning program that would accelerate onboarding, improve performance, and deliver a higher return on investment.",
+                challengeDetails: {
+                    title: "The Challenge: Modernizing a Traditional Induction Program",
+                    content: "The bank's traditional induction program was a major bottleneck, preventing the company from achieving its growth targets. The key challenges were:",
+                    points: [
+                        "Lack of Scalability: The classroom-based model couldn't keep up with the demand for new hires, creating a backlog of untrained employees",
+                        "High Costs: The program was expensive to run, with high costs for instructors, facilities, and travel",
+                        "Slow Time to Productivity: New employees were taking too long to become productive, impacting business performance and customer service",
+                        "Inconsistent Quality: Ensuring consistent training quality across different locations and instructors was a major challenge"
+                    ],
+                    quote: {
+                        text: "Our induction program was a relic of the past. We needed a solution that was as agile and innovative as our business.",
+                        author: "Training Lead, Global Bank"
+                    }
+                },
+                solutionDetails: {
+                    title: "The Solution: A Blended Learning Program for the Modern Workforce",
+                    content: "Swift Solution developed a blended learning program that combined the best of eLearning and classroom-based training. Our solution was designed to be flexible, engaging, and effective, and it included:",
+                    components: [
+                        {
+                            title: "Interactive eLearning Modules",
+                            description: "We developed a series of interactive eLearning modules that covered the core concepts of the induction program"
+                        },
+                        {
+                            title: "Process Simulations",
+                            description: "We mapped over 300 business processes and built interactive simulations for critical workflows, allowing new hires to practice their skills in a safe, simulated environment"
+                        },
+                        {
+                            title: "Gamified Assessments",
+                            description: "We created gamified assessments and real-time scenarios to measure learner readiness and knowledge retention"
+                        },
+                        {
+                            title: "Explainer Videos",
+                            description: "We developed a series of explainer videos to simplify complex systems and concepts for new hires"
+                        },
+                        {
+                            title: "Standardized Templates",
+                            description: "We created standardized templates and structures to ensure consistency across all training modules"
+                        }
+                    ],
+                    quote: {
+                        text: "Swift Solution's blended learning program was a game-changer for us. It allowed us to scale our training program, reduce costs, and improve the performance of our new hires.",
+                        author: "Training Lead, Global Bank"
+                    }
+                },
+                resultsDetails: {
+                    title: "The Results: Faster Onboarding, Better Performance, and Higher ROI",
+                    content: "The blended learning program delivered significant results for the bank:",
+                    achievements: [
+                        {
+                            title: "30% Reduction in Induction Timelines",
+                            description: "The new program reduced the time it took to onboard new employees by 30%, allowing them to become productive faster"
+                        },
+                        {
+                            title: "Improved Complaint Resolution and Service Quality",
+                            description: "The interactive simulations and real-time scenarios helped new hires to develop the skills they needed to resolve customer complaints and provide high-quality service"
+                        },
+                        {
+                            title: "Higher ROI per Trained Employee",
+                            description: "The blended learning program was more cost-effective than the traditional classroom-based model, delivering a higher return on investment per trained employee"
+                        },
+                        {
+                            title: "Scalable Framework",
+                            description: "Created a sustainable solution that could accommodate the bank's growing workforce and global expansion plans"
+                        }
+                    ]
+                },
+                conclusion: {
+                    title: "Conclusion: A Scalable and Sustainable Solution for a Global Workforce",
+                    content: "This case study demonstrates the power of blended learning to solve complex training challenges and drive business results. By partnering with Swift Solution, the global bank was able to transform its induction training program and create a scalable and sustainable solution for its global workforce. This project serves as a model for other financial institutions looking to modernize their training programs.",
+                    callToAction: {
+                        title: "Ready to Transform Your Induction Training?",
+                        content: "If you're a financial institution looking to modernize your induction training program, we can help. Contact us today for a free consultation and learn how Swift Solution can help you achieve your training goals.",
+                        contact: {
+                            phone: "+91-80-23215884",
+                            email: "info@itswift.com",
+                            website: "https://www.itswift.com/contact-us"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            title: "Lean Training for 2000 Shopfloor Employees",
+            client: "Swift Solution",
+            industry: "Manufacturing",
+            challenge: "Large-scale workforce transformation requiring efficient training delivery across multiple shifts and locations. Traditional classroom-based training was proving inefficient, costly, and difficult to scale for 2000 shopfloor employees.",
+            solution: "Comprehensive eLearning platform with interactive modules, mobile-first design, gamification elements, multilingual support, and offline capability. Developed bite-sized, engaging content covering all aspects of lean methodology.",
+            results: [
+                "95% completion rate across all training modules",
+                "60% faster delivery compared to traditional methods",
+                "40% cost reduction in training delivery costs",
+                "Improved knowledge retention and productivity metrics"
+            ],
+            metrics: [
+                { label: "Completion Rate", value: "95%" },
+                { label: "Faster Delivery", value: "60%" },
+                { label: "Cost Reduction", value: "40%" },
+                { label: "Knowledge Retention", value: "85%" }
+            ],
+            tags: ["Manufacturing", "Lean Training", "Shopfloor", "Microlearning", "Digital Transformation"],
+            detailedContent: {
+                snapshot: {
+                    client: "Swift Solution",
+                    challenge: "Training 2000+ new shopfloor workers in lean manufacturing principles",
+                    solution: "Visual, scenario-based microlearning modules on a cloud-hosted LMS",
+                    results: [
+                        "95% completion rate across all training modules",
+                        "60% faster delivery compared to traditional methods",
+                        "40% cost reduction in training delivery costs"
+                    ]
+                },
+                introduction: "Swift Solution successfully transformed lean training delivery for 2000 shopfloor employees, achieving remarkable efficiency gains and cost savings through innovative eLearning solutions. In today's competitive manufacturing landscape, implementing lean methodologies across large workforces presents significant challenges.",
+                challengeDetails: {
+                    title: "The Challenge",
+                    content: "The client faced the daunting task of training 2000 shopfloor employees in lean methodologies within a tight timeline. Traditional classroom-based training was proving inefficient, costly, and difficult to scale.",
+                    points: [
+                        "Coordinating training schedules across multiple shifts",
+                        "Ensuring consistent training quality across different locations",
+                        "Managing high training costs and resource allocation",
+                        "Tracking progress and competency development",
+                        "Minimizing production downtime during training"
+                    ],
+                    quote: {
+                        text: "We needed a training solution that was as lean and efficient as the manufacturing principles we were teaching. Traditional methods just weren't going to cut it.",
+                        author: "Training Manager"
+                    }
+                },
+                solutionDetails: {
+                    title: "Our Solution",
+                    content: "Swift Solution developed a comprehensive eLearning platform specifically designed for shopfloor environments with mobile-first design and gamification elements.",
+                    components: [
+                        {
+                            title: "Interactive Learning Modules",
+                            description: "Bite-sized, engaging content covering all aspects of lean methodology"
+                        },
+                        {
+                            title: "Mobile-First Design",
+                            description: "Accessible on tablets and mobile devices for flexible learning"
+                        },
+                        {
+                            title: "Gamification Elements",
+                            description: "Progress tracking, badges, and leaderboards to boost engagement"
+                        },
+                        {
+                            title: "Multilingual Support",
+                            description: "Content available in local languages for better comprehension"
+                        }
+                    ],
+                    quote: {
+                        text: "The mobile-first approach was revolutionary for our shopfloor environment. Workers could learn during breaks without disrupting production.",
+                        author: "Operations Director"
+                    }
+                },
+                resultsDetails: {
+                    title: "Results Achieved",
+                    content: "The implementation delivered exceptional results that exceeded all expectations with significant improvements in completion rates and cost savings.",
+                    achievements: [
+                        {
+                            title: "95% Completion Rate",
+                            description: "Significantly higher than traditional training methods"
+                        },
+                        {
+                            title: "60% Faster Delivery",
+                            description: "Reduced training time from weeks to days"
+                        },
+                        {
+                            title: "40% Cost Reduction",
+                            description: "Substantial savings in training delivery costs"
+                        },
+                        {
+                            title: "Enhanced Productivity",
+                            description: "25% improvement in lean implementation metrics"
+                        }
+                    ]
+                },
+                conclusion: {
+                    title: "Transforming Manufacturing Training",
+                    content: "This project demonstrates Swift Solution's ability to deliver scalable, effective training solutions that drive real business results. Our innovative approach to lean training has set a new standard for manufacturing education.",
+                    callToAction: {
+                        title: "Ready to Transform Your Training?",
+                        content: "Discover how Swift Solution can revolutionize your workforce development with cutting-edge eLearning solutions.",
+                        contact: {
+                            phone: "+91 80 4154 1288",
+                            email: "info@itswift.com",
+                            website: "www.itswift.com"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            title: "Scalable Courseware for Global EdTech Leader",
+            client: "Global Education Services Provider",
+            industry: "Education Technology",
+            challenge: "Rapidly scaling courseware development without sacrificing quality. The company needed to create large volumes of structured, high-quality content across multiple domains with strict university timelines requiring faster turnaround.",
+            solution: "Turnkey course development model with dedicated project managers, SME collaboration, standardized templates, robust QA process including plagiarism checks, and pilot testing with learners before rollout.",
+            results: [
+                "Delivered high-quality courses faster while ensuring academic rigor",
+                "Enabled universities to launch programs on schedule without delays",
+                "Established scalable, repeatable framework for future course creation",
+                "Achieved 40% reduction in development time through standardized processes"
+            ],
+            metrics: [
+                { label: "Quality", value: "High" },
+                { label: "Delivery Speed", value: "Faster" },
+                { label: "Schedule", value: "On Time" },
+                { label: "Efficiency", value: "40%" }
+            ],
+            tags: ["Content Development", "EdTech", "Quality Assurance", "Scalability"],
+            detailedContent: {
+                snapshot: {
+                    client: "Global Education Services Provider",
+                    challenge: "Rapidly scaling courseware development without sacrificing quality",
+                    solution: "Turnkey course development model with standardized templates and robust QA",
+                    results: [
+                        "Delivered high-quality courses faster while ensuring academic rigor",
+                        "Enabled universities to launch programs on schedule",
+                        "Established scalable, repeatable framework for future course creation"
+                    ]
+                },
+                introduction: "A globally recognized education services provider was facing a classic growth challenge: how to scale content production to meet the demands of a rapidly expanding network of university partners without compromising on quality. They turned to Swift Solution to develop a scalable and repeatable course development model.",
+                challengeDetails: {
+                    title: "The Challenge: Balancing Speed and Quality",
+                    content: "The EdTech leader was under pressure to deliver diverse courseware including assessments, faculty slides, gamified content, and multimedia lessons to university partners.",
+                    points: [
+                        "Scalability: Rapidly scale content development capabilities",
+                        "Consistency: Maintain quality with multiple SMEs and developers",
+                        "Speed: Meet strict university timelines without compromising quality",
+                        "Quality Control: Ensure academic rigor across all content"
+                    ],
+                    quote: {
+                        text: "We were caught in a classic Catch-22. We needed to move fast, but we couldn't afford to sacrifice quality. We needed a partner who could help us do both.",
+                        author: "Program Director"
+                    }
+                },
+                solutionDetails: {
+                    title: "The Solution: Turnkey Course Development Model",
+                    content: "Swift Solution developed a turnkey course development model designed to be both scalable and quality-driven with standardized processes and robust QA.",
+                    components: [
+                        {
+                            title: "Dedicated Project Management",
+                            description: "Appointed dedicated project managers for communication and progress tracking"
+                        },
+                        {
+                            title: "SME Collaboration",
+                            description: "Engaged SMEs across multiple domains for accurate curricula validation"
+                        },
+                        {
+                            title: "Standardized Templates",
+                            description: "Created standardized templates and instructional design guides"
+                        },
+                        {
+                            title: "Robust QA Process",
+                            description: "Deployed quality assurance with plagiarism checks and multi-level reviews"
+                        }
+                    ],
+                    quote: {
+                        text: "Swift Solution's turnkey model was exactly what we needed. It gave us the scalability and quality control we needed to meet our growth targets.",
+                        author: "Program Director"
+                    }
+                },
+                resultsDetails: {
+                    title: "Results: Faster Delivery and Higher Quality",
+                    content: "The turnkey course development model delivered significant results enabling faster delivery while maintaining the highest standards of quality and academic rigor.",
+                    achievements: [
+                        {
+                            title: "Faster Delivery",
+                            description: "Streamlined process enabled faster course delivery for university partners"
+                        },
+                        {
+                            title: "Higher Quality",
+                            description: "Robust QA process ensured highest standards of academic rigor"
+                        },
+                        {
+                            title: "Scalable Framework",
+                            description: "Repeatable framework enabled scaling without starting from scratch"
+                        },
+                        {
+                            title: "Zero Quality Issues",
+                            description: "No quality-related escalations from university partners post-implementation"
+                        }
+                    ]
+                },
+                conclusion: {
+                    title: "A Partnership for Growth",
+                    content: "This case study highlights the importance of strategic partnership in achieving scalable and sustainable growth. Swift Solution enabled the EdTech leader to overcome content development challenges and position for long-term success.",
+                    callToAction: {
+                        title: "Ready to Scale Your Content Development?",
+                        content: "If you're an EdTech company looking to scale content development without sacrificing quality, we can help. Contact us for a free consultation.",
+                        contact: {
+                            phone: "+91-80-23215884",
+                            email: "info@itswift.com",
+                            website: "https://www.itswift.com/contact-us"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            title: "Modernizing Dealer Training with Mobile-First eLearning",
+            client: "India's Top Furniture & Mattress Company",
+            industry: "Furniture & Retail",
+            challenge: "Fragmented training landscape with inconsistent messaging and high costs. Dealer training was decentralized across regions, leading to inconsistency in product messaging. Traditional training was expensive, time-consuming, and lacked scalability.",
+            solution: "Mobile-first eLearning program with microlearning videos (2-3 minutes each), multilingual modules, CMS integrated with cloud LMS, and assessments with certifications for accountability and motivation.",
+            results: [
+                "1000+ employees trained and certified within first year",
+                "60% reduction in training costs compared to traditional methods",
+                "Improved consistency and engagement across dealer networks",
+                "Enhanced mobile accessibility for flexible learning"
+            ],
+            metrics: [
+                { label: "Employees Trained", value: "1000+" },
+                { label: "Cost Reduction", value: "60%" },
+                { label: "Consistency", value: "Improved" },
+                { label: "Engagement", value: "Enhanced" }
+            ],
+            tags: ["Dealer Training", "Microlearning", "Multilingual", "Mobile Learning"],
+            detailedContent: {
+                snapshot: {
+                    client: "India's Top Furniture & Mattress Company",
+                    challenge: "Fragmented training landscape with inconsistent messaging and high costs",
+                    solution: "Mobile-first eLearning program with microlearning videos and multilingual content",
+                    results: [
+                        "1000+ employees trained and certified within first year",
+                        "60% reduction in training costs",
+                        "Improved consistency across dealer networks"
+                    ]
+                },
+                introduction: "A leading furniture brand was struggling with a decentralized training approach creating inconsistent messaging, high costs, and low engagement across their vast network of dealers and distributors. Swift Solution developed a comprehensive mobile-first eLearning program that transformed their dealer training approach.",
+                challengeDetails: {
+                    title: "The Challenge: Unifying a Fragmented Training Landscape",
+                    content: "The furniture brand's decentralized training approach was creating multiple problems that needed immediate attention.",
+                    points: [
+                        "Inconsistent Messaging: Product messaging varied from region to region",
+                        "High Costs: Traditional classroom training was expensive with high facility costs",
+                        "Lack of Scalability: Existing model couldn't cover vast dealer network",
+                        "Low Engagement: Training wasn't motivating enough for participation"
+                    ],
+                    quote: {
+                        text: "We had a world-class product, but our training was stuck in the past. We needed a solution that was as modern and innovative as our furniture.",
+                        author: "L&D Head"
+                    }
+                },
+                solutionDetails: {
+                    title: "The Solution: Mobile-First eLearning Program",
+                    content: "Swift Solution developed a mobile-first eLearning program designed to be engaging, accessible, and scalable for the modern dealer network.",
+                    components: [
+                        {
+                            title: "Microlearning Videos",
+                            description: "Short 2-3 minute videos designed for mobile consumption and engagement"
+                        },
+                        {
+                            title: "Multilingual Content",
+                            description: "Modules in multiple languages to accommodate diverse regional dealers"
+                        },
+                        {
+                            title: "Centralized LMS",
+                            description: "CMS integrated with cloud LMS for easy access and management"
+                        },
+                        {
+                            title: "Assessments & Certifications",
+                            description: "Introduced accountability measures to motivate completion"
+                        }
+                    ],
+                    quote: {
+                        text: "Swift Solution's mobile-first approach was a game-changer for us. It allowed us to reach all dealers regardless of location and provide the training they needed to succeed.",
+                        author: "L&D Head"
+                    }
+                },
+                resultsDetails: {
+                    title: "Results: Significant Cost Savings and Improved Engagement",
+                    content: "The mobile-first eLearning program delivered exceptional results with substantial cost savings and dramatically improved engagement across the dealer network.",
+                    achievements: [
+                        {
+                            title: "1000+ Employees Certified",
+                            description: "Successfully trained and certified over 1000 employees in the first year"
+                        },
+                        {
+                            title: "60% Cost Reduction",
+                            description: "Significant savings compared to traditional classroom-based training"
+                        },
+                        {
+                            title: "Improved Consistency",
+                            description: "Unified messaging and training standards across all regions"
+                        },
+                        {
+                            title: "Enhanced Engagement",
+                            description: "Mobile accessibility led to higher participation and completion rates"
+                        }
+                    ]
+                },
+                conclusion: {
+                    title: "Modernizing Retail Training",
+                    content: "This project demonstrates how mobile-first eLearning can transform traditional training approaches in the retail sector. Swift Solution's innovative approach has set a new standard for dealer training programs.",
+                    callToAction: {
+                        title: "Ready to Modernize Your Training?",
+                        content: "Transform your dealer or employee training with our mobile-first eLearning solutions. Contact us to learn how we can help.",
+                        contact: {
+                            phone: "+91 80 4154 1288",
+                            email: "info@itswift.com",
+                            website: "www.itswift.com"
+                        }
+                    }
+                }
+            }
+        },
+        {
             title: "Oil Rig Training with 3D BOP Simulations",
             client: "Leading Oil & Gas Company",
             industry: "Oil & Gas",
@@ -125,26 +726,6 @@ export default function CaseStudiesPage() {
                 { label: "Productivity", value: "Improved" }
             ],
             tags: ["Safety Training", "3D Simulation", "Oil & Gas", "Technical Training"]
-        },
-        {
-            title: "Scalable Courseware for Global EdTech Leader",
-            client: "Global Education Services Provider",
-            industry: "Education Technology",
-            challenge: "Rapid expansion required creating large volumes of structured, high-quality content across multiple domains. Scaling content development without losing consistency was challenging, with strict university timelines requiring faster turnaround without compromising quality.",
-            solution: "Appointed dedicated project managers and engaged SMEs across domains. Created standardized templates, TOCs, and instructional design guides. Deployed robust quality assurance process including plagiarism checks and multi-level reviews. Tested content with pilot learners before rollout.",
-            results: [
-                "Delivered high-quality courses faster while ensuring academic rigor",
-                "Enabled universities to launch programs on schedule without delays",
-                "Established scalable, repeatable framework for future course creation",
-                "Maintained consistency across multiple domains"
-            ],
-            metrics: [
-                { label: "Quality", value: "High" },
-                { label: "Delivery Speed", value: "Faster" },
-                { label: "Schedule", value: "On Time" },
-                { label: "Scalability", value: "Achieved" }
-            ],
-            tags: ["Content Development", "EdTech", "Quality Assurance", "Scalability"]
         },
         {
             title: "Centralized Dealer Training for Furniture Brand",
@@ -167,66 +748,6 @@ export default function CaseStudiesPage() {
             tags: ["Dealer Training", "Microlearning", "Multilingual", "Mobile Learning"]
         },
         {
-            title: "Global Online Music & Dance Learning Platform",
-            client: "Bharatanatyam & Carnatic Vocal Training Platform",
-            industry: "Arts & Culture Education",
-            challenge: "Making quality Bharatanatyam and Carnatic vocal training accessible worldwide while maintaining cultural authenticity. Platform needed to combine live teacher-student interaction with recorded lessons, support global streaming, and respect traditional guru-shishya learning methods.",
-            solution: "Developed custom Moodle LMS integrated with APIs for live sessions using WebEx and Skype. Created over 400 hours of eLearning content including 250+ hours of high-quality videos. Built scalable video streaming infrastructure and designed CMS for independent content management.",
-            results: [
-                "Established world's leading online music and dance eLearning platform",
-                "Secured VC funding for rapid growth and expansion",
-                "Gained adoption from learners in multiple countries",
-                "Successfully bridged cultural and geographic gaps"
-            ],
-            metrics: [
-                { label: "Content Hours", value: "400+" },
-                { label: "Video Content", value: "250+" },
-                { label: "Global Reach", value: "Multi-Country" },
-                { label: "Funding", value: "VC Secured" }
-            ],
-            tags: ["Arts Education", "Cultural Learning", "Live Streaming", "Global Platform"]
-        },
-        {
-            title: "Scalable Induction Training for Global Bank",
-            client: "Global Banking Operations Division",
-            industry: "Banking & Financial Services",
-            challenge: "Existing classroom-based induction was slow, expensive, and difficult to scale for rapidly expanding teams in HR, finance, IT, and customer support. Rising transaction volumes increased urgency to onboard new employees faster while maintaining training quality.",
-            solution: "Mapped over 300 processes with SMEs and built interactive simulations for critical workflows. Developed explainer videos to simplify complex systems. Created gamified assessments and real-time scenarios. Adopted blended model combining eLearning with reduced classroom sessions.",
-            results: [
-                "Reduced induction timelines by 30%",
-                "Improved complaint resolution and service quality",
-                "Delivered higher ROI per trained employee",
-                "Successfully scaled across multiple departments"
-            ],
-            metrics: [
-                { label: "Timeline Reduction", value: "30%" },
-                { label: "Process Mapping", value: "300+" },
-                { label: "Service Quality", value: "Improved" },
-                { label: "ROI", value: "Higher" }
-            ],
-            tags: ["Banking", "Induction Training", "Process Simulation", "Blended Learning"]
-        },
-        {
-            title: "Lean Training for 2000 Shopfloor Employees",
-            client: "India's Largest Automotive Battery Manufacturer",
-            industry: "Automotive Manufacturing",
-            challenge: "Training over 2000 shopfloor workers (mostly first-generation industrial employees) in lean manufacturing principles across multiple plants. Traditional classroom training was logistically unmanageable with limited qualified faculty, risking inconsistent delivery and productivity loss.",
-            solution: "Collaborated with Lean experts to design highly visual, scenario-based content. Created structured modules under 10 minutes each for first-time learners. Incorporated simulations and videos demonstrating lean principles. Deployed through cloud-hosted LMS with pre-tests, quizzes, and certifications.",
-            results: [
-                "Trained over 200 employees in first 4 weeks, scaling to 2000",
-                "Achieved 50% reduction in training costs vs classroom training",
-                "Improved worker engagement through interactive, modular content",
-                "Ensured measurable outcomes through assessments and certification"
-            ],
-            metrics: [
-                { label: "Initial Training", value: "200+" },
-                { label: "Cost Reduction", value: "50%" },
-                { label: "Target Scale", value: "2000" },
-                { label: "Engagement", value: "Improved" }
-            ],
-            tags: ["Manufacturing", "Lean Training", "Shopfloor", "Microlearning"]
-        },
-        {
             title: "Digitized Training for Asia's Largest Bank",
             client: "Asia's Largest Bank",
             industry: "Banking & Financial Services",
@@ -247,8 +768,6 @@ export default function CaseStudiesPage() {
             tags: ["Banking", "Mobile Learning", "Gamification", "Large Scale"]
         }
     ]
-
-
 
     return (
         <div className="w-full">
@@ -355,35 +874,180 @@ export default function CaseStudiesPage() {
                                                 <Target className="h-5 w-5 text-orange-500 mr-2" />
                                                 Challenge
                                             </h4>
-                                            <p className="text-gray-700">{study.challenge}</p>
+                                            <p className="text-gray-700" dangerouslySetInnerHTML={{ __html: formatText(study.challenge) }}></p>
                                         </div>
                                         
-                                        {showDetails === index && (
-                                            <div className="space-y-6">
-                                                <div>
-                                                    <h4 className="font-semibold text-gray-900 mb-2 flex items-center">
-                                                        <Layers className="h-5 w-5 text-orange-500 mr-2" />
-                                                        Solution
-                                                    </h4>
-                                                    <p className="text-gray-700">{study.solution}</p>
-                                                </div>
-                                                
-                                                <div>
-                                                    <h4 className="font-semibold text-gray-900 mb-3 flex items-center">
-                                                        <TrendingUp className="h-5 w-5 text-orange-500 mr-2" />
-                                                        Results Achieved
-                                                    </h4>
-                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                                        {study.results.map((result, resultIndex) => (
-                                                            <div key={resultIndex} className="flex items-center space-x-2">
-                                                                <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0" />
-                                                                <span className="text-gray-700">{result}</span>
-                                                            </div>
-                                                        ))}
-                                                    </div>
-                                                </div>
+                                        {showDetails === index && study.detailedContent && (
+                            <div className="space-y-8 bg-gray-50 rounded-lg p-6 mt-6">
+                                {/* Snapshot Section */}
+                                {study.detailedContent?.snapshot && (
+                                    <div className="bg-white rounded-lg p-6 shadow-sm">
+                                        <h4 className="text-xl font-bold text-gray-900 mb-4">Snapshot</h4>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <div>
+                                                <p className="text-sm font-semibold text-gray-600 mb-1">Client:</p>
+                                                <p className="text-gray-800 mb-3">{study.detailedContent.snapshot.client}</p>
+                                                <p className="text-sm font-semibold text-gray-600 mb-1">Challenge:</p>
+                                                <p className="text-gray-800 mb-3">{study.detailedContent.snapshot.challenge}</p>
+                                                <p className="text-sm font-semibold text-gray-600 mb-1">Solution:</p>
+                                                <p className="text-gray-800">{study.detailedContent.snapshot.solution}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-sm font-semibold text-gray-600 mb-2">Results:</p>
+                                                <ul className="space-y-1">
+                                                    {study.detailedContent.snapshot.results.map((result, idx) => (
+                                                        <li key={idx} className="flex items-center space-x-2">
+                                                            <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" />
+                                                            <span className="text-gray-700 text-sm" dangerouslySetInnerHTML={{ __html: formatText(result) }}></span>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Introduction */}
+                                {study.detailedContent?.introduction && (
+                                    <div className="bg-white rounded-lg p-6 shadow-sm">
+                                        <h4 className="text-xl font-bold text-gray-900 mb-4">Introduction</h4>
+                                        <p className="text-gray-700 leading-relaxed">{study.detailedContent.introduction}</p>
+                                    </div>
+                                )}
+
+                                {/* Challenge Details */}
+                                {study.detailedContent?.challengeDetails && (
+                                    <div className="bg-white rounded-lg p-6 shadow-sm">
+                                        <h4 className="text-xl font-bold text-gray-900 mb-4">{study.detailedContent.challengeDetails.title}</h4>
+                                        <p className="text-gray-700 mb-4" dangerouslySetInnerHTML={{ __html: formatText(study.detailedContent.challengeDetails.content) }}></p>
+                                        <ul className="space-y-3 mb-6">
+                                            {study.detailedContent.challengeDetails.points.map((point, idx) => (
+                                                <li key={idx} className="flex items-start space-x-3">
+                                                    <Target className="h-5 w-5 text-orange-500 flex-shrink-0 mt-0.5" />
+                                                    <span className="text-gray-700" dangerouslySetInnerHTML={{ __html: formatText(point) }}></span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                        {study.detailedContent.challengeDetails.quote && (
+                                            <div className="bg-orange-50 border-l-4 border-orange-500 p-4 rounded-r-lg">
+                                                <blockquote className="text-gray-700 italic mb-2">
+                                                    "{study.detailedContent.challengeDetails.quote.text}"
+                                                </blockquote>
+                                                <cite className="text-sm text-gray-600 font-medium">
+                                                    - {study.detailedContent.challengeDetails.quote.author}
+                                                </cite>
                                             </div>
                                         )}
+                                    </div>
+                                )}
+
+                                {/* Solution Details */}
+                                {study.detailedContent?.solutionDetails && (
+                                    <div className="bg-white rounded-lg p-6 shadow-sm">
+                                        <h4 className="text-xl font-bold text-gray-900 mb-4">{study.detailedContent.solutionDetails.title}</h4>
+                                        <p className="text-gray-700 mb-6" dangerouslySetInnerHTML={{ __html: formatText(study.detailedContent.solutionDetails.content) }}></p>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                                            {study.detailedContent.solutionDetails.components.map((component, idx) => (
+                                                <div key={idx} className="bg-gray-50 rounded-lg p-4">
+                                                    <h5 className="font-semibold text-gray-900 mb-2 flex items-center">
+                                                        <Layers className="h-4 w-4 text-orange-500 mr-2" />
+                                                        {component.title}
+                                                    </h5>
+                                                    <p className="text-gray-700 text-sm" dangerouslySetInnerHTML={{ __html: formatText(component.description) }}></p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                        {study.detailedContent.solutionDetails.quote && (
+                                            <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg">
+                                                <blockquote className="text-gray-700 italic mb-2">
+                                                    "{study.detailedContent.solutionDetails.quote.text}"
+                                                </blockquote>
+                                                <cite className="text-sm text-gray-600 font-medium">
+                                                    - {study.detailedContent.solutionDetails.quote.author}
+                                                </cite>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+
+                                {/* Results Details */}
+                                {study.detailedContent.resultsDetails && (
+                                    <div className="bg-white rounded-lg p-6 shadow-sm">
+                                        <h4 className="text-xl font-bold text-gray-900 mb-4">{study.detailedContent.resultsDetails.title}</h4>
+                                        <p className="text-gray-700 mb-6" dangerouslySetInnerHTML={{ __html: formatText(study.detailedContent.resultsDetails.content) }}></p>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            {study.detailedContent.resultsDetails.achievements.map((achievement, idx) => (
+                                                <div key={idx} className="bg-green-50 rounded-lg p-4">
+                                                    <h5 className="font-semibold text-green-800 mb-2 flex items-center">
+                                                        <TrendingUp className="h-4 w-4 text-green-600 mr-2" />
+                                                        {achievement.title}
+                                                    </h5>
+                                                    <p className="text-gray-700 text-sm" dangerouslySetInnerHTML={{ __html: formatText(achievement.description) }}></p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Conclusion */}
+                                {study.detailedContent.conclusion && (
+                                    <div className="bg-white rounded-lg p-6 shadow-sm">
+                                        <h4 className="text-xl font-bold text-gray-900 mb-4">{study.detailedContent.conclusion.title}</h4>
+                                        <p className="text-gray-700 mb-6" dangerouslySetInnerHTML={{ __html: formatText(study.detailedContent.conclusion.content) }}></p>
+                                        
+                                        {/* Call to Action */}
+                                        <div className="bg-orange-50 rounded-lg p-6 border border-orange-200">
+                                            <h5 className="text-lg font-bold text-orange-800 mb-3">{study.detailedContent.conclusion.callToAction.title}</h5>
+                                            <p className="text-gray-700 mb-4">{study.detailedContent.conclusion.callToAction.content}</p>
+                                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                                                <div className="flex items-center space-x-2">
+                                                    <Phone className="h-4 w-4 text-orange-600" />
+                                                    <span className="text-gray-700">{study.detailedContent.conclusion.callToAction.contact.phone}</span>
+                                                </div>
+                                                <div className="flex items-center space-x-2">
+                                                    <Mail className="h-4 w-4 text-orange-600" />
+                                                    <span className="text-gray-700">{study.detailedContent.conclusion.callToAction.contact.email}</span>
+                                                </div>
+                                                <div className="flex items-center space-x-2">
+                                                    <ExternalLink className="h-4 w-4 text-orange-600" />
+                                                    <a href={study.detailedContent.conclusion.callToAction.contact.website} 
+                                                       className="text-orange-600 hover:text-orange-700 transition-colors">
+                                                        Contact Us
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                        
+                        {showDetails === index && !study.detailedContent && (
+                            <div className="space-y-6">
+                                <div>
+                                    <h4 className="font-semibold text-gray-900 mb-2 flex items-center">
+                                        <Layers className="h-5 w-5 text-orange-500 mr-2" />
+                                        Solution
+                                    </h4>
+                                    <p className="text-gray-700" dangerouslySetInnerHTML={{ __html: formatText(study.solution) }}></p>
+                                </div>
+                                
+                                <div>
+                                    <h4 className="font-semibold text-gray-900 mb-3 flex items-center">
+                                        <TrendingUp className="h-5 w-5 text-orange-500 mr-2" />
+                                        Results Achieved
+                                    </h4>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                        {study.results.map((result, resultIndex) => (
+                                            <div key={resultIndex} className="flex items-center space-x-2">
+                                                <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0" />
+                                                <span className="text-gray-700" dangerouslySetInnerHTML={{ __html: formatText(result) }}></span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                                         
                                         <div className="flex justify-between items-center mt-6 pt-6 border-t border-gray-200">
                                             <button

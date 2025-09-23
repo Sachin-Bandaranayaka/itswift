@@ -442,6 +442,7 @@ export default function BlogManagement() {
                   onStatusChange={handleStatusChange}
                   onDeletePosts={handleDeletePosts}
                   onDuplicatePost={handleDuplicatePost}
+                  onEditPost={handleEditPost}
                   onRefresh={fetchPosts}
                 />
               )}

@@ -1,6 +1,8 @@
 "use client"
 
+import { useState } from "react"
 import Link from "next/link"
+import { motion } from "framer-motion"
 import Hero from "@/components/hero"
 import ValueProposition from "@/components/value-proposition"
 import Services from "@/components/services"
@@ -12,75 +14,168 @@ import Contact from "@/components/contact"
 import Footer from "@/components/footer"
 import { NewsletterSignup } from "@/components/newsletter-signup"
 import { Button } from "@/components/ui/button"
+import { ArrowRight, CheckCircle, TrendingUp, TrendingDown, Clock, Users, DollarSign, Award, Target, Building, BarChart3, ChevronDown, Lightbulb, Phone, Mail } from 'lucide-react'
+import DynamicContent from '@/components/dynamic-content'
 import Image from "next/image"
-import { motion } from "framer-motion"
-import { TrendingUp, Award, Clock, Users, CheckCircle } from "lucide-react"
-import DynamicContent from "@/components/dynamic-content"
 
 const caseStudies = [
   {
     id: 1,
+    slug: "swift-solution-lean-training",
     clientKey: "case_study_1_client",
-    clientFallback: "Global Financial Services",
+    clientFallback: "Swift Solution",
     logo: "/Logos (3)/Logos/standard-chartered-bank-new-20211713.jpg",
+    headerImage: "/IMAGES/case studies/CaseStudy_AutomotiveBattery_Final.jpg",
     titleKey: "case_study_1_title",
-    titleFallback: "Transforming Compliance Training with Microlearning",
+    titleFallback: "Lean Training for 2000 Shopfloor Employees",
     challengeKey: "case_study_1_challenge",
-    challengeFallback: "Needed to train 5,000+ employees on new regulations within 3 months",
+    challengeFallback: "Large-scale workforce transformation requiring efficient training delivery",
     solutionKey: "case_study_1_solution",
-    solutionFallback: "Custom compliance microlearning modules with interactive assessments",
+    solutionFallback: "Comprehensive eLearning platform with interactive modules and assessments",
     results: [
-      { icon: <TrendingUp className="h-5 w-5 text-green-500" />, metricKey: "case_study_1_result_1_metric", metricFallback: "97% completion rate", descriptionKey: "case_study_1_result_1_description", descriptionFallback: "Up from 68% with previous training" },
-      { icon: <Award className="h-5 w-5 text-blue-500" />, metricKey: "case_study_1_result_2_metric", metricFallback: "89% knowledge retention", descriptionKey: "case_study_1_result_2_description", descriptionFallback: "Measured after 60 days" },
-      { icon: <Clock className="h-5 w-5 text-purple-500" />, metricKey: "case_study_1_result_3_metric", metricFallback: "45% less time spent", descriptionKey: "case_study_1_result_3_description", descriptionFallback: "Compared to traditional methods" }
+      { icon: <TrendingUp className="h-5 w-5 text-green-500" />, metricKey: "case_study_1_result_1_metric", metricFallback: "95% completion rate", descriptionKey: "case_study_1_result_1_description", descriptionFallback: "Across all training modules" },
+      { icon: <Clock className="h-5 w-5 text-purple-500" />, metricKey: "case_study_1_result_2_metric", metricFallback: "60% faster delivery", descriptionKey: "case_study_1_result_2_description", descriptionFallback: "Compared to traditional methods" },
+      { icon: <Award className="h-5 w-5 text-blue-500" />, metricKey: "case_study_1_result_3_metric", metricFallback: "40% cost reduction", descriptionKey: "case_study_1_result_3_description", descriptionFallback: "In training delivery costs" }
     ],
     industryKey: "case_study_1_industry",
-    industryFallback: "Finance",
-    color: "from-blue-500 to-cyan-400"
+    industryFallback: "Manufacturing",
+    color: "from-blue-500 to-cyan-400",
+    detailedContent: {
+      snapshot: "Swift Solution successfully transformed lean training delivery for 2000 shopfloor employees, achieving remarkable efficiency gains and cost savings through innovative eLearning solutions.",
+      introduction: "In today's competitive manufacturing landscape, implementing lean methodologies across large workforces presents significant challenges. Swift Solution partnered with a leading manufacturing company to revolutionize their lean training approach for 2000 shopfloor employees.",
+      challengeDetails: {
+        title: "The Challenge",
+        content: "The client faced the daunting task of training 2000 shopfloor employees in lean methodologies within a tight timeline. Traditional classroom-based training was proving inefficient, costly, and difficult to scale. Key challenges included:\n\n• Coordinating training schedules across multiple shifts\n• Ensuring consistent training quality across different locations\n• Managing high training costs and resource allocation\n• Tracking progress and competency development\n• Minimizing production downtime during training"
+      },
+      solutionDetails: {
+        title: "Our Solution",
+        content: "Swift Solution developed a comprehensive eLearning platform specifically designed for shopfloor environments:\n\n• **Interactive Learning Modules**: Bite-sized, engaging content covering all aspects of lean methodology\n• **Mobile-First Design**: Accessible on tablets and mobile devices for flexible learning\n• **Gamification Elements**: Progress tracking, badges, and leaderboards to boost engagement\n• **Multilingual Support**: Content available in local languages for better comprehension\n• **Offline Capability**: Learning modules accessible without internet connectivity\n• **Real-time Analytics**: Comprehensive tracking and reporting dashboard"
+      },
+      resultsDetails: {
+        title: "Results Achieved",
+        content: "The implementation delivered exceptional results that exceeded all expectations:\n\n• **95% Completion Rate**: Significantly higher than traditional training methods\n• **60% Faster Delivery**: Reduced training time from weeks to days\n• **40% Cost Reduction**: Substantial savings in training delivery costs\n• **Improved Knowledge Retention**: 85% retention rate after 3 months\n• **Enhanced Productivity**: 25% improvement in lean implementation metrics\n• **Scalable Solution**: Framework ready for expansion to additional facilities"
+      },
+      conclusion: {
+        title: "Transforming Manufacturing Training",
+        content: "This project demonstrates Swift Solution's ability to deliver scalable, effective training solutions that drive real business results. Our innovative approach to lean training has set a new standard for manufacturing education.",
+        callToAction: {
+          title: "Ready to Transform Your Training?",
+          content: "Discover how Swift Solution can revolutionize your workforce development with cutting-edge eLearning solutions.",
+          contact: {
+            phone: "+91 80 4154 1288",
+            email: "info@itswift.com",
+            website: "www.itswift.com"
+          }
+        }
+      }
+    }
   },
   {
     id: 2,
+    slug: "global-edtech-scalable-courseware",
     clientKey: "case_study_2_client",
-    clientFallback: "National Retail Chain",
+    clientFallback: "Global EdTech Leader",
     logo: "/Logos (3)/Logos/reliance retail.png",
+    headerImage: "/IMAGES/case studies/CaseStudy_EdTech_Inurture.jpg",
     titleKey: "case_study_2_title",
-    titleFallback: "Onboarding Excellence Through Gamified Learning",
+    titleFallback: "Scalable Courseware for Global EdTech Leader",
     challengeKey: "case_study_2_challenge",
-    challengeFallback: "High turnover rates and inconsistent customer service quality",
+    challengeFallback: "Rapidly scaling courseware development without sacrificing quality",
     solutionKey: "case_study_2_solution",
-    solutionFallback: "Gamified onboarding program with realistic retail scenarios",
+    solutionFallback: "Turnkey course development model with standardized templates and robust QA",
     results: [
-      { icon: <TrendingUp className="h-5 w-5 text-green-500" />, metricKey: "case_study_2_result_1_metric", metricFallback: "32% reduction", descriptionKey: "case_study_2_result_1_description", descriptionFallback: "In new employee turnover" },
-      { icon: <Users className="h-5 w-5 text-orange-500" />, metricKey: "case_study_2_result_2_metric", metricFallback: "12,000+ employees", descriptionKey: "case_study_2_result_2_description", descriptionFallback: "Successfully onboarded" },
-      { icon: <Award className="h-5 w-5 text-blue-500" />, metricKey: "case_study_2_result_3_metric", metricFallback: "28% increase", descriptionKey: "case_study_2_result_3_description", descriptionFallback: "In customer satisfaction scores" }
+      { icon: <Clock className="h-5 w-5 text-green-500" />, metricKey: "case_study_2_result_1_metric", metricFallback: "Faster delivery", descriptionKey: "case_study_2_result_1_description", descriptionFallback: "Of high-quality courses" },
+      { icon: <Users className="h-5 w-5 text-orange-500" />, metricKey: "case_study_2_result_2_metric", metricFallback: "Universities enabled", descriptionKey: "case_study_2_result_2_description", descriptionFallback: "To launch programs on schedule" },
+      { icon: <Award className="h-5 w-5 text-blue-500" />, metricKey: "case_study_2_result_3_metric", metricFallback: "Scalable framework", descriptionKey: "case_study_2_result_3_description", descriptionFallback: "For future course creation" }
     ],
     industryKey: "case_study_2_industry",
-    industryFallback: "Retail",
-    color: "from-orange-500 to-red-400"
+    industryFallback: "EdTech",
+    color: "from-orange-500 to-red-400",
+    detailedContent: {
+      snapshot: "Swift Solution delivered a scalable courseware development solution for a global EdTech leader, enabling rapid content creation without compromising quality through standardized processes and robust QA frameworks.",
+      introduction: "A globally recognized education services provider was facing a classic growth challenge: how to scale content production to meet the demands of a rapidly expanding network of university partners without compromising on quality. The company needed to create large volumes of structured, high-quality courseware across multiple domains, and they needed to do it fast. They turned to Swift Solution to develop a scalable and repeatable course development model that would enable them to meet their ambitious growth targets.",
+      challengeDetails: {
+        title: "The Challenge: Balancing Speed and Quality in Courseware Development",
+        content: "The EdTech leader was under pressure to deliver a diverse range of courseware, including assessments, faculty slides, gamified content, and multimedia lessons, to its university partners. The key challenges were:\n\n• **Scalability**: The company needed to rapidly scale its content development capabilities to meet the demands of its growing network of partners\n• **Consistency**: With multiple SMEs and content developers involved, maintaining consistency in quality and instructional design was a major challenge\n• **Speed**: Strict timelines imposed by universities required a faster turnaround time without compromising on quality\n\n*\"We were caught in a classic Catch-22. We needed to move fast, but we couldn't afford to sacrifice quality. We needed a partner who could help us do both.\"* - Program Director, EdTech Leader"
+      },
+      solutionDetails: {
+        title: "The Solution: A Turnkey Course Development Model",
+        content: "Swift Solution developed a turnkey course development model that was designed to be both scalable and quality-driven. Our solution included:\n\n• **Dedicated Project Management**: We appointed a dedicated project manager to oversee communication, escalation, and progress tracking, ensuring that the project stayed on track and on budget\n• **SME Collaboration**: We engaged SMEs across multiple domains to validate and design accurate curricula, ensuring that the courseware was both credible and relevant\n• **Standardized Templates**: We created standardized templates, TOCs, and instructional design guides to maintain consistency and streamline the development process\n• **Robust QA Process**: We deployed a robust quality assurance process that included plagiarism checks and multi-level reviews to ensure that all content met the highest standards of quality\n• **Pilot Testing**: We tested all content with pilot learners to identify areas for improvement before rolling it out to a wider audience\n\n*\"Swift Solution's turnkey model was exactly what we needed. It gave us the scalability and quality control we needed to meet our growth targets.\"* - Program Director, EdTech Leader"
+      },
+      resultsDetails: {
+        title: "The Results: Faster Delivery, Higher Quality, and a Scalable Framework",
+        content: "The turnkey course development model delivered significant results for the EdTech leader:\n\n• **Faster Delivery**: The streamlined development process enabled the company to deliver high-quality courses faster, allowing its university partners to launch their programs on schedule\n• **Higher Quality**: The robust QA process ensured that all courseware met the highest standards of quality and academic rigor\n• **Scalable Framework**: The repeatable framework enabled the company to scale its content development capabilities without starting from scratch each time\n• **Improved Efficiency**: Standardized templates and processes reduced development time by 40%\n• **Enhanced Collaboration**: Better coordination between SMEs and content developers improved overall project outcomes\n• **Quality Assurance**: Zero quality-related escalations from university partners post-implementation"
+      },
+      conclusion: {
+        title: "A Partnership for Growth",
+        content: "This case study highlights the importance of a strategic partnership in achieving scalable and sustainable growth. By partnering with Swift Solution, the EdTech leader was able to overcome its content development challenges and position itself for long-term success. This project serves as a model for other EdTech companies looking to scale their content production without sacrificing quality.",
+        callToAction: {
+          title: "Ready to Scale Your Content Development?",
+          content: "If you're an EdTech company looking to scale your content development without sacrificing quality, we can help. Contact us today for a free consultation and learn how Swift Solution can help you achieve your growth targets.",
+          contact: {
+            phone: "+91-80-23215884",
+            email: "info@itswift.com",
+            website: "https://www.itswift.com/contact-us"
+          }
+        }
+      }
+    }
   },
   {
     id: 3,
+    slug: "furniture-brand-mobile-first-training",
     clientKey: "case_study_3_client",
-    clientFallback: "Manufacturing Leader",
+    clientFallback: "Furniture Brand",
     logo: "/Logos (3)/Logos/mrf-logo.png",
+    headerImage: "/IMAGES/case studies/CaseStudy_Furniture_Final.jpg",
     titleKey: "case_study_3_title",
-    titleFallback: "Safety Training Reimagined with VR Simulation",
+    titleFallback: "Modernizing Dealer Training with Mobile-First eLearning",
     challengeKey: "case_study_3_challenge",
-    challengeFallback: "High-risk environment requiring effective safety training",
+    challengeFallback: "Fragmented training landscape with inconsistent messaging and high costs",
     solutionKey: "case_study_3_solution",
-    solutionFallback: "VR-based safety simulations with real-time feedback",
+    solutionFallback: "Mobile-first eLearning program with microlearning videos and multilingual content",
     results: [
-      { icon: <TrendingUp className="h-5 w-5 text-green-500" />, metricKey: "case_study_3_result_1_metric", metricFallback: "76% reduction", descriptionKey: "case_study_3_result_1_description", descriptionFallback: "In workplace incidents" },
-      { icon: <Clock className="h-5 w-5 text-purple-500" />, metricKey: "case_study_3_result_2_metric", metricFallback: "40% faster", descriptionKey: "case_study_3_result_2_description", descriptionFallback: "Training completion time" },
-      { icon: <Award className="h-5 w-5 text-blue-500" />, metricKey: "case_study_3_result_3_metric", metricFallback: "ROI of 327%", descriptionKey: "case_study_3_result_3_description", descriptionFallback: "Within first 12 months" }
+      { icon: <TrendingDown className="h-5 w-5 text-green-500" />, metricKey: "case_study_3_result_1_metric", metricFallback: "60% reduction", descriptionKey: "case_study_3_result_1_description", descriptionFallback: "In training costs" },
+      { icon: <Users className="h-5 w-5 text-blue-500" />, metricKey: "case_study_3_result_2_metric", metricFallback: "1000+ certified", descriptionKey: "case_study_3_result_2_description", descriptionFallback: "Employees in first year" },
+      { icon: <Award className="h-5 w-5 text-purple-500" />, metricKey: "case_study_3_result_3_metric", metricFallback: "Improved consistency", descriptionKey: "case_study_3_result_3_description", descriptionFallback: "In product messaging" }
     ],
     industryKey: "case_study_3_industry",
-    industryFallback: "Manufacturing",
-    color: "from-green-500 to-teal-400"
+    industryFallback: "Furniture & Retail",
+    color: "from-green-500 to-teal-400",
+    detailedContent: {
+      snapshot: "Swift Solution transformed a furniture brand's fragmented dealer training with a mobile-first eLearning program, reducing costs by 60% while certifying over 1000 employees and improving consistency across their dealer network.",
+      introduction: "A leading furniture brand was struggling with a decentralized training approach that was creating inconsistent messaging, high costs, and low engagement across their vast network of dealers and distributors. They needed a modern, scalable solution that could unify their training landscape while reducing costs and improving engagement. Swift Solution developed a comprehensive mobile-first eLearning program that transformed their dealer training approach.",
+      challengeDetails: {
+        title: "The Challenge: Unifying a Fragmented Training Landscape",
+        content: "The furniture brand's decentralized training approach was creating a number of problems:\n\n• **Inconsistent Messaging**: With no centralized training program, product messaging and sales techniques varied from region to region, leading to a fragmented brand experience for customers\n• **High Costs**: Traditional classroom-based training was expensive, with high costs for instructors, travel, and facilities\n• **Lack of Scalability**: The existing training model was not scalable enough to cover the company's vast network of dealers and distributors\n• **Low Engagement**: The training was not engaging enough to motivate dealers and sales staff to participate\n\n*\"We had a world-class product, but our training was stuck in the past. We needed a solution that was as modern and innovative as our furniture.\"* - L&D Head, Furniture Brand"
+      },
+      solutionDetails: {
+        title: "The Solution: A Mobile-First eLearning Program",
+        content: "Swift Solution developed a mobile-first eLearning program that was designed to be engaging, accessible, and scalable. Our solution included:\n\n• **Microlearning Videos**: We developed a series of short, 2-3 minute microlearning videos that were designed to be engaging and easy to consume on a mobile device\n• **Multilingual Content**: We created multilingual modules to accommodate dealers from diverse regions, ensuring that everyone could learn in their preferred language\n• **Centralized LMS**: We deployed a CMS integrated with a cloud LMS to ensure easy access and management of the training content\n• **Assessments and Certifications**: We introduced assessments and certifications to ensure accountability and motivate learners to complete the training\n\n*\"Swift Solution's mobile-first approach was a game-changer for us. It allowed us to reach all of our dealers, regardless of their location, and provide them with the training they needed to succeed.\"* - L&D Head, Furniture Brand"
+      },
+      resultsDetails: {
+        title: "The Results: Reduced Costs, Increased Engagement, and a Certified Workforce",
+        content: "The mobile-first eLearning program delivered significant results for the furniture brand:\n\n• **60% Reduction in Training Costs**: The program reduced training costs by 60% compared to traditional classroom-based training\n• **1000+ Certified Employees**: Over 1000 employees were trained and certified in the first year, creating a more knowledgeable and effective sales force\n• **Improved Consistency and Engagement**: The centralized training program improved consistency in product messaging and led to a significant increase in engagement across the dealer network\n• **Enhanced Accessibility**: Mobile-first design enabled training access anytime, anywhere\n• **Scalable Framework**: The solution provided a repeatable model for future training initiatives\n• **Better Analytics**: Comprehensive tracking and reporting capabilities improved training oversight"
+      },
+      conclusion: {
+        title: "A Model for Modern Dealer Training",
+        content: "This case study demonstrates the power of mobile-first eLearning to transform dealer training. By leveraging a centralized, multilingual, and engaging eLearning solution, Swift Solution was able to help the furniture brand to reduce costs, increase engagement, and create a more knowledgeable and effective sales force. This project serves as a model for other companies looking to modernize their dealer training programs.",
+        callToAction: {
+          title: "Ready to Modernize Your Dealer Training?",
+          content: "If you're looking to create a centralized, engaging, and effective training program for your dealer network, we can help. Contact us today for a free consultation and learn how Swift Solution can help you achieve your training goals.",
+          contact: {
+            phone: "+91-80-23215884",
+            email: "info@itswift.com",
+            website: "https://www.itswift.com/contact-us"
+          }
+        }
+      }
+    }
   }
 ]
 
 export default function Home() {
+
   // Service schema markup
   const serviceSchema = {
     "@context": "https://schema.org",
@@ -465,18 +560,27 @@ export default function Home() {
                 viewport={{ once: true }}
                 className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-100 dark:border-gray-700 flex flex-col"
               >
-                {/* Header with gradient */}
-                <div className={`p-6 bg-gradient-to-r ${study.color}`}>
-                  <div className="text-white">
-                    <span className="text-white/80 text-sm">CLIENT</span>
-                    <h3 className="font-bold text-lg">
-                      <DynamicContent 
-                        sectionKey={study.clientKey} 
-                        pageSlug="home" 
-                        fallback={study.clientFallback}
-                        as="span"
-                      />
-                    </h3>
+                {/* Header with image */}
+                <div className="relative h-48 overflow-hidden">
+                  <Image
+                    src={study.headerImage}
+                    alt={`${study.clientFallback} case study`}
+                    fill
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black/50"></div>
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <div className="text-white">
+                      <span className="text-white/80 text-sm">CLIENT</span>
+                      <h3 className="font-bold text-lg">
+                        <DynamicContent 
+                          sectionKey={study.clientKey} 
+                          pageSlug="home" 
+                          fallback={study.clientFallback}
+                          as="span"
+                        />
+                      </h3>
+                    </div>
                   </div>
                 </div>
 
@@ -543,6 +647,7 @@ export default function Home() {
                       ))}
                     </div>
                   </div>
+
                 </div>
 
                 {/* Footer */}
@@ -556,9 +661,20 @@ export default function Home() {
                         as="span"
                       />
                     </span>
-                    <Button variant="outline" asChild size="sm">
-                      <Link href="/case-studies">View Details</Link>
-                    </Button>
+                    <div className="flex gap-2">
+                      {study.detailedContent && (
+                        <Link href={`/case-studies/${study.slug}`}>
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            className="flex items-center gap-1"
+                          >
+                            <span>View Details</span>
+                            <ArrowRight className="h-4 w-4" />
+                          </Button>
+                        </Link>
+                      )}
+                    </div>
                   </div>
                 </div>
               </motion.div>
