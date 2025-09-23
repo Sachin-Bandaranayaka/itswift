@@ -58,9 +58,19 @@ const menuItems: MenuItem[] = [
   { title: "Contact Us", href: "/contact" },
 ]
 
-export function Navbar() {
+export default function Navbar() {
   const [openMenu, setOpenMenu] = useState<number | null>(null)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+
+  const scrollToContact = () => {
+    const contactElement = document.getElementById('contact')
+    if (contactElement) {
+      contactElement.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      })
+    }
+  }
   const [openMobileSubmenu, setOpenMobileSubmenu] = useState<number | null>(null)
   const [isScrolled, setIsScrolled] = useState(false)
 
@@ -156,12 +166,12 @@ export function Navbar() {
 
           {/* CTA Button and Theme Toggle - Desktop */}
           <div className="hidden lg:flex items-center space-x-3">
-            <Link
-              href="/contact"
+            <button
+              onClick={scrollToContact}
               className="inline-flex items-center px-4 py-2 border-2 border-primary text-primary rounded-full text-xs font-medium hover:bg-primary hover:text-primary-foreground transition-colors duration-200 whitespace-nowrap"
             >
               Get quote
-            </Link>
+            </button>
             <ThemeToggle />
           </div>
 
@@ -254,13 +264,15 @@ export function Navbar() {
                         )}
                       </div>
                     ))}
-                    <Link
-                      href="/contact"
+                    <button
+                      onClick={() => {
+                        scrollToContact()
+                        closeMobileMenu()
+                      }}
                       className="mt-6 inline-flex items-center justify-center w-full px-6 py-3 border-2 border-[#FF6B38] text-[#FF6B38] rounded-full text-sm font-medium hover:bg-[#FF6B38] hover:text-white transition-colors duration-200"
-                      onClick={closeMobileMenu}
                     >
                       Get a quote!
-                    </Link>
+                    </button>
                   </div>
                 </motion.div>
               </>

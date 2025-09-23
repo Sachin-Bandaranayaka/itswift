@@ -2,6 +2,16 @@ import Image from "next/image"
 import { Linkedin, Instagram, Youtube, Mail, Phone, Map, Twitter } from "lucide-react"
 import Link from "next/link"
 
+const scrollToContact = () => {
+  const contactElement = document.getElementById('contact')
+  if (contactElement) {
+    contactElement.scrollIntoView({ 
+      behavior: 'smooth',
+      block: 'start'
+    })
+  }
+}
+
 export default function Footer() {
   return (
     <footer className="bg-gradient-to-r from-[#FF6B38] via-[#e05a79] to-[#9d4edd] text-white py-16 dark:from-[#CC5630] dark:via-[#b34861] dark:to-[#7d3eb1]">
@@ -144,9 +154,9 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="mailto:swiftsol@itswift.com?subject=Quote Request" className="text-white hover:underline text-sm">
+                <button onClick={scrollToContact} className="text-white hover:underline text-sm text-left">
                   Get a Quote
-                </Link>
+                </button>
               </li>
               <li>
                 <Link href="/privacy-policy" className="text-white hover:underline text-sm">

@@ -1,7 +1,7 @@
 "use client"
 
 import { usePathname } from "next/navigation"
-import { Navbar } from "@/components/navbar"
+import Navbar from "@/components/navbar"
 import ChatWidget from "@/components/chat-widget"
 import BackToTop from "@/components/back-to-top"
 import CookieConsent from "@/components/cookie-consent"
