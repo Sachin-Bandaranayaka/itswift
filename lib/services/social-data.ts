@@ -32,18 +32,24 @@ export class SocialDataService {
         };
       }
 
+      const getEffectiveDate = (post: any) => {
+        const publishedAt = post.published_at ? new Date(post.published_at) : null;
+        const createdAt = post.created_at ? new Date(post.created_at) : null;
+        if (publishedAt && !isNaN(publishedAt.getTime())) return publishedAt;
+        if (createdAt && !isNaN(createdAt.getTime())) return createdAt;
+        return null;
+      };
+
       // Filter posts for this week
       const thisWeekPosts = posts.filter(post => {
-        if (!post.published_at) return false;
-        const publishedDate = new Date(post.published_at);
-        return isThisWeek(publishedDate);
+        const date = getEffectiveDate(post);
+        return date ? isThisWeek(date) : false;
       });
 
       // Filter posts for last week
       const lastWeekPosts = posts.filter(post => {
-        if (!post.published_at) return false;
-        const publishedDate = new Date(post.published_at);
-        return isLastWeek(publishedDate);
+        const date = getEffectiveDate(post);
+        return date ? isLastWeek(date) : false;
       });
 
       // Calculate total engagement across all posts

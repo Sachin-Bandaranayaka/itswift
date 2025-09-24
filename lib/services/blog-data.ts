@@ -20,105 +20,79 @@ export class BlogDataService {
   async getBlogStats(): Promise<BlogStats> {
     try {
       const supabase = getSupabaseAdmin();
-      
-      // Get current date boundaries
+
+      const { data, error } = await supabase
+        .from('blog_posts')
+        .select('id, status, created_at, published_at')
+        .order('created_at', { ascending: false })
+        .limit(1000);
+
+      if (error) {
+        console.error('Error querying blog posts for stats:', error);
+        throw new Error(error.message || 'Failed to query blog posts');
+      }
+
+      const posts = data || [];
       const now = new Date();
-      const startOfThisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-      const startOfLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-      const endOfLastMonth = new Date(now.getFullYear(), now.getMonth(), 0);
-      const startOfThisWeek = new Date(now);
-      startOfThisWeek.setDate(now.getDate() - now.getDay());
-      startOfThisWeek.setHours(0, 0, 0, 0);
-      const startOfLastWeek = new Date(startOfThisWeek);
-      startOfLastWeek.setDate(startOfThisWeek.getDate() - 7);
 
-      // Execute all queries in parallel
-      const [
-        totalPostsResult,
-        publishedPostsResult,
-        draftPostsResult,
-        thisMonthResult,
-        lastMonthResult,
-        thisWeekResult,
-        lastWeekResult,
-        lastPublishedResult
-      ] = await Promise.all([
-        // Total posts
-        supabase.from('blog_posts').select('id', { count: 'exact' }),
-        
-        // Published posts
-        supabase.from('blog_posts').select('id', { count: 'exact' }).eq('status', 'published'),
-        
-        // Draft posts
-        supabase.from('blog_posts').select('id', { count: 'exact' }).eq('status', 'draft'),
-        
-        // Published this month
-        supabase.from('blog_posts')
-          .select('id', { count: 'exact' })
-          .eq('status', 'published')
-          .gte('published_at', startOfThisMonth.toISOString()),
-        
-        // Published last month
-        supabase.from('blog_posts')
-          .select('id', { count: 'exact' })
-          .eq('status', 'published')
-          .gte('published_at', startOfLastMonth.toISOString())
-          .lte('published_at', endOfLastMonth.toISOString()),
-        
-        // Published this week
-        supabase.from('blog_posts')
-          .select('id', { count: 'exact' })
-          .eq('status', 'published')
-          .gte('published_at', startOfThisWeek.toISOString()),
-        
-        // Published last week
-        supabase.from('blog_posts')
-          .select('id', { count: 'exact' })
-          .eq('status', 'published')
-          .gte('published_at', startOfLastWeek.toISOString())
-          .lt('published_at', startOfThisWeek.toISOString()),
-        
-        // Last published post
-        supabase.from('blog_posts')
-          .select('published_at')
-          .eq('status', 'published')
-          .order('published_at', { ascending: false })
-          .limit(1)
-          .single()
-      ]);
+      const toDate = (value?: string | null): Date | null => {
+        if (!value) return null;
+        const date = new Date(value);
+        return Number.isNaN(date.getTime()) ? null : date;
+      };
 
-      // Calculate statistics
-      const totalPosts = totalPostsResult.count || 0;
-      const publishedPosts = publishedPostsResult.count || 0;
-      const draftPosts = draftPostsResult.count || 0;
-      const publishedThisMonth = thisMonthResult.count || 0;
-      const publishedLastMonth = lastMonthResult.count || 0;
-      const publishedThisWeek = thisWeekResult.count || 0;
-      const publishedLastWeek = lastWeekResult.count || 0;
+      const getEffectivePublishedDate = (post: { published_at?: string | null; created_at?: string | null }): Date | null => {
+        return toDate(post.published_at) || toDate(post.created_at);
+      };
 
-      // Calculate growth percentages
+      const publishedPosts = posts.filter(post => post.status === 'published');
+      const draftPosts = posts.filter(post => post.status === 'draft');
+
+      const publishedThisMonth = publishedPosts.filter(post => {
+        const date = getEffectivePublishedDate(post);
+        return date ? isThisMonth(date) : false;
+      }).length;
+
+      const publishedLastMonth = publishedPosts.filter(post => {
+        const date = getEffectivePublishedDate(post);
+        return date ? isLastMonth(date) : false;
+      }).length;
+
+      const publishedThisWeek = publishedPosts.filter(post => {
+        const date = getEffectivePublishedDate(post);
+        return date ? isThisWeek(date) : false;
+      }).length;
+
+      const publishedLastWeek = publishedPosts.filter(post => {
+        const date = getEffectivePublishedDate(post);
+        return date ? isLastWeek(date) : false;
+      }).length;
+
       const growthPercentage = calculateGrowth(publishedThisMonth, publishedLastMonth);
       const weeklyGrowthPercentage = calculateGrowth(publishedThisWeek, publishedLastWeek);
 
-      // Calculate average posts per week (based on last 4 weeks)
       const fourWeeksAgo = new Date(now);
       fourWeeksAgo.setDate(now.getDate() - 28);
-      const lastFourWeeksResult = await supabase.from('blog_posts')
-        .select('id', { count: 'exact' })
-        .eq('status', 'published')
-        .gte('published_at', fourWeeksAgo.toISOString());
-      
-      const averagePostsPerWeek = Math.round((lastFourWeeksResult.count || 0) / 4);
+      const postsLastFourWeeks = publishedPosts.filter(post => {
+        const date = getEffectivePublishedDate(post);
+        return date ? date >= fourWeeksAgo : false;
+      });
+      const averagePostsPerWeek = Math.round(postsLastFourWeeks.length / 4);
+
+      const lastPublishedAt = publishedPosts
+        .map(getEffectivePublishedDate)
+        .filter((date): date is Date => Boolean(date))
+        .sort((a, b) => b.getTime() - a.getTime())[0] || null;
 
       return {
-        totalPosts,
+        totalPosts: posts.length,
         publishedThisMonth,
         publishedThisWeek,
-        draftPosts,
+        draftPosts: draftPosts.length,
         growthPercentage,
         weeklyGrowthPercentage,
         averagePostsPerWeek,
-        lastPublishedAt: (lastPublishedResult.data as any)?.published_at || null
+        lastPublishedAt
       };
     } catch (error) {
       console.error('Error fetching blog stats:', error);
