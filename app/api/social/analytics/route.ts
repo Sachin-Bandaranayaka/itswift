@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { AyrshareAPI } from '@/lib/integrations/ayrshare'
 
+export const dynamic = 'force-dynamic'
+
 // Initialize Ayrshare API
 const ayrshare = new AyrshareAPI()
 

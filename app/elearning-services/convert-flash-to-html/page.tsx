@@ -4,7 +4,7 @@ import React from "react"
 import Image from "next/image"
 import Contact from "@/components/contact"
 import DynamicFAQ from "@/components/dynamic-faq"
-import { ArrowRight, CheckCircle, Award, BarChart, Layers, Users } from "lucide-react"
+import { ArrowRight, CheckCircle, Award, BarChart, Layers, Users, Code } from "lucide-react"
 
 export default function ConvertFlashToHtmlPage() {
 

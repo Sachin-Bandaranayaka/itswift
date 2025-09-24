@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSupabaseAdmin, type Database } from '@/lib/supabase'
 
+export const dynamic = 'force-dynamic'
+
 type PageRow = Database['public']['Tables']['pages']['Row']
 type PageContentSectionRow = Database['public']['Tables']['page_content_sections']['Row']
 

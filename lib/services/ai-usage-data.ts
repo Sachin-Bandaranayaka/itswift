@@ -6,6 +6,10 @@ import { getSupabaseAdmin } from '@/lib/supabase';
 import { AIUsageStats, ActivityItem } from '@/lib/types/dashboard';
 import { isThisMonth, isLastMonth, calculateGrowth } from '@/lib/utils/dashboard-utils';
 
+const isMissingTableError = (error: unknown): boolean => {
+  return Boolean(error && typeof error === 'object' && (error as any).code === 'PGRST205');
+};
+
 export class AIUsageDataService {
   /**
    * Fetch AI usage statistics from Supabase
@@ -18,6 +22,13 @@ export class AIUsageDataService {
         .select('*');
 
       if (error) {
+        if (isMissingTableError(error)) {
+          return {
+            contentGenerated: 0,
+            tokensUsed: 0,
+            timeSaved: 0
+          };
+        }
         throw new Error(`Supabase error: ${error.message}`);
       }
 
@@ -45,7 +56,11 @@ export class AIUsageDataService {
       };
     } catch (error) {
       console.error('Error fetching AI usage stats:', error);
-      throw new Error('Failed to fetch AI usage statistics');
+      return {
+        contentGenerated: 0,
+        tokensUsed: 0,
+        timeSaved: 0
+      };
     }
   }
 
@@ -61,6 +76,9 @@ export class AIUsageDataService {
         .limit(5);
 
       if (error) {
+        if (isMissingTableError(error)) {
+          return [];
+        }
         console.error('Supabase error:', error);
         return [];
       }
@@ -103,6 +121,14 @@ export class AIUsageDataService {
         .gte('created_at', cutoffDate.toISOString());
 
       if (error) {
+        if (isMissingTableError(error)) {
+          return {
+            totalGenerated: 0,
+            totalTokens: 0,
+            averageTokensPerGeneration: 0,
+            contentTypeBreakdown: {}
+          };
+        }
         throw new Error(`Supabase error: ${error.message}`);
       }
 
@@ -157,6 +183,9 @@ export class AIUsageDataService {
         .order('created_at', { ascending: true });
 
       if (error) {
+        if (isMissingTableError(error)) {
+          return [];
+        }
         throw new Error(`Supabase error: ${error.message}`);
       }
 
