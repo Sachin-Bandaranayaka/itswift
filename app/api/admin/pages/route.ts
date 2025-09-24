@@ -34,10 +34,13 @@ export async function GET() {
     }
     
     // Transform the data to include content count
-    const pagesWithContentCount: PageWithContentCount[] = pages?.map((page: any) => ({
-      ...page,
-      content_count: page.page_content_sections?.[0]?.count || 0
-    })) || []
+    const pagesWithContentCount: PageWithContentCount[] = (pages || []).map((page: any) => {
+      const { page_content_sections, ...rest } = page
+      return {
+        ...rest,
+        content_count: page_content_sections?.[0]?.count || 0
+      }
+    })
     
     return NextResponse.json({ pages: pagesWithContentCount })
   } catch (error) {

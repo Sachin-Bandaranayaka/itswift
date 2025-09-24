@@ -66,7 +66,15 @@ export default function ContentManagement() {
           throw new Error('Failed to fetch pages')
         }
         const data = await response.json()
-        setPages(data.pages || [])
+
+        const normalizedPages: PageWithContentCount[] = (data.pages || []).map((page: any) => ({
+          slug: page.slug,
+          title: page.title,
+          description: page.description ?? undefined,
+          contentSectionCount: page.content_count ?? 0
+        }))
+
+        setPages(normalizedPages)
       } catch (error) {
         console.error('Error fetching pages:', error)
         toast({

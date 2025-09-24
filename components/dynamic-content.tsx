@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useEffect, ReactNode } from 'react'
+import { useEffect, useMemo, useState, type ReactNode } from 'react'
+import DOMPurify from 'isomorphic-dompurify'
 
 interface DynamicContentProps {
   sectionKey: string
@@ -10,62 +11,94 @@ interface DynamicContentProps {
   className?: string
 }
 
-function DynamicContent({ 
-  sectionKey, 
-  pageSlug, 
-  fallback = '', 
-  as: Component = 'div',
-  className 
-}: DynamicContentProps) {
-  const [content, setContent] = useState<string>('')
-  const [isLoaded, setIsLoaded] = useState(false)
+function sanitizeContent(value: string) {
+  if (!value) return ''
 
-  useEffect(() => {
-    const fetchContent = async () => {
-      try {
-        const response = await fetch(`/api/admin/content/sections?pageSlug=${pageSlug}&sectionKey=${sectionKey}`)
-        if (response.ok) {
-          const data = await response.json()
-          if (data.content) {
-            setContent(data.content)
-          }
-        }
-      } catch (error) {
-        console.error('Error fetching content:', error)
-      } finally {
-        setIsLoaded(true)
-      }
-    }
+  const hasHtmlTags = /<[^>]*>/g.test(value)
+  const normalized = hasHtmlTags ? value : value.replace(/\n/g, '<br />')
 
-    fetchContent()
-  }, [sectionKey, pageSlug])
+  return DOMPurify.sanitize(normalized)
+}
 
-  // If content is loaded and available, use it
-  if (isLoaded && content) {
-    return (
-      <Component 
-        className={className}
-        dangerouslySetInnerHTML={{ __html: content }}
-      />
-    )
-  }
-
-  // If fallback is a string, render it with dangerouslySetInnerHTML
+function renderFallback(
+  Component: keyof JSX.IntrinsicElements,
+  className: string | undefined,
+  fallback: string | ReactNode
+) {
   if (typeof fallback === 'string') {
     return (
-      <Component 
-        className={className}
-        dangerouslySetInnerHTML={{ __html: fallback }}
-      />
+      <Component className={className}>
+        {fallback}
+      </Component>
     )
   }
 
-  // If fallback is a ReactNode, render it directly
   return (
     <Component className={className}>
       {fallback}
     </Component>
   )
+}
+
+function DynamicContent({
+  sectionKey,
+  pageSlug,
+  fallback = '',
+  as: Component = 'div',
+  className
+}: DynamicContentProps) {
+  const [rawContent, setRawContent] = useState('')
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const controller = new AbortController()
+
+    async function fetchContent() {
+      setIsLoading(true)
+      setRawContent('')
+
+      try {
+        const params = new URLSearchParams({ page: pageSlug, section: sectionKey })
+        const response = await fetch(`/api/content?${params.toString()}`, {
+          cache: 'no-store',
+          signal: controller.signal
+        })
+
+        if (!response.ok) {
+          console.error(`Failed to fetch content for ${pageSlug}:${sectionKey}`)
+          return
+        }
+
+        const payload = await response.json()
+        const contentMap = payload?.data?.content || {}
+        const nextContent = typeof contentMap[sectionKey] === 'string' ? contentMap[sectionKey] : ''
+        setRawContent(nextContent)
+      } catch (error) {
+        if ((error as Error).name !== 'AbortError') {
+          console.error('Error fetching content:', error)
+        }
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    void fetchContent()
+
+    return () => controller.abort()
+  }, [pageSlug, sectionKey])
+
+  const sanitizedContent = useMemo(() => sanitizeContent(rawContent), [rawContent])
+
+  if (!isLoading && sanitizedContent) {
+    return (
+      <Component
+        className={className}
+        dangerouslySetInnerHTML={{ __html: sanitizedContent }}
+      />
+    )
+  }
+
+  return renderFallback(Component, className, fallback)
 }
 
 interface DynamicContentGroupProps {
@@ -74,36 +107,62 @@ interface DynamicContentGroupProps {
   className?: string
 }
 
-function DynamicContentGroup({ 
-  pageSlug, 
+function DynamicContentGroup({
+  pageSlug,
   fallback = null,
-  className 
+  className
 }: DynamicContentGroupProps) {
-  const [sections, setSections] = useState<Array<{sectionKey: string, content: string}>>([])
-  const [isLoaded, setIsLoaded] = useState(false)
+  const [sections, setSections] = useState<Array<{ sectionKey: string; content: string }>>([])
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    const fetchAllSections = async () => {
+    const controller = new AbortController()
+
+    async function fetchAllSections() {
+      setIsLoading(true)
+      setSections([])
+
       try {
-        const response = await fetch(`/api/admin/content/sections?pageSlug=${pageSlug}`)
-        if (response.ok) {
-          const data = await response.json()
-          if (data.sections) {
-            setSections(data.sections)
-          }
+        const params = new URLSearchParams({ page: pageSlug })
+        const response = await fetch(`/api/content?${params.toString()}`, {
+          cache: 'no-store',
+          signal: controller.signal
+        })
+
+        if (!response.ok) {
+          console.error(`Failed to fetch content sections for ${pageSlug}`)
+          return
         }
+
+        const payload = await response.json()
+        const contentMap = payload?.data?.content || {}
+        const normalizedSections = Object.entries(contentMap)
+          .filter(([sectionKey, value]) => typeof value === 'string' && sectionKey)
+          .map(([sectionKey, value]) => ({
+            sectionKey,
+            content: sanitizeContent(value as string)
+          }))
+        setSections(normalizedSections)
       } catch (error) {
-        console.error('Error fetching content sections:', error)
+        if ((error as Error).name !== 'AbortError') {
+          console.error('Error fetching content sections:', error)
+        }
       } finally {
-        setIsLoaded(true)
+        setIsLoading(false)
       }
     }
 
-    fetchAllSections()
+    void fetchAllSections()
+
+    return () => controller.abort()
   }, [pageSlug])
 
-  if (!isLoaded) {
-    return <div className={className}>{fallback}</div>
+  if (isLoading) {
+    return (
+      <div className={className}>
+        {fallback}
+      </div>
+    )
   }
 
   if (sections.length === 0) {

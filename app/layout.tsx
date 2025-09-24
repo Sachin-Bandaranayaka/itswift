@@ -10,38 +10,38 @@ import type React from "react" // Added import for React
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.itswift.com'),
-  title: "Top eLearning Company in Bangalore for AI-Powered Corporate Training | Swift Solution",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.itswift.com/'),
+  title: "Top eLearning Company in Bangalore | itswift",
   description:
-    "Boost your workforce performance with the top eLearning company in Bangalore. Swift Solution delivers AI-powered, custom eLearning solutions for corporate training. Get a free demo!",
+    "itswift delivers AI-powered, custom eLearning programs for enterprises in Bangalore and worldwide. Boost corporate training with tailored digital learning experiences.",
   keywords: "eLearning company Bangalore, AI-powered corporate training, custom eLearning solutions, corporate training Bangalore, eLearning development",
-  authors: [{ name: "Swift Solution" }],
-  creator: "Swift Solution",
-  publisher: "Swift Solution",
+  authors: [{ name: "itswift" }],
+  creator: "itswift",
+  publisher: "itswift",
   alternates: {
-    canonical: "https://www.itswift.com",
+    canonical: "https://www.itswift.com/",
   },
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://www.itswift.com",
-    siteName: "Swift Solution",
-    title: "Top eLearning Company in Bangalore for AI-Powered Corporate Training | Swift Solution",
-    description: "Boost your workforce performance with the top eLearning company in Bangalore. Swift Solution delivers AI-powered, custom eLearning solutions for corporate training. Get a free demo!",
+    url: "https://www.itswift.com/",
+    siteName: "itswift",
+    title: "Top eLearning Company in Bangalore | itswift",
+    description: "itswift delivers AI-powered, custom eLearning programs for enterprises in Bangalore and worldwide. Boost corporate training with tailored digital learning experiences.",
     images: [
       {
-        url: "/og-image.jpg",
+        url: "/IMAGES/Swift_logo_new.png",
         width: 1200,
         height: 630,
-        alt: "Swift Solution - AI-Powered eLearning Company in Bangalore",
+        alt: "itswift company logo",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Top eLearning Company in Bangalore for AI-Powered Corporate Training | Swift Solution",
-    description: "Boost your workforce performance with the top eLearning company in Bangalore. Swift Solution delivers AI-powered, custom eLearning solutions for corporate training. Get a free demo!",
-    images: ["/og-image.jpg"],
+    title: "Top eLearning Company in Bangalore | itswift",
+    description: "itswift delivers AI-powered, custom eLearning programs for enterprises in Bangalore and worldwide. Boost corporate training with tailored digital learning experiences.",
+    images: ["/IMAGES/Swift_logo_new.png"],
     creator: "@ITSwift",
   },
   robots: {
@@ -56,7 +56,7 @@ export const metadata = {
     },
   },
   icons: {
-    apple: "/IMAGES/Swift_logo_new copy.svg",
+    apple: "/IMAGES/Swift_logo_new.png",
   },
 }
 
@@ -68,25 +68,52 @@ export default function RootLayout({
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "Swift Solution",
-    "description": "Top eLearning Company in Bangalore for AI-Powered Corporate Training",
-    "url": "https://www.itswift.com",
-    "logo": "https://www.itswift.com/logo.png",
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "telephone": "+91-80-1234-5678",
-      "contactType": "customer service",
-      "areaServed": "IN",
-      "availableLanguage": "English"
-    },
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Your Street Address",
-      "addressLocality": "Bangalore",
-      "addressRegion": "Karnataka",
-      "postalCode": "560001",
-      "addressCountry": "IN"
-    },
+    "name": "itswift",
+    "description": "itswift delivers AI-powered, custom eLearning programs for enterprises in Bangalore and worldwide.",
+    "url": "https://www.itswift.com/",
+    "logo": "https://www.itswift.com/IMAGES/Swift_logo_new.png",
+    "contactPoint": [
+      {
+        "@type": "ContactPoint",
+        "telephone": "+918023215884",
+        "contactType": "sales",
+        "areaServed": "IN",
+        "availableLanguage": ["English"]
+      },
+      {
+        "@type": "ContactPoint",
+        "telephone": "+16785841312",
+        "contactType": "sales",
+        "areaServed": "US",
+        "availableLanguage": ["English"]
+      },
+      {
+        "@type": "ContactPoint",
+        "telephone": "+16785841525",
+        "contactType": "support",
+        "areaServed": "US",
+        "availableLanguage": ["English"]
+      }
+    ],
+    "address": [
+      {
+        "@type": "PostalAddress",
+        "streetAddress": "# 31, 14th Main, Agromore Layout, Atthiguppe Extn (Near To Chandra Layout Water Tank)",
+        "addressLocality": "Bangalore",
+        "addressRegion": "Karnataka",
+        "postalCode": "560040",
+        "addressCountry": "IN"
+      },
+      {
+        "@type": "PostalAddress",
+        "name": "Swift Solution Pvt Ltd, USA",
+        "streetAddress": "3621 Vinings Slope SE, Suite 4310",
+        "addressLocality": "Atlanta",
+        "addressRegion": "GA",
+        "postalCode": "30339",
+        "addressCountry": "US"
+      }
+    ],
     "sameAs": [
       "https://www.linkedin.com/company/swift-solution",
       "https://twitter.com/ITSwift"
