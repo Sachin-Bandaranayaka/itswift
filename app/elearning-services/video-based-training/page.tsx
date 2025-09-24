@@ -1,54 +1,12 @@
 "use client"
 
-import React, { useState } from "react"
+import React from "react"
 import Image from "next/image"
 import Contact from "@/components/contact"
-import { ArrowRight, CheckCircle, Award, BarChart, Layers, Users, ChevronDown, Play, Video, Camera, Edit, Mic, Monitor } from "lucide-react"
-
-interface FAQItem {
-    question: string
-    answer: string
-}
+import DynamicFAQ from "@/components/dynamic-faq"
+import { ArrowRight, CheckCircle, Award, BarChart, Layers, Users, Play, Video, Camera, Edit, Mic, Monitor } from "lucide-react"
 
 export default function VideoBasedTrainingPage() {
-    const [openFAQs, setOpenFAQs] = useState<Record<number, boolean>>({
-        0: true // First question open by default
-    })
-
-    const toggleFAQ = (index: number) => {
-        setOpenFAQs(prev => ({
-            ...prev,
-            [index]: !prev[index]
-        }))
-    }
-
-    const faqItems: FAQItem[] = [
-        {
-            question: "What types of video-based training do you create?",
-            answer: "We create a wide range of video training content including: instructional videos, product demonstrations, software tutorials, compliance training, onboarding videos, leadership development content, safety training, and interactive video scenarios."
-        },
-        {
-            question: "How do you ensure high production quality in your videos?",
-            answer: "We use professional-grade equipment, experienced videographers, and post-production specialists. Our process includes scriptwriting, storyboarding, professional filming, advanced editing, color correction, audio enhancement, and quality assurance testing."
-        },
-        {
-            question: "Can you create interactive video training content?",
-            answer: "Yes! We specialize in interactive video training that includes clickable hotspots, branching scenarios, embedded quizzes, knowledge checks, and decision-point interactions. This approach significantly increases engagement and knowledge retention."
-        },
-        {
-            question: "Do you provide video hosting and delivery solutions?",
-            answer: "Absolutely. We offer secure video hosting, adaptive streaming for different devices and bandwidths, LMS integration, analytics tracking, and content delivery network (CDN) services to ensure optimal viewing experience worldwide."
-        },
-        {
-            question: "How do you handle multilingual video training requirements?",
-            answer: "We provide comprehensive multilingual services including professional voice-over in multiple languages, subtitle creation, cultural adaptation, and localization of visual elements to ensure your training resonates with global audiences."
-        },
-        {
-            question: "What's the typical timeline for video training production?",
-            answer: "Timeline varies based on complexity and length. Simple training videos take 2-3 weeks, while complex interactive video series may require 6-8 weeks. We provide detailed project timelines during the planning phase."
-        }
-    ]
-
     return (
         <div className="w-full">
             {/* Hero Section */}
@@ -158,60 +116,11 @@ export default function VideoBasedTrainingPage() {
                             </div>
                         </div>
 
-                        {/* FAQ Section */}
-                        <div className="mb-16">
-                            <div className="grid md:grid-cols-[1fr,2fr] gap-16">
-                                {/* Left side - title */}
-                                <div>
-                                    <h3 className="text-4xl font-bold sticky top-24">
-                                        Frequently Asked Questions (FAQs) about Video-Based Training
-                                    </h3>
-                                </div>
-
-                                {/* Right side - FAQ content */}
-                                <div>
-                                    <div className="mb-12">
-                                        <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-6">
-                                            VIDEO-BASED TRAINING
-                                        </h4>
-                                        <div className="space-y-px">
-                                            {faqItems.map((faq, index) => {
-                                                const isItemOpen = openFAQs[index];
-
-                                                return (
-                                                    <div key={index} className="border-t border-gray-200 first:border-t-0">
-                                                        <button
-                                                            onClick={() => toggleFAQ(index)}
-                                                            className="flex justify-between items-center w-full py-6 text-left"
-                                                        >
-                                                            <span className={`text-lg font-medium ${isItemOpen ? "text-blue-500" : "text-gray-900"}`}>
-                                                                {faq.question}
-                                                            </span>
-                                                            <span className="ml-6 flex-shrink-0">
-                                                                {isItemOpen ? (
-                                                                    <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-                                                                    </svg>
-                                                                ) : (
-                                                                    <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                                                    </svg>
-                                                                )}
-                                                            </span>
-                                                        </button>
-                                                        {isItemOpen && (
-                                                            <div className="pb-6">
-                                                                <p className="text-gray-600">{faq.answer}</p>
-                                                            </div>
-                                                        )}
-                                                    </div>
-                                                );
-                                            })}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <DynamicFAQ
+                            sectionId="faq"
+                            pageSlug="video-based-training"
+                            title="Frequently Asked Questions (FAQs) about Video-Based Training"
+                        />
 
                         {/* Video Training Types */}
                         <div className="mb-16">

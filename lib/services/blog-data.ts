@@ -3,7 +3,7 @@
  */
 
 import { BlogService } from '@/lib/services/blog.service';
-import { getSupabase } from '@/lib/supabase';
+import { getSupabaseAdmin } from '@/lib/supabase';
 import { BlogStats, ActivityItem, ScheduledItem, PerformingContentItem } from '@/lib/types/dashboard';
 import { isThisMonth, isLastMonth, calculateGrowth, isThisWeek, isLastWeek } from '@/lib/utils/dashboard-utils';
 
@@ -19,7 +19,7 @@ export class BlogDataService {
    */
   async getBlogStats(): Promise<BlogStats> {
     try {
-      const supabase = getSupabase();
+      const supabase = getSupabaseAdmin();
       
       // Get current date boundaries
       const now = new Date();
@@ -131,7 +131,7 @@ export class BlogDataService {
    */
   async getRecentBlogActivity(): Promise<ActivityItem[]> {
     try {
-      const supabase = getSupabase();
+      const supabase = getSupabaseAdmin();
       
       // Get recent blog posts (published, updated, or created in the last 30 days)
       const thirtyDaysAgo = new Date();
@@ -218,9 +218,68 @@ export class BlogDataService {
    */
   async getScheduledBlogPosts(): Promise<ScheduledItem[]> {
     try {
-      // TODO: Implement with Supabase
-      // For now, return empty array
-      return [];
+      const supabase = getSupabaseAdmin();
+
+      const { data, error } = await supabase
+        .from('blog_posts')
+        .select(`
+          id,
+          title,
+          slug,
+          status,
+          published_at,
+          created_at,
+          author:blog_authors(name)
+        `)
+        .in('status', ['scheduled', 'draft'])
+        .order('published_at', { ascending: true, nullsFirst: false })
+        .order('created_at', { ascending: true })
+        .limit(20);
+
+      if (error) {
+        console.error('Supabase error fetching scheduled blog posts:', error);
+        return [];
+      }
+
+      const now = new Date();
+
+      const scheduledPosts = (data || [])
+        .map((post: any) => {
+          const publishedAt = post.published_at ? new Date(post.published_at) : null;
+          const createdAt = post.created_at ? new Date(post.created_at) : null;
+          const scheduledAt = publishedAt && !isNaN(publishedAt.getTime()) ? publishedAt : createdAt;
+
+          if (!scheduledAt || isNaN(scheduledAt.getTime())) {
+            return null;
+          }
+
+          // Only include future items
+          if (scheduledAt.getTime() <= now.getTime()) {
+            return null;
+          }
+
+          const diffMs = scheduledAt.getTime() - now.getTime();
+
+          return {
+            id: post.id,
+            title: post.title,
+            type: 'blog' as const,
+            scheduledAt: scheduledAt.toISOString(),
+            metadata: {
+              slug: post.slug,
+              author: post.author?.name || undefined,
+              status: post.status,
+              createdAt: createdAt || undefined,
+              hoursUntilPublish: Math.max(0, Math.round(diffMs / (1000 * 60 * 60))),
+              timeUntilPublish: this.formatTimeUntil(diffMs),
+            }
+          } satisfies ScheduledItem;
+        })
+        .filter((item): item is ScheduledItem => Boolean(item))
+        .sort((a, b) => new Date(a.scheduledAt).getTime() - new Date(b.scheduledAt).getTime())
+        .slice(0, 5);
+
+      return scheduledPosts;
     } catch (error) {
       console.error('Error fetching scheduled blog posts:', error);
       return [];
@@ -232,9 +291,79 @@ export class BlogDataService {
    */
   async getTopPerformingBlogPosts(): Promise<PerformingContentItem[]> {
     try {
-      // TODO: Implement with Supabase
-      // For now, return empty array
-      return [];
+      const supabase = getSupabaseAdmin();
+
+      const { data, error } = await supabase
+        .from('blog_posts')
+        .select(`
+          id,
+          title,
+          slug,
+          content,
+          view_count,
+          published_at,
+          created_at,
+          featured_image_url,
+          author:blog_authors(name),
+          category:blog_categories(name, slug)
+        `)
+        .eq('status', 'published')
+        .not('published_at', 'is', null)
+        .order('view_count', { ascending: false })
+        .limit(10);
+
+      if (error) {
+        console.error('Supabase error fetching top performing blog posts:', error);
+        return [];
+      }
+
+      const posts = (data || []).filter((post: any) => Boolean(post.published_at));
+
+      if (posts.length === 0) {
+        return [];
+      }
+
+      const maxViews = posts.reduce((max: number, post: any) => {
+        return Math.max(max, post.view_count || 0);
+      }, 0);
+
+      const now = Date.now();
+
+      const topPosts = posts.slice(0, 5).map((post: any) => {
+        const publishedAt = post.published_at ? new Date(post.published_at) : null;
+        const views = post.view_count || 0;
+        const engagementRate = maxViews > 0 ? Math.min(100, (views / maxViews) * 100) : 0;
+        const categories: string[] = [];
+
+        if (post.category?.name) {
+          categories.push(post.category.name);
+        }
+
+        const wordCount = typeof post.content === 'string'
+          ? post.content.replace(/<[^>]*>/g, ' ').trim().split(/\s+/).filter(Boolean).length
+          : 0;
+
+        return {
+          id: post.id,
+          title: post.title,
+          type: 'blog' as const,
+          metrics: {
+            views
+          },
+          metadata: {
+            slug: post.slug,
+            author: post.author?.name,
+            categories,
+            publishedAt,
+            daysSincePublished: publishedAt ? Math.max(0, Math.floor((now - publishedAt.getTime()) / (1000 * 60 * 60 * 24))) : undefined,
+            wordCount,
+            hasImage: Boolean(post.featured_image_url),
+            engagementRate: `${engagementRate.toFixed(1)}%`
+          }
+        } satisfies PerformingContentItem;
+      });
+
+      return topPosts;
     } catch (error) {
       console.error('Error fetching top performing blog posts:', error);
       return [];

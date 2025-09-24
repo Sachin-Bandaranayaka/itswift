@@ -1,83 +1,12 @@
 "use client"
 
-import React, { useState } from "react"
+import React from "react"
 import Image from "next/image"
 import Contact from "@/components/contact"
+import DynamicFAQ from "@/components/dynamic-faq"
 import { ArrowRight, CheckCircle, Award, BarChart, Layers, Users, ChevronDown } from "lucide-react"
 
 export default function OnboardingPage() {
-    const [showAllFaqs, setShowAllFaqs] = useState(false);
-
-    // All FAQ items
-    const faqItems = [
-        {
-            question: "How quickly can you develop customized onboarding solutions for our organization?",
-            icon: <BarChart className="h-6 w-6 text-orange-600" />,
-            answer: (
-                <>
-                    <p className="text-gray-700 mb-4">
-                        Using our rapid learning tools and methodologies, we can typically create customized onboarding solutions within days. For more complex or extensive programs, our development timeline may extend to a few weeks, but we pride ourselves on our ability to meet urgent onboarding needs efficiently.
-                    </p>
-                </>
-            )
-        },
-        {
-            question: "Can your onboarding courses be accessed on mobile devices?",
-            icon: <Layers className="h-6 w-6 text-orange-600" />,
-            answer: (
-                <>
-                    <p className="text-gray-700 mb-4">
-                        Absolutely. All our online employee induction training courses are fully responsive and can be accessed on any device—desktop computers, laptops, tablets, or smartphones. This flexibility ensures your new employees can complete their onboarding at their convenience, whether in the office or on the go.
-                    </p>
-                </>
-            )
-        },
-        {
-            question: "How do you measure the effectiveness of onboarding training?",
-            icon: <Users className="h-6 w-6 text-orange-600" />,
-            answer: (
-                <>
-                    <p className="text-gray-700 mb-4">
-                        We employ multiple assessment methods within our courses, including knowledge checks, scenario-based questions, and final assessments. Additionally, our LMS provides comprehensive analytics on completion rates, assessment scores, time spent on modules, and other key metrics to help you evaluate training effectiveness.
-                    </p>
-                </>
-            )
-        },
-        {
-            question: "What languages are available for your onboarding courses?",
-            icon: <Award className="h-6 w-6 text-orange-600" />,
-            answer: (
-                <>
-                    <p className="text-gray-700 mb-4">
-                        We can deliver our onboarding training in multiple languages to accommodate diverse workforces. Our standard offerings include English, Hindi, and major regional Indian languages, but we can develop training in additional languages based on your specific requirements.
-                    </p>
-                </>
-            )
-        },
-        {
-            question: "Can you customize the look and feel of the onboarding to match our brand?",
-            icon: <ChevronDown className="h-6 w-6 text-orange-600" />,
-            answer: (
-                <>
-                    <p className="text-gray-700 mb-4">
-                        Yes, we can fully customize the visual design of your onboarding training to align with your organization's branding guidelines. This includes incorporating your logo, color scheme, typography, and other brand elements to create a seamless learning experience.
-                    </p>
-                </>
-            )
-        },
-        {
-            question: "How does online onboarding training improve employee retention?",
-            icon: <ChevronDown className="h-6 w-6 text-orange-600" />,
-            answer: (
-                <>
-                    <p className="text-gray-700 mb-4">
-                        Research shows that effective onboarding can improve employee retention by up to 82%. Our online induction training creates stronger connections to your organization, clarifies expectations, demonstrates growth opportunities, and helps new hires integrate more quickly with their teams—all factors that significantly impact long-term retention.
-                    </p>
-                </>
-            )
-        }
-    ];
-
     return (
         <div className="w-full">
             {/* Hero Section with Background */}
@@ -397,71 +326,11 @@ export default function OnboardingPage() {
                 </div>
             </section>
 
-            {/* FAQ Section */}
-            <section id="faq" className="py-16 bg-gray-50">
-                <div className="container mx-auto px-4">
-                    <div className="text-center mb-12">
-                        <h2 className="text-3xl font-bold mb-4 text-gray-900">
-                            FAQ: Online Employee Induction Training
-                        </h2>
-                        <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                            Get answers to common questions about our online employee onboarding solutions
-                        </p>
-                    </div>
-
-                    <div className="max-w-3xl mx-auto">
-                        {/* Display all FAQs or just the first 3 based on state */}
-                        {(showAllFaqs ? faqItems : faqItems.slice(0, 3)).map((item, index) => (
-                            <div key={index} className="mb-6 bg-white rounded-xl shadow-sm overflow-hidden">
-                                <details className="group">
-                                    <summary className="flex items-center justify-between p-6 cursor-pointer">
-                                        <div className="flex items-center gap-4">
-                                            {item.icon}
-                                            <h3 className="text-lg font-medium text-gray-900">{item.question}</h3>
-                                        </div>
-                                        <ChevronDown className="h-5 w-5 text-gray-500 group-open:rotate-180 transition-transform" />
-                                    </summary>
-                                    <div className="px-6 pb-6 pt-2">
-                                        {item.answer}
-                                    </div>
-                                </details>
-                            </div>
-                        ))}
-
-                        {/* Show/Hide button */}
-                        {faqItems.length > 3 && (
-                            <div className="text-center mt-8">
-                                <button
-                                    onClick={() => setShowAllFaqs(!showAllFaqs)}
-                                    className="inline-flex items-center justify-center px-6 py-3 bg-orange-600 text-white rounded-lg font-medium hover:bg-orange-700 transition-colors duration-200"
-                                >
-                                    {showAllFaqs ? "Show Less" : "Show More FAQs"}
-                                </button>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            </section>
-
-            {/* CTA Section */}
-            <section className="py-16 bg-gradient-to-r from-orange-500 to-orange-600 text-white">
-                <div className="container mx-auto px-4">
-                    <div className="max-w-3xl mx-auto text-center">
-                        <h2 className="text-3xl font-bold mb-6">Partner with Swift Solution for Onboarding Excellence</h2>
-                        <p className="text-xl mb-8">
-                            Don't settle for standard onboarding processes that fail to engage new employees or drive real business results. Partner with Swift Solution, one of the leading eLearning companies in Bangalore, to develop online employee induction training courses that transform new hire experiences and accelerate organizational success.
-                        </p>
-                        <div className="flex flex-col md:flex-row gap-4 justify-center">
-                            <a href="#contact" className="inline-flex items-center justify-center px-6 py-3 bg-white text-orange-600 rounded-lg font-medium hover:bg-orange-50 transition-colors duration-200">
-                                Schedule a Consultation
-                            </a>
-                            <a href="#" className="inline-flex items-center justify-center px-6 py-3 bg-transparent border border-white text-white rounded-lg font-medium hover:bg-white/10 transition-colors duration-200">
-                                Download Brochure
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <DynamicFAQ
+                sectionId="faq"
+                pageSlug="on-boarding"
+                title="Frequently Asked Questions (FAQs) about Employee Onboarding"
+            />
 
             {/* Contact Section */}
             <section id="contact" className="py-16 bg-white">

@@ -1,51 +1,12 @@
 "use client"
 
-import React, { useState } from "react"
+import React from "react"
 import Image from "next/image"
 import Contact from "@/components/contact"
-import { ArrowRight, CheckCircle, Award, BarChart, Layers, Users, ChevronDown, Code, Smartphone, Globe, Zap, Shield, RefreshCw } from "lucide-react"
-
-interface FAQItem {
-    question: string
-    answer: string
-    icon: React.ReactNode
-}
+import DynamicFAQ from "@/components/dynamic-faq"
+import { ArrowRight, CheckCircle, Award, BarChart, Layers, Users } from "lucide-react"
 
 export default function ConvertFlashToHtmlPage() {
-    const [showFAQs, setShowFAQs] = useState(false)
-
-    const faqItems: FAQItem[] = [
-        {
-            question: "Why do I need to convert my Flash content to HTML5?",
-            answer: "Adobe Flash is no longer supported by modern browsers and was officially discontinued in 2020. Converting to HTML5 ensures your content remains accessible, secure, and compatible with all devices and browsers, including mobile devices.",
-            icon: <Globe className="h-5 w-5 text-orange-500" />
-        },
-        {
-            question: "Will my converted content look and function the same as the original Flash?",
-            answer: "Yes, our conversion process maintains the visual design, interactions, and functionality of your original Flash content. We use advanced HTML5, CSS3, and JavaScript technologies to recreate the same user experience while improving performance and compatibility.",
-            icon: <Code className="h-5 w-5 text-orange-500" />
-        },
-        {
-            question: "How long does the Flash to HTML5 conversion process take?",
-            answer: "The timeline depends on the complexity and volume of your Flash content. Simple courses can be converted in 2-3 weeks, while complex interactive content may take 4-6 weeks. We provide detailed timelines after analyzing your specific content.",
-            icon: <RefreshCw className="h-5 w-5 text-orange-500" />
-        },
-        {
-            question: "Can you convert Flash content with complex animations and interactions?",
-            answer: "Absolutely! Our team specializes in converting complex Flash animations, interactive simulations, games, and multimedia content. We use modern web technologies to recreate even the most sophisticated Flash interactions in HTML5.",
-            icon: <Zap className="h-5 w-5 text-orange-500" />
-        },
-        {
-            question: "Will the converted content work on mobile devices?",
-            answer: "Yes, one of the major benefits of HTML5 conversion is mobile compatibility. Your converted content will be fully responsive and work seamlessly across all devices, including smartphones and tablets, which Flash never supported.",
-            icon: <Smartphone className="h-5 w-5 text-orange-500" />
-        },
-        {
-            question: "Do you provide SCORM compliance for converted courses?",
-            answer: "Yes, we ensure all converted eLearning content maintains SCORM 1.2 and SCORM 2004 compliance, as well as xAPI (Tin Can API) compatibility. This ensures seamless integration with your existing Learning Management System.",
-            icon: <Shield className="h-5 w-5 text-orange-500" />
-        }
-    ]
 
     return (
         <div className="w-full">
@@ -150,34 +111,6 @@ export default function ConvertFlashToHtmlPage() {
                             </div>
                         </div>
 
-                        {/* FAQ Section */}
-                        <div className="mb-16">
-                            <div className="flex items-center justify-between mb-8">
-                                <h3 className="text-2xl font-semibold text-gray-900">Frequently Asked Questions</h3>
-                                <button
-                                    onClick={() => setShowFAQs(!showFAQs)}
-                                    className="flex items-center space-x-2 text-orange-600 hover:text-orange-700 transition-colors duration-200"
-                                >
-                                    <span>{showFAQs ? 'Hide' : 'Show'} FAQs</span>
-                                    <ChevronDown className={`h-5 w-5 transform transition-transform duration-200 ${showFAQs ? 'rotate-180' : ''}`} />
-                                </button>
-                            </div>
-                            
-                            {showFAQs && (
-                                <div className="space-y-6">
-                                    {faqItems.map((faq, index) => (
-                                        <div key={index} className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
-                                            <div className="flex items-start space-x-3 mb-3">
-                                                {faq.icon}
-                                                <h4 className="text-lg font-semibold text-gray-900">{faq.question}</h4>
-                                            </div>
-                                            <p className="text-gray-700 ml-8 whitespace-pre-line">{faq.answer}</p>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-
                         {/* Conversion Process */}
                         <div className="mb-16">
                             <h3 className="text-2xl font-semibold mb-8 text-center text-gray-900">Our Conversion Process</h3>
@@ -273,6 +206,12 @@ export default function ConvertFlashToHtmlPage() {
                     </div>
                 </div>
             </section>
+
+            <DynamicFAQ
+                sectionId="faq"
+                pageSlug="convert-flash-to-html"
+                title="Frequently Asked Questions"
+            />
 
             {/* Contact Form Section */}
             <section id="contact" className="py-16 bg-white">

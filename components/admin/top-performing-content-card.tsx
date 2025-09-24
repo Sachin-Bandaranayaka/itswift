@@ -15,24 +15,11 @@ import {
   MousePointer,
   RefreshCw,
   AlertCircle,
-  TrendingUp
+  TrendingUp,
+  Clock
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-
-export interface PerformingContentItem {
-  id: string;
-  title: string;
-  type: 'blog' | 'social' | 'newsletter';
-  platform?: string;
-  metrics: {
-    views?: number;
-    likes?: number;
-    shares?: number;
-    opens?: number;
-    clicks?: number;
-    comments?: number;
-  };
-}
+import type { PerformingContentItem } from '@/lib/types/dashboard';
 
 interface TopPerformingContentCardProps {
   content?: PerformingContentItem[];
@@ -114,6 +101,18 @@ const MetricItem = ({
 const ContentItemComponent = ({ item }: { item: PerformingContentItem }) => {
   const Icon = getContentIcon(item.type);
   const { metrics } = item;
+  const engagementRate = item.metadata?.engagementRate;
+  const daysSincePublished = typeof item.metadata?.daysSincePublished === 'number'
+    ? item.metadata.daysSincePublished
+    : undefined;
+  const categories = item.metadata?.categories || [];
+  const publishedLabel = typeof daysSincePublished === 'number'
+    ? daysSincePublished === 0
+      ? 'Today'
+      : daysSincePublished === 1
+        ? '1 day ago'
+        : `${daysSincePublished} days ago`
+    : undefined;
   
   return (
     <div className="flex items-start space-x-3 p-3 hover:bg-gray-50 rounded-lg transition-colors">
@@ -162,6 +161,31 @@ const ContentItemComponent = ({ item }: { item: PerformingContentItem }) => {
             <MetricItem icon={MousePointer} value={metrics.clicks} label="clicks" />
           )}
         </div>
+
+        {(engagementRate || publishedLabel || categories.length > 0) && (
+          <div className="mt-2 flex flex-wrap items-center justify-between gap-2 text-xs text-gray-400">
+            <div className="flex items-center space-x-2">
+              {engagementRate && (
+                <span className="flex items-center space-x-1">
+                  <TrendingUp className="h-3 w-3" />
+                  <span>{engagementRate}</span>
+                </span>
+              )}
+              {categories.length > 0 && (
+                <span className="flex items-center space-x-1">
+                  <span className="h-1.5 w-1.5 rounded-full bg-gray-300" />
+                  <span>{categories.slice(0, 2).join(', ')}</span>
+                </span>
+              )}
+            </div>
+            {publishedLabel && (
+              <span className="flex items-center space-x-1 ml-auto">
+                <Clock className="h-3 w-3" />
+                <span>{publishedLabel}</span>
+              </span>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -46,11 +46,17 @@ async function handleGetFAQs(request: NextRequest) {
     const startIndex = (page - 1) * limit
     const endIndex = startIndex + limit
     const paginatedFaqs = filteredFaqs.slice(startIndex, endIndex)
-    
+
     // Calculate pagination info
     const total = filteredFaqs.length
     const totalPages = Math.ceil(total / limit)
-    
+
+    // Build available filters from all FAQs so UI can stay in sync with data
+    const availablePageSlugs = Array.from(new Set(allFaqs.map(faq => faq.page_slug))).sort()
+    const availableCategories = Array.from(
+      new Set(allFaqs.map(faq => faq.category).filter((category): category is string => Boolean(category)))
+    ).sort()
+
     return NextResponse.json({
       success: true,
       data: {
@@ -69,7 +75,15 @@ async function handleGetFAQs(request: NextRequest) {
           ...filters,
           search
         },
+        availableFilters: {
+          pageSlugs: availablePageSlugs,
+          categories: availableCategories
+        },
         timestamp: new Date().toISOString()
+      }
+    }, {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate'
       }
     })
   } catch (error) {
@@ -80,7 +94,12 @@ async function handleGetFAQs(request: NextRequest) {
         error: 'Failed to fetch FAQs',
         message: error instanceof Error ? error.message : 'Unknown error'
       },
-      { status: 500 }
+      { 
+        status: 500,
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate'
+        }
+      }
     )
   }
 }

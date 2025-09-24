@@ -42,23 +42,14 @@ interface FAQFormData {
   is_active: boolean
 }
 
-const PAGE_SLUGS = [
-  { value: 'home', label: 'Home Page' },
-  { value: 'about', label: 'About Page' },
-  { value: 'services', label: 'Services Page' },
-  { value: 'contact', label: 'Contact Page' },
-  { value: 'pricing', label: 'Pricing Page' },
-  { value: 'blog', label: 'Blog Page' },
-]
-
-const CATEGORIES = [
-  'General',
-  'Pricing',
-  'Technical',
-  'Support',
-  'Billing',
-  'Features'
-]
+function formatPageLabel(slug: string) {
+  if (!slug) return ''
+  return slug
+    .replace(/[-_]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .replace(/\b\w/g, char => char.toUpperCase())
+}
 
 export default function FAQManagement() {
   const [faqs, setFaqs] = useState<FAQ[]>([])
@@ -71,6 +62,8 @@ export default function FAQManagement() {
   const [filterPage, setFilterPage] = useState<string>('all')
   const [filterCategory, setFilterCategory] = useState<string>('all')
   const [filterActive, setFilterActive] = useState<string>('all')
+  const [pageOptions, setPageOptions] = useState<string[]>([])
+  const [categoryOptions, setCategoryOptions] = useState<string[]>([])
   
   const [formData, setFormData] = useState<FAQFormData>({
     question: '',
@@ -97,6 +90,8 @@ export default function FAQManagement() {
       
       if (result.success) {
         setFaqs(result.data.faqs || [])
+        setPageOptions(result.meta?.availableFilters?.pageSlugs || [])
+        setCategoryOptions(result.meta?.availableFilters?.categories || [])
       } else {
         toast.error('Failed to fetch FAQs')
       }
@@ -146,6 +141,19 @@ export default function FAQManagement() {
   useEffect(() => {
     fetchFaqs()
   }, [])
+
+  // Ensure filters remain valid if available options change
+  useEffect(() => {
+    if (filterPage !== 'all' && !pageOptions.includes(filterPage)) {
+      setFilterPage('all')
+    }
+  }, [pageOptions, filterPage])
+
+  useEffect(() => {
+    if (filterCategory !== 'all' && !categoryOptions.includes(filterCategory)) {
+      setFilterCategory('all')
+    }
+  }, [categoryOptions, filterCategory])
 
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
@@ -284,9 +292,9 @@ export default function FAQManagement() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All pages</SelectItem>
-                  {PAGE_SLUGS.map(page => (
-                    <SelectItem key={page.value} value={page.value}>
-                      {page.label}
+                  {pageOptions.map(slug => (
+                    <SelectItem key={slug} value={slug}>
+                      {formatPageLabel(slug)}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -301,7 +309,7 @@ export default function FAQManagement() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All categories</SelectItem>
-                  {CATEGORIES.map(category => (
+                  {categoryOptions.map(category => (
                     <SelectItem key={category} value={category}>
                       {category}
                     </SelectItem>
@@ -366,7 +374,7 @@ export default function FAQManagement() {
                     </TableCell>
                     <TableCell>
                       <Badge variant="outline">
-                        {PAGE_SLUGS.find(p => p.value === faq.page_slug)?.label || faq.page_slug}
+                        {formatPageLabel(faq.page_slug)}
                       </Badge>
                     </TableCell>
                     <TableCell>
@@ -422,41 +430,37 @@ export default function FAQManagement() {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="page_slug">Page *</Label>
-                <Select 
-                  value={formData.page_slug} 
-                  onValueChange={(value) => setFormData(prev => ({ ...prev, page_slug: value }))}
+                <Input
+                  id="page_slug"
+                  value={formData.page_slug}
+                  onChange={(e) => setFormData(prev => ({ ...prev, page_slug: e.target.value }))}
+                  placeholder="e.g., homepage"
+                  list="page-slug-options"
                   required
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a page" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {PAGE_SLUGS.map(page => (
-                      <SelectItem key={page.value} value={page.value}>
-                        {page.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                />
+                <datalist id="page-slug-options">
+                  {pageOptions.map(slug => (
+                    <option key={slug} value={slug}>
+                      {formatPageLabel(slug)}
+                    </option>
+                  ))}
+                </datalist>
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="category">Category</Label>
-                <Select 
-                  value={formData.category} 
-                  onValueChange={(value) => setFormData(prev => ({ ...prev, category: value }))}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {CATEGORIES.map(category => (
-                      <SelectItem key={category} value={category}>
-                        {category}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <Input
+                  id="category"
+                  value={formData.category}
+                  onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
+                  placeholder="Optional category"
+                  list="faq-category-options"
+                />
+                <datalist id="faq-category-options">
+                  {categoryOptions.map(category => (
+                    <option key={category} value={category} />
+                  ))}
+                </datalist>
               </div>
             </div>
 

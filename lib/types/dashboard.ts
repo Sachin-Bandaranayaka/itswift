@@ -28,11 +28,11 @@ export interface NewsletterStats {
 
 export interface ActivityItem {
   id: string;
-  type: 'blog' | 'social' | 'newsletter' | 'ai';
+  type: 'blog' | 'social' | 'newsletter' | 'ai' | 'content' | 'contact' | 'faq';
   title: string;
   description: string;
   timestamp: Date | string;
-  status: 'published' | 'scheduled' | 'sent' | 'generated';
+  status: 'published' | 'scheduled' | 'sent' | 'generated' | 'received' | 'updated';
   platform?: string;
   metadata?: {
     slug?: string;

@@ -25,9 +25,10 @@ interface DynamicFAQProps {
   pageSlug: string
   title?: string
   className?: string
+  sectionId?: string
 }
 
-export default function DynamicFAQ({ pageSlug, title, className = "" }: DynamicFAQProps) {
+export default function DynamicFAQ({ pageSlug, title, className = "", sectionId }: DynamicFAQProps) {
   const [faqCategories, setFaqCategories] = useState<FAQCategory[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -157,10 +158,12 @@ export default function DynamicFAQ({ pageSlug, title, className = "" }: DynamicF
     return null // Don't render anything if no FAQs
   }
 
+  const sectionClassName = ['py-16 bg-white', className].filter(Boolean).join(' ')
+
   return (
     <>
       {generateFAQSchema()}
-      <section className={`py-16 bg-white ${className}`}>
+      <section id={sectionId} className={sectionClassName}>
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-[1fr,2fr] gap-16 max-w-7xl mx-auto">
             {/* Left side - title */}

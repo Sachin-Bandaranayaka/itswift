@@ -1,53 +1,12 @@
 "use client"
 
-import React, { useState } from "react"
+import React from "react"
 import Image from "next/image"
 import Contact from "@/components/contact"
-import { ArrowRight, CheckCircle, Award, BarChart, Layers, Users, ChevronDown, Brain, Zap, Target, TrendingUp, Lightbulb, Shield } from "lucide-react"
+import DynamicFAQ from "@/components/dynamic-faq"
+import { ArrowRight, CheckCircle, Award, BarChart, Layers, Users, Brain, Zap, Target, TrendingUp, Lightbulb, Shield } from "lucide-react"
 
 export default function AIPoweredSolutionsPage() {
-    const [openItems, setOpenItems] = useState<Record<string, boolean>>({
-        "0-0": true // First question open by default
-    });
-
-    const toggleItem = (categoryIndex: number, itemIndex: number) => {
-        const itemKey = `${categoryIndex}-${itemIndex}`
-        setOpenItems(prev => ({
-            ...prev,
-            [itemKey]: !prev[itemKey]
-        }))
-    }
-
-    const isOpen = (categoryIndex: number, itemIndex: number) => {
-        const itemKey = `${categoryIndex}-${itemIndex}`
-        return !!openItems[itemKey]
-    }
-
-    // FAQ items
-    const faqCategories = [
-        {
-            title: "AI-POWERED ELEARNING SOLUTIONS",
-            faqs: [
-                {
-                    question: "What is generative AI, and how is it used in corporate training?",
-                    answer: "Generative AI is a type of artificial intelligence that can create new content, such as text, images, and video. In corporate training, it is used to automate course creation, generate realistic simulations, and create personalized learning materials, significantly reducing development time and costs while enhancing the quality and relevance of the content."
-                },
-                {
-                    question: "How does personalized learning improve employee performance?",
-                    answer: "Personalized learning improves employee performance by tailoring the learning experience to individual needs, preferences, and skill levels. This leads to higher engagement, better knowledge retention, and more effective application of skills on the job. By focusing on individual needs, personalized learning ensures that every employee receives the right training at the right time, maximizing their potential."
-                },
-                {
-                    question: "Is AI-powered eLearning expensive to implement?",
-                    answer: "While there is an initial investment, AI-powered eLearning often proves to be more cost-effective in the long run. The automation of content creation, the optimization of learning paths, and the ability to identify and address skills gaps proactively can lead to significant cost savings and a higher return on investment compared to traditional training methods."
-                },
-                {
-                    question: "How do you ensure the security and privacy of our data?",
-                    answer: "At Swift Solution, we adhere to the highest standards of data security and privacy. We have a robust ethical AI framework in place and comply with all relevant data protection regulations. Your data is used solely for the purpose of enhancing the learning experience and is never shared with third parties."
-                }
-            ]
-        }
-    ];
-
     return (
         <div className="w-full">
             {/* Hero Section with Background */}
@@ -330,63 +289,11 @@ export default function AIPoweredSolutionsPage() {
             </section>
 
             {/* FAQ Section */}
-            <section id="faq" className="py-16 bg-white">
-                <div className="container mx-auto px-4">
-                    <div className="grid md:grid-cols-[1fr,2fr] gap-16 max-w-7xl mx-auto">
-                        {/* Left side - title */}
-                        <div>
-                            <h2 className="text-4xl font-bold sticky top-24">
-                                Your Questions About AI in eLearning, Answered
-                            </h2>
-                        </div>
-
-                        {/* Right side - FAQ content */}
-                        <div>
-                            {faqCategories.map((category, categoryIndex) => (
-                                <div key={categoryIndex} className="mb-12">
-                                    <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-6">
-                                        {category.title}
-                                    </h3>
-                                    <div className="space-y-px">
-                                        {category.faqs.map((faq, itemIndex) => {
-                                            const isItemOpen = isOpen(categoryIndex, itemIndex);
-
-                                            return (
-                                                <div key={itemIndex} className="border-t border-gray-200 first:border-t-0">
-                                                    <button
-                                                        onClick={() => toggleItem(categoryIndex, itemIndex)}
-                                                        className="flex justify-between items-center w-full py-6 text-left"
-                                                    >
-                                                        <span className={`text-lg font-medium ${isItemOpen ? "text-blue-500" : "text-gray-900"}`}>
-                                                            {faq.question}
-                                                        </span>
-                                                        <span className="ml-6 flex-shrink-0">
-                                                            {isItemOpen ? (
-                                                                <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-                                                                </svg>
-                                                            ) : (
-                                                                <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                                                </svg>
-                                                            )}
-                                                        </span>
-                                                    </button>
-                                                    {isItemOpen && (
-                                                        <div className="pb-6">
-                                                            <p className="text-gray-600">{faq.answer}</p>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <DynamicFAQ
+                sectionId="faq"
+                pageSlug="ai-powered-solutions"
+                title="Your Questions About AI in eLearning, Answered"
+            />
 
             {/* CTA Section */}
             <section className="py-16 bg-gradient-to-r from-blue-600 to-purple-600 text-white">

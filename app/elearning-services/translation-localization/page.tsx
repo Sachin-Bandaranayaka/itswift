@@ -1,9 +1,10 @@
 "use client"
 
-import React, { useState } from "react"
+import React from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
 import Contact from "@/components/contact"
+import DynamicFAQ from "@/components/dynamic-faq"
 import {
     ArrowRight,
     CheckCircle,
@@ -45,37 +46,6 @@ import {
 } from "lucide-react"
 
 export default function TranslationLocalizationPage() {
-    const [openFaq, setOpenFaq] = useState<number | null>(null);
-    const [showAllFaqs, setShowAllFaqs] = useState(false);
-
-    const toggleFaq = (index: number) => {
-        setOpenFaq(openFaq === index ? null : index);
-    };
-
-    // FAQ items
-    const faqItems = [
-        {
-            question: "What types of e-learning content can be translated and localized?",
-            answer: "We can translate and localize virtually any type of e-learning content, including SCORM packages, HTML5 courses, video-based training, virtual reality simulations, mobile learning apps, assessments, and interactive scenarios. Our technical team has experience with all major authoring tools and formats."
-        },
-        {
-            question: "How does AI improve the translation and localization process?",
-            answer: "AI significantly accelerates the translation process through neural machine translation, automates content extraction and reconstruction, provides quality assurance checks, identifies cultural adaptation needs, and maintains terminology consistency. This reduces timelines by 50-70% while maintaining high quality through human refinement of AI outputs."
-        },
-        {
-            question: "Will translated content work in our existing LMS?",
-            answer: "Yes, we ensure all translated content functions properly in your learning management system. Our technical team tests all language versions to verify proper character display, assessment functionality, tracking, and reporting. We have experience with all major LMS platforms and can provide integration support."
-        },
-        {
-            question: "How do you handle cultural nuances in e-learning translation?",
-            answer: "Our localization specialists adapt content to reflect local cultural norms, business practices, and learning preferences. This includes modifying examples, scenarios, humor, graphics, and references to ensure cultural relevance and appropriateness. We also adapt assessment approaches to align with regional educational expectations."
-        },
-        {
-            question: "What languages do you support for e-learning translation?",
-            answer: "We support over 50 languages, including all major European, Asian, Middle Eastern, and African languages. Our specialized e-learning linguists are native speakers with subject matter expertise in relevant industries, ensuring accurate translation of even complex technical content."
-        }
-    ];
-
     // Define benefits
     const benefits = [
         {
@@ -370,67 +340,11 @@ export default function TranslationLocalizationPage() {
                 </div>
             </section>
 
-            {/* FAQ Section */}
-            <section id="faq" className="py-16 bg-white">
-                <div className="container mx-auto px-4">
-                    <div className="grid md:grid-cols-[1fr,2fr] gap-16 max-w-7xl mx-auto">
-                        {/* Left side - title */}
-                        <div>
-                            <motion.h2
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.6 }}
-                                className="text-4xl font-bold sticky top-24"
-                            >
-                                Frequently Asked Questions (FAQs) about Translation & Localization
-                            </motion.h2>
-                        </div>
-
-                        {/* Right side - FAQ content */}
-                        <div>
-                            <div className="mb-12">
-                                <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-6">
-                                    TRANSLATION & LOCALIZATION
-                                </h3>
-                                <div className="space-y-px">
-                                    {faqItems.map((item, index) => {
-                                        const isItemOpen = openFaq === index;
-
-                                        return (
-                                            <div key={index} className="border-t border-gray-200 first:border-t-0">
-                                                <button
-                                                    onClick={() => toggleFaq(index)}
-                                                    className="flex justify-between items-center w-full py-6 text-left"
-                                                >
-                                                    <span className={`text-lg font-medium ${isItemOpen ? "text-blue-500" : "text-gray-900"}`}>
-                                                        {item.question}
-                                                    </span>
-                                                    <span className="ml-6 flex-shrink-0">
-                                                        {isItemOpen ? (
-                                                            <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-                                                            </svg>
-                                                        ) : (
-                                                            <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                                            </svg>
-                                                        )}
-                                                    </span>
-                                                </button>
-                                                {isItemOpen && (
-                                                    <div className="pb-6">
-                                                        <p className="text-gray-600">{item.answer}</p>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <DynamicFAQ
+                sectionId="faq"
+                pageSlug="translation-localization"
+                title="Frequently Asked Questions (FAQs) about Translation & Localization"
+            />
 
             {/* Contact Section */}
             <section id="contact" className="py-16 bg-white">

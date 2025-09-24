@@ -1,10 +1,11 @@
 "use client"
 
-import React, { useState } from "react"
+import React from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
 import Contact from "@/components/contact"
 import Link from "next/link"
+import DynamicFAQ from "@/components/dynamic-faq"
 import {
     ArrowRight,
     CheckCircle,
@@ -12,7 +13,6 @@ import {
     BarChart,
     Layers,
     Users,
-    ChevronDown,
     Globe,
     Clock,
     ShieldCheck,
@@ -38,37 +38,6 @@ import {
 } from "lucide-react"
 
 export default function IltToElearningPage() {
-    const [openFaq, setOpenFaq] = useState<number | null>(null);
-    const [showAllFaqs, setShowAllFaqs] = useState(false);
-
-    const toggleFaq = (index: number) => {
-        setOpenFaq(openFaq === index ? null : index);
-    };
-
-    // FAQ items
-    const faqItems = [
-        {
-            question: "What types of ILT content can be converted to eLearning?",
-            answer: "Virtually any instructor-led training can be effectively converted to eLearning, including technical training, soft skills development, compliance programs, product knowledge, sales training, and customer service. Our approach adapts to the specific content type and learning objectives to ensure effective digital transformation."
-        },
-        {
-            question: "How long does the ILT to eLearning conversion process take?",
-            answer: "Typical conversion timelines range from 4-12 weeks depending on the complexity and volume of content. Our Bangalore team's 24/7 production capability allows us to deliver even complex projects 40-50% faster than most Western providers. We can also implement phased approaches for urgent training needs."
-        },
-        {
-            question: "Will converted content work in our existing LMS?",
-            answer: "Yes, we ensure compatibility with all major learning management systems used across the US, Europe, and Middle East. Our technical team has extensive experience with Cornerstone, Saba, Moodle, Blackboard, SAP SuccessFactors, and many other platforms, ensuring seamless integration with your existing infrastructure."
-        },
-        {
-            question: "How do you maintain the effectiveness of instructor-led sessions?",
-            answer: "We use a variety of digital strategies to preserve or enhance the effectiveness of instructor interactions, including interactive scenarios, branching simulations, video demonstrations, virtual coaching, and social learning elements. Our approach focuses on identifying the core value of instructor interactions and finding effective digital alternatives."
-        },
-        {
-            question: "What is the ROI of converting ILT to eLearning?",
-            answer: "Organizations typically see ROI within 6-12 months of conversion, with ongoing savings for programs delivered multiple times. Cost reductions come from eliminated travel, venue, instructor, and material expenses, while benefits include faster deployment, consistent quality, improved completion rates, and detailed analytics for continuous improvement."
-        }
-    ];
-
     // Process Steps
     const processSteps = [
         {
@@ -624,67 +593,11 @@ export default function IltToElearningPage() {
                 </div>
             </section>
 
-            {/* FAQ Section */}
-            <section id="faq" className="py-16 bg-white">
-                <div className="container mx-auto px-4">
-                    <div className="grid md:grid-cols-[1fr,2fr] gap-16 max-w-7xl mx-auto">
-                        {/* Left side - title */}
-                        <div>
-                            <motion.h2
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.6 }}
-                                className="text-4xl font-bold sticky top-24"
-                            >
-                                Frequently Asked Questions (FAQs) about ILT to eLearning Conversion
-                            </motion.h2>
-                        </div>
-
-                        {/* Right side - FAQ content */}
-                        <div>
-                            <div className="mb-12">
-                                <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-6">
-                                    ILT TO ELEARNING CONVERSION
-                                </h3>
-                                <div className="space-y-px">
-                                    {faqItems.map((faq, index) => {
-                                        const isItemOpen = openFaq === index;
-
-                                        return (
-                                            <div key={index} className="border-t border-gray-200 first:border-t-0">
-                                                <button
-                                                    onClick={() => toggleFaq(index)}
-                                                    className="flex justify-between items-center w-full py-6 text-left"
-                                                >
-                                                    <span className={`text-lg font-medium ${isItemOpen ? "text-blue-500" : "text-gray-900"}`}>
-                                                        {faq.question}
-                                                    </span>
-                                                    <span className="ml-6 flex-shrink-0">
-                                                        {isItemOpen ? (
-                                                            <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-                                                            </svg>
-                                                        ) : (
-                                                            <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                                            </svg>
-                                                        )}
-                                                    </span>
-                                                </button>
-                                                {isItemOpen && (
-                                                    <div className="pb-6">
-                                                        <p className="text-gray-600">{faq.answer}</p>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <DynamicFAQ
+                sectionId="faq"
+                pageSlug="ilt-to-elearning"
+                title="Frequently Asked Questions (FAQs) about ILT to eLearning Conversion"
+            />
 
             {/* Call To Action Section */}
             <section className="py-16 bg-gradient-to-r from-orange-500 to-orange-600 text-white">

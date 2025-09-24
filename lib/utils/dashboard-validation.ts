@@ -189,16 +189,16 @@ export function validateNewsletterStats(data: unknown): NewsletterStats {
 /**
  * Validate activity item type
  */
-function validateActivityType(type: unknown): 'blog' | 'social' | 'newsletter' | 'ai' {
-  const validTypes = ['blog', 'social', 'newsletter', 'ai'] as const;
+function validateActivityType(type: unknown): 'blog' | 'social' | 'newsletter' | 'ai' | 'content' | 'contact' | 'faq' {
+  const validTypes = ['blog', 'social', 'newsletter', 'ai', 'content', 'contact', 'faq'] as const;
   return validTypes.includes(type as any) ? (type as any) : 'blog';
 }
 
 /**
  * Validate activity item status
  */
-function validateActivityStatus(status: unknown): 'published' | 'scheduled' | 'sent' | 'generated' {
-  const validStatuses = ['published', 'scheduled', 'sent', 'generated'] as const;
+function validateActivityStatus(status: unknown): 'published' | 'scheduled' | 'sent' | 'generated' | 'received' | 'updated' {
+  const validStatuses = ['published', 'scheduled', 'sent', 'generated', 'received', 'updated'] as const;
   return validStatuses.includes(status as any) ? (status as any) : 'published';
 }
 

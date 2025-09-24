@@ -11,20 +11,14 @@ import {
   Bot, 
   Clock, 
   RefreshCw,
-  AlertCircle 
+  AlertCircle,
+  Layout,
+  MessagesSquare,
+  HelpCircle
 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { cn } from '@/lib/utils';
-
-export interface ActivityItem {
-  id: string;
-  type: 'blog' | 'social' | 'newsletter' | 'ai';
-  title: string;
-  description: string;
-  timestamp: Date | string;
-  status: 'published' | 'scheduled' | 'sent' | 'generated';
-  platform?: string;
-}
+import type { ActivityItem } from '@/lib/types/dashboard';
 
 interface RecentActivityCardProps {
   activities?: ActivityItem[];
@@ -44,6 +38,12 @@ const getActivityIcon = (type: ActivityItem['type']) => {
       return Mail;
     case 'ai':
       return Bot;
+    case 'content':
+      return Layout;
+    case 'contact':
+      return MessagesSquare;
+    case 'faq':
+      return HelpCircle;
     default:
       return FileText;
   }
@@ -59,6 +59,10 @@ const getStatusColor = (status: ActivityItem['status']) => {
       return 'bg-yellow-100 text-yellow-800';
     case 'generated':
       return 'bg-purple-100 text-purple-800';
+    case 'received':
+      return 'bg-indigo-100 text-indigo-800';
+    case 'updated':
+      return 'bg-orange-100 text-orange-800';
     default:
       return 'bg-gray-100 text-gray-800';
   }

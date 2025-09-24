@@ -1,9 +1,10 @@
 "use client"
 
-import React, { useState } from "react"
+import React from "react"
 import Image from "next/image"
 import Contact from "@/components/contact"
-import { ArrowRight, CheckCircle, Award, BarChart, Layers, Users, ChevronDown, Target, Zap, Globe, Shield, TrendingUp, Clock } from "lucide-react"
+import DynamicFAQ from "@/components/dynamic-faq"
+import { ArrowRight, CheckCircle, Award, BarChart, Layers, Users, Target, Zap, Shield, TrendingUp, Clock } from "lucide-react"
 
 // Metadata needs to be moved to a separate layout file or removed from client components
 // export const metadata: Metadata = {
@@ -12,160 +13,6 @@ import { ArrowRight, CheckCircle, Award, BarChart, Layers, Users, ChevronDown, T
 // }
 
 export default function CustomElearningPage() {
-    const [showAllFaqs, setShowAllFaqs] = useState(false);
-    const [openFaq, setOpenFaq] = useState<number | null>(null);
-
-    // All FAQ items
-    const faqItems = [
-        {
-            question: "How can we help create custom eLearning Solutions?",
-            icon: <Users className="h-6 w-6 text-orange-600" />,
-            answer: (
-                <ul className="list-disc pl-5 space-y-2 text-gray-700">
-                    <li>Our instructional designers are adept at taking your existing content and turning it into highly interactive eLearning</li>
-                    <li>We make the eLearning content adaptable, scalable and ensure seamless transmission of content across multiple devices</li>
-                    <li>We will partner closely with you to align with the company values and brand</li>
-                    <li>We will ensure to build latest innovations which include social interaction, gamification, and immersive learning experiences</li>
-                </ul>
-            )
-        },
-        {
-            question: "Can examples of custom eLearning solutions be provided?",
-            icon: <Award className="h-6 w-6 text-orange-600" />,
-            answer: (
-                <>
-                    <h4 className="font-medium mb-2 text-gray-900">Custom eLearning Solutions: What We Offer</h4>
-                    <p className="text-gray-700 mb-4">
-                        Yes, we provide a wide array of custom eLearning solutions tailored to meet the specific needs of potential clients. Our portfolio includes numerous examples showcasing how our strategies can enhance your business's training and development programs.
-                    </p>
-                    <h4 className="font-medium mb-2 text-gray-900">Industry-Specific Courses</h4>
-                    <ul className="list-disc pl-5 space-y-2 text-gray-700">
-                        <li>Healthcare: Interactive modules focusing on compliance and patient care.</li>
-                        <li>Finance: Courses designed to simplify complex regulatory requirements.</li>
-                        <li>Retail: Training that improves customer service skills and product knowledge.</li>
-                    </ul>
-                    <h4 className="font-medium mt-4 mb-2 text-gray-900">Request More Examples</h4>
-                    <p className="text-gray-700">
-                        If you're interested in exploring more of our work, we welcome you to reach out. Our team can share detailed examples, ensuring you gain insights into how our eLearning solutions can be crafted specifically for your industry's needs.
-                    </p>
-                </>
-            )
-        },
-        {
-            question: "How long does it typically take to create a custom eLearning module, and what factors affect the timeline?",
-            icon: <BarChart className="h-6 w-6 text-orange-600" />,
-            answer: (
-                <>
-                    <p className="text-gray-700 mb-4">
-                        The timeline for crafting a custom eLearning module can vary significantly, but typically you can expect the process to take anywhere from 1 to 4 months. A variety of factors influence this duration, each playing a crucial role in determining the final timeline.
-                    </p>
-                    <h4 className="font-medium mb-2 text-gray-900">Key Factors Affecting the Timeline:</h4>
-                    <ol className="list-decimal pl-5 space-y-2 text-gray-700">
-                        <li>
-                            <strong>Course Length and Complexity</strong>
-                            <p>The more extensive and intricate the course, the longer it will take to develop. Short modules naturally require less time than comprehensive programs.</p>
-                        </li>
-                        <li>
-                            <strong>Subject Matter</strong>
-                            <p>Topics that are highly technical or require in-depth research may extend the timeline compared to more straightforward subjects.</p>
-                        </li>
-                        <li>
-                            <strong>Custom Visuals and Multimedia</strong>
-                            <p>If the module incorporates unique graphics, animations, or videos, additional time will be necessary for production. Custom visuals are often vital for learner engagement but do add to the development process.</p>
-                        </li>
-                        <li>
-                            <strong>Existing Content</strong>
-                            <p>Utilizing pre-existing content from other courses can accelerate the process. In scenarios where content is being reused, completion can be achieved in about 8 to 10 weeks.</p>
-                        </li>
-                        <li>
-                            <strong>Content Development from Scratch</strong>
-                            <p>Building a course from the ground up is more time-consuming, typically taking around 3.5 months. This duration ensures the content is well-researched and tailored precisely to your needs.</p>
-                        </li>
-                        <li>
-                            <strong>Iterative Feedback and Revisions</strong>
-                            <p>Throughout the development phase, regular feedback rounds are essential for refining the course materials. The more iterations needed, the longer the timeline can become.</p>
-                        </li>
-                    </ol>
-                </>
-            )
-        },
-        {
-            question: "Are custom eLearning templates available, and how are they tailored to specific business needs?",
-            icon: <Layers className="h-6 w-6 text-orange-600" />,
-            answer: (
-                <>
-                    <h4 className="font-medium mb-2 text-gray-900">Are Custom eLearning Templates Available?</h4>
-                    <p className="text-gray-700 mb-4">
-                        Absolutely! Custom eLearning templates are not only available but are specifically crafted to meet your unique business requirements.
-                    </p>
-                    <h4 className="font-medium mb-2 text-gray-900">How Are They Tailored?</h4>
-                    <ol className="list-decimal pl-5 space-y-2 text-gray-700">
-                        <li>
-                            <strong>Understanding Your Business Goals</strong>
-                            <p>The first step in creating a custom template involves a deep dive into understanding your business objectives. This ensures that the eLearning solution aligns perfectly with your company's vision and targets.</p>
-                        </li>
-                        <li>
-                            <strong>Personalized Design Approach</strong>
-                            <p>Unlike one-size-fits-all solutions, custom templates are designed from scratch. This bespoke approach allows you to incorporate branding, specific functionalities, and interactive elements that resonate with your audience.</p>
-                        </li>
-                        <li>
-                            <strong>Collaborative Development Process</strong>
-                            <p>Collaborating with you throughout the design and development stages ensures that the final product not only meets but exceeds your expectations. Regular feedback loops and iterations are key to this dynamic process.</p>
-                        </li>
-                        <li>
-                            <strong>Unique Employee Needs</strong>
-                            <p>We consider the diverse learning preferences and needs of your employees. This tailored approach ensures that the training is engaging, effective, and boosts productivity.</p>
-                        </li>
-                    </ol>
-                </>
-            )
-        },
-        {
-            question: "What factors influence the cost of a custom eLearning course?",
-            icon: <ChevronDown className="h-6 w-6 text-orange-600" />,
-            answer: (
-                <>
-                    <p className="text-gray-700 mb-4">
-                        Creating a custom eLearning course involves multiple elements that can impact the overall cost. Here's a breakdown of key factors:
-                    </p>
-                    <ol className="list-decimal pl-5 space-y-2 text-gray-700">
-                        <li>
-                            <strong>Course Type:</strong>
-                            <ul className="list-disc pl-5 mt-1">
-                                <li>Update vs. New Build: Costs differ significantly between giving an existing course a cosmetic makeover and designing a new course from scratch.</li>
-                            </ul>
-                        </li>
-                        <li>
-                            <strong>Content Complexity:</strong>
-                            <ul className="list-disc pl-5 mt-1">
-                                <li>Multimedia Integration: Including custom audio or video can enhance the learning experience but also adds to the expense.</li>
-                                <li>Interactive Elements: Features like quizzes, simulations, or games require additional development time and resources.</li>
-                            </ul>
-                        </li>
-                        <li>
-                            <strong>Customization Level:</strong>
-                            <ul className="list-disc pl-5 mt-1">
-                                <li>Tailoring content to align with specific brand guidelines or organizational needs may require more intricate design work and thus, higher costs.</li>
-                            </ul>
-                        </li>
-                        <li>
-                            <strong>Technical Requirements:</strong>
-                            <ul className="list-disc pl-5 mt-1">
-                                <li>Courses needing advanced functionalities or compatibility with various platforms could incur additional technical development expenses.</li>
-                            </ul>
-                        </li>
-                        <li>
-                            <strong>Project Timeline:</strong>
-                            <ul className="list-disc pl-5 mt-1">
-                                <li>Rush projects or tight deadlines can lead to an increased budget to accommodate expedited work.</li>
-                            </ul>
-                        </li>
-                    </ol>
-                </>
-            )
-        }
-    ];
-
     return (
         <div className="w-full">
             {/* Hero Section with Background */}
@@ -747,77 +594,11 @@ export default function CustomElearningPage() {
                 </div>
             </section>
 
-            {/* FAQ Section */}
-            <section id="faq" className="py-16 bg-white">
-                <div className="container mx-auto px-4">
-                    <div className="grid md:grid-cols-[1fr,2fr] gap-16 max-w-7xl mx-auto">
-                        {/* Left side - title */}
-                        <div>
-                            <h2 className="text-4xl font-bold sticky top-24">
-                                Frequently Asked Questions (FAQs) about Custom eLearning
-                            </h2>
-                        </div>
-
-                        {/* Right side - FAQ content */}
-                        <div>
-                            <div className="mb-12">
-                                <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-6">
-                                    CUSTOM ELEARNING SOLUTIONS
-                                </h3>
-                                <div className="space-y-px">
-                                    {faqItems.slice(0, showAllFaqs ? faqItems.length : 6).map((faq, index) => {
-                                        const isItemOpen = openFaq === index;
-
-                                        return (
-                                            <div key={index} className="border-t border-gray-200 first:border-t-0">
-                                                <button
-                                                    onClick={() => setOpenFaq(openFaq === index ? null : index)}
-                                                    className="flex justify-between items-center w-full py-6 text-left"
-                                                >
-                                                    <span className={`text-lg font-medium ${isItemOpen ? "text-blue-500" : "text-gray-900"}`}>
-                                                        {faq.question}
-                                                    </span>
-                                                    <span className="ml-6 flex-shrink-0">
-                                                        {isItemOpen ? (
-                                                            <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-                                                            </svg>
-                                                        ) : (
-                                                            <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                                            </svg>
-                                                        )}
-                                                    </span>
-                                                </button>
-                                                {isItemOpen && (
-                                                    <div className="pb-6">
-                                                        <div className="text-gray-600">
-                                                            {faq.answer}
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-
-                                {/* Show More/Less Button */}
-                                {faqItems.length > 6 && (
-                                    <div className="text-center mt-8">
-                                        <button
-                                            onClick={() => setShowAllFaqs(!showAllFaqs)}
-                                            className="inline-flex items-center justify-center px-6 py-3 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-colors duration-200"
-                                        >
-                                            {showAllFaqs ? "Show Less" : "Show More"}
-                                            <ArrowRight className={`ml-2 h-4 w-4 ${showAllFaqs ? "rotate-180" : ""}`} />
-                                        </button>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <DynamicFAQ
+                sectionId="faq"
+                pageSlug="custom-elearning"
+                title="Frequently Asked Questions (FAQs) about Custom eLearning"
+            />
 
             {/* Contact Section */}
             <section id="contact" className="py-16 bg-white">
