@@ -2,6 +2,12 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { AnalyticsTracker } from '../../../../../lib/services/analytics-tracker'
+import {
+  getFallbackAnalyticsSummary,
+  getFallbackContentTypeComparison,
+  getFallbackPlatformComparison,
+  getFallbackTopPerforming
+} from '../../../../../lib/services/analytics-fallback'
 
 export const dynamic = 'force-dynamic'
 
@@ -15,28 +21,47 @@ export async function GET(request: NextRequest) {
     const metric = searchParams.get('metric') as 'views' | 'likes' | 'shares' | 'comments' | 'clicks' | undefined
     const limit = searchParams.get('limit') ? parseInt(searchParams.get('limit')!) : 10
 
-    let result
+    let data: unknown = null
+    let error: string | null = null
+    let fallbackData: unknown = null
 
     switch (type) {
-      case 'summary':
-        result = await AnalyticsTracker.getAnalyticsSummary(dateFrom || undefined, dateTo || undefined)
+      case 'summary': {
+        const result = await AnalyticsTracker.getAnalyticsSummary(dateFrom || undefined, dateTo || undefined)
+        data = result.data
+        error = result.error
+        fallbackData = getFallbackAnalyticsSummary()
         break
+      }
 
-      case 'comparison':
-        result = await AnalyticsTracker.getContentTypeComparison(dateFrom || undefined, dateTo || undefined)
+      case 'comparison': {
+        const result = await AnalyticsTracker.getContentTypeComparison(dateFrom || undefined, dateTo || undefined)
+        data = result.data
+        error = result.error
+        fallbackData = getFallbackContentTypeComparison()
         break
+      }
 
-      case 'platform':
-        result = await AnalyticsTracker.getPlatformComparison(dateFrom || undefined, dateTo || undefined)
+      case 'platform': {
+        const result = await AnalyticsTracker.getPlatformComparison(dateFrom || undefined, dateTo || undefined)
+        data = result.data
+        error = result.error
+        fallbackData = getFallbackPlatformComparison()
         break
+      }
 
-      case 'top':
-        result = await AnalyticsTracker.getTopPerformingContent(
-          metric || 'views',
+      case 'top': {
+        const safeMetric = metric || 'views'
+        const result = await AnalyticsTracker.getTopPerformingContent(
+          safeMetric,
           limit,
           contentType
         )
+        data = result.data
+        error = result.error
+        fallbackData = getFallbackTopPerforming(safeMetric, limit, contentType)
         break
+      }
 
       default:
         return NextResponse.json(
@@ -48,20 +73,30 @@ export async function GET(request: NextRequest) {
         )
     }
 
-    if (result.error) {
+    if (error) {
+      console.warn(
+        `[analytics] using fallback data for ${type} analytics: ${error}`
+      )
+
       return NextResponse.json(
         {
-          success: false,
-          error: result.error,
-          message: 'Failed to retrieve analytics data'
+          success: true,
+          data: fallbackData,
+          fallback: true,
+          message: 'Analytics data retrieved from fallback dataset'
         },
-        { status: 500 }
+        {
+          status: 200,
+          headers: {
+            'x-analytics-fallback': 'true'
+          }
+        }
       )
     }
 
     return NextResponse.json({
       success: true,
-      data: result.data,
+      data,
       message: 'Analytics data retrieved successfully'
     })
   } catch (error) {
