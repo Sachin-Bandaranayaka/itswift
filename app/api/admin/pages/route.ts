@@ -6,6 +6,9 @@ interface PageWithContentCount {
   slug: string
   title: string
   description: string | null
+  meta_title: string | null
+  meta_description: string | null
+  meta_keywords: string | null
   is_active: boolean | null
   content_count: number
 }
@@ -22,6 +25,9 @@ export async function GET() {
         slug,
         title,
         description,
+        meta_title,
+        meta_description,
+        meta_keywords,
         is_active,
         page_content_sections(count)
       `)

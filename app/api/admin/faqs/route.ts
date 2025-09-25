@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { FAQService, FAQFilters } from '@/lib/database/services/faq-service'
 import { withAdminAuth } from '@/lib/auth/middleware'
+import { invalidateFAQCache } from '@/lib/utils/cache-invalidation'
 
 export const dynamic = 'force-dynamic'
 
@@ -133,6 +134,9 @@ async function handleCreateFAQ(request: NextRequest) {
     }
 
     const faq = await FAQService.createFAQ(faqData)
+
+    // Invalidate FAQ cache after successful creation
+    invalidateFAQCache()
 
     return NextResponse.json({
       success: true,

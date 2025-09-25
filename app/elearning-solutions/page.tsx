@@ -1,10 +1,4 @@
-import { Metadata } from 'next'
 import Link from 'next/link'
-
-export const metadata: Metadata = {
-  title: 'eLearning Solutions | Custom Learning Management Systems',
-  description: 'Explore our comprehensive eLearning solutions including compliance training, onboarding programs, and sales enablement platforms.',
-}
 
 export default function ElearningSolutionsPage() {
   return (

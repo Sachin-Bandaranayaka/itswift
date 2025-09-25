@@ -36,9 +36,14 @@ interface ContentSection {
 }
 
 interface Page {
+  id: string
   slug: string
   title: string
   description?: string
+  metaTitle?: string | null
+  metaDescription?: string | null
+  metaKeywords?: string | null
+  contentSectionCount?: number
 }
 
 // Define all pages in the website
@@ -54,6 +59,13 @@ export default function ContentManagement() {
   const [pagesLoading, setPagesLoading] = useState(true)
   const [editingSection, setEditingSection] = useState<string | null>(null)
   const [editContent, setEditContent] = useState('')
+  const [seoForm, setSeoForm] = useState({
+    title: '',
+    metaTitle: '',
+    metaDescription: '',
+    metaKeywords: ''
+  })
+  const [seoSaving, setSeoSaving] = useState(false)
   const { toast } = useToast()
 
   // Fetch pages from database
@@ -68,9 +80,13 @@ export default function ContentManagement() {
         const data = await response.json()
 
         const normalizedPages: PageWithContentCount[] = (data.pages || []).map((page: any) => ({
+          id: page.id,
           slug: page.slug,
           title: page.title,
           description: page.description ?? undefined,
+          metaTitle: page.meta_title ?? undefined,
+          metaDescription: page.meta_description ?? undefined,
+          metaKeywords: page.meta_keywords ?? undefined,
           contentSectionCount: page.content_count ?? 0
         }))
 
@@ -89,6 +105,24 @@ export default function ContentManagement() {
 
     fetchPages()
   }, [])
+
+  useEffect(() => {
+    if (selectedPage) {
+      setSeoForm({
+        title: selectedPage.title || '',
+        metaTitle: selectedPage.metaTitle || '',
+        metaDescription: selectedPage.metaDescription || '',
+        metaKeywords: selectedPage.metaKeywords || ''
+      })
+    } else {
+      setSeoForm({
+        title: '',
+        metaTitle: '',
+        metaDescription: '',
+        metaKeywords: ''
+      })
+    }
+  }, [selectedPage])
 
   const fetchPageSections = async (pageSlug: string) => {
     try {
@@ -113,6 +147,77 @@ export default function ContentManagement() {
       })
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleSaveSeoSettings = async () => {
+    if (!selectedPage) return
+
+    const currentPageId = selectedPage.id
+
+    try {
+      setSeoSaving(true)
+      const response = await fetch(`/api/admin/pages/${currentPageId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: seoForm.title,
+          meta_title: seoForm.metaTitle,
+          meta_description: seoForm.metaDescription,
+          meta_keywords: seoForm.metaKeywords
+        }),
+      })
+
+      const result = await response.json()
+
+      if (response.ok && result?.data) {
+        const updatedPage = result.data
+        setSelectedPage((prev) => prev ? {
+          ...prev,
+          title: updatedPage.title,
+          description: updatedPage.description ?? undefined,
+          metaTitle: updatedPage.meta_title ?? undefined,
+          metaDescription: updatedPage.meta_description ?? undefined,
+          metaKeywords: updatedPage.meta_keywords ?? undefined,
+        } : prev)
+
+        setPages((prevPages) => prevPages.map((page) => page.id === currentPageId ? {
+          ...page,
+          title: updatedPage.title,
+          description: updatedPage.description ?? undefined,
+          metaTitle: updatedPage.meta_title ?? undefined,
+          metaDescription: updatedPage.meta_description ?? undefined,
+          metaKeywords: updatedPage.meta_keywords ?? undefined,
+        } : page))
+
+        setSeoForm({
+          title: updatedPage.title || '',
+          metaTitle: updatedPage.meta_title || '',
+          metaDescription: updatedPage.meta_description || '',
+          metaKeywords: updatedPage.meta_keywords || ''
+        })
+
+        toast({
+          title: 'Success',
+          description: 'SEO settings updated successfully',
+        })
+      } else {
+        toast({
+          title: 'Error',
+          description: result?.error || 'Failed to update SEO settings',
+          variant: 'destructive'
+        })
+      }
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'Failed to update SEO settings',
+        variant: 'destructive'
+      })
+    } finally {
+      setSeoSaving(false)
     }
   }
 
@@ -198,6 +303,71 @@ export default function ContentManagement() {
             </p>
           </div>
         </div>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>SEO Settings</CardTitle>
+            <CardDescription>
+              Update the page title and meta tags used for SEO.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="space-y-2">
+                <Label htmlFor="page-title">Page Title</Label>
+                <Input
+                  id="page-title"
+                  value={seoForm.title}
+                  onChange={(e) => setSeoForm((prev) => ({ ...prev, title: e.target.value }))}
+                  placeholder="Enter the page title"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="meta-title">Meta Title</Label>
+                <Input
+                  id="meta-title"
+                  value={seoForm.metaTitle}
+                  onChange={(e) => setSeoForm((prev) => ({ ...prev, metaTitle: e.target.value }))}
+                  placeholder="Displayed in browser tabs and search results"
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="meta-description">Meta Description</Label>
+              <Textarea
+                id="meta-description"
+                value={seoForm.metaDescription}
+                onChange={(e) => setSeoForm((prev) => ({ ...prev, metaDescription: e.target.value }))}
+                rows={3}
+                placeholder="Add a concise summary that appears in search results"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="meta-keywords">Meta Keywords</Label>
+              <Input
+                id="meta-keywords"
+                value={seoForm.metaKeywords}
+                onChange={(e) => setSeoForm((prev) => ({ ...prev, metaKeywords: e.target.value }))}
+                placeholder="keyword one, keyword two, keyword three"
+              />
+            </div>
+            <div className="flex justify-end">
+              <Button onClick={handleSaveSeoSettings} disabled={seoSaving}>
+                {seoSaving ? (
+                  <>
+                    <div className="h-4 w-4 mr-2 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                    Saving...
+                  </>
+                ) : (
+                  <>
+                    <Save className="h-4 w-4 mr-2" />
+                    Save SEO Settings
+                  </>
+                )}
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
 
         <Card>
           <CardHeader>

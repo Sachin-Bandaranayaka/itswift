@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { FAQService } from '@/lib/database/services/faq-service'
+import { getFAQCacheTimestamp } from '@/lib/utils/cache-invalidation'
 
 export const dynamic = 'force-dynamic'
 
@@ -28,19 +29,23 @@ export async function GET(request: NextRequest) {
 
     const faqs = await FAQService.getFAQsByPage(pageSlug)
 
+    const cacheTimestamp = getFAQCacheTimestamp()
+    
     return NextResponse.json({
       success: true,
       data: faqs,
       meta: {
         timestamp: new Date().toISOString(),
         page: pageSlug,
-        count: faqs.length
+        count: faqs.length,
+        cacheTimestamp
       }
     }, {
       headers: {
         'Cache-Control': 'no-cache, no-store, must-revalidate',
         'Pragma': 'no-cache',
-        'Expires': '0'
+        'Expires': '0',
+        'X-Cache-Timestamp': cacheTimestamp.toString()
       }
     })
   } catch (error) {

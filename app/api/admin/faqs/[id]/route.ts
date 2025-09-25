@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { FAQService, UpdateFAQData } from '@/lib/database/services/faq-service'
 import { withAdminAuth } from '@/lib/auth/middleware'
+import { invalidateFAQCache } from '@/lib/utils/cache-invalidation'
 
 export const dynamic = 'force-dynamic'
 
@@ -71,6 +72,9 @@ async function handleUpdateFAQ(
       )
     }
 
+    // Invalidate FAQ cache after successful update
+    invalidateFAQCache()
+
     return NextResponse.json({
       success: true,
       data: updatedFAQ,
@@ -98,6 +102,9 @@ async function handleDeleteFAQ(
 ) {
   try {
     await FAQService.deleteFAQ(params.id)
+    
+    // Invalidate FAQ cache after successful deletion
+    invalidateFAQCache()
 
     return NextResponse.json({
       success: true,

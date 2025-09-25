@@ -1,10 +1,3 @@
-import { Metadata } from 'next'
-
-export const metadata: Metadata = {
-  title: 'Get a Quote | Swift Solution',
-  description: 'Request a quote for our AI-powered eLearning solutions and corporate training services.',
-}
-
 export default function QuotePage() {
   return (
     <div className="min-h-screen bg-background">

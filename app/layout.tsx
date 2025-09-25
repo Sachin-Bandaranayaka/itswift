@@ -5,59 +5,13 @@ import { ConditionalLayout } from "@/components/conditional-layout"
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics"
 import LinkedInInsight from "@/components/analytics/LinkedInInsight"
 import MicrosoftClarity from "@/components/analytics/MicrosoftClarity"
+import { resolveSeoMetadataFromHeaders } from "@/lib/services/seo-metadata"
 import type React from "react" // Added import for React
 
 const inter = Inter({ subsets: ["latin"] })
 
-export const metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.itswift.com/'),
-  title: "Top eLearning Company in Bangalore | itswift",
-  description:
-    "itswift delivers AI-powered, custom eLearning programs for enterprises in Bangalore and worldwide. Boost corporate training with tailored digital learning experiences.",
-  keywords: "eLearning company Bangalore, AI-powered corporate training, custom eLearning solutions, corporate training Bangalore, eLearning development",
-  authors: [{ name: "itswift" }],
-  creator: "itswift",
-  publisher: "itswift",
-  alternates: {
-    canonical: "https://www.itswift.com/",
-  },
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: "https://www.itswift.com/",
-    siteName: "itswift",
-    title: "Top eLearning Company in Bangalore | itswift",
-    description: "itswift delivers AI-powered, custom eLearning programs for enterprises in Bangalore and worldwide. Boost corporate training with tailored digital learning experiences.",
-    images: [
-      {
-        url: "/IMAGES/Swift_logo_new.png",
-        width: 1200,
-        height: 630,
-        alt: "itswift company logo",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Top eLearning Company in Bangalore | itswift",
-    description: "itswift delivers AI-powered, custom eLearning programs for enterprises in Bangalore and worldwide. Boost corporate training with tailored digital learning experiences.",
-    images: ["/IMAGES/Swift_logo_new.png"],
-    creator: "@ITSwift",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  icons: {
-    apple: "/IMAGES/Swift_logo_new.png",
-  },
+export async function generateMetadata() {
+  return resolveSeoMetadataFromHeaders()
 }
 
 export default function RootLayout({

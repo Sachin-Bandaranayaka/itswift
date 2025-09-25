@@ -17,7 +17,9 @@ import {
   Loader2,
   HelpCircle,
   Search,
-  Filter
+  Filter,
+  ChevronLeft,
+  ChevronRight
 } from "lucide-react"
 import { toast } from "sonner"
 
@@ -51,9 +53,30 @@ function formatPageLabel(slug: string) {
     .replace(/\b\w/g, char => char.toUpperCase())
 }
 
+// Common page slugs with better labels
+const PAGE_LABELS: Record<string, string> = {
+  'homepage': 'Homepage',
+  'about-us': 'About Us',
+  'contact': 'Contact',
+  'elearning-services': 'eLearning Services',
+  'custom-elearning': 'Custom eLearning',
+  'rapid-elearning': 'Rapid eLearning',
+  'on-boarding': 'On-boarding',
+  'micro-learning': 'Micro Learning',
+  'video-based-training': 'Video Based Training',
+  'translation-localization': 'Translation & Localization',
+  'ai-powered-solutions': 'AI Powered Solutions',
+  'convert-flash-to-html': 'Flash to HTML5',
+  'ilt-to-elearning': 'ILT to eLearning'
+}
+
+function getPageLabel(slug: string): string {
+  return PAGE_LABELS[slug] || formatPageLabel(slug)
+}
+
 export default function FAQManagement() {
   const [faqs, setFaqs] = useState<FAQ[]>([])
-  const [filteredFaqs, setFilteredFaqs] = useState<FAQ[]>([])
+  const [totalCount, setTotalCount] = useState<number>(0)
   const [loading, setLoading] = useState(true)
   const [selectedFaq, setSelectedFaq] = useState<FAQ | null>(null)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
@@ -65,6 +88,11 @@ export default function FAQManagement() {
   const [pageOptions, setPageOptions] = useState<string[]>([])
   const [categoryOptions, setCategoryOptions] = useState<string[]>([])
   
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
+  const [itemsPerPage] = useState(10)
+  
   const [formData, setFormData] = useState<FAQFormData>({
     question: '',
     answer: '',
@@ -75,10 +103,23 @@ export default function FAQManagement() {
   })
 
   // Fetch FAQs
-  const fetchFaqs = async () => {
+  const fetchFaqs = async (page = currentPage) => {
     try {
       setLoading(true)
-      const response = await fetch('/api/admin/faqs', {
+      
+      // Build query parameters
+      const params = new URLSearchParams({
+        page: page.toString(),
+        limit: itemsPerPage.toString()
+      })
+      
+      // Add filters if they're not 'all'
+      if (filterPage !== 'all') params.append('page_slug', filterPage)
+      if (filterCategory !== 'all') params.append('category', filterCategory)
+      if (filterActive !== 'all') params.append('is_active', filterActive)
+      if (searchTerm) params.append('search', searchTerm)
+      
+      const response = await fetch(`/api/admin/faqs?${params.toString()}`, {
         cache: 'no-store',
         headers: {
           'Cache-Control': 'no-cache, no-store, must-revalidate',
@@ -90,6 +131,9 @@ export default function FAQManagement() {
       
       if (result.success) {
         setFaqs(result.data.faqs || [])
+        setTotalCount(result.meta?.pagination?.total || 0)
+        setTotalPages(result.meta?.pagination?.totalPages || 1)
+        setCurrentPage(result.meta?.pagination?.page || 1)
         setPageOptions(result.meta?.availableFilters?.pageSlugs || [])
         setCategoryOptions(result.meta?.availableFilters?.categories || [])
       } else {
@@ -103,41 +147,14 @@ export default function FAQManagement() {
     }
   }
 
-  // Filter FAQs
-  useEffect(() => {
-    let filtered = faqs
-
-    // Search filter
-    if (searchTerm) {
-      const searchLower = searchTerm.toLowerCase()
-      filtered = filtered.filter(faq => 
-        faq.question.toLowerCase().includes(searchLower) ||
-        faq.answer.toLowerCase().includes(searchLower) ||
-        (faq.category && faq.category.toLowerCase().includes(searchLower))
-      )
-    }
-
-    // Page filter
-    if (filterPage !== 'all') {
-      filtered = filtered.filter(faq => faq.page_slug === filterPage)
-    }
-
-    // Category filter
-    if (filterCategory !== 'all') {
-      filtered = filtered.filter(faq => faq.category === filterCategory)
-    }
-
-    // Active filter
-    if (filterActive !== 'all') {
-      filtered = filtered.filter(faq => 
-        filterActive === 'active' ? faq.is_active : !faq.is_active
-      )
-    }
-
-    setFilteredFaqs(filtered)
-  }, [faqs, searchTerm, filterPage, filterCategory, filterActive])
-
   // Load FAQs on component mount
+  // Trigger API call when filters change
+  useEffect(() => {
+    setCurrentPage(1) // Reset to first page when filters change
+    fetchFaqs(1)
+  }, [searchTerm, filterPage, filterCategory, filterActive])
+
+  // Initial load
   useEffect(() => {
     fetchFaqs()
   }, [])
@@ -260,12 +277,47 @@ export default function FAQManagement() {
         </Button>
       </div>
 
-      {/* Filters */}
+      {/* Quick Page Filters */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Filter className="h-5 w-5" />
-            Filters
+            Quick Page Filters
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-wrap gap-2 mb-4">
+            <Button
+              variant={filterPage === 'all' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setFilterPage('all')}
+            >
+              All Pages ({faqs.length})
+            </Button>
+            {['homepage', 'custom-elearning', 'rapid-elearning', 'on-boarding', 'micro-learning'].map(slug => {
+              const count = faqs.filter(faq => faq.page_slug === slug).length
+              if (count === 0) return null
+              return (
+                <Button
+                  key={slug}
+                  variant={filterPage === slug ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setFilterPage(slug)}
+                >
+                  {getPageLabel(slug)} ({count})
+                </Button>
+              )
+            })}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Advanced Filters */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Search className="h-5 w-5" />
+            Advanced Filters
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -294,7 +346,7 @@ export default function FAQManagement() {
                   <SelectItem value="all">All pages</SelectItem>
                   {pageOptions.map(slug => (
                     <SelectItem key={slug} value={slug}>
-                      {formatPageLabel(slug)}
+                      {getPageLabel(slug)}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -340,7 +392,7 @@ export default function FAQManagement() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <HelpCircle className="h-5 w-5" />
-            FAQs ({filteredFaqs.length})
+            FAQs ({totalCount})
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -348,7 +400,7 @@ export default function FAQManagement() {
             <div className="flex items-center justify-center py-8">
               <Loader2 className="h-8 w-8 animate-spin" />
             </div>
-          ) : filteredFaqs.length === 0 ? (
+          ) : faqs.length === 0 ? (
             <div className="text-center py-8 text-muted-foreground">
               No FAQs found. Create your first FAQ to get started.
             </div>
@@ -365,7 +417,7 @@ export default function FAQManagement() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredFaqs.map((faq) => (
+                {faqs.map((faq: FAQ) => (
                   <TableRow key={faq.id}>
                     <TableCell className="font-medium max-w-md">
                       <div className="truncate" title={faq.question}>
@@ -373,8 +425,11 @@ export default function FAQManagement() {
                       </div>
                     </TableCell>
                     <TableCell>
-                      <Badge variant="outline">
-                        {formatPageLabel(faq.page_slug)}
+                      <Badge 
+                        variant={faq.page_slug === 'homepage' ? 'default' : 'outline'}
+                        className={faq.page_slug === 'homepage' ? 'bg-blue-100 text-blue-800 border-blue-200' : ''}
+                      >
+                        {getPageLabel(faq.page_slug)}
                       </Badge>
                     </TableCell>
                     <TableCell>
@@ -411,6 +466,74 @@ export default function FAQManagement() {
               </TableBody>
             </Table>
           )}
+          
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-between px-2 py-4">
+              <div className="text-sm text-muted-foreground">
+                Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, totalCount)} of {totalCount} FAQs
+              </div>
+              <div className="flex items-center space-x-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    const newPage = currentPage - 1
+                    setCurrentPage(newPage)
+                    fetchFaqs(newPage)
+                  }}
+                  disabled={currentPage <= 1}
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                  Previous
+                </Button>
+                
+                <div className="flex items-center space-x-1">
+                  {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                    let pageNum
+                    if (totalPages <= 5) {
+                      pageNum = i + 1
+                    } else if (currentPage <= 3) {
+                      pageNum = i + 1
+                    } else if (currentPage >= totalPages - 2) {
+                      pageNum = totalPages - 4 + i
+                    } else {
+                      pageNum = currentPage - 2 + i
+                    }
+                    
+                    return (
+                      <Button
+                        key={pageNum}
+                        variant={currentPage === pageNum ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => {
+                          setCurrentPage(pageNum)
+                          fetchFaqs(pageNum)
+                        }}
+                        className="w-8 h-8 p-0"
+                      >
+                        {pageNum}
+                      </Button>
+                    )
+                  })}
+                </div>
+                
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    const newPage = currentPage + 1
+                    setCurrentPage(newPage)
+                    fetchFaqs(newPage)
+                  }}
+                  disabled={currentPage >= totalPages}
+                >
+                  Next
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          )}
         </CardContent>
       </Card>
 
@@ -441,9 +564,15 @@ export default function FAQManagement() {
                 <datalist id="page-slug-options">
                   {pageOptions.map(slug => (
                     <option key={slug} value={slug}>
-                      {formatPageLabel(slug)}
+                      {getPageLabel(slug)}
                     </option>
                   ))}
+                  {/* Common page suggestions */}
+                  <option value="homepage">Homepage</option>
+                  <option value="about-us">About Us</option>
+                  <option value="contact">Contact</option>
+                  <option value="custom-elearning">Custom eLearning</option>
+                  <option value="rapid-elearning">Rapid eLearning</option>
                 </datalist>
               </div>
 

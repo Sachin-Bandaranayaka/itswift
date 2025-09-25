@@ -43,7 +43,9 @@ export default function DynamicFAQ({ pageSlug, title, className = "", sectionId 
         setLoading(true)
         setError(null)
         
-        const response = await fetch(`/api/faqs?page=${pageSlug}`, {
+        // Add timestamp for cache busting
+        const timestamp = Date.now()
+        const response = await fetch(`/api/faqs?page=${pageSlug}&t=${timestamp}`, {
           cache: 'no-store',
           headers: {
             'Cache-Control': 'no-cache, no-store, must-revalidate',
@@ -55,6 +57,11 @@ export default function DynamicFAQ({ pageSlug, title, className = "", sectionId 
         
         if (result.success) {
           const faqs: FAQ[] = result.data
+          
+          // Store the server's cache timestamp for future reference
+          if (result.meta?.cacheTimestamp) {
+            localStorage.setItem('faq-cache-timestamp', result.meta.cacheTimestamp.toString())
+          }
           
           // Group FAQs by category
           const categorizedFAQs = faqs.reduce((acc: Record<string, FAQ[]>, faq) => {
