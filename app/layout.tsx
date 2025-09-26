@@ -5,13 +5,13 @@ import { ConditionalLayout } from "@/components/conditional-layout"
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics"
 import LinkedInInsight from "@/components/analytics/LinkedInInsight"
 import MicrosoftClarity from "@/components/analytics/MicrosoftClarity"
-import { resolveSeoMetadataFromHeaders } from "@/lib/services/seo-metadata"
+import { resolveSeoMetadata } from "@/lib/services/seo-metadata"
 import type React from "react" // Added import for React
 
 const inter = Inter({ subsets: ["latin"] })
 
 export async function generateMetadata() {
-  return resolveSeoMetadataFromHeaders()
+  return resolveSeoMetadata('/')
 }
 
 export default function RootLayout({

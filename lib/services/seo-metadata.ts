@@ -12,6 +12,8 @@ type PageSeoRecord = {
   meta_title: string | null
   meta_description: string | null
   meta_keywords: string | null
+  primary_keywords: string | null
+  secondary_keywords: string | null
 }
 
 const DEFAULT_METADATA: Metadata = {
@@ -151,7 +153,7 @@ async function fetchSeoRecord(slugCandidates: string[]): Promise<PageSeoRecord |
     const supabase = getSupabaseAdmin()
     const { data, error } = await supabase
       .from('pages')
-      .select('slug, title, description, meta_title, meta_description, meta_keywords')
+      .select('slug, title, description, meta_title, meta_description, meta_keywords, primary_keywords, secondary_keywords')
       .in('slug', slugCandidates)
       .eq('is_active', true)
 
@@ -202,7 +204,15 @@ function applySeoRecord(metadata: Metadata, record: PageSeoRecord | null): Metad
 
   const title = record.meta_title || record.title || (typeof metadata.title === 'string' ? metadata.title : undefined)
   const description = record.meta_description || record.description || (typeof metadata.description === 'string' ? metadata.description : undefined)
-  const keywords = record.meta_keywords || (typeof metadata.keywords === 'string' ? metadata.keywords : undefined)
+  
+  // Combine primary and secondary keywords, with fallback to meta_keywords
+  let keywords = record.meta_keywords
+  if (record.primary_keywords || record.secondary_keywords) {
+    const primaryKw = record.primary_keywords || ''
+    const secondaryKw = record.secondary_keywords || ''
+    keywords = [primaryKw, secondaryKw].filter(Boolean).join(', ')
+  }
+  keywords = keywords || (typeof metadata.keywords === 'string' ? metadata.keywords : null)
 
   if (title) {
     metadata.title = title

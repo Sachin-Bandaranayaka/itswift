@@ -1,11 +1,14 @@
-import type { Metadata } from 'next';
+import type { ReactNode } from "react"
+import { resolveSeoMetadata } from "@/lib/services/seo-metadata"
 
-;
+export async function generateMetadata() {
+  return resolveSeoMetadata('/elearning-services/game-based-elearning')
+}
 
 export default function GameBasedElearningLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode
 }) {
-  return children;
+  return children
 }

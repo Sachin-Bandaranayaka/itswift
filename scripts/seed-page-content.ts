@@ -1092,6 +1092,85 @@ Our core values of client-centricity, innovation, and measurable impact are the 
     ]
   },
   {
+    slug: 'video-based-training',
+    title: 'Video-Based Training Solutions | Swift Solution',
+    description: 'Create high-impact corporate training videos with Swift Solution’s end-to-end video-based learning services.',
+    sections: [
+      { key: 'video_hero_title', content: 'Video-Based Training Solutions' },
+      { key: 'video_hero_subtitle', content: 'Engaging video training that captivates learners and drives real results' },
+      { key: 'video_hero_cta', content: 'Get Started' },
+      { key: 'video_intro_heading', content: 'Transform Learning with Professional Video Training' },
+      { key: 'video_intro_paragraph_1', content: 'Video-based training has become the gold standard for corporate learning, offering unparalleled engagement and knowledge retention. Swift Solution creates professional, high-impact video training content that transforms complex concepts into compelling visual narratives that learners actually want to watch and remember.' },
+      { key: 'video_intro_paragraph_2', content: 'Our comprehensive video training solutions combine cinematic production quality with instructional design expertise. From concept to delivery, we handle every aspect of video training development, ensuring your content not only looks professional but delivers measurable learning outcomes.' },
+      { key: 'video_why_section_heading', content: 'Why Choose Our Video-Based Training?' },
+      { key: 'video_why_feature_1_title', content: 'Professional Production Quality' },
+      { key: 'video_why_feature_1_description', content: 'Cinematic quality videos that reflect your brand' },
+      { key: 'video_why_feature_2_title', content: 'Interactive Elements' },
+      { key: 'video_why_feature_2_description', content: 'Engaging interactions that boost retention' },
+      { key: 'video_why_feature_3_title', content: 'Multi-Device Compatibility' },
+      { key: 'video_why_feature_3_description', content: 'Optimized for desktop, tablet, and mobile' },
+      { key: 'video_why_feature_4_title', content: 'Analytics & Tracking' },
+      { key: 'video_why_feature_4_description', content: 'Detailed insights into learner engagement' },
+      { key: 'video_why_feature_5_title', content: 'Multilingual Support' },
+      { key: 'video_why_feature_5_description', content: 'Professional voice-over and subtitles' },
+      { key: 'video_why_feature_6_title', content: 'LMS Integration' },
+      { key: 'video_why_feature_6_description', content: 'Seamless integration with your learning platform' },
+      { key: 'video_faq_title', content: 'Frequently Asked Questions (FAQs) about Video-Based Training' },
+      { key: 'video_services_section_heading', content: 'Video Training Solutions We Offer' },
+      { key: 'video_services_section_description', content: 'Comprehensive video training solutions designed to engage learners and deliver measurable results' },
+      { key: 'video_service_1_title', content: 'Instructional Videos' },
+      { key: 'video_service_1_description', content: 'Step-by-step tutorials and educational content for skill development' },
+      { key: 'video_service_2_title', content: 'Product Demonstrations' },
+      { key: 'video_service_2_description', content: 'Showcase product features and benefits through engaging video content' },
+      { key: 'video_service_3_title', content: 'Software Tutorials' },
+      { key: 'video_service_3_description', content: 'Interactive software training with screen recordings and walkthroughs' },
+      { key: 'video_service_4_title', content: 'Compliance Training' },
+      { key: 'video_service_4_description', content: 'Regulatory and policy training videos for organizational compliance' },
+      { key: 'video_service_5_title', content: 'Onboarding Videos' },
+      { key: 'video_service_5_description', content: 'Welcome new employees with comprehensive orientation videos' },
+      { key: 'video_service_6_title', content: 'Leadership Development' },
+      { key: 'video_service_6_description', content: 'Executive and management training through scenario-based videos' },
+      { key: 'video_service_7_title', content: 'Safety Training' },
+      { key: 'video_service_7_description', content: 'Workplace safety procedures and emergency response training' },
+      { key: 'video_service_8_title', content: 'Sales Training' },
+      { key: 'video_service_8_description', content: 'Sales techniques and customer interaction training videos' },
+      { key: 'video_service_9_title', content: 'Customer Service' },
+      { key: 'video_service_9_description', content: 'Customer support and service excellence training modules' },
+      { key: 'video_service_10_title', content: 'Technical Training' },
+      { key: 'video_service_10_description', content: 'Complex technical concepts simplified through visual demonstrations' },
+      { key: 'video_service_11_title', content: 'Interactive Scenarios' },
+      { key: 'video_service_11_description', content: 'Branching video scenarios for decision-making practice' },
+      { key: 'video_service_12_title', content: 'Animated Explainers' },
+      { key: 'video_service_12_description', content: 'Animated videos that simplify complex concepts and processes' },
+      { key: 'video_process_section_heading', content: 'Our Video Production Process' },
+      { key: 'video_process_step_1_title', content: 'Strategy & Planning' },
+      { key: 'video_process_step_1_description', content: 'We define objectives, target audience, and create detailed scripts and storyboards.' },
+      { key: 'video_process_step_2_title', content: 'Pre-Production' },
+      { key: 'video_process_step_2_description', content: 'Location scouting, talent casting, equipment setup, and production scheduling.' },
+      { key: 'video_process_step_3_title', content: 'Production & Filming' },
+      { key: 'video_process_step_3_description', content: 'Professional filming with high-end equipment and experienced production crew.' },
+      { key: 'video_process_step_4_title', content: 'Post-Production' },
+      { key: 'video_process_step_4_description', content: 'Expert editing, motion graphics, audio enhancement, and interactive element integration.' },
+      { key: 'video_benefits_section_heading', content: 'Benefits of Video-Based Training' },
+      { key: 'video_learning_benefits_heading', content: 'Learning Benefits' },
+      { key: 'video_learning_benefit_1', content: '95% retention rate vs 10% for text' },
+      { key: 'video_learning_benefit_2', content: 'Visual and auditory learning combined' },
+      { key: 'video_learning_benefit_3', content: 'Self-paced learning flexibility' },
+      { key: 'video_learning_benefit_4', content: 'Consistent message delivery' },
+      { key: 'video_learning_benefit_5', content: 'Complex concepts simplified' },
+      { key: 'video_learning_benefit_6', content: 'Emotional connection and engagement' },
+      { key: 'video_business_benefits_heading', content: 'Business Benefits' },
+      { key: 'video_business_benefit_1', content: 'Reduced training costs over time' },
+      { key: 'video_business_benefit_2', content: 'Scalable to unlimited learners' },
+      { key: 'video_business_benefit_3', content: '24/7 availability' },
+      { key: 'video_business_benefit_4', content: 'Measurable learning analytics' },
+      { key: 'video_business_benefit_5', content: 'Professional brand representation' },
+      { key: 'video_business_benefit_6', content: 'Global reach with localization' },
+      { key: 'video_contact_heading', content: 'Ready to Create Compelling Video Training?' },
+      { key: 'video_contact_description', content: 'Contact our video production experts to discuss your training video needs.' }
+    ]
+  },
+  {
     slug: 'game-based-elearning',
     title: 'Game-Based eLearning Solutions | Swift Solution',
     description: 'Deliver immersive, measurable learning experiences with Swift Solution’s game-based eLearning development services.',
@@ -1319,6 +1398,148 @@ Our core values of client-centricity, innovation, and measurable impact are the 
     ]
   },
   {
+    slug: 'webinar-to-elearning',
+    title: 'Webinar to eLearning Conversion Services | Swift Solution',
+    description: 'Convert live webinars into interactive, on-demand eLearning modules with Swift Solution’s expert team.',
+    sections: [
+      { key: 'webinar_hero_title', content: 'Transform Your Webinars into Engaging On-Demand eLearning Experiences' },
+      { key: 'webinar_hero_description', content: "Are you sitting on a goldmine of valuable webinar content that's only been viewed once? Our team specializes in transforming your existing webinars into interactive, engaging eLearning modules that extend the lifespan and impact of your virtual events." },
+      { key: 'webinar_hero_primary_cta', content: 'Get Started' },
+      { key: 'webinar_hero_secondary_cta', content: 'Learn More' },
+      { key: 'webinar_intro_heading', content: 'What Is Webinar to eLearning Conversion?' },
+      { key: 'webinar_intro_paragraph_1', content: 'Webinar to eLearning conversion is the strategic process of transforming live or recorded webinar content into structured, interactive eLearning modules that can be accessed on-demand through learning management systems.' },
+      { key: 'webinar_intro_paragraph_2', content: 'This transformation enhances the original content by adding:' },
+      { key: 'webinar_intro_bullet_1_highlight', content: 'Interactive Elements' },
+      { key: 'webinar_intro_bullet_1_description', content: 'Engaging activities that maintain learner attention and reinforce key concepts' },
+      { key: 'webinar_intro_bullet_2_highlight', content: 'Knowledge Checks' },
+      { key: 'webinar_intro_bullet_2_description', content: 'Strategically placed assessments that verify comprehension and provide feedback' },
+      { key: 'webinar_intro_bullet_3_highlight', content: 'Structural Organization' },
+      { key: 'webinar_intro_bullet_3_description', content: 'Clear learning objectives, logical content segmentation, and intuitive navigation' },
+      { key: 'webinar_intro_bullet_4_highlight', content: 'Enhanced Multimedia' },
+      { key: 'webinar_intro_bullet_4_description', content: 'Optimized audio, improved visuals, and added supporting graphics or animations' },
+      { key: 'webinar_intro_bullet_5_highlight', content: 'Progress Tracking' },
+      { key: 'webinar_intro_bullet_5_description', content: 'LMS integration that captures learner activity, completion, and assessment data' },
+      { key: 'webinar_benefits_heading', content: 'Why Convert Webinars to eLearning Modules?' },
+      { key: 'webinar_benefits_description', content: 'Transform temporary virtual events into lasting educational assets that continue to deliver value long after the live session ends.' },
+      { key: 'webinar_benefit_1_title', content: 'Maximize ROI from Existing Webinar Content' },
+      { key: 'webinar_benefit_1_description', content: 'Webinars require significant investment in preparation, promotion, and delivery, yet their value typically diminishes rapidly after the live event. Our conversion services help you extract maximum value from this investment by transforming one-time events into permanent learning assets that continue generating returns indefinitely.' },
+      { key: 'webinar_benefit_2_title', content: 'Create Evergreen Training Assets from One-Time Events' },
+      { key: 'webinar_benefit_2_description', content: 'Live webinars are ephemeral by nature, with content that may quickly become outdated or forgotten. Our conversion process transforms these temporary events into evergreen training resources that can be updated, expanded, and leveraged as cornerstone content in your knowledge management strategy.' },
+      { key: 'webinar_benefit_3_title', content: 'Expand Audience Reach Beyond Live Attendees' },
+      { key: 'webinar_benefit_3_description', content: "Even successful webinars typically reach only a fraction of your potential audience due to scheduling conflicts, time zone differences, and limited promotion. Converting webinars to on-demand eLearning modules allows you to reach the 60-80% of your target audience who couldn't attend the original live event." },
+      { key: 'webinar_benefit_4_title', content: 'Enhance Learning with Interactive Elements' },
+      { key: 'webinar_benefit_4_description', content: "Live webinars offer limited interaction opportunities and no ability to pause for reflection or review complex concepts. Our conversion process integrates interactive elements, knowledge checks, and supplementary resources that enhance learning effectiveness beyond what's possible in a live streaming format." },
+      { key: 'webinar_benefit_5_title', content: 'Track Engagement and Completion with Advanced Analytics' },
+      { key: 'webinar_benefit_5_description', content: 'Traditional webinar platforms offer basic attendance and duration metrics but limited insight into actual engagement and knowledge transfer. Our converted eLearning modules include comprehensive tracking capabilities that measure specific learning outcomes, completion rates, and knowledge retention.' },
+      { key: 'webinar_process_heading', content: 'Our Proven Webinar to eLearning Conversion Process' },
+      { key: 'webinar_process_description', content: 'Our team has developed a systematic, proven approach to webinar conversion that maximizes the educational value of your existing content.' },
+      { key: 'webinar_process_step_1_title', content: 'Comprehensive Content Analysis' },
+      { key: 'webinar_process_step_1_description', content: 'We begin by thoroughly analyzing your webinar recording, identifying key learning points, natural content breaks, engagement opportunities, and areas requiring enhancement or clarification. This analysis forms the foundation for an effective transformation strategy.' },
+      { key: 'webinar_process_step_2_title', content: 'Instructional Design Blueprint' },
+      { key: 'webinar_process_step_2_description', content: 'Our instructional designers create a detailed blueprint that restructures your webinar content for optimal digital learning, incorporating adult learning principles, microlearning concepts, and engagement strategies that maintain attention throughout the experience.' },
+      { key: 'webinar_process_step_3_title', content: 'Content Segmentation and Enhancement' },
+      { key: 'webinar_process_step_3_description', content: 'We break down lengthy webinar sessions into logical, digestible modules with clear learning objectives. Our team enhances the original content with additional context, examples, and supporting materials that improve comprehension and retention.' },
+      { key: 'webinar_process_step_4_title', content: 'Interactive Element Development' },
+      { key: 'webinar_process_step_4_description', content: 'Our specialized development team creates knowledge checks, interactive scenarios, clickable elements, and other engagement points that replace the live interaction of the original webinar and maintain learner attention throughout the experience.' },
+      { key: 'webinar_process_step_5_title', content: 'Multimedia Optimization' },
+      { key: 'webinar_process_step_5_description', content: 'We enhance audio quality, improve visual elements, add professional animations or graphics where beneficial, and ensure all multimedia components are optimized for various devices and bandwidth conditions.' },
+      { key: 'webinar_process_step_6_title', content: 'Assessment and Reinforcement Integration' },
+      { key: 'webinar_process_step_6_description', content: 'We design effective assessment strategies that evaluate knowledge transfer and provide meaningful feedback to learners. These assessments verify comprehension and reinforce key learning points from the webinar content.' },
+      { key: 'webinar_process_step_7_title', content: 'Technical Implementation and Testing' },
+      { key: 'webinar_process_step_7_description', content: 'Our technical team ensures your converted content functions flawlessly across all required platforms and devices. Rigorous testing verifies compatibility, performance, and tracking before deployment.' },
+      { key: 'webinar_challenges_heading', content: 'Common Challenges Solved by Our Webinar to eLearning Conversion Services' },
+      { key: 'webinar_challenges_description', content: 'We address the key limitations of traditional webinar content to create truly effective learning experiences.' },
+      { key: 'webinar_challenge_1_title', content: 'Struggling to get long-term value from webinars?' },
+      { key: 'webinar_challenge_1_description', content: 'Our conversion process transforms temporary webinar events into permanent learning assets that continue generating value indefinitely. This approach typically delivers 5-10x more views and engagement compared to simply posting the webinar recording.' },
+      { key: 'webinar_challenge_2_title', content: 'Need to provide training to those who missed live events?' },
+      { key: 'webinar_challenge_2_description', content: 'Our converted eLearning modules allow learners to access critical information at their convenience, eliminating the scheduling conflicts and time zone challenges that limit live webinar attendance. This typically expands your reach by 300-500%.' },
+      { key: 'webinar_challenge_3_title', content: 'Want to create a consistent learning experience?' },
+      { key: 'webinar_challenge_3_description', content: 'Live webinars can vary significantly in quality and effectiveness based on presenter performance, technical issues, and audience dynamics. Our conversion process standardizes the experience, ensuring consistent quality and learning outcomes for all users.' },
+      { key: 'webinar_challenge_4_title', content: 'Looking to measure learning outcomes from webinar content?' },
+      { key: 'webinar_challenge_4_description', content: 'Our converted modules include comprehensive tracking and assessment capabilities that provide detailed insights into engagement, completion, and knowledge transfer—metrics that are impossible to capture accurately with traditional webinar recordings.' },
+      { key: 'webinar_ai_heading', content: 'How AI Is Revolutionizing Webinar to eLearning Conversion' },
+      { key: 'webinar_ai_description', content: 'The integration of artificial intelligence has transformed the webinar conversion process, making it faster, more effective, and more personalized.' },
+      { key: 'webinar_ai_feature_1_title', content: 'AI-Powered Content Extraction and Analysis' },
+      { key: 'webinar_ai_feature_1_description', content: 'Our AI tools analyze your webinar recordings to automatically identify key topics, learning points, and natural content breaks. This analysis accelerates the conversion process by extracting and organizing content elements while identifying areas that need enhancement.' },
+      { key: 'webinar_ai_feature_2_title', content: 'Automated Transcription and Caption Generation' },
+      { key: 'webinar_ai_feature_2_description', content: 'AI-powered transcription tools create accurate text versions of your webinar content, which we then optimize for readability and learning. These transcriptions serve as the foundation for searchable content, captions, and text-based learning resources.' },
+      { key: 'webinar_ai_feature_3_title', content: 'Intelligent Interactive Element Suggestions' },
+      { key: 'webinar_ai_feature_3_description', content: 'Our AI systems analyze your webinar content and suggest optimal points for interactive elements, knowledge checks, and supplementary resources based on content complexity, natural pauses, and learning principles.' },
+      { key: 'webinar_ai_feature_4_title', content: 'Personalized Learning Path Creation' },
+      { key: 'webinar_ai_feature_4_description', content: 'AI enables us to create adaptive learning paths that personalize the experience based on individual learner roles, prior knowledge, and performance. These adaptive elements ensure each learner receives the most relevant content for their specific needs.' },
+      { key: 'webinar_results_heading', content: 'Real Results from Our Webinar to eLearning Conversion Projects' },
+      { key: 'webinar_results_description', content: 'Our clients have achieved remarkable outcomes by transforming their webinar content into engaging eLearning experiences.' },
+      { key: 'webinar_case_study_1_title', content: 'Global Technology Corporation' },
+      { key: 'webinar_case_study_1_description', content: 'Converted a series of 12 product webinars into an interactive eLearning library, increasing total viewing time by 470% and improving product adoption rates by 28% among customers who completed the modules.' },
+      { key: 'webinar_case_study_1_metric_1', content: '470% increase in viewing time' },
+      { key: 'webinar_case_study_1_metric_2', content: '28% improvement in product adoption' },
+      { key: 'webinar_case_study_2_title', content: 'Financial Services Provider' },
+      { key: 'webinar_case_study_2_description', content: 'Transformed quarterly compliance update webinars into structured eLearning modules with verification assessments, achieving 100% completion rates among required staff compared to 62% live attendance for previous webinars.' },
+      { key: 'webinar_case_study_2_metric_1', content: '100% compliance completion rate' },
+      { key: 'webinar_case_study_2_metric_2', content: '38% increase in training coverage' },
+      { key: 'webinar_case_study_3_title', content: 'Healthcare Organization' },
+      { key: 'webinar_case_study_3_description', content: 'Converted clinical procedure webinars into interactive training modules with simulations and assessments, reducing training time by 35% while improving competency assessment scores by 24%.' },
+      { key: 'webinar_case_study_3_metric_1', content: '35% reduction in training time' },
+      { key: 'webinar_case_study_3_metric_2', content: '24% higher competency scores' },
+      { key: 'webinar_advantages_heading', content: 'Why Choose Swift Solution for Your Webinar to eLearning Conversion Needs?' },
+      { key: 'webinar_advantages_description', content: 'With specialized expertise in digital learning transformation, our team brings unique advantages to your webinar conversion projects.' },
+      { key: 'webinar_advantage_1_title', content: 'Global Expertise with Local Value' },
+      { key: 'webinar_advantage_1_description', content: 'Our location allows us to offer world-class conversion services at competitive rates compared to US or European providers, typically delivering 30-40% cost savings without compromising quality.' },
+      { key: 'webinar_advantage_2_title', content: 'Rapid Delivery Capability' },
+      { key: 'webinar_advantage_2_description', content: 'Our large, specialized team and 24/7 production capability allow us to deliver conversion projects 40-50% faster than most Western providers, helping you quickly capitalize on your webinar content.' },
+      { key: 'webinar_advantage_3_title', content: 'Instructional Design Excellence' },
+      { key: 'webinar_advantage_3_description', content: 'Our team includes certified instructional designers with specific expertise in transforming presentation-based content into effective digital learning experiences that drive measurable outcomes.' },
+      { key: 'webinar_advantage_4_title', content: 'Technical Versatility' },
+      { key: 'webinar_advantage_4_description', content: 'Our developers are certified in all major eLearning authoring tools (Articulate, Captivate, Lectora) and have deep experience with global LMS platforms, ensuring seamless implementation regardless of your technical environment.' },
+      { key: 'webinar_advantage_5_title', content: 'SEO Optimization' },
+      { key: 'webinar_advantage_5_description', content: 'We incorporate search engine optimization strategies throughout the conversion process, ensuring your transformed content ranks highly for relevant keywords and drives organic traffic to your learning resources.' },
+      { key: 'webinar_advantage_6_title', content: 'Comprehensive Service Offering' },
+      { key: 'webinar_advantage_6_description', content: 'We provide end-to-end services from initial analysis through deployment and evaluation, eliminating the need to coordinate multiple vendors for your conversion project.' },
+      { key: 'webinar_faq_heading', content: 'Frequently Asked Questions' },
+      { key: 'webinar_faq_description', content: 'Get answers to common questions about our webinar conversion services.' },
+      { key: 'webinar_faq_badge', content: 'WEBINAR TO ELEARNING CONVERSION' },
+      { key: 'webinar_faq_item_1_question', content: 'What types of webinars convert best to eLearning?' },
+      { key: 'webinar_faq_item_1_answer', content: 'While virtually any webinar can be converted, the most successful transformations typically come from content-rich presentations, product demonstrations, technical training, and thought leadership sessions. Webinars with clear learning objectives and structured content convert most effectively to eLearning formats.' },
+      { key: 'webinar_faq_item_2_question', content: 'How long does the webinar to eLearning conversion process take?' },
+      { key: 'webinar_faq_item_2_answer', content: "Typical conversion timelines range from 2-6 weeks depending on the complexity and length of the original webinar. Our Bangalore team's 24/7 production capability allows us to deliver even complex projects 40-50% faster than most Western providers. We can also implement phased approaches for urgent training needs." },
+      { key: 'webinar_faq_item_3_question', content: 'Will converted content work in our existing LMS?' },
+      { key: 'webinar_faq_item_3_answer', content: 'Yes, we ensure compatibility with all major learning management systems. Our technical team has extensive experience with Cornerstone, TalentLMS, Moodle, Blackboard, SAP SuccessFactors, and many other platforms, ensuring seamless integration with your existing infrastructure.' },
+      { key: 'webinar_faq_item_4_question', content: 'How do you maintain engagement in converted webinar content?' },
+      { key: 'webinar_faq_item_4_answer', content: 'We use a variety of digital strategies to enhance engagement, including interactive elements, knowledge checks, scenario-based activities, gamification, and microlearning principles. Our approach focuses on transforming passive viewing into active learning through strategic interaction points throughout the experience.' },
+      { key: 'webinar_faq_item_5_question', content: 'What is the ROI of converting webinars to eLearning?' },
+      { key: 'webinar_faq_item_5_answer', content: 'Organizations typically see ROI within 3-6 months of conversion, with ongoing returns as content continues to be accessed. Value comes from extended content lifespan (typically 18-24 months for converted content vs. 30 days for webinar recordings), expanded audience reach (300-500% more viewers), and measurable learning outcomes that drive business results.' },
+      { key: 'webinar_cta_heading', content: 'Ready to Transform Your Webinar Library?' },
+      { key: 'webinar_cta_description', content: 'Contact us today to discuss how our webinar to eLearning conversion services can help you extend content lifespan, expand audience reach, and generate measurable learning outcomes from your virtual events.' },
+      { key: 'webinar_cta_button_label', content: 'Get Started Today' }
+    ]
+  },
+  {
+    slug: 'translation-localization',
+    title: 'eLearning Translation & Localization Services | Swift Solution',
+    description: 'Localize your eLearning programs for global audiences with Swift Solution’s translation and localization specialists.',
+    sections: [
+      {
+        key: 'translation_hero_title',
+        content: 'Transform Your E-Learning Content for Global Audiences'
+      },
+      {
+        key: 'translation_hero_description',
+        content: 'Expert translation and localization services to make your training content culturally relevant and linguistically accurate'
+      },
+      { key: 'translation_hero_primary_cta', content: 'Get Started' },
+      { key: 'translation_hero_secondary_cta', content: 'Learn More' },
+      { key: 'translation_intro_heading', content: 'What Is E-Learning Translation and Localization?' },
+      {
+        key: 'translation_intro_paragraph_1',
+        content: 'E-learning translation and localization is the comprehensive process of adapting educational content for different languages, cultures, and regions while preserving the instructional effectiveness of the original material.'
+      },
+      {
+        key: 'translation_intro_paragraph_2',
+        content: 'This goes far beyond simple text translation to include:'
+      }
+    ]
+  },
+  {
     slug: 'elearning-services',
     title: 'E-Learning Services | Swift Solution',
     description: 'We offer a comprehensive range of e-learning services to help you create engaging, effective, and impactful learning experiences for your audience.',
@@ -1501,6 +1722,1631 @@ Our core values of client-centricity, innovation, and measurable impact are the 
       {
         key: 'sunday_hours',
         content: 'Sunday: Closed'
+      }
+    ]
+  },
+  {
+    slug: 'case-studies',
+    title: 'eLearning Case Studies & Success Stories | Swift Solution',
+    description: 'Explore real-world success stories and case studies showcasing how Swift Solution has transformed corporate training for leading organizations.',
+    sections: [
+      {
+        key: 'case_studies_hero_title',
+        content: 'eLearning Case Studies & Success Stories'
+      },
+      {
+        key: 'case_studies_hero_description',
+        content: 'Discover how leading organizations have transformed their training programs with our innovative eLearning solutions. Real results, measurable impact.'
+      },
+      {
+        key: 'case_studies_intro_title',
+        content: 'Proven Results Across Industries'
+      },
+      {
+        key: 'case_studies_intro_description',
+        content: 'For over 20 years, Swift Solution has partnered with organizations across diverse industries to deliver transformative eLearning solutions. Our case studies demonstrate measurable improvements in training effectiveness, cost reduction, and employee engagement.'
+      },
+      {
+        key: 'featured_case_study_title',
+        content: 'Featured Case Study: Manufacturing Excellence'
+      },
+      {
+        key: 'featured_case_study_client',
+        content: 'Leading Automotive Manufacturer'
+      },
+      {
+        key: 'featured_case_study_challenge_title',
+        content: 'The Challenge'
+      },
+      {
+        key: 'featured_case_study_challenge',
+        content: 'A global automotive manufacturer needed to train 2,000 shopfloor employees on Lean Manufacturing principles across multiple locations. Traditional classroom training was costly, time-consuming, and difficult to standardize.'
+      },
+      {
+        key: 'featured_case_study_solution_title',
+        content: 'Our Solution'
+      },
+      {
+        key: 'featured_case_study_solution',
+        content: 'We developed a comprehensive eLearning platform featuring interactive modules, real-world simulations, and mobile-friendly content. The solution included multilingual support and offline capabilities for factory floor access.'
+      },
+      {
+        key: 'featured_case_study_results_title',
+        content: 'Measurable Results'
+      },
+      {
+        key: 'featured_case_study_result_1',
+        content: '95% completion rate across all training modules'
+      },
+      {
+        key: 'featured_case_study_result_2',
+        content: '60% faster training delivery compared to traditional methods'
+      },
+      {
+        key: 'featured_case_study_result_3',
+        content: '40% reduction in training costs'
+      },
+      {
+        key: 'featured_case_study_result_4',
+        content: '25% improvement in operational efficiency metrics'
+      },
+      {
+        key: 'case_study_2_title',
+        content: 'EdTech Transformation: Scalable Course Development'
+      },
+      {
+        key: 'case_study_2_client',
+        content: 'Global EdTech Platform'
+      },
+      {
+        key: 'case_study_2_overview',
+        content: 'A leading EdTech company needed to rapidly scale their courseware development without compromising quality. We implemented a turnkey development model that enabled them to launch programs on schedule while maintaining high educational standards.'
+      },
+      {
+        key: 'case_study_3_title',
+        content: 'Retail Revolution: Mobile-First Dealer Training'
+      },
+      {
+        key: 'case_study_3_client',
+        content: 'Premium Furniture Brand'
+      },
+      {
+        key: 'case_study_3_overview',
+        content: 'Modernized dealer training with mobile-first eLearning solutions, resulting in improved product knowledge and sales performance across their retail network.'
+      },
+      {
+        key: 'industries_served_title',
+        content: 'Industries We Serve'
+      },
+      {
+        key: 'industries_served_description',
+        content: 'Our expertise spans across multiple industries, delivering tailored solutions that address specific sector challenges.'
+      },
+      {
+        key: 'industry_manufacturing',
+        content: 'Manufacturing & Automotive'
+      },
+      {
+        key: 'industry_healthcare',
+        content: 'Healthcare & Pharmaceuticals'
+      },
+      {
+        key: 'industry_finance',
+        content: 'Banking & Financial Services'
+      },
+      {
+        key: 'industry_technology',
+        content: 'Technology & Software'
+      },
+      {
+        key: 'industry_retail',
+        content: 'Retail & Consumer Goods'
+      },
+      {
+        key: 'industry_education',
+        content: 'Education & EdTech'
+      },
+      {
+        key: 'roi_metrics_title',
+        content: 'Average ROI Metrics Across Our Projects'
+      },
+      {
+        key: 'roi_metric_1',
+        content: '45% reduction in training costs'
+      },
+      {
+        key: 'roi_metric_2',
+        content: '70% improvement in completion rates'
+      },
+      {
+        key: 'roi_metric_3',
+        content: '3x faster content delivery'
+      },
+      {
+        key: 'roi_metric_4',
+        content: '85% learner satisfaction score'
+      },
+      {
+        key: 'testimonials_title',
+        content: 'What Our Clients Say'
+      },
+      {
+        key: 'testimonial_1_quote',
+        content: 'Swift Solution transformed our training approach completely. The eLearning platform they developed not only reduced our costs by 40% but also improved our training effectiveness significantly.'
+      },
+      {
+        key: 'testimonial_1_author',
+        content: 'Training Director, Fortune 500 Manufacturing Company'
+      },
+      {
+        key: 'testimonial_2_quote',
+        content: 'The quality and speed of delivery exceeded our expectations. Swift Solution helped us scale our courseware development while maintaining the highest educational standards.'
+      },
+      {
+        key: 'testimonial_2_author',
+        content: 'VP of Content, Leading EdTech Platform'
+      },
+      {
+        key: 'cta_title',
+        content: 'Ready to Create Your Success Story?'
+      },
+      {
+        key: 'cta_description',
+        content: 'Join the ranks of successful organizations that have transformed their training with Swift Solution. Let us help you achieve measurable results.'
+      },
+      {
+        key: 'cta_button',
+        content: 'Start Your Transformation'
+      }
+    ]
+  },
+  {
+    slug: 'elearning-solutions',
+    title: 'eLearning Solutions for Onboarding, Compliance & Sales | Swift Solution',
+    description: 'Comprehensive eLearning solutions for employee onboarding, compliance training, and sales enablement. Boost productivity and ensure regulatory compliance.',
+    sections: [
+      {
+        key: 'elearning_solutions_hero_title',
+        content: 'Comprehensive eLearning Solutions for Modern Businesses'
+      },
+      {
+        key: 'elearning_solutions_hero_description',
+        content: 'Transform your workforce with our specialized eLearning solutions for onboarding, compliance, and sales enablement. Drive productivity, ensure compliance, and accelerate growth.'
+      },
+      {
+        key: 'solutions_overview_title',
+        content: 'Tailored Solutions for Every Business Need'
+      },
+      {
+        key: 'solutions_overview_description',
+        content: 'Our comprehensive suite of eLearning solutions addresses the critical training needs of modern organizations, from seamless employee onboarding to regulatory compliance and sales performance optimization.'
+      },
+      {
+        key: 'onboarding_solution_title',
+        content: 'Employee Onboarding Solutions'
+      },
+      {
+        key: 'onboarding_solution_description',
+        content: 'Accelerate new hire productivity with engaging onboarding programs that reduce time-to-competency and improve retention rates.'
+      },
+      {
+        key: 'onboarding_feature_1',
+        content: 'Interactive welcome journeys'
+      },
+      {
+        key: 'onboarding_feature_2',
+        content: 'Role-specific training paths'
+      },
+      {
+        key: 'onboarding_feature_3',
+        content: 'Progress tracking and analytics'
+      },
+      {
+        key: 'onboarding_feature_4',
+        content: 'Mobile-friendly access'
+      },
+      {
+        key: 'compliance_solution_title',
+        content: 'Compliance Training Solutions'
+      },
+      {
+        key: 'compliance_solution_description',
+        content: 'Ensure regulatory compliance with comprehensive training programs that keep your organization up-to-date with industry standards and regulations.'
+      },
+      {
+        key: 'compliance_feature_1',
+        content: 'Regulatory updates and tracking'
+      },
+      {
+        key: 'compliance_feature_2',
+        content: 'Automated certification management'
+      },
+      {
+        key: 'compliance_feature_3',
+        content: 'Audit-ready reporting'
+      },
+      {
+        key: 'compliance_feature_4',
+        content: 'Multi-language support'
+      },
+      {
+        key: 'sales_solution_title',
+        content: 'Sales Enablement Solutions'
+      },
+      {
+        key: 'sales_solution_description',
+        content: 'Boost sales performance with targeted training programs that enhance product knowledge, sales skills, and customer engagement strategies.'
+      },
+      {
+        key: 'sales_feature_1',
+        content: 'Product knowledge modules'
+      },
+      {
+        key: 'sales_feature_2',
+        content: 'Sales methodology training'
+      },
+      {
+        key: 'sales_feature_3',
+        content: 'Customer scenario simulations'
+      },
+      {
+        key: 'sales_feature_4',
+        content: 'Performance analytics'
+      },
+      {
+        key: 'benefits_title',
+        content: 'Why Choose Our eLearning Solutions?'
+      },
+      {
+        key: 'benefit_1_title',
+        content: 'Proven ROI'
+      },
+      {
+        key: 'benefit_1_description',
+        content: 'Our solutions deliver measurable results with average cost reductions of 45% and completion rates of 85%+'
+      },
+      {
+        key: 'benefit_2_title',
+        content: 'Scalable Platform'
+      },
+      {
+        key: 'benefit_2_description',
+        content: 'Cloud-based solutions that grow with your organization, supporting thousands of learners simultaneously'
+      },
+      {
+        key: 'benefit_3_title',
+        content: 'Expert Support'
+      },
+      {
+        key: 'benefit_3_description',
+        content: '20+ years of experience with dedicated support teams ensuring successful implementation and ongoing success'
+      },
+      {
+        key: 'benefit_4_title',
+        content: 'AI-Powered Insights'
+      },
+      {
+        key: 'benefit_4_description',
+        content: 'Advanced analytics and AI-driven recommendations to optimize learning outcomes and business impact'
+      },
+      {
+        key: 'implementation_title',
+        content: 'Our Implementation Process'
+      },
+      {
+        key: 'implementation_step_1_title',
+        content: 'Discovery & Analysis'
+      },
+      {
+        key: 'implementation_step_1_description',
+        content: 'We analyze your current training needs and organizational goals to design the optimal solution'
+      },
+      {
+        key: 'implementation_step_2_title',
+        content: 'Custom Development'
+      },
+      {
+        key: 'implementation_step_2_description',
+        content: 'Our expert team develops tailored content and configures the platform to match your requirements'
+      },
+      {
+        key: 'implementation_step_3_title',
+        content: 'Deployment & Training'
+      },
+      {
+        key: 'implementation_step_3_description',
+        content: 'Seamless rollout with comprehensive administrator training and user onboarding support'
+      },
+      {
+        key: 'implementation_step_4_title',
+        content: 'Ongoing Support'
+      },
+      {
+        key: 'implementation_step_4_description',
+        content: 'Continuous monitoring, updates, and optimization to ensure sustained success and ROI'
+      },
+      {
+        key: 'cta_title',
+        content: 'Ready to Transform Your Training Programs?'
+      },
+      {
+        key: 'cta_description',
+        content: 'Discover how our eLearning solutions can drive productivity, ensure compliance, and accelerate growth in your organization.'
+      },
+      {
+        key: 'cta_button',
+        content: 'Get Started Today'
+      }
+    ]
+  },
+  {
+    slug: 'elearning-solutions/on-boarding',
+    title: 'Employee Onboarding eLearning Solutions | Swift Solution',
+    description: 'Streamline employee onboarding with our comprehensive eLearning solutions. Reduce time-to-productivity and improve new hire retention rates.',
+    sections: [
+      {
+        key: 'onboarding_hero_title',
+        content: 'Employee Onboarding eLearning Solutions'
+      },
+      {
+        key: 'onboarding_hero_description',
+        content: 'Transform your new hire experience with engaging, interactive onboarding programs that accelerate productivity and improve retention rates.'
+      },
+      {
+        key: 'onboarding_challenge_title',
+        content: 'The Onboarding Challenge'
+      },
+      {
+        key: 'onboarding_challenge_description',
+        content: 'Traditional onboarding processes are often fragmented, time-consuming, and fail to engage new employees effectively. Studies show that effective onboarding can improve retention by 82% and productivity by 70%.'
+      },
+      {
+        key: 'onboarding_solution_overview_title',
+        content: 'Our Comprehensive Onboarding Solution'
+      },
+      {
+        key: 'onboarding_solution_overview_description',
+        content: 'We create immersive, personalized onboarding experiences that welcome new employees, accelerate their integration, and set them up for long-term success.'
+      },
+      {
+        key: 'onboarding_feature_welcome_title',
+        content: 'Interactive Welcome Journey'
+      },
+      {
+        key: 'onboarding_feature_welcome_description',
+        content: 'Engaging welcome modules that introduce company culture, values, and expectations through interactive storytelling and multimedia content.'
+      },
+      {
+        key: 'onboarding_feature_personalized_title',
+        content: 'Personalized Learning Paths'
+      },
+      {
+        key: 'onboarding_feature_personalized_description',
+        content: 'Role-specific training paths that adapt to different departments, positions, and experience levels for maximum relevance and efficiency.'
+      },
+      {
+        key: 'onboarding_feature_social_title',
+        content: 'Social Learning Integration'
+      },
+      {
+        key: 'onboarding_feature_social_description',
+        content: 'Connect new hires with mentors, peers, and team members through integrated social learning features and collaboration tools.'
+      },
+      {
+        key: 'onboarding_feature_mobile_title',
+        content: 'Mobile-First Design'
+      },
+      {
+        key: 'onboarding_feature_mobile_description',
+        content: 'Access onboarding content anytime, anywhere with responsive design optimized for mobile devices and tablets.'
+      },
+      {
+        key: 'onboarding_feature_progress_title',
+        content: 'Progress Tracking & Analytics'
+      },
+      {
+        key: 'onboarding_feature_progress_description',
+        content: 'Real-time progress tracking with detailed analytics for HR teams to monitor completion rates and identify areas for improvement.'
+      },
+      {
+        key: 'onboarding_feature_gamification_title',
+        content: 'Gamification Elements'
+      },
+      {
+        key: 'onboarding_feature_gamification_description',
+        content: 'Badges, points, and achievement systems that make the onboarding process engaging and motivating for new employees.'
+      },
+      {
+        key: 'onboarding_benefits_title',
+        content: 'Benefits of Our Onboarding Solutions'
+      },
+      {
+        key: 'onboarding_benefit_1_metric',
+        content: '50% faster'
+      },
+      {
+        key: 'onboarding_benefit_1_description',
+        content: 'Time to productivity for new hires'
+      },
+      {
+        key: 'onboarding_benefit_2_metric',
+        content: '82% improvement'
+      },
+      {
+        key: 'onboarding_benefit_2_description',
+        content: 'In employee retention rates'
+      },
+      {
+        key: 'onboarding_benefit_3_metric',
+        content: '60% reduction'
+      },
+      {
+        key: 'onboarding_benefit_3_description',
+        content: 'In onboarding administrative costs'
+      },
+      {
+        key: 'onboarding_benefit_4_metric',
+        content: '90% satisfaction'
+      },
+      {
+        key: 'onboarding_benefit_4_description',
+        content: 'Rate among new employees'
+      },
+      {
+        key: 'onboarding_modules_title',
+        content: 'Core Onboarding Modules'
+      },
+      {
+        key: 'onboarding_module_1_title',
+        content: 'Company Culture & Values'
+      },
+      {
+        key: 'onboarding_module_1_description',
+        content: 'Interactive introduction to company mission, vision, values, and cultural norms'
+      },
+      {
+        key: 'onboarding_module_2_title',
+        content: 'Policies & Procedures'
+      },
+      {
+        key: 'onboarding_module_2_description',
+        content: 'Essential HR policies, compliance requirements, and workplace procedures'
+      },
+      {
+        key: 'onboarding_module_3_title',
+        content: 'Role-Specific Training'
+      },
+      {
+        key: 'onboarding_module_3_description',
+        content: 'Job-specific skills, tools, and processes tailored to each position'
+      },
+      {
+        key: 'onboarding_module_4_title',
+        content: 'Systems & Tools Training'
+      },
+      {
+        key: 'onboarding_module_4_description',
+        content: 'Hands-on training for company software, systems, and digital tools'
+      },
+      {
+        key: 'onboarding_module_5_title',
+        content: 'Team Integration'
+      },
+      {
+        key: 'onboarding_module_5_description',
+        content: 'Meet the team modules with introductions and collaboration guidelines'
+      },
+      {
+        key: 'onboarding_case_study_title',
+        content: 'Success Story: Global Technology Company'
+      },
+      {
+        key: 'onboarding_case_study_challenge',
+        content: 'A multinational technology company was struggling with inconsistent onboarding across different regions, leading to high turnover and extended ramp-up times.'
+      },
+      {
+        key: 'onboarding_case_study_solution',
+        content: 'We developed a standardized, multilingual onboarding platform with region-specific customizations and mobile accessibility for remote employees.'
+      },
+      {
+        key: 'onboarding_case_study_results',
+        content: 'Results: 65% reduction in time-to-productivity, 40% improvement in 90-day retention, and 95% completion rate across all regions.'
+      },
+      {
+        key: 'onboarding_cta_title',
+        content: 'Ready to Transform Your Onboarding Process?'
+      },
+      {
+        key: 'onboarding_cta_description',
+        content: 'Create an exceptional first impression and set your new hires up for success with our comprehensive onboarding solutions.'
+      },
+      {
+        key: 'onboarding_cta_button',
+        content: 'Get Started Today'
+      }
+    ]
+  },
+  {
+    slug: 'blog',
+    title: 'Insights & Blog: eLearning Trends & Best Practices | Swift Solution',
+    description: 'Stay updated with the latest eLearning trends, best practices, and industry insights from Swift Solution\'s experts. Transform your training strategy.',
+    sections: [
+      {
+        key: 'blog_hero_title',
+        content: 'eLearning Insights & Industry Trends'
+      },
+      {
+        key: 'blog_hero_description',
+        content: 'Stay ahead of the curve with expert insights, industry trends, and best practices in eLearning and corporate training from Swift Solution\'s thought leaders.'
+      },
+      {
+        key: 'blog_intro_title',
+        content: 'Your Source for eLearning Excellence'
+      },
+      {
+        key: 'blog_intro_description',
+        content: 'With over 20 years of experience in the eLearning industry, our team shares valuable insights, practical tips, and emerging trends to help you create more effective training programs and drive better business outcomes.'
+      },
+      {
+        key: 'featured_topics_title',
+        content: 'Featured Topics'
+      },
+      {
+        key: 'topic_ai_learning_title',
+        content: 'AI in eLearning'
+      },
+      {
+        key: 'topic_ai_learning_description',
+        content: 'Discover how artificial intelligence is revolutionizing corporate training and personalized learning experiences.'
+      },
+      {
+        key: 'topic_mobile_learning_title',
+        content: 'Mobile Learning Strategies'
+      },
+      {
+        key: 'topic_mobile_learning_description',
+        content: 'Best practices for creating engaging mobile-first learning experiences that work across all devices.'
+      },
+      {
+        key: 'topic_microlearning_title',
+        content: 'Microlearning & Bite-sized Content'
+      },
+      {
+        key: 'topic_microlearning_description',
+        content: 'Learn how to break down complex topics into digestible, impactful learning modules.'
+      },
+      {
+        key: 'topic_gamification_title',
+        content: 'Gamification in Training'
+      },
+      {
+        key: 'topic_gamification_description',
+        content: 'Explore how game elements can boost engagement and improve learning outcomes.'
+      },
+      {
+        key: 'topic_compliance_title',
+        content: 'Compliance Training Innovation'
+      },
+      {
+        key: 'topic_compliance_description',
+        content: 'Transform mandatory compliance training into engaging, effective learning experiences.'
+      },
+      {
+        key: 'topic_roi_title',
+        content: 'Measuring Training ROI'
+      },
+      {
+        key: 'topic_roi_description',
+        content: 'Proven methods for demonstrating the business impact and return on investment of your training programs.'
+      },
+      {
+        key: 'recent_articles_title',
+        content: 'Recent Articles'
+      },
+      {
+        key: 'article_1_title',
+        content: 'The Future of Corporate Training: AI-Powered Personalization'
+      },
+      {
+        key: 'article_1_excerpt',
+        content: 'Explore how AI is transforming corporate training by delivering personalized learning experiences that adapt to individual learner needs and preferences.'
+      },
+      {
+        key: 'article_1_date',
+        content: 'March 15, 2024'
+      },
+      {
+        key: 'article_1_category',
+        content: 'AI & Technology'
+      },
+      {
+        key: 'article_2_title',
+        content: '5 Mobile Learning Best Practices for Modern Workforces'
+      },
+      {
+        key: 'article_2_excerpt',
+        content: 'Discover essential strategies for creating mobile learning experiences that engage today\'s distributed and mobile workforce.'
+      },
+      {
+        key: 'article_2_date',
+        content: 'March 10, 2024'
+      },
+      {
+        key: 'article_2_category',
+        content: 'Mobile Learning'
+      },
+      {
+        key: 'article_3_title',
+        content: 'Microlearning Revolution: Why Less is More in Corporate Training'
+      },
+      {
+        key: 'article_3_excerpt',
+        content: 'Learn how microlearning is transforming corporate training by delivering focused, just-in-time learning that fits into busy schedules.'
+      },
+      {
+        key: 'article_3_date',
+        content: 'March 5, 2024'
+      },
+      {
+        key: 'article_3_category',
+        content: 'Learning Strategy'
+      },
+      {
+        key: 'article_4_title',
+        content: 'Gamification Done Right: Engaging Learners Without Gimmicks'
+      },
+      {
+        key: 'article_4_excerpt',
+        content: 'Discover how to implement meaningful gamification that enhances learning outcomes rather than just adding superficial game elements.'
+      },
+      {
+        key: 'article_4_date',
+        content: 'February 28, 2024'
+      },
+      {
+        key: 'article_4_category',
+        content: 'Engagement'
+      },
+      {
+        key: 'industry_insights_title',
+        content: 'Industry Insights & Research'
+      },
+      {
+        key: 'insight_1_title',
+        content: 'eLearning Market Trends 2024'
+      },
+      {
+        key: 'insight_1_description',
+        content: 'Comprehensive analysis of emerging trends shaping the eLearning industry this year.'
+      },
+      {
+        key: 'insight_2_title',
+        content: 'Corporate Training ROI Report'
+      },
+      {
+        key: 'insight_2_description',
+        content: 'Data-driven insights on measuring and maximizing return on investment in corporate training programs.'
+      },
+      {
+        key: 'insight_3_title',
+        content: 'Remote Learning Effectiveness Study'
+      },
+      {
+        key: 'insight_3_description',
+        content: 'Research findings on what makes remote and hybrid learning programs successful.'
+      },
+      {
+        key: 'expert_authors_title',
+        content: 'Our Expert Authors'
+      },
+      {
+        key: 'expert_authors_description',
+        content: 'Learn from industry veterans with decades of combined experience in eLearning design, development, and implementation.'
+      },
+      {
+        key: 'newsletter_signup_title',
+        content: 'Stay Updated with eLearning Insights'
+      },
+      {
+        key: 'newsletter_signup_description',
+        content: 'Subscribe to our newsletter for the latest eLearning trends, best practices, and exclusive insights delivered to your inbox.'
+      },
+      {
+        key: 'newsletter_signup_button',
+        content: 'Subscribe Now'
+      },
+      {
+        key: 'categories_title',
+        content: 'Browse by Category'
+      },
+      {
+        key: 'category_strategy',
+        content: 'Learning Strategy'
+      },
+      {
+        key: 'category_technology',
+        content: 'Technology & Innovation'
+      },
+      {
+        key: 'category_design',
+        content: 'Instructional Design'
+      },
+      {
+        key: 'category_engagement',
+        content: 'Learner Engagement'
+      },
+      {
+        key: 'category_measurement',
+        content: 'Measurement & Analytics'
+      },
+      {
+        key: 'category_trends',
+        content: 'Industry Trends'
+      },
+      {
+        key: 'cta_title',
+        content: 'Ready to Transform Your Training Strategy?'
+      },
+      {
+        key: 'cta_description',
+        content: 'Apply these insights to your organization with our expert consulting and custom eLearning solutions.'
+      },
+      {
+        key: 'cta_button',
+        content: 'Get Expert Consultation'
+      }
+    ]
+  },
+  {
+    slug: 'elearning-consultancy/instructional-design',
+    title: 'Instructional Design Consulting Services | Swift Solution',
+    description: 'Expert instructional design consulting to create effective, engaging learning experiences. Transform your training with proven pedagogical approaches.',
+    sections: [
+      {
+        key: 'instructional_design_hero_title',
+        content: 'Expert Instructional Design Consulting'
+      },
+      {
+        key: 'instructional_design_hero_description',
+        content: 'Transform your training programs with our expert instructional design consulting. We create learning experiences that engage learners and drive measurable business results.'
+      },
+      {
+        key: 'instructional_design_overview_title',
+        content: 'What is Instructional Design?'
+      },
+      {
+        key: 'instructional_design_overview_description',
+        content: 'Instructional design is the systematic process of creating educational experiences that make learning effective, efficient, and engaging. Our expert consultants apply proven pedagogical principles and learning theories to design training that achieves your specific business objectives.'
+      },
+      {
+        key: 'instructional_design_approach_title',
+        content: 'Our Instructional Design Approach'
+      },
+      {
+        key: 'instructional_design_approach_description',
+        content: 'We follow a research-based, learner-centered approach that combines established learning theories with innovative design methodologies to create impactful training experiences.'
+      },
+      {
+        key: 'design_process_title',
+        content: 'Our Proven Design Process'
+      },
+      {
+        key: 'design_step_1_title',
+        content: 'Analysis & Discovery'
+      },
+      {
+        key: 'design_step_1_description',
+        content: 'Comprehensive needs analysis, learner profiling, and performance gap identification to understand your specific requirements.'
+      },
+      {
+        key: 'design_step_2_title',
+        content: 'Learning Objectives Design'
+      },
+      {
+        key: 'design_step_2_description',
+        content: 'Clear, measurable learning objectives aligned with business goals using Bloom\'s Taxonomy and performance-based outcomes.'
+      },
+      {
+        key: 'design_step_3_title',
+        content: 'Instructional Strategy'
+      },
+      {
+        key: 'design_step_3_description',
+        content: 'Selection of optimal instructional methods, media, and delivery approaches based on content type and learner needs.'
+      },
+      {
+        key: 'design_step_4_title',
+        content: 'Content Architecture'
+      },
+      {
+        key: 'design_step_4_description',
+        content: 'Logical content sequencing, chunking, and scaffolding to optimize learning progression and retention.'
+      },
+      {
+        key: 'design_step_5_title',
+        content: 'Assessment Design'
+      },
+      {
+        key: 'design_step_5_description',
+        content: 'Formative and summative assessments that accurately measure learning outcomes and provide meaningful feedback.'
+      },
+      {
+        key: 'design_step_6_title',
+        content: 'Evaluation & Iteration'
+      },
+      {
+        key: 'design_step_6_description',
+        content: 'Continuous evaluation and refinement based on learner feedback and performance data to ensure optimal effectiveness.'
+      },
+      {
+        key: 'design_principles_title',
+        content: 'Core Design Principles We Apply'
+      },
+      {
+        key: 'principle_1_title',
+        content: 'Learner-Centered Design'
+      },
+      {
+        key: 'principle_1_description',
+        content: 'Every design decision is made with the learner\'s needs, preferences, and context in mind.'
+      },
+      {
+        key: 'principle_2_title',
+        content: 'Active Learning'
+      },
+      {
+        key: 'principle_2_description',
+        content: 'Engaging learners through interactive activities, problem-solving, and hands-on practice.'
+      },
+      {
+        key: 'principle_3_title',
+        content: 'Cognitive Load Management'
+      },
+      {
+        key: 'principle_3_description',
+        content: 'Optimizing information presentation to prevent cognitive overload and enhance comprehension.'
+      },
+      {
+        key: 'principle_4_title',
+        content: 'Multimedia Learning'
+      },
+      {
+        key: 'principle_4_description',
+        content: 'Strategic use of text, images, audio, and video to enhance understanding and retention.'
+      },
+      {
+        key: 'principle_5_title',
+        content: 'Spaced Learning'
+      },
+      {
+        key: 'principle_5_description',
+        content: 'Distributing learning over time with reinforcement to improve long-term retention.'
+      },
+      {
+        key: 'principle_6_title',
+        content: 'Social Learning'
+      },
+      {
+        key: 'principle_6_description',
+        content: 'Incorporating collaborative elements and peer interaction to enhance learning outcomes.'
+      },
+      {
+        key: 'specializations_title',
+        content: 'Our Specialization Areas'
+      },
+      {
+        key: 'specialization_1_title',
+        content: 'Corporate Training Design'
+      },
+      {
+        key: 'specialization_1_description',
+        content: 'Professional development, compliance training, and skill-building programs for corporate environments.'
+      },
+      {
+        key: 'specialization_2_title',
+        content: 'Technical Training'
+      },
+      {
+        key: 'specialization_2_description',
+        content: 'Complex technical concepts made accessible through progressive disclosure and hands-on practice.'
+      },
+      {
+        key: 'specialization_3_title',
+        content: 'Soft Skills Development'
+      },
+      {
+        key: 'specialization_3_description',
+        content: 'Leadership, communication, and interpersonal skills training using scenario-based learning.'
+      },
+      {
+        key: 'specialization_4_title',
+        content: 'Compliance & Safety'
+      },
+      {
+        key: 'specialization_4_description',
+        content: 'Regulatory compliance and safety training that ensures understanding and behavior change.'
+      },
+      {
+        key: 'specialization_5_title',
+        content: 'Sales Training'
+      },
+      {
+        key: 'specialization_5_description',
+        content: 'Sales methodology and product training designed to drive performance and revenue growth.'
+      },
+      {
+        key: 'specialization_6_title',
+        content: 'Onboarding Programs'
+      },
+      {
+        key: 'specialization_6_description',
+        content: 'Comprehensive new hire programs that accelerate time-to-productivity and improve retention.'
+      },
+      {
+        key: 'design_benefits_title',
+        content: 'Benefits of Professional Instructional Design'
+      },
+      {
+        key: 'design_benefit_1_metric',
+        content: '40% improvement'
+      },
+      {
+        key: 'design_benefit_1_description',
+        content: 'In learning retention rates'
+      },
+      {
+        key: 'design_benefit_2_metric',
+        content: '60% faster'
+      },
+      {
+        key: 'design_benefit_2_description',
+        content: 'Time to competency'
+      },
+      {
+        key: 'design_benefit_3_metric',
+        content: '85% higher'
+      },
+      {
+        key: 'design_benefit_3_description',
+        content: 'Learner engagement scores'
+      },
+      {
+        key: 'design_benefit_4_metric',
+        content: '50% reduction'
+      },
+      {
+        key: 'design_benefit_4_description',
+        content: 'In training development time'
+      },
+      {
+        key: 'case_study_title',
+        content: 'Success Story: Healthcare Training Transformation'
+      },
+      {
+        key: 'case_study_challenge',
+        content: 'A major healthcare organization needed to redesign their compliance training to improve completion rates and knowledge retention among busy medical staff.'
+      },
+      {
+        key: 'case_study_solution',
+        content: 'We applied microlearning principles, scenario-based learning, and spaced repetition to create bite-sized, relevant training modules that fit into clinical workflows.'
+      },
+      {
+        key: 'case_study_results',
+        content: 'Results: 95% completion rate (up from 60%), 70% improvement in assessment scores, and 80% reduction in compliance violations.'
+      },
+      {
+        key: 'team_expertise_title',
+        content: 'Our Expert Team'
+      },
+      {
+        key: 'team_expertise_description',
+        content: 'Our instructional design consultants bring advanced degrees in education, psychology, and learning sciences, combined with extensive industry experience across diverse sectors.'
+      },
+      {
+        key: 'cta_title',
+        content: 'Ready to Transform Your Training Design?'
+      },
+      {
+        key: 'cta_description',
+        content: 'Partner with our instructional design experts to create learning experiences that drive real business results.'
+      },
+      {
+        key: 'cta_button',
+        content: 'Start Your Project'
+      }
+    ]
+  },
+  {
+    slug: 'elearning-consultancy/lms-implementation',
+    title: 'LMS Implementation & Integration Services | Swift Solution',
+    description: 'Expert LMS implementation and integration services. Seamlessly deploy and integrate learning management systems with your existing infrastructure.',
+    sections: [
+      {
+        key: 'lms_implementation_hero_title',
+        content: 'LMS Implementation & Integration Services'
+      },
+      {
+        key: 'lms_implementation_hero_description',
+        content: 'Seamlessly implement and integrate learning management systems with our expert consulting services. Maximize your LMS investment with strategic deployment and ongoing support.'
+      },
+      {
+        key: 'lms_overview_title',
+        content: 'Comprehensive LMS Implementation Solutions'
+      },
+      {
+        key: 'lms_overview_description',
+        content: 'Our LMS implementation services ensure successful deployment, integration, and adoption of learning management systems. We work with leading LMS platforms and provide end-to-end support from planning to post-launch optimization.'
+      },
+      {
+        key: 'implementation_services_title',
+        content: 'Our Implementation Services'
+      },
+      {
+        key: 'service_1_title',
+        content: 'LMS Selection & Strategy'
+      },
+      {
+        key: 'service_1_description',
+        content: 'Expert guidance in selecting the right LMS platform based on your organizational needs, budget, and technical requirements.'
+      },
+      {
+        key: 'service_2_title',
+        content: 'System Configuration'
+      },
+      {
+        key: 'service_2_description',
+        content: 'Complete LMS setup including user roles, permissions, branding, and custom configurations to match your organizational structure.'
+      },
+      {
+        key: 'service_3_title',
+        content: 'Data Migration'
+      },
+      {
+        key: 'service_3_description',
+        content: 'Secure migration of existing learning content, user data, and historical records from legacy systems to your new LMS.'
+      },
+      {
+        key: 'service_4_title',
+        content: 'System Integration'
+      },
+      {
+        key: 'service_4_description',
+        content: 'Seamless integration with existing HR systems, HRIS, CRM, and other enterprise applications for unified data flow.'
+      },
+      {
+        key: 'service_5_title',
+        content: 'Custom Development'
+      },
+      {
+        key: 'service_5_description',
+        content: 'Custom features, plugins, and integrations to extend LMS functionality and meet specific organizational requirements.'
+      },
+      {
+        key: 'service_6_title',
+        content: 'Training & Support'
+      },
+      {
+        key: 'service_6_description',
+        content: 'Comprehensive administrator training and end-user onboarding to ensure successful adoption and utilization.'
+      },
+      {
+        key: 'implementation_process_title',
+        content: 'Our Proven Implementation Process'
+      },
+      {
+        key: 'process_step_1_title',
+        content: 'Discovery & Planning'
+      },
+      {
+        key: 'process_step_1_description',
+        content: 'Comprehensive analysis of requirements, stakeholder interviews, and detailed project planning with timelines and milestones.'
+      },
+      {
+        key: 'process_step_2_title',
+        content: 'System Design & Architecture'
+      },
+      {
+        key: 'process_step_2_description',
+        content: 'Technical architecture design, integration mapping, and configuration planning based on your specific needs.'
+      },
+      {
+        key: 'process_step_3_title',
+        content: 'Development & Configuration'
+      },
+      {
+        key: 'process_step_3_description',
+        content: 'LMS setup, customization, integration development, and content migration in a controlled environment.'
+      },
+      {
+        key: 'process_step_4_title',
+        content: 'Testing & Quality Assurance'
+      },
+      {
+        key: 'process_step_4_description',
+        content: 'Comprehensive testing including functionality, integration, performance, and user acceptance testing.'
+      },
+      {
+        key: 'process_step_5_title',
+        content: 'Deployment & Go-Live'
+      },
+      {
+        key: 'process_step_5_description',
+        content: 'Phased rollout with pilot groups, production deployment, and immediate post-launch support.'
+      },
+      {
+        key: 'process_step_6_title',
+        content: 'Optimization & Support'
+      },
+      {
+        key: 'process_step_6_description',
+        content: 'Ongoing monitoring, performance optimization, and continuous improvement based on usage analytics and feedback.'
+      },
+      {
+        key: 'integration_capabilities_title',
+        content: 'Integration Capabilities'
+      },
+      {
+        key: 'integration_1_title',
+        content: 'HR Information Systems (HRIS)'
+      },
+      {
+        key: 'integration_1_description',
+        content: 'Automatic user provisioning, role assignment, and employee data synchronization.'
+      },
+      {
+        key: 'integration_2_title',
+        content: 'Single Sign-On (SSO)'
+      },
+      {
+        key: 'integration_2_description',
+        content: 'Seamless authentication through SAML, OAuth, or LDAP integration with existing identity providers.'
+      },
+      {
+        key: 'integration_3_title',
+        content: 'Content Management Systems'
+      },
+      {
+        key: 'integration_3_description',
+        content: 'Integration with existing content repositories and document management systems.'
+      },
+      {
+        key: 'integration_4_title',
+        content: 'Business Intelligence Tools'
+      },
+      {
+        key: 'integration_4_description',
+        content: 'Data export and reporting integration with BI platforms for advanced analytics and insights.'
+      },
+      {
+        key: 'integration_5_title',
+        content: 'Video Conferencing Platforms'
+      },
+      {
+        key: 'integration_5_description',
+        content: 'Integration with Zoom, Teams, WebEx for virtual classroom and webinar functionality.'
+      },
+      {
+        key: 'integration_6_title',
+        content: 'E-commerce Platforms'
+      },
+      {
+        key: 'integration_6_description',
+        content: 'Payment processing and course catalog integration for external training programs.'
+      },
+      {
+        key: 'supported_platforms_title',
+        content: 'Supported LMS Platforms'
+      },
+      {
+        key: 'platform_1',
+        content: 'Moodle'
+      },
+      {
+        key: 'platform_2',
+        content: 'Canvas'
+      },
+      {
+        key: 'platform_3',
+        content: 'Blackboard'
+      },
+      {
+        key: 'platform_4',
+        content: 'TalentLMS'
+      },
+      {
+        key: 'platform_5',
+        content: 'Cornerstone OnDemand'
+      },
+      {
+        key: 'platform_6',
+        content: 'SAP SuccessFactors'
+      },
+      {
+        key: 'platform_7',
+        content: 'Docebo'
+      },
+      {
+        key: 'platform_8',
+        content: 'Adobe Captivate Prime'
+      },
+      {
+        key: 'implementation_benefits_title',
+        content: 'Benefits of Professional LMS Implementation'
+      },
+      {
+        key: 'implementation_benefit_1_metric',
+        content: '75% faster'
+      },
+      {
+        key: 'implementation_benefit_1_description',
+        content: 'Implementation timeline compared to in-house efforts'
+      },
+      {
+        key: 'implementation_benefit_2_metric',
+        content: '90% reduction'
+      },
+      {
+        key: 'implementation_benefit_2_description',
+        content: 'In post-launch issues and technical problems'
+      },
+      {
+        key: 'implementation_benefit_3_metric',
+        content: '95% user adoption'
+      },
+      {
+        key: 'implementation_benefit_3_description',
+        content: 'Rate within first 30 days of launch'
+      },
+      {
+        key: 'implementation_benefit_4_metric',
+        content: '60% cost savings'
+      },
+      {
+        key: 'implementation_benefit_4_description',
+        content: 'Compared to building custom solutions'
+      },
+      {
+        key: 'case_study_title',
+        content: 'Success Story: Enterprise LMS Transformation'
+      },
+      {
+        key: 'case_study_challenge',
+        content: 'A Fortune 500 company needed to replace their outdated LMS and integrate it with multiple enterprise systems while minimizing disruption to ongoing training programs.'
+      },
+      {
+        key: 'case_study_solution',
+        content: 'We implemented a phased migration approach with parallel system operation, custom integrations with 5 enterprise systems, and comprehensive change management.'
+      },
+      {
+        key: 'case_study_results',
+        content: 'Results: Zero downtime during migration, 98% user adoption within 60 days, and 40% improvement in training completion rates.'
+      },
+      {
+        key: 'support_services_title',
+        content: 'Ongoing Support Services'
+      },
+      {
+        key: 'support_1_title',
+        content: '24/7 Technical Support'
+      },
+      {
+        key: 'support_1_description',
+        content: 'Round-the-clock technical support and system monitoring to ensure optimal performance.'
+      },
+      {
+        key: 'support_2_title',
+        content: 'Regular Updates & Maintenance'
+      },
+      {
+        key: 'support_2_description',
+        content: 'Scheduled updates, security patches, and system maintenance to keep your LMS current and secure.'
+      },
+      {
+        key: 'support_3_title',
+        content: 'Performance Optimization'
+      },
+      {
+        key: 'support_3_description',
+        content: 'Continuous monitoring and optimization to ensure fast loading times and smooth user experience.'
+      },
+      {
+        key: 'support_4_title',
+        content: 'User Training & Documentation'
+      },
+      {
+        key: 'support_4_description',
+        content: 'Ongoing training programs and comprehensive documentation for administrators and end users.'
+      },
+      {
+        key: 'cta_title',
+        content: 'Ready to Implement Your LMS Solution?'
+      },
+      {
+        key: 'cta_description',
+        content: 'Partner with our LMS experts to ensure a successful implementation that drives adoption and delivers measurable results.'
+      },
+      {
+        key: 'cta_button',
+        content: 'Get Started Today'
+      }
+    ]
+  },
+  {
+    slug: 'elearning-consultancy',
+    title: 'E-Learning Consultancy Services & LMS Strategy | Swift Solution',
+    description: 'Expert eLearning consultancy services to optimize your training strategy. Get strategic guidance on LMS selection, implementation, and learning program design.',
+    sections: [
+      {
+        key: 'consultancy_hero_title',
+        content: 'Strategic eLearning Consultancy Services'
+      },
+      {
+        key: 'consultancy_hero_description',
+        content: 'Transform your learning and development strategy with our expert consultancy services. We provide strategic guidance to optimize your training programs and maximize ROI.'
+      },
+      {
+        key: 'consultancy_overview_title',
+        content: 'Why Choose eLearning Consultancy?'
+      },
+      {
+        key: 'consultancy_overview_description',
+        content: 'In today\'s rapidly evolving business landscape, effective learning and development is crucial for organizational success. Our consultancy services help you navigate the complex eLearning ecosystem and make informed decisions that drive business results.'
+      },
+      {
+        key: 'consultancy_services_title',
+        content: 'Our Consultancy Services'
+      },
+      {
+        key: 'service_strategy_title',
+        content: 'Learning Strategy Development'
+      },
+      {
+        key: 'service_strategy_description',
+        content: 'Comprehensive learning strategy aligned with your business objectives, including needs analysis, gap assessment, and roadmap development.'
+      },
+      {
+        key: 'service_lms_title',
+        content: 'LMS Selection & Strategy'
+      },
+      {
+        key: 'service_lms_description',
+        content: 'Expert guidance in selecting the right learning management system based on your requirements, budget, and technical infrastructure.'
+      },
+      {
+        key: 'service_design_title',
+        content: 'Instructional Design Consulting'
+      },
+      {
+        key: 'service_design_description',
+        content: 'Pedagogically sound instructional design strategies that enhance learning effectiveness and engagement.'
+      },
+      {
+        key: 'service_technology_title',
+        content: 'Technology Integration Planning'
+      },
+      {
+        key: 'service_technology_description',
+        content: 'Strategic planning for integrating eLearning technologies with existing systems and workflows.'
+      },
+      {
+        key: 'service_content_title',
+        content: 'Content Strategy & Governance'
+      },
+      {
+        key: 'service_content_description',
+        content: 'Frameworks for content creation, curation, maintenance, and quality assurance across your learning ecosystem.'
+      },
+      {
+        key: 'service_measurement_title',
+        content: 'Learning Analytics & ROI Measurement'
+      },
+      {
+        key: 'service_measurement_description',
+        content: 'Strategies for measuring learning effectiveness, business impact, and return on investment in training programs.'
+      },
+      {
+        key: 'consultancy_approach_title',
+        content: 'Our Consultancy Approach'
+      },
+      {
+        key: 'approach_step_1_title',
+        content: 'Current State Assessment'
+      },
+      {
+        key: 'approach_step_1_description',
+        content: 'Comprehensive evaluation of your existing learning programs, technologies, and organizational capabilities.'
+      },
+      {
+        key: 'approach_step_2_title',
+        content: 'Future State Vision'
+      },
+      {
+        key: 'approach_step_2_description',
+        content: 'Collaborative development of your ideal learning ecosystem aligned with business goals and learner needs.'
+      },
+      {
+        key: 'approach_step_3_title',
+        content: 'Gap Analysis & Prioritization'
+      },
+      {
+        key: 'approach_step_3_description',
+        content: 'Identification of gaps between current and future state with prioritized recommendations for improvement.'
+      },
+      {
+        key: 'approach_step_4_title',
+        content: 'Strategic Roadmap'
+      },
+      {
+        key: 'approach_step_4_description',
+        content: 'Detailed implementation roadmap with timelines, resource requirements, and success metrics.'
+      },
+      {
+        key: 'approach_step_5_title',
+        content: 'Implementation Support'
+      },
+      {
+        key: 'approach_step_5_description',
+        content: 'Ongoing guidance and support during implementation to ensure successful execution of recommendations.'
+      },
+      {
+        key: 'approach_step_6_title',
+        content: 'Continuous Optimization'
+      },
+      {
+        key: 'approach_step_6_description',
+        content: 'Regular review and optimization of strategies based on performance data and changing business needs.'
+      },
+      {
+        key: 'expertise_areas_title',
+        content: 'Areas of Expertise'
+      },
+      {
+        key: 'expertise_1_title',
+        content: 'Digital Transformation'
+      },
+      {
+        key: 'expertise_1_description',
+        content: 'Guiding organizations through digital learning transformation initiatives and change management.'
+      },
+      {
+        key: 'expertise_2_title',
+        content: 'Blended Learning Design'
+      },
+      {
+        key: 'expertise_2_description',
+        content: 'Optimal mix of online and offline learning modalities for maximum effectiveness and engagement.'
+      },
+      {
+        key: 'expertise_3_title',
+        content: 'Mobile Learning Strategy'
+      },
+      {
+        key: 'expertise_3_description',
+        content: 'Mobile-first learning strategies that enable anytime, anywhere access for modern workforces.'
+      },
+      {
+        key: 'expertise_4_title',
+        content: 'AI & Personalization'
+      },
+      {
+        key: 'expertise_4_description',
+        content: 'Leveraging artificial intelligence for personalized learning experiences and adaptive content delivery.'
+      },
+      {
+        key: 'expertise_5_title',
+        content: 'Compliance & Regulatory Training'
+      },
+      {
+        key: 'expertise_5_description',
+        content: 'Specialized strategies for compliance training that ensure regulatory adherence and risk mitigation.'
+      },
+      {
+        key: 'expertise_6_title',
+        content: 'Global Learning Programs'
+      },
+      {
+        key: 'expertise_6_description',
+        content: 'Multi-regional learning strategies that account for cultural differences and local requirements.'
+      },
+      {
+        key: 'consultancy_benefits_title',
+        content: 'Benefits of Our Consultancy Services'
+      },
+      {
+        key: 'consultancy_benefit_1_metric',
+        content: '50% faster'
+      },
+      {
+        key: 'consultancy_benefit_1_description',
+        content: 'Time to implement effective learning strategies'
+      },
+      {
+        key: 'consultancy_benefit_2_metric',
+        content: '40% cost reduction'
+      },
+      {
+        key: 'consultancy_benefit_2_description',
+        content: 'In overall training and development expenses'
+      },
+      {
+        key: 'consultancy_benefit_3_metric',
+        content: '3x ROI improvement'
+      },
+      {
+        key: 'consultancy_benefit_3_description',
+        content: 'In training program return on investment'
+      },
+      {
+        key: 'consultancy_benefit_4_metric',
+        content: '85% success rate'
+      },
+      {
+        key: 'consultancy_benefit_4_description',
+        content: 'In achieving strategic learning objectives'
+      },
+      {
+        key: 'case_study_title',
+        content: 'Success Story: Global Manufacturing Transformation'
+      },
+      {
+        key: 'case_study_challenge',
+        content: 'A multinational manufacturing company needed to standardize training across 15 countries while maintaining local relevance and compliance requirements.'
+      },
+      {
+        key: 'case_study_solution',
+        content: 'We developed a comprehensive global learning strategy with standardized core content, localized delivery methods, and unified measurement frameworks.'
+      },
+      {
+        key: 'case_study_results',
+        content: 'Results: 60% improvement in training consistency, 45% reduction in development costs, and 90% compliance rate across all regions.'
+      },
+      {
+        key: 'consultant_expertise_title',
+        content: 'Our Expert Consultants'
+      },
+      {
+        key: 'consultant_expertise_description',
+        content: 'Our team includes certified learning professionals, instructional design experts, and technology specialists with decades of combined experience across diverse industries.'
+      },
+      {
+        key: 'engagement_models_title',
+        content: 'Flexible Engagement Models'
+      },
+      {
+        key: 'engagement_1_title',
+        content: 'Strategic Assessment'
+      },
+      {
+        key: 'engagement_1_description',
+        content: 'Comprehensive evaluation and recommendations for your learning ecosystem (4-6 weeks)'
+      },
+      {
+        key: 'engagement_2_title',
+        content: 'Implementation Partnership'
+      },
+      {
+        key: 'engagement_2_description',
+        content: 'Ongoing consultancy support throughout your transformation journey (3-12 months)'
+      },
+      {
+        key: 'engagement_3_title',
+        content: 'Retained Advisory'
+      },
+      {
+        key: 'engagement_3_description',
+        content: 'Continuous strategic guidance and optimization support (ongoing relationship)'
+      },
+      {
+        key: 'cta_title',
+        content: 'Ready to Transform Your Learning Strategy?'
+      },
+      {
+        key: 'cta_description',
+        content: 'Partner with our expert consultants to develop a learning strategy that drives business results and competitive advantage.'
+      },
+      {
+        key: 'cta_button',
+        content: 'Schedule Consultation'
       }
     ]
   }

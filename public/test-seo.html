@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEO Metadata Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .warning { background-color: #fff3cd; border-color: #ffeaa7; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+        .meta-info { margin: 10px 0; padding: 10px; background: #f8f9fa; border-radius: 3px; }
+        button { padding: 10px 20px; margin: 5px; background: #007bff; color: white; border: none; border-radius: 3px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .page-link { display: inline-block; margin: 5px; padding: 8px 15px; background: #28a745; color: white; text-decoration: none; border-radius: 3px; }
+        .page-link:hover { background: #1e7e34; }
+    </style>
+</head>
+<body>
+    <h1>🧪 SEO Metadata Testing Tool</h1>
+    <p>Use this tool to test SEO metadata implementation across different pages.</p>
+    
+    <div class="test-section">
+        <h2>📋 Test Pages</h2>
+        <p>Click on these links to navigate to different pages and test their SEO metadata:</p>
+        <a href="http://localhost:3000/" class="page-link" target="_blank">Homepage</a>
+        <a href="http://localhost:3000/about-us" class="page-link" target="_blank">About Us</a>
+        <a href="http://localhost:3000/blog" class="page-link" target="_blank">Blog</a>
+        <a href="http://localhost:3000/contact" class="page-link" target="_blank">Contact</a>
+        <a href="http://localhost:3000/ai-powered-solutions" class="page-link" target="_blank">AI Solutions</a>
+        <a href="http://localhost:3000/case-studies" class="page-link" target="_blank">Case Studies</a>
+        <a href="http://localhost:3000/custom-elearning" class="page-link" target="_blank">Custom eLearning</a>
+        <a href="http://localhost:3000/non-existent-page" class="page-link" target="_blank" style="background: #dc3545;">404 Test Page</a>
+    </div>
+    
+    <div class="test-section">
+        <h2>🛠️ Manual Browser Testing Methods</h2>
+        <div class="meta-info">
+            <strong>Method 1: View Page Source</strong><br>
+            • Right-click → "View Page Source" (Ctrl+U / Cmd+U)<br>
+            • Look for &lt;title&gt;, &lt;meta name="description"&gt;, &lt;meta name="keywords"&gt;<br><br>
+            
+            <strong>Method 2: Developer Tools</strong><br>
+            • Press F12 or Ctrl+Shift+I (Cmd+Option+I on Mac)<br>
+            • Go to Elements tab → Expand &lt;head&gt; section<br>
+            • Search for meta tags<br><br>
+            
+            <strong>Method 3: SEO Browser Extensions</strong><br>
+            • Install "SEO Meta in 1 Click" or "MozBar"<br>
+            • Click extension icon to see all SEO metadata<br><br>
+            
+            <strong>Method 4: Social Media Debuggers</strong><br>
+            • <a href="https://developers.facebook.com/tools/debug/" target="_blank">Facebook Sharing Debugger</a><br>
+            • <a href="https://cards-dev.twitter.com/validator" target="_blank">Twitter Card Validator</a><br>
+            • <a href="https://www.linkedin.com/post-inspector/" target="_blank">LinkedIn Post Inspector</a>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>🔍 SEO Metadata Inspector</h2>
+        <p>Use this button to inspect the current page's SEO metadata:</p>
+        <button onclick="inspectSeoMetadata()">Inspect Current Page SEO</button>
+        <div id="seo-results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>📊 Batch Test Results</h2>
+        <p>Test multiple pages automatically:</p>
+        <button onclick="runBatchTest()">Run Batch Test</button>
+        <div id="batch-results"></div>
+    </div>
+
+    <script>
+        function inspectSeoMetadata() {
+            const results = document.getElementById('seo-results');
+            results.innerHTML = '<h3>🔍 Current Page SEO Analysis</h3>';
+            
+            // Get all meta tags
+            const metaTags = document.querySelectorAll('meta');
+            const titleTag = document.querySelector('title');
+            
+            // Extract SEO-relevant meta tags
+            const seoData = {
+                title: titleTag ? titleTag.textContent : 'Not found',
+                description: '',
+                keywords: '',
+                ogTitle: '',
+                ogDescription: '',
+                ogImage: '',
+                twitterTitle: '',
+                twitterDescription: '',
+                canonical: ''
+            };
+            
+            metaTags.forEach(meta => {
+                const name = meta.getAttribute('name') || meta.getAttribute('property');
+                const content = meta.getAttribute('content');
+                
+                if (name === 'description') seoData.description = content;
+                if (name === 'keywords') seoData.keywords = content;
+                if (name === 'og:title') seoData.ogTitle = content;
+                if (name === 'og:description') seoData.ogDescription = content;
+                if (name === 'og:image') seoData.ogImage = content;
+                if (name === 'twitter:title') seoData.twitterTitle = content;
+                if (name === 'twitter:description') seoData.twitterDescription = content;
+            });
+            
+            // Check for canonical link
+            const canonicalLink = document.querySelector('link[rel="canonical"]');
+            if (canonicalLink) {
+                seoData.canonical = canonicalLink.getAttribute('href');
+            }
+            
+            // Display results
+            let html = '<div class="meta-info">';
+            html += `<strong>📄 Page URL:</strong> ${window.location.href}<br>`;
+            html += `<strong>📝 Title:</strong> ${seoData.title}<br>`;
+            html += `<strong>📄 Description:</strong> ${seoData.description || 'Not found'}<br>`;
+            html += `<strong>🏷️ Keywords:</strong> ${seoData.keywords || 'Not found'}<br>`;
+            html += `<strong>🔗 Canonical:</strong> ${seoData.canonical || 'Not found'}<br>`;
+            html += '<br><strong>📱 Open Graph:</strong><br>';
+            html += `&nbsp;&nbsp;Title: ${seoData.ogTitle || 'Not found'}<br>`;
+            html += `&nbsp;&nbsp;Description: ${seoData.ogDescription || 'Not found'}<br>`;
+            html += `&nbsp;&nbsp;Image: ${seoData.ogImage || 'Not found'}<br>`;
+            html += '<br><strong>🐦 Twitter:</strong><br>';
+            html += `&nbsp;&nbsp;Title: ${seoData.twitterTitle || 'Not found'}<br>`;
+            html += `&nbsp;&nbsp;Description: ${seoData.twitterDescription || 'Not found'}<br>`;
+            html += '</div>';
+            
+            // Validate and provide feedback
+            let status = 'success';
+            let feedback = '✅ SEO metadata looks good!';
+            
+            if (!seoData.description) {
+                status = 'error';
+                feedback = '❌ Missing meta description!';
+            } else if (!seoData.keywords) {
+                status = 'warning';
+                feedback = '⚠️ Missing keywords - check if primary/secondary keywords are being combined properly.';
+            } else if (seoData.description.length < 120 || seoData.description.length > 160) {
+                status = 'warning';
+                feedback = '⚠️ Meta description should be 120-160 characters for optimal SEO.';
+            }
+            
+            html = `<div class="${status}">${feedback}</div>` + html;
+            results.innerHTML = html;
+        }
+        
+        async function runBatchTest() {
+            const results = document.getElementById('batch-results');
+            results.innerHTML = '<h3>🔄 Running batch test...</h3>';
+            
+            const testPages = [
+                { url: 'http://localhost:3000/', name: 'Homepage' },
+                { url: 'http://localhost:3000/about-us', name: 'About Us' },
+                { url: 'http://localhost:3000/blog', name: 'Blog' },
+                { url: 'http://localhost:3000/contact', name: 'Contact' },
+                { url: 'http://localhost:3000/ai-powered-solutions', name: 'AI Solutions' },
+                { url: 'http://localhost:3000/case-studies', name: 'Case Studies' },
+                { url: 'http://localhost:3000/non-existent-page', name: '404 Page' }
+            ];
+            
+            let html = '<div class="meta-info"><strong>📊 Batch Test Results:</strong><br><br>';
+            
+            for (const page of testPages) {
+                try {
+                    const response = await fetch(page.url);
+                    const text = await response.text();
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(text, 'text/html');
+                    
+                    const title = doc.querySelector('title')?.textContent || 'Not found';
+                    const description = doc.querySelector('meta[name="description"]')?.getAttribute('content') || 'Not found';
+                    const keywords = doc.querySelector('meta[name="keywords"]')?.getAttribute('content') || 'Not found';
+                    
+                    const status = description !== 'Not found' && keywords !== 'Not found' ? '✅' : '❌';
+                    
+                    html += `<strong>${status} ${page.name}:</strong><br>`;
+                    html += `&nbsp;&nbsp;Title: ${title.substring(0, 60)}${title.length > 60 ? '...' : ''}<br>`;
+                    html += `&nbsp;&nbsp;Description: ${description !== 'Not found' ? 'Present' : 'Missing'}<br>`;
+                    html += `&nbsp;&nbsp;Keywords: ${keywords !== 'Not found' ? 'Present' : 'Missing'}<br><br>`;
+                } catch (error) {
+                    html += `<strong>❌ ${page.name}:</strong> Error loading page<br><br>`;
+                }
+            }
+            
+            html += '</div>';
+            results.innerHTML = html;
+        }
+        
+        // Auto-inspect on page load
+        window.addEventListener('load', () => {
+            setTimeout(inspectSeoMetadata, 1000);
+        });
+    </script>
+</body>
+</html>

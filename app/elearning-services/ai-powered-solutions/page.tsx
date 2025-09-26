@@ -385,7 +385,7 @@ export default function AIPoweredSolutionsPage() {
       <section className="relative text-white py-20 overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="/images/ai powered elearning solutions.jpg"
+            src="/IMAGES/ai powered elearning solutions.jpg"
             alt={heroContent.imageAlt}
             fill
             className="object-cover"

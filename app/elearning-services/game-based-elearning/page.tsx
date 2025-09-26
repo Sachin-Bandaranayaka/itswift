@@ -26,6 +26,7 @@ import {
   Star,
 } from "lucide-react"
 import Contact from "@/components/contact"
+import DynamicFAQ from "@/components/dynamic-faq"
 import { usePageContent } from "@/hooks/use-page-content"
 
 const PAGE_SLUG = "game-based-elearning"
@@ -403,7 +404,7 @@ const FAQS: FAQConfig[] = [
   },
 ]
 
-export default function GameBasedElearningPage() {
+function GameBasedElearningPage() {
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null)
   const { getContent } = usePageContent(PAGE_SLUG)
 
@@ -587,4 +588,23 @@ export default function GameBasedElearningPage() {
       </section>
 
       <section className="py-20">
-        <div className="max-w-7ώ
+        <div className="max-w-7xl mx-auto">
+          <DynamicFAQ
+            sectionId="faq"
+            pageSlug={PAGE_SLUG}
+            title={faqHeading}
+          />
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <Contact />
+        </div>
+      </section>
+    </div>
+  )
+}
+
+export default GameBasedElearningPage

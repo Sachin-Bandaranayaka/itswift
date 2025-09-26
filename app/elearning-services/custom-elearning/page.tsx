@@ -42,6 +42,8 @@ type BulletConfig = {
   descriptionFallback: string
 }
 
+type IconBulletConfig = BulletConfig & { icon: IconComponent }
+
 type SimpleBulletConfig = {
   key: string
   fallback: string
@@ -338,36 +340,41 @@ const TECH_STANDARD_CONFIGS: SimpleBulletConfig[] = [
   },
 ]
 
-const ANALYTICS_CONFIGS: BulletConfig[] = [
+const ANALYTICS_CONFIGS: IconBulletConfig[] = [
   {
     labelKey: "custom_analytics_point_1_title",
     labelFallback: "Learner Progress Tracking:",
     descriptionKey: "custom_analytics_point_1_description",
     descriptionFallback: "Detailed monitoring of individual and group progress",
+    icon: TrendingUp,
   },
   {
     labelKey: "custom_analytics_point_2_title",
     labelFallback: "Engagement Analytics:",
     descriptionKey: "custom_analytics_point_2_description",
     descriptionFallback: "Time spent, interaction rates, and participation metrics",
+    icon: BarChart,
   },
   {
     labelKey: "custom_analytics_point_3_title",
     labelFallback: "Performance Assessment:",
     descriptionKey: "custom_analytics_point_3_description",
     descriptionFallback: "Skill development tracking and competency measurement",
+    icon: Target,
   },
   {
     labelKey: "custom_analytics_point_4_title",
     labelFallback: "Completion Analytics:",
     descriptionKey: "custom_analytics_point_4_description",
     descriptionFallback: "Course completion rates and dropout analysis",
+    icon: CheckCircle,
   },
   {
     labelKey: "custom_analytics_point_5_title",
     labelFallback: "Knowledge Retention:",
     descriptionKey: "custom_analytics_point_5_description",
     descriptionFallback: "Long-term retention testing and reinforcement recommendations",
+    icon: Zap,
   },
 ]
 
@@ -429,6 +436,7 @@ export default function CustomElearningPage() {
   const heroStats = HERO_STAT_CONFIGS.map((stat) => ({
     value: getContent(stat.valueKey, stat.valueFallback),
     description: getContent(stat.descriptionKey, stat.descriptionFallback),
+    icon: stat.icon,
   }))
 
   const whySection = {

@@ -5,6 +5,7 @@ import Image from "next/image"
 import { motion } from "framer-motion"
 import Contact from "@/components/contact"
 import DynamicFAQ from "@/components/dynamic-faq"
+import { usePageContent } from "@/hooks/use-page-content"
 import {
     ArrowRight,
     CheckCircle,
@@ -45,7 +46,10 @@ import {
     Minus
 } from "lucide-react"
 
+const PAGE_SLUG = "translation-localization"
+
 export default function TranslationLocalizationPage() {
+    const { getContent } = usePageContent(PAGE_SLUG)
     // Define benefits
     const benefits = [
         {
@@ -152,18 +156,24 @@ export default function TranslationLocalizationPage() {
                         style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.7)' }}
                     >
                         <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
-                            Transform Your E-Learning Content for Global Audiences
+                            {getContent(
+                                "translation_hero_title",
+                                "Transform Your E-Learning Content for Global Audiences"
+                            )}
                         </h1>
                         <p className="text-xl mb-8 text-orange-100">
-                            Expert translation and localization services to make your training content culturally relevant and linguistically accurate
+                            {getContent(
+                                "translation_hero_description",
+                                "Expert translation and localization services to make your training content culturally relevant and linguistically accurate"
+                            )}
                         </p>
                         <div className="flex flex-col md:flex-row gap-4">
                             <a href="#contact" className="inline-flex items-center justify-center px-6 py-3 bg-white text-orange-500 rounded-lg font-medium hover:bg-orange-50 transition-colors duration-200">
-                                Get Started
+                                {getContent("translation_hero_primary_cta", "Get Started")}
                                 <ArrowRight className="ml-2 h-4 w-4" />
                             </a>
                             <a href="#process" className="inline-flex items-center justify-center px-6 py-3 bg-transparent border border-white text-white rounded-lg font-medium hover:bg-white/10 transition-colors duration-200">
-                                Learn More
+                                {getContent("translation_hero_secondary_cta", "Learn More")}
                             </a>
                         </div>
                     </motion.div>
@@ -182,13 +192,22 @@ export default function TranslationLocalizationPage() {
                     >
                         <div>
                             <h2 className="text-3xl font-bold mb-6 text-gray-900">
-                                What Is E-Learning Translation and Localization?
+                                {getContent(
+                                    "translation_intro_heading",
+                                    "What Is E-Learning Translation and Localization?"
+                                )}
                             </h2>
                             <p className="text-lg text-gray-700 mb-6">
-                                E-learning translation and localization is the comprehensive process of adapting educational content for different languages, cultures, and regions while preserving the instructional effectiveness of the original material.
+                                {getContent(
+                                    "translation_intro_paragraph_1",
+                                    "E-learning translation and localization is the comprehensive process of adapting educational content for different languages, cultures, and regions while preserving the instructional effectiveness of the original material."
+                                )}
                             </p>
                             <p className="text-lg text-gray-700 mb-6">
-                                This goes far beyond simple text translation to include:
+                                {getContent(
+                                    "translation_intro_paragraph_2",
+                                    "This goes far beyond simple text translation to include:"
+                                )}
                             </p>
                             <ul className="space-y-3 text-gray-700">
                                 <li className="flex items-start">

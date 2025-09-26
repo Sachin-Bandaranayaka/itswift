@@ -143,6 +143,92 @@ export default function AboutUsPage() {
         secondary: getContent('about_hero_secondary_cta', 'Meet Our Leadership')
     }
 
+    const valueConfigs: ValueItemConfig[] = [
+        {
+            titleKey: 'about_value_client_centricity_title',
+            titleFallback: 'Client-Centricity',
+            descriptionKey: 'about_value_client_centricity_description',
+            descriptionFallback: 'Your business goals are our priority. We listen, understand, and then design solutions that are perfectly aligned with your needs.',
+            icon: <Heart className="h-8 w-8 text-orange-500" />
+        },
+        {
+            titleKey: 'about_value_innovation_title',
+            titleFallback: 'Innovation in Learning',
+            descriptionKey: 'about_value_innovation_description',
+            descriptionFallback: 'We continuously explore new technologies and instructional approaches to make learning more engaging and effective.',
+            icon: <Lightbulb className="h-8 w-8 text-orange-500" />
+        },
+        {
+            titleKey: 'about_value_measurable_impact_title',
+            titleFallback: 'Measurable Impact',
+            descriptionKey: 'about_value_measurable_impact_description',
+            descriptionFallback: 'We focus on delivering eLearning solutions that lead to tangible improvements in performance and clear ROI.',
+            icon: <BarChart className="h-8 w-8 text-orange-500" />
+        },
+        {
+            titleKey: 'about_value_expertise_title',
+            titleFallback: 'Expertise & Experience',
+            descriptionKey: 'about_value_expertise_description',
+            descriptionFallback: 'Leveraging over 25 years of specialized experience in the eLearning domain, particularly serving clients in Bangalore and across India.',
+            icon: <Award className="h-8 w-8 text-orange-500" />
+        },
+        {
+            titleKey: 'about_value_collaboration_title',
+            titleFallback: 'Collaborative Partnership',
+            descriptionKey: 'about_value_collaboration_description',
+            descriptionFallback: 'We believe in working closely with our clients, fostering a partnership built on trust and shared objectives.',
+            icon: <Users className="h-8 w-8 text-orange-500" />
+        }
+    ]
+
+    const teamMemberConfigs: TeamMemberConfig[] = [
+        {
+            nameKey: 'about_leadership_member_1_name',
+            nameFallback: 'Keshavan Belagod',
+            roleKey: 'about_leadership_member_1_role',
+            roleFallback: 'Co-founder and Director',
+            descriptionKey: 'about_leadership_member_1_description',
+            descriptionFallback: 'Over 25 years of profound experience in the e-Learning sector. A regular and respected speaker at national e-Learning conferences in India, Keshavan holds an MPhil in e-Learning.'
+        },
+        {
+            nameKey: 'about_leadership_member_2_name',
+            nameFallback: 'Madhusudhan Reddy',
+            roleKey: 'about_leadership_member_2_role',
+            roleFallback: 'Co-founder and Director',
+            descriptionKey: 'about_leadership_member_2_description',
+            descriptionFallback: 'Technical head of the company with over 20 years of rich experience. Madhusudhan holds an MTech in Computer Science, providing a strong technical foundation for our innovative solutions.'
+        },
+        {
+            nameKey: 'about_leadership_member_3_name',
+            nameFallback: 'Manirangan',
+            roleKey: 'about_leadership_member_3_role',
+            roleFallback: 'Co-founder and Director',
+            descriptionKey: 'about_leadership_member_3_description',
+            descriptionFallback: 'Over 20 years of experience in e-Learning, application software selling, and IT consulting. Computer Science graduate with an MBA, blending technical knowledge with strategic business acumen.'
+        }
+    ]
+
+    const faqConfigs: FAQItemConfig[] = [
+        {
+            questionKey: 'about_faq_1_question',
+            questionFallback: 'Why should our business consider outsourcing to eLearning companies in Bangalore?',
+            answerKey: 'about_faq_1_answer',
+            answerFallback: 'Outsourcing to eLearning companies in Bangalore offers a strategic advantage due to the region\'s vast talent pool of skilled instructional designers, multimedia developers, and project managers. Bangalore, known as India\'s Silicon Valley, is a hub for innovation and technology, ensuring access to cutting-edge eLearning solutions. Moreover, eLearning companies in Bangalore often provide significant cost efficiencies without compromising on quality, delivering world-class custom eLearning content that meets global standards.'
+        },
+        {
+            questionKey: 'about_faq_2_question',
+            questionFallback: 'What makes Bangalore a preferred destination for finding top-tier eLearning companies?',
+            answerKey: 'about_faq_2_answer',
+            answerFallback: 'Bangalore is a preferred destination because it hosts a high concentration of premier educational institutions and a thriving IT and BPO sector, which cultivates a rich ecosystem for eLearning companies. This environment ensures a continuous supply of professionals proficient in the latest eLearning technologies and instructional design methodologies. When you partner with eLearning companies in Bangalore, you tap into this deep expertise and a culture of continuous learning and innovation.'
+        },
+        {
+            questionKey: 'about_faq_3_question',
+            questionFallback: 'How do eLearning companies in Bangalore ensure quality and effective communication?',
+            answerKey: 'about_faq_3_answer',
+            answerFallback: 'Reputable eLearning companies in Bangalore prioritize quality and client communication by adhering to international standards (like ISO certifications) and employing robust project management methodologies (like Agile). Many professionals in Bangalore have excellent English proficiency and experience working with global clients, ensuring smooth collaboration. Furthermore, eLearning companies in Bangalore often leverage modern communication tools and flexible working hours to bridge geographical distances and time zone differences effectively.'
+        }
+    ]
+
     const values: ValueItem[] = valueConfigs.map((value) => ({
         title: getContent(value.titleKey, value.titleFallback),
         description: getContent(value.descriptionKey, value.descriptionFallback),
@@ -242,7 +328,8 @@ export default function AboutUsPage() {
                 'ChatGPT Integration for Scriptwriting',
                 'AI-Enhanced Visual Storyboards',
                 'Complete Workflow Optimization'
-            ]
+            ],
+            highlightMetric: undefined
         },
         {
             key: 'ecosystem_consolidation',
@@ -349,91 +436,7 @@ export default function AboutUsPage() {
         description: getContent('about_final_cta_description', 'When you partner with Swift Solution, you are choosing one of the top eLearning companies in Bangalore with a proven track record of delivering excellence. We are passionate about helping your organization achieve its full potential through innovative and effective custom eLearning solutions.')
     }
 
-    const teamMemberConfigs: TeamMemberConfig[] = [
-        {
-            nameKey: 'about_leadership_member_1_name',
-            nameFallback: 'Keshavan Belagod',
-            roleKey: 'about_leadership_member_1_role',
-            roleFallback: 'Co-founder and Director',
-            descriptionKey: 'about_leadership_member_1_description',
-            descriptionFallback: 'Over 25 years of profound experience in the e-Learning sector. A regular and respected speaker at national e-Learning conferences in India, Keshavan holds an MPhil in e-Learning.'
-        },
-        {
-            nameKey: 'about_leadership_member_2_name',
-            nameFallback: 'Madhusudhan Reddy',
-            roleKey: 'about_leadership_member_2_role',
-            roleFallback: 'Co-founder and Director',
-            descriptionKey: 'about_leadership_member_2_description',
-            descriptionFallback: 'Technical head of the company with over 20 years of rich experience. Madhusudhan holds an MTech in Computer Science, providing a strong technical foundation for our innovative solutions.'
-        },
-        {
-            nameKey: 'about_leadership_member_3_name',
-            nameFallback: 'Manirangan',
-            roleKey: 'about_leadership_member_3_role',
-            roleFallback: 'Co-founder and Director',
-            descriptionKey: 'about_leadership_member_3_description',
-            descriptionFallback: 'Over 20 years of experience in e-Learning, application software selling, and IT consulting. Computer Science graduate with an MBA, blending technical knowledge with strategic business acumen.'
-        }
-    ]
 
-    const valueConfigs: ValueItemConfig[] = [
-        {
-            titleKey: 'about_value_client_centricity_title',
-            titleFallback: 'Client-Centricity',
-            descriptionKey: 'about_value_client_centricity_description',
-            descriptionFallback: 'Your business goals are our priority. We listen, understand, and then design solutions that are perfectly aligned with your needs.',
-            icon: <Heart className="h-8 w-8 text-orange-500" />
-        },
-        {
-            titleKey: 'about_value_innovation_title',
-            titleFallback: 'Innovation in Learning',
-            descriptionKey: 'about_value_innovation_description',
-            descriptionFallback: 'We continuously explore new technologies and instructional approaches to make learning more engaging and effective.',
-            icon: <Lightbulb className="h-8 w-8 text-orange-500" />
-        },
-        {
-            titleKey: 'about_value_measurable_impact_title',
-            titleFallback: 'Measurable Impact',
-            descriptionKey: 'about_value_measurable_impact_description',
-            descriptionFallback: 'We focus on delivering eLearning solutions that lead to tangible improvements in performance and clear ROI.',
-            icon: <BarChart className="h-8 w-8 text-orange-500" />
-        },
-        {
-            titleKey: 'about_value_expertise_title',
-            titleFallback: 'Expertise & Experience',
-            descriptionKey: 'about_value_expertise_description',
-            descriptionFallback: 'Leveraging over 25 years of specialized experience in the eLearning domain, particularly serving clients in Bangalore and across India.',
-            icon: <Award className="h-8 w-8 text-orange-500" />
-        },
-        {
-            titleKey: 'about_value_collaboration_title',
-            titleFallback: 'Collaborative Partnership',
-            descriptionKey: 'about_value_collaboration_description',
-            descriptionFallback: 'We believe in working closely with our clients, fostering a partnership built on trust and shared objectives.',
-            icon: <Users className="h-8 w-8 text-orange-500" />
-        }
-    ]
-
-    const faqConfigs: FAQItemConfig[] = [
-        {
-            questionKey: 'about_faq_1_question',
-            questionFallback: 'Why should our business consider outsourcing to eLearning companies in Bangalore?',
-            answerKey: 'about_faq_1_answer',
-            answerFallback: 'Outsourcing to eLearning companies in Bangalore offers a strategic advantage due to the region\'s vast talent pool of skilled instructional designers, multimedia developers, and project managers. Bangalore, known as India\'s Silicon Valley, is a hub for innovation and technology, ensuring access to cutting-edge eLearning solutions. Moreover, eLearning companies in Bangalore often provide significant cost efficiencies without compromising on quality, delivering world-class custom eLearning content that meets global standards.'
-        },
-        {
-            questionKey: 'about_faq_2_question',
-            questionFallback: 'What makes Bangalore a preferred destination for finding top-tier eLearning companies?',
-            answerKey: 'about_faq_2_answer',
-            answerFallback: 'Bangalore is a preferred destination because it hosts a high concentration of premier educational institutions and a thriving IT and BPO sector, which cultivates a rich ecosystem for eLearning companies. This environment ensures a continuous supply of professionals proficient in the latest eLearning technologies and instructional design methodologies. When you partner with eLearning companies in Bangalore, you tap into this deep expertise and a culture of continuous learning and innovation.'
-        },
-        {
-            questionKey: 'about_faq_3_question',
-            questionFallback: 'How do eLearning companies in Bangalore ensure quality and effective communication?',
-            answerKey: 'about_faq_3_answer',
-            answerFallback: 'Reputable eLearning companies in Bangalore prioritize quality and client communication by adhering to international standards (like ISO certifications) and employing robust project management methodologies (like Agile). Many professionals in Bangalore have excellent English proficiency and experience working with global clients, ensuring smooth collaboration. Furthermore, eLearning companies in Bangalore often leverage modern communication tools and flexible working hours to bridge geographical distances and time zone differences effectively.'
-        }
-    ]
 
     return (
         <div className="w-full">

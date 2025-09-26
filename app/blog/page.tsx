@@ -1,4 +1,9 @@
 import { Suspense } from "react"
+import { resolveSeoMetadata } from "@/lib/services/seo-metadata"
+
+export async function generateMetadata() {
+  return resolveSeoMetadata('/blog')
+}
 import { BlogPageContent } from "./blog-page-content"
 import { BlogLoadingSkeleton } from "@/components/blog/blog-loading-skeleton"
 import { BlogErrorBoundary } from "@/components/blog/blog-error-boundary"
@@ -17,4 +22,3 @@ export default function BlogPage() {
     </BlogErrorBoundary>
   )
 }
-
