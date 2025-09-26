@@ -8,6 +8,18 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "*.{js,ts,jsx,tsx,mdx}"
   ],
+  safelist: [
+    // Footer gradient colors
+    'bg-gradient-to-r',
+    'from-[#FF6B38]',
+    'via-[#e05a79]',
+    'to-[#9d4edd]',
+    'dark:from-[#CC5630]',
+    'dark:via-[#b34861]',
+    'dark:to-[#7d3eb1]',
+    'text-white',
+    'py-16'
+  ],
   theme: {
   	extend: {
   		colors: {

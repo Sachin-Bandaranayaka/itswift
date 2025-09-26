@@ -1,131 +1,209 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
 import { ChevronDown, X, Menu } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
+import type { HeaderConfig, HeaderMenuItemConfig } from "@/types/site-layout"
+import { DEFAULT_HEADER_CONFIG } from "@/lib/config/site-layout"
 
-interface MenuItem {
-  title: string
-  href: string
-  submenu?: { title: string; href: string }[]
+interface HeaderApiResponse {
+  success?: boolean
+  data?: unknown
 }
 
-const menuItems: MenuItem[] = [
-  {
-    title: "eLearning Services",
-    href: "/elearning-services",
-    submenu: [
-      { title: "AI-Powered eLearning Solutions", href: "/elearning-services/ai-powered-solutions" },
-      { title: "Custom eLearning", href: "/elearning-services/custom-elearning" },
-      { title: "Micro Learning", href: "/elearning-services/micro-learning" },
-      { title: "Video Based Training", href: "/elearning-services/video-based-training" },
-      { title: "ILT to eLearning conversion", href: "/elearning-services/ilt-to-elearning" },
-      { title: "Webinar to eLearning conversion", href: "/elearning-services/webinar-to-elearning" },
-      { title: "Game based eLearning", href: "/elearning-services/game-based-elearning" },
-      { title: "eLearning translation and localization", href: "/elearning-services/translation-localization" },
-      { title: "Rapid eLearning", href: "/elearning-services/rapid-elearning" },
-    ],
-  },
-  {
-    title: "eLearning Solutions",
-    href: "/elearning-solutions",
-    submenu: [
-      { title: "Onboarding", href: "/elearning-solutions/on-boarding" },
-      { title: "Compliance", href: "/elearning-solutions/compliance" },
-      { title: "Sales enablement", href: "/elearning-solutions/sales-enablement" },
-    ],
-  },
-  {
-    title: "eLearning Consultancy",
-    href: "/elearning-consultancy",
-    submenu: [
-      { title: "LMS implementation", href: "/elearning-consultancy/lms-implementation" },
-      { title: "Instructional design services", href: "/elearning-consultancy/instructional-design" },
-    ],
-  },
-  {
-    title: "Our profile",
-    href: "#",
-    submenu: [
-      { title: "About Us", href: "/about-us" },
-      { title: "Case studies", href: "/case-studies" },
-    ],
-  },
-  { title: "Blog", href: "/blog" },
-  { title: "Contact Us", href: "/contact" },
-]
+function sanitizeMenuItem(item: any): HeaderMenuItemConfig | null {
+  if (!item || typeof item !== "object") return null
+  if (typeof item.title !== "string" || typeof item.href !== "string") return null
 
-export default function Navbar() {
-  const [openMenu, setOpenMenu] = useState<number | null>(null)
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const sanitized: HeaderMenuItemConfig = {
+    title: item.title,
+    href: item.href,
+  }
 
-  const scrollToContact = () => {
-    const contactElement = document.getElementById('contact')
-    if (contactElement) {
-      contactElement.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
-      })
+  if (Array.isArray(item.submenu)) {
+    const children = item.submenu
+      .map(sanitizeMenuItem)
+      .filter((child: HeaderMenuItemConfig | null): child is HeaderMenuItemConfig => Boolean(child))
+
+    if (children.length > 0) {
+      sanitized.submenu = children
     }
   }
+
+  if (typeof item.external === "boolean") {
+    sanitized.external = item.external
+  }
+
+  return sanitized
+}
+
+function mergeHeaderConfig(payload: unknown): HeaderConfig {
+  if (!payload || typeof payload !== "object") {
+    return DEFAULT_HEADER_CONFIG
+  }
+
+  const raw = payload as Partial<HeaderConfig>
+  const logo = raw.logo && typeof raw.logo === "object"
+    ? { ...DEFAULT_HEADER_CONFIG.logo, ...raw.logo }
+    : DEFAULT_HEADER_CONFIG.logo
+
+  const menuItemsCandidate = Array.isArray(raw.menuItems)
+    ? raw.menuItems
+        .map(sanitizeMenuItem)
+        .filter((item): item is HeaderMenuItemConfig => Boolean(item))
+    : []
+
+  const menuItems = menuItemsCandidate.length > 0
+    ? menuItemsCandidate
+    : DEFAULT_HEADER_CONFIG.menuItems
+
+  const cta = raw.cta && typeof raw.cta === "object" && typeof raw.cta.label === "string"
+    ? { ...DEFAULT_HEADER_CONFIG.cta, ...raw.cta }
+    : DEFAULT_HEADER_CONFIG.cta
+
+  const showThemeToggle = raw.showThemeToggle ?? DEFAULT_HEADER_CONFIG.showThemeToggle
+
+  return {
+    logo,
+    menuItems,
+    cta,
+    showThemeToggle,
+  }
+}
+
+function getLinkProps(item: HeaderMenuItemConfig) {
+  if (item.external) {
+    return {
+      target: "_blank",
+      rel: "noopener noreferrer",
+    }
+  }
+
+  return {}
+}
+
+export default function Navbar() {
+  const [config, setConfig] = useState<HeaderConfig>(DEFAULT_HEADER_CONFIG)
+  const [openMenu, setOpenMenu] = useState<number | null>(null)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [openMobileSubmenu, setOpenMobileSubmenu] = useState<number | null>(null)
   const [isScrolled, setIsScrolled] = useState(false)
 
-  // Close mobile menu when window resizes to desktop size
+  useEffect(() => {
+    let isActive = true
+
+    async function loadConfig() {
+      try {
+        const response = await fetch('/api/layout/header', { cache: 'no-store' })
+        if (!response.ok) {
+          throw new Error(`Request failed with status ${response.status}`)
+        }
+
+        const payload: HeaderApiResponse = await response.json()
+        if (!payload || typeof payload !== 'object' || !('data' in payload)) {
+          return
+        }
+
+        const merged = mergeHeaderConfig(payload.data)
+        if (isActive) {
+          setConfig(merged)
+        }
+      } catch (error) {
+        console.error('Failed to load header configuration, using defaults:', error)
+      }
+    }
+
+    void loadConfig()
+    return () => {
+      isActive = false
+    }
+  }, [])
+
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 1024 && isMobileMenuOpen) {
-        setIsMobileMenuOpen(false);
+        setIsMobileMenuOpen(false)
       }
-    };
+    }
 
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [isMobileMenuOpen]);
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+  }, [isMobileMenuOpen])
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10)
     }
+
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
   const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
+    setIsMobileMenuOpen(!isMobileMenuOpen)
+  }
 
   const closeMobileMenu = () => {
-    setIsMobileMenuOpen(false);
-    setOpenMobileSubmenu(null);
-  };
+    setIsMobileMenuOpen(false)
+    setOpenMobileSubmenu(null)
+  }
+
+  const handleCta = () => {
+    const cta = config.cta ?? DEFAULT_HEADER_CONFIG.cta
+    if (!cta) return
+
+    if (cta.scrollTarget) {
+      const targetElement = document.getElementById(cta.scrollTarget)
+      if (targetElement) {
+        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        return
+      }
+    }
+
+    if (cta.href) {
+      const isExternal = /^(https?:)?\/\//.test(cta.href)
+      if (isExternal) {
+        window.open(cta.href, '_blank', 'noopener')
+      } else {
+        window.location.assign(cta.href)
+      }
+    }
+  }
+
+  const ctaLabel = config.cta?.label || DEFAULT_HEADER_CONFIG.cta?.label || 'Get quote'
+
+  const headerClasses = useMemo(
+    () =>
+      `sticky top-0 z-50 transition-colors duration-300 ${
+        isScrolled
+          ? 'bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'
+          : 'bg-transparent'
+      }`,
+    [isScrolled],
+  )
 
   return (
-    <header
-      className={`sticky top-0 z-50 transition-colors duration-300 ${isScrolled ? "bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60" : "bg-transparent"
-        }`}
-    >
+    <header className={headerClasses}>
       <div className="container mx-auto px-4">
         <nav className="flex items-center justify-between h-28">
-          {/* Logo */}
-          <Link href="/" className="flex-shrink-0 relative z-50">
+          <Link href="/" className="flex-shrink-0 relative z-50" aria-label="Go to homepage">
             <Image
-              src="/IMAGES/Swift_logo_new copy.svg"
-              alt="Swift Solution - Growth thru Creativity"
-              width={360}
-              height={120}
-              className="w-auto h-24"
+              src={config.logo.src}
+              alt={config.logo.alt}
+              width={config.logo.width ?? DEFAULT_HEADER_CONFIG.logo.width ?? 360}
+              height={config.logo.height ?? DEFAULT_HEADER_CONFIG.logo.height ?? 120}
+              className={config.logo.className ?? 'w-auto h-24'}
+              priority
             />
           </Link>
 
-          {/* Main Navigation - Desktop */}
           <div className="hidden lg:flex items-center space-x-6">
-            {menuItems.map((item, index) => (
+            {config.menuItems.map((item, index) => (
               <div
-                key={index}
+                key={`${item.title}-${index}`}
                 className="relative"
                 onMouseEnter={() => setOpenMenu(index)}
                 onMouseLeave={() => setOpenMenu(null)}
@@ -133,12 +211,14 @@ export default function Navbar() {
                 <Link
                   href={item.href}
                   className="flex items-center text-gray-600 dark:text-gray-300 hover:text-[#FF6B38] dark:hover:text-[#FF6B38] transition-colors duration-200 text-sm"
+                  {...getLinkProps(item)}
                 >
                   {item.title}
-                  {item.submenu && <ChevronDown className="w-4 h-4 ml-1 text-gray-400 dark:text-gray-500" />}
+                  {item.submenu && (
+                    <ChevronDown className="w-4 h-4 ml-1 text-gray-400 dark:text-gray-500" />
+                  )}
                 </Link>
 
-                {/* Desktop Dropdown Menu */}
                 <AnimatePresence>
                   {item.submenu && openMenu === index && (
                     <motion.div
@@ -150,9 +230,10 @@ export default function Navbar() {
                     >
                       {item.submenu.map((subItem, subIndex) => (
                         <Link
-                          key={subIndex}
+                          key={`${subItem.title}-${subIndex}`}
                           href={subItem.href}
                           className="block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:text-[#FF6B38] dark:hover:text-[#FF6B38] hover:bg-gray-50 dark:hover:bg-gray-700"
+                          {...getLinkProps(subItem)}
                         >
                           {subItem.title}
                         </Link>
@@ -164,20 +245,18 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* CTA Button and Theme Toggle - Desktop */}
           <div className="hidden lg:flex items-center space-x-3">
             <button
-              onClick={scrollToContact}
+              onClick={handleCta}
               className="inline-flex items-center px-4 py-2 border-2 border-primary text-primary rounded-full text-xs font-medium hover:bg-primary hover:text-primary-foreground transition-colors duration-200 whitespace-nowrap"
             >
-              Get quote
+              {ctaLabel}
             </button>
-            <ThemeToggle />
+            {(config.showThemeToggle ?? true) && <ThemeToggle />}
           </div>
 
-          {/* Mobile Menu Button */}
           <div className="flex items-center space-x-4 lg:hidden">
-            <ThemeToggle />
+            {(config.showThemeToggle ?? true) && <ThemeToggle />}
             <button
               onClick={toggleMobileMenu}
               className="p-2 relative z-50 text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
@@ -187,7 +266,6 @@ export default function Navbar() {
             </button>
           </div>
 
-          {/* Mobile Menu Overlay */}
           <AnimatePresence>
             {isMobileMenuOpen && (
               <>
@@ -214,8 +292,8 @@ export default function Navbar() {
                     >
                       <X className="w-6 h-6" />
                     </button>
-                    {menuItems.map((item, index) => (
-                      <div key={index} className="mb-4">
+                    {config.menuItems.map((item, index) => (
+                      <div key={`${item.title}-${index}`} className="mb-4">
                         {item.submenu ? (
                           <div>
                             <button
@@ -224,8 +302,9 @@ export default function Navbar() {
                             >
                               <span className="text-base font-medium">{item.title}</span>
                               <ChevronDown
-                                className={`w-5 h-5 text-gray-400 dark:text-gray-500 transition-transform duration-200 ${openMobileSubmenu === index ? "rotate-180" : ""
-                                  }`}
+                                className={`w-5 h-5 text-gray-400 dark:text-gray-500 transition-transform duration-200 ${
+                                  openMobileSubmenu === index ? 'rotate-180' : ''
+                                }`}
                               />
                             </button>
                             <AnimatePresence>
@@ -240,10 +319,11 @@ export default function Navbar() {
                                   <div className="pl-4 py-2 space-y-2">
                                     {item.submenu.map((subItem, subIndex) => (
                                       <Link
-                                        key={subIndex}
+                                        key={`${subItem.title}-${subIndex}`}
                                         href={subItem.href}
                                         className="block text-gray-600 dark:text-gray-300 hover:text-[#FF6B38] dark:hover:text-[#FF6B38] py-2 text-sm border-l-2 border-gray-200 dark:border-gray-600 pl-3 hover:border-[#FF6B38] dark:hover:border-[#FF6B38] transition-colors"
                                         onClick={closeMobileMenu}
+                                        {...getLinkProps(subItem)}
                                       >
                                         {subItem.title}
                                       </Link>
@@ -258,21 +338,24 @@ export default function Navbar() {
                             href={item.href}
                             className="block text-gray-900 dark:text-gray-200 py-2 text-base font-medium"
                             onClick={closeMobileMenu}
+                            {...getLinkProps(item)}
                           >
                             {item.title}
                           </Link>
                         )}
                       </div>
                     ))}
-                    <button
-                      onClick={() => {
-                        scrollToContact()
-                        closeMobileMenu()
-                      }}
-                      className="mt-6 inline-flex items-center justify-center w-full px-6 py-3 border-2 border-[#FF6B38] text-[#FF6B38] rounded-full text-sm font-medium hover:bg-[#FF6B38] hover:text-white transition-colors duration-200"
-                    >
-                      Get a quote!
-                    </button>
+                    {ctaLabel && (
+                      <button
+                        onClick={() => {
+                          handleCta()
+                          closeMobileMenu()
+                        }}
+                        className="mt-6 inline-flex items-center justify-center w-full px-6 py-3 border-2 border-[#FF6B38] text-[#FF6B38] rounded-full text-sm font-medium hover:bg-[#FF6B38] hover:text-white transition-colors duration-200"
+                      >
+                        {ctaLabel}
+                      </button>
+                    )}
                   </div>
                 </motion.div>
               </>
@@ -283,4 +366,3 @@ export default function Navbar() {
     </header>
   )
 }
-

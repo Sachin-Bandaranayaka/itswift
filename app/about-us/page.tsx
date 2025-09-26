@@ -16,15 +16,50 @@ interface TeamMember {
     image?: string
 }
 
-interface Value {
+interface TeamMemberConfig {
+    nameKey: string
+    nameFallback: string
+    roleKey: string
+    roleFallback: string
+    descriptionKey: string
+    descriptionFallback: string
+}
+
+interface ValueItem {
     title: string
     description: string
     icon: React.ReactNode
 }
 
-interface FAQ {
+interface ValueItemConfig {
+    titleKey: string
+    titleFallback: string
+    descriptionKey: string
+    descriptionFallback: string
+    icon: React.ReactNode
+}
+
+interface FAQItem {
     question: string
     answer: string
+}
+
+interface FAQItemConfig {
+    questionKey: string
+    questionFallback: string
+    answerKey: string
+    answerFallback: string
+}
+
+type MetricItem = {
+    value: string
+    label: string
+}
+
+type MetricConfig = {
+    key: string
+    valueFallback: string
+    labelFallback: string
 }
 
 export default function AboutUsPage() {
@@ -103,64 +138,300 @@ export default function AboutUsPage() {
         return content[key] || fallback
     }
 
-    const teamMembers: TeamMember[] = [
+    const heroButtons = {
+        primary: getContent('about_hero_primary_cta', 'Our AI Journey'),
+        secondary: getContent('about_hero_secondary_cta', 'Meet Our Leadership')
+    }
+
+    const values: ValueItem[] = valueConfigs.map((value) => ({
+        title: getContent(value.titleKey, value.titleFallback),
+        description: getContent(value.descriptionKey, value.descriptionFallback),
+        icon: value.icon
+    }))
+
+    const faqs: FAQItem[] = faqConfigs.map((faq) => ({
+        question: getContent(faq.questionKey, faq.questionFallback),
+        answer: getContent(faq.answerKey, faq.answerFallback)
+    }))
+
+    const teamMembers: TeamMember[] = teamMemberConfigs.map((member) => ({
+        name: getContent(member.nameKey, member.nameFallback),
+        role: getContent(member.roleKey, member.roleFallback),
+        description: getContent(member.descriptionKey, member.descriptionFallback)
+    }))
+
+    const foundationPillarConfigs = [
         {
-            name: "Keshavan Belagod",
-            role: "Co-founder and Director",
-            description: "Over 25 years of profound experience in the e-Learning sector. A regular and respected speaker at national e-Learning conferences in India, Keshavan holds an MPhil in e-Learning."
+            key: 'proven_track_record',
+            icon: <Trophy className="h-8 w-8 text-white" />,
+            iconWrapperClass: 'bg-orange-500',
+            borderClass: 'border-orange-100',
+            titleFallback: 'Proven Track Record',
+            descriptionFallback: 'We have successfully delivered over 1,000 projects for more than 200 distinct clients across diverse industries, including global leaders like Google, Microsoft, and Siemens.',
+            metricsLayout: 'grid',
+            metrics: [
+                { key: 'projects', valueFallback: '1,000+', labelFallback: 'Projects' },
+                { key: 'clients', valueFallback: '200+', labelFallback: 'Clients' },
+                { key: 'years', valueFallback: '25+', labelFallback: 'Years' }
+            ] as MetricConfig[]
         },
         {
-            name: "Madhusudhan Reddy",
-            role: "Co-founder and Director",
-            description: "Technical head of the company with over 20 years of rich experience. Madhusudhan holds an MTech in Computer Science, providing a strong technical foundation for our innovative solutions."
+            key: 'client_relationship_mastery',
+            icon: <Users className="h-8 w-8 text-white" />,
+            iconWrapperClass: 'bg-blue-500',
+            borderClass: 'border-blue-100',
+            titleFallback: 'Client Relationship Mastery',
+            descriptionFallback: 'Our philosophy is built on creating long-term value, a stark contrast to the transactional nature of most providers. This is validated by client relationships that span decades and an 80% inquiry-to-order conversion rate sustained over the last 6-7 years.',
+            metricsLayout: 'highlight',
+            metrics: [
+                { key: 'conversion_rate', valueFallback: '80%', labelFallback: 'Inquiry-to-Order Conversion Rate' }
+            ] as MetricConfig[]
         },
         {
-            name: "Manirangan",
-            role: "Co-founder and Director",
-            description: "Over 20 years of experience in e-Learning, application software selling, and IT consulting. Computer Science graduate with an MBA, blending technical knowledge with strategic business acumen."
+            key: 'value_based_partnerships',
+            icon: <Target className="h-8 w-8 text-white" />,
+            iconWrapperClass: 'bg-green-500',
+            borderClass: 'border-green-100',
+            titleFallback: 'Value-Based Partnerships',
+            descriptionFallback: 'We transform one-time projects into ongoing rate contracts, demonstrating our ability to deliver long-term organizational impact. Our approach focuses on sustainable partnerships rather than transactional relationships.',
+            metricsLayout: 'none',
+            metrics: [] as MetricConfig[]
+        },
+        {
+            key: 'operational_excellence',
+            icon: <BarChart className="h-8 w-8 text-white" />,
+            iconWrapperClass: 'bg-purple-500',
+            borderClass: 'border-purple-100',
+            titleFallback: 'Operational Excellence',
+            descriptionFallback: 'We have achieved consistent growth and operate with zero debt, a testament to our financial discipline. Our lean operational structure allows us to handle significant revenue variations with stable monthly costs, ensuring both competitive advantage and scalability.',
+            metricsLayout: 'none',
+            metrics: [] as MetricConfig[]
         }
     ]
 
-    const values: Value[] = [
+    const foundationPillars = foundationPillarConfigs.map((pillar) => ({
+        key: pillar.key,
+        icon: pillar.icon,
+        iconWrapperClass: pillar.iconWrapperClass,
+        borderClass: pillar.borderClass,
+        metricsLayout: pillar.metricsLayout as 'grid' | 'highlight' | 'none',
+        title: getContent(`about_foundation_${pillar.key}_title`, pillar.titleFallback),
+        description: getContent(`about_foundation_${pillar.key}_description`, pillar.descriptionFallback),
+        metrics: pillar.metrics.map((metric) => ({
+            value: getContent(`about_foundation_${pillar.key}_metric_${metric.key}_value`, metric.valueFallback),
+            label: getContent(`about_foundation_${pillar.key}_metric_${metric.key}_label`, metric.labelFallback)
+        })) as MetricItem[]
+    }))
+
+    const aiSectionContent = {
+        title: getContent('about_ai_section_title', 'Our Edge: An Authentic, Two-Year AI-Powered Transformation'),
+        description: getContent('about_ai_section_description', 'We are a pioneer in the authentic implementation of AI within the L&D industry. Our systematic, two-year AI transformation journey is not a theoretical exercise but a practical integration validated by enterprise client acceptance.'),
+        philosophyTitle: getContent('about_ai_philosophy_title', 'The Philosophy of Human-AI Collaboration'),
+        philosophyDescription: getContent('about_ai_philosophy_description', 'Our approach is centered on human augmentation, not replacement. AI generates, but human experts validate and review, ensuring that we improve efficiency without compromising quality. This model has been critical to gaining enterprise client acceptance for AI-enhanced deliverables.')
+    }
+
+    const aiJourneyCardConfigs = [
         {
-            title: "Client-Centricity",
-            description: "Your business goals are our priority. We listen, understand, and then design solutions that are perfectly aligned with your needs.",
+            key: 'systematic_journey',
+            icon: <Brain className="h-8 w-8 text-white" />,
+            iconWrapperClass: 'bg-blue-500',
+            wrapperClass: 'bg-gradient-to-br from-blue-50 to-blue-100',
+            titleFallback: 'A Systematic Journey',
+            descriptionFallback: 'Beginning in April 2023 with the adoption of ChatGPT for scriptwriting, our journey progressed through six distinct phases. This methodical evolution included integrating AI for visual storyboards, optimizing entire project workflows, and strategically selecting AI-enhanced tools.',
+            bulletFallbacks: [
+                'ChatGPT Integration for Scriptwriting',
+                'AI-Enhanced Visual Storyboards',
+                'Complete Workflow Optimization'
+            ]
+        },
+        {
+            key: 'ecosystem_consolidation',
+            icon: <Globe className="h-8 w-8 text-white" />,
+            iconWrapperClass: 'bg-green-500',
+            wrapperClass: 'bg-gradient-to-br from-green-50 to-green-100',
+            titleFallback: 'Ecosystem Consolidation',
+            descriptionFallback: 'In 2025, we strategically consolidated our toolset around the Google ecosystem, fully transitioning to Gemini to enhance efficiency and optimize costs. Today, AI is fully integrated into our core processes, including instructional design, storyboards, media planning, scheduling, and client management.',
+            bulletFallbacks: [] as string[],
+            highlightMetric: {
+                valueFallback: '60-70%',
+                labelFallback: 'Efficiency Gains in Content Preparation'
+            }
+        }
+    ] as const
+
+    const aiJourneyCards = aiJourneyCardConfigs.map((card) => ({
+        key: card.key,
+        icon: card.icon,
+        iconWrapperClass: card.iconWrapperClass,
+        wrapperClass: card.wrapperClass,
+        title: getContent(`about_ai_${card.key}_title`, card.titleFallback),
+        description: getContent(`about_ai_${card.key}_description`, card.descriptionFallback),
+        bullets: card.bulletFallbacks.map((bullet, index) => getContent(`about_ai_${card.key}_bullet_${index + 1}`, bullet)),
+        highlightMetric: card.highlightMetric
+            ? {
+                value: getContent(`about_ai_${card.key}_highlight_value`, card.highlightMetric.valueFallback),
+                label: getContent(`about_ai_${card.key}_highlight_label`, card.highlightMetric.labelFallback)
+            }
+            : null
+    }))
+
+    const valuesSection = {
+        title: getContent('about_values_section_title', 'What Guides Us: Our Core Values and Unwavering Commitment')
+    }
+
+    const faqSection = {
+        title: getContent('about_faq_section_title', 'Frequently Asked Questions (FAQs) about eLearning in Bangalore'),
+        categoryLabel: getContent('about_faq_category_label', 'ELEARNING IN BANGALORE')
+    }
+
+    const leadershipSection = {
+        title: getContent('about_leadership_section_title', 'The Minds Behind Swift Solution: Our Leadership Team'),
+        description: getContent('about_leadership_section_description', 'Our leadership team brings a wealth of experience and a shared passion for leveraging technology to enhance learning and performance. Their expertise is a key reason why Swift Solution is considered one of the top eLearning companies in Bangalore.')
+    }
+
+    const leadershipStatsConfig = [
+        { key: 'projects', valueFallback: '1,000+', labelFallback: 'Projects Delivered' },
+        { key: 'clients', valueFallback: '200+', labelFallback: 'Distinct Clients' },
+        { key: 'conversion_rate', valueFallback: '80%', labelFallback: 'Conversion Rate' },
+        { key: 'years_experience', valueFallback: '25+', labelFallback: 'Years Experience' }
+    ]
+
+    const leadershipStats = leadershipStatsConfig.map((stat) => ({
+        value: getContent(`about_leadership_stat_${stat.key}_value`, stat.valueFallback),
+        label: getContent(`about_leadership_stat_${stat.key}_label`, stat.labelFallback)
+    }))
+
+    const uvpSection = {
+        title: getContent('about_uvp_section_title', 'The Swift Solution Unique Value Proposition: Why We Lead the Market'),
+        description: getContent('about_uvp_section_description', 'Our unique value proposition is the convergence of three powerful, rarely combined elements'),
+        highlightTitle: getContent('about_uvp_highlight_title', 'Market Leadership Based on Authentic Experience'),
+        highlightDescription: getContent('about_uvp_highlight_description', 'Our market leadership is based on authentic experience, not theoretical claims. We offer our clients, partners, and the industry a proven methodology for navigating the future of learning—a future that is efficient, effective, and fundamentally human.')
+    }
+
+    const uvpCardConfigs = [
+        {
+            key: 'deep_domain_expertise',
+            icon: <Award className="h-10 w-10 text-white" />,
+            iconWrapperClass: 'bg-blue-500',
+            wrapperClass: 'bg-gradient-to-br from-blue-50 to-blue-100',
+            titleFallback: 'Deep Domain Expertise',
+            descriptionFallback: 'Validated by 25 years of client success and deep market insight. Our extensive experience across diverse industries gives us unparalleled understanding of learning challenges.'
+        },
+        {
+            key: 'authentic_ai_transformation',
+            icon: <Brain className="h-10 w-10 text-white" />,
+            iconWrapperClass: 'bg-green-500',
+            wrapperClass: 'bg-gradient-to-br from-green-50 to-green-100',
+            titleFallback: 'Authentic AI Transformation',
+            descriptionFallback: "Proven by a systematic, two-year implementation with measurable results and enterprise client acceptance. We don't just talk about AI - we live it."
+        },
+        {
+            key: 'unwavering_ethical_leadership',
+            icon: <Shield className="h-10 w-10 text-white" />,
+            iconWrapperClass: 'bg-purple-500',
+            wrapperClass: 'bg-gradient-to-br from-purple-50 to-purple-100',
+            titleFallback: 'Unwavering Ethical Leadership',
+            descriptionFallback: 'Demonstrated through transparent, value-based practices that build lasting trust and industry credibility. Our zero-debt operation speaks to our financial integrity.'
+        }
+    ]
+
+    const uvpCards = uvpCardConfigs.map((card) => ({
+        key: card.key,
+        icon: card.icon,
+        iconWrapperClass: card.iconWrapperClass,
+        wrapperClass: card.wrapperClass,
+        title: getContent(`about_uvp_${card.key}_title`, card.titleFallback),
+        description: getContent(`about_uvp_${card.key}_description`, card.descriptionFallback)
+    }))
+
+    const finalCtaSection = {
+        title: getContent('about_final_cta_title', 'Choose Swift Solution: Your Trusted Partner for AI-Powered eLearning'),
+        description: getContent('about_final_cta_description', 'When you partner with Swift Solution, you are choosing one of the top eLearning companies in Bangalore with a proven track record of delivering excellence. We are passionate about helping your organization achieve its full potential through innovative and effective custom eLearning solutions.')
+    }
+
+    const teamMemberConfigs: TeamMemberConfig[] = [
+        {
+            nameKey: 'about_leadership_member_1_name',
+            nameFallback: 'Keshavan Belagod',
+            roleKey: 'about_leadership_member_1_role',
+            roleFallback: 'Co-founder and Director',
+            descriptionKey: 'about_leadership_member_1_description',
+            descriptionFallback: 'Over 25 years of profound experience in the e-Learning sector. A regular and respected speaker at national e-Learning conferences in India, Keshavan holds an MPhil in e-Learning.'
+        },
+        {
+            nameKey: 'about_leadership_member_2_name',
+            nameFallback: 'Madhusudhan Reddy',
+            roleKey: 'about_leadership_member_2_role',
+            roleFallback: 'Co-founder and Director',
+            descriptionKey: 'about_leadership_member_2_description',
+            descriptionFallback: 'Technical head of the company with over 20 years of rich experience. Madhusudhan holds an MTech in Computer Science, providing a strong technical foundation for our innovative solutions.'
+        },
+        {
+            nameKey: 'about_leadership_member_3_name',
+            nameFallback: 'Manirangan',
+            roleKey: 'about_leadership_member_3_role',
+            roleFallback: 'Co-founder and Director',
+            descriptionKey: 'about_leadership_member_3_description',
+            descriptionFallback: 'Over 20 years of experience in e-Learning, application software selling, and IT consulting. Computer Science graduate with an MBA, blending technical knowledge with strategic business acumen.'
+        }
+    ]
+
+    const valueConfigs: ValueItemConfig[] = [
+        {
+            titleKey: 'about_value_client_centricity_title',
+            titleFallback: 'Client-Centricity',
+            descriptionKey: 'about_value_client_centricity_description',
+            descriptionFallback: 'Your business goals are our priority. We listen, understand, and then design solutions that are perfectly aligned with your needs.',
             icon: <Heart className="h-8 w-8 text-orange-500" />
         },
         {
-            title: "Innovation in Learning",
-            description: "We continuously explore new technologies and instructional approaches to make learning more engaging and effective.",
+            titleKey: 'about_value_innovation_title',
+            titleFallback: 'Innovation in Learning',
+            descriptionKey: 'about_value_innovation_description',
+            descriptionFallback: 'We continuously explore new technologies and instructional approaches to make learning more engaging and effective.',
             icon: <Lightbulb className="h-8 w-8 text-orange-500" />
         },
         {
-            title: "Measurable Impact",
-            description: "We focus on delivering eLearning solutions that lead to tangible improvements in performance and clear ROI.",
+            titleKey: 'about_value_measurable_impact_title',
+            titleFallback: 'Measurable Impact',
+            descriptionKey: 'about_value_measurable_impact_description',
+            descriptionFallback: 'We focus on delivering eLearning solutions that lead to tangible improvements in performance and clear ROI.',
             icon: <BarChart className="h-8 w-8 text-orange-500" />
         },
         {
-            title: "Expertise & Experience",
-            description: "Leveraging over 25 years of specialized experience in the eLearning domain, particularly serving clients in Bangalore and across India.",
+            titleKey: 'about_value_expertise_title',
+            titleFallback: 'Expertise & Experience',
+            descriptionKey: 'about_value_expertise_description',
+            descriptionFallback: 'Leveraging over 25 years of specialized experience in the eLearning domain, particularly serving clients in Bangalore and across India.',
             icon: <Award className="h-8 w-8 text-orange-500" />
         },
         {
-            title: "Collaborative Partnership",
-            description: "We believe in working closely with our clients, fostering a partnership built on trust and shared objectives.",
+            titleKey: 'about_value_collaboration_title',
+            titleFallback: 'Collaborative Partnership',
+            descriptionKey: 'about_value_collaboration_description',
+            descriptionFallback: 'We believe in working closely with our clients, fostering a partnership built on trust and shared objectives.',
             icon: <Users className="h-8 w-8 text-orange-500" />
         }
     ]
 
-    const faqs: FAQ[] = [
+    const faqConfigs: FAQItemConfig[] = [
         {
-            question: "Why should our business consider outsourcing to eLearning companies in Bangalore?",
-            answer: "Outsourcing to eLearning companies in Bangalore offers a strategic advantage due to the region's vast talent pool of skilled instructional designers, multimedia developers, and project managers. Bangalore, known as India's Silicon Valley, is a hub for innovation and technology, ensuring access to cutting-edge eLearning solutions. Moreover, eLearning companies in Bangalore often provide significant cost efficiencies without compromising on quality, delivering world-class custom eLearning content that meets global standards."
+            questionKey: 'about_faq_1_question',
+            questionFallback: 'Why should our business consider outsourcing to eLearning companies in Bangalore?',
+            answerKey: 'about_faq_1_answer',
+            answerFallback: 'Outsourcing to eLearning companies in Bangalore offers a strategic advantage due to the region\'s vast talent pool of skilled instructional designers, multimedia developers, and project managers. Bangalore, known as India\'s Silicon Valley, is a hub for innovation and technology, ensuring access to cutting-edge eLearning solutions. Moreover, eLearning companies in Bangalore often provide significant cost efficiencies without compromising on quality, delivering world-class custom eLearning content that meets global standards.'
         },
         {
-            question: "What makes Bangalore a preferred destination for finding top-tier eLearning companies?",
-            answer: "Bangalore is a preferred destination because it hosts a high concentration of premier educational institutions and a thriving IT and BPO sector, which cultivates a rich ecosystem for eLearning companies. This environment ensures a continuous supply of professionals proficient in the latest eLearning technologies and instructional design methodologies. When you partner with eLearning companies in Bangalore, you tap into this deep expertise and a culture of continuous learning and innovation."
+            questionKey: 'about_faq_2_question',
+            questionFallback: 'What makes Bangalore a preferred destination for finding top-tier eLearning companies?',
+            answerKey: 'about_faq_2_answer',
+            answerFallback: 'Bangalore is a preferred destination because it hosts a high concentration of premier educational institutions and a thriving IT and BPO sector, which cultivates a rich ecosystem for eLearning companies. This environment ensures a continuous supply of professionals proficient in the latest eLearning technologies and instructional design methodologies. When you partner with eLearning companies in Bangalore, you tap into this deep expertise and a culture of continuous learning and innovation.'
         },
         {
-            question: "How do eLearning companies in Bangalore ensure quality and effective communication?",
-            answer: "Reputable eLearning companies in Bangalore prioritize quality and client communication by adhering to international standards (like ISO certifications) and employing robust project management methodologies (like Agile). Many professionals in Bangalore have excellent English proficiency and experience working with global clients, ensuring smooth collaboration. Furthermore, eLearning companies in Bangalore often leverage modern communication tools and flexible working hours to bridge geographical distances and time zone differences effectively."
+            questionKey: 'about_faq_3_question',
+            questionFallback: 'How do eLearning companies in Bangalore ensure quality and effective communication?',
+            answerKey: 'about_faq_3_answer',
+            answerFallback: 'Reputable eLearning companies in Bangalore prioritize quality and client communication by adhering to international standards (like ISO certifications) and employing robust project management methodologies (like Agile). Many professionals in Bangalore have excellent English proficiency and experience working with global clients, ensuring smooth collaboration. Furthermore, eLearning companies in Bangalore often leverage modern communication tools and flexible working hours to bridge geographical distances and time zone differences effectively.'
         }
     ]
 
@@ -188,13 +459,13 @@ export default function AboutUsPage() {
                                 onClick={scrollToAIJourney}
                                 className="bg-white text-orange-600 px-8 py-3 rounded-lg font-semibold hover:bg-orange-50 transition-colors duration-200"
                             >
-                                Our AI Journey
+                                {heroButtons.primary}
                             </button>
                             <button 
                                 onClick={scrollToLeadership}
                                 className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-orange-600 transition-colors duration-200"
                             >
-                                Meet Our Leadership
+                                {heroButtons.secondary}
                             </button>
                         </div>
                     </div>
@@ -217,71 +488,42 @@ export default function AboutUsPage() {
 
                         {/* Foundation Pillars */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-                            <div className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300 border border-orange-100">
-                                <div className="flex items-center mb-6">
-                                    <div className="bg-orange-500 p-3 rounded-full">
-                                        <Trophy className="h-8 w-8 text-white" />
+                            {foundationPillars.map((pillar) => (
+                                <div
+                                    key={pillar.key}
+                                    className={`bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300 border ${pillar.borderClass}`}
+                                >
+                                    <div className="flex items-center mb-6">
+                                        <div className={`${pillar.iconWrapperClass} p-3 rounded-full`}>
+                                            {pillar.icon}
+                                        </div>
+                                        <h3 className="text-2xl font-bold ml-4 text-gray-900">{pillar.title}</h3>
                                     </div>
-                                    <h3 className="text-2xl font-bold ml-4 text-gray-900">Proven Track Record</h3>
+                                    <p className={`text-gray-700 leading-relaxed${pillar.metrics.length > 0 ? ' mb-4' : ''}`}>
+                                        {pillar.description}
+                                    </p>
+                                    {pillar.metrics.length > 0 && pillar.metricsLayout === 'grid' && (
+                                        <div className="grid grid-cols-3 gap-4 text-center">
+                                            {pillar.metrics.map((metric) => (
+                                                <div key={metric.label}>
+                                                    <div className="text-2xl font-bold text-orange-600">{metric.value}</div>
+                                                    <div className="text-gray-600 text-sm">{metric.label}</div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                    {pillar.metrics.length > 0 && pillar.metricsLayout === 'highlight' && (
+                                        <div className="bg-blue-50 rounded-lg p-4">
+                                            {pillar.metrics.map((metric) => (
+                                                <div key={metric.label} className="text-center">
+                                                    <div className="text-3xl font-bold text-blue-600">{metric.value}</div>
+                                                    <div className="text-blue-700">{metric.label}</div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
                                 </div>
-                                <p className="text-gray-700 leading-relaxed mb-4">
-                                    We have successfully delivered over 1,000 projects for more than 200 distinct clients across diverse industries, including global leaders like Google, Microsoft, and Siemens.
-                                </p>
-                                <div className="grid grid-cols-3 gap-4 text-center">
-                                    <div>
-                                        <div className="text-2xl font-bold text-orange-600">1,000+</div>
-                                        <div className="text-gray-600 text-sm">Projects</div>
-                                    </div>
-                                    <div>
-                                        <div className="text-2xl font-bold text-orange-600">200+</div>
-                                        <div className="text-gray-600 text-sm">Clients</div>
-                                    </div>
-                                    <div>
-                                        <div className="text-2xl font-bold text-orange-600">25+</div>
-                                        <div className="text-gray-600 text-sm">Years</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300 border border-blue-100">
-                                <div className="flex items-center mb-6">
-                                    <div className="bg-blue-500 p-3 rounded-full">
-                                        <Users className="h-8 w-8 text-white" />
-                                    </div>
-                                    <h3 className="text-2xl font-bold ml-4 text-gray-900">Client Relationship Mastery</h3>
-                                </div>
-                                <p className="text-gray-700 leading-relaxed mb-4">
-                                    Our philosophy is built on creating long-term value, a stark contrast to the transactional nature of most providers. This is validated by client relationships that span decades and an 80% inquiry-to-order conversion rate sustained over the last 6-7 years.
-                                </p>
-                                <div className="bg-blue-50 rounded-lg p-4">
-                                    <div className="text-3xl font-bold text-blue-600 text-center">80%</div>
-                                    <div className="text-blue-700 text-center">Inquiry-to-Order Conversion Rate</div>
-                                </div>
-                            </div>
-
-                            <div className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300 border border-green-100">
-                                <div className="flex items-center mb-6">
-                                    <div className="bg-green-500 p-3 rounded-full">
-                                        <Target className="h-8 w-8 text-white" />
-                                    </div>
-                                    <h3 className="text-2xl font-bold ml-4 text-gray-900">Value-Based Partnerships</h3>
-                                </div>
-                                <p className="text-gray-700 leading-relaxed">
-                                    We transform one-time projects into ongoing rate contracts, demonstrating our ability to deliver long-term organizational impact. Our approach focuses on sustainable partnerships rather than transactional relationships.
-                                </p>
-                            </div>
-
-                            <div className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300 border border-purple-100">
-                                <div className="flex items-center mb-6">
-                                    <div className="bg-purple-500 p-3 rounded-full">
-                                        <BarChart className="h-8 w-8 text-white" />
-                                    </div>
-                                    <h3 className="text-2xl font-bold ml-4 text-gray-900">Operational Excellence</h3>
-                                </div>
-                                <p className="text-gray-700 leading-relaxed">
-                                    We have achieved consistent growth and operate with zero debt, a testament to our financial discipline. Our lean operational structure allows us to handle significant revenue variations with stable monthly costs, ensuring both competitive advantage and scalability.
-                                </p>
-                            </div>
+                            ))}
                         </div>
                     </div>
                 </div>
@@ -292,61 +534,48 @@ export default function AboutUsPage() {
                     <div className="max-w-6xl mx-auto">
                         <div className="text-center mb-16">
                             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
-                                Our Edge: An Authentic, Two-Year AI-Powered Transformation
+                                {aiSectionContent.title}
                             </h2>
                             <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-blue-600 mx-auto mb-6"></div>
                             <p className="text-xl text-gray-600 max-w-4xl mx-auto">
-                                We are a pioneer in the authentic implementation of AI within the L&D industry. Our systematic, two-year AI transformation journey is not a theoretical exercise but a practical integration validated by enterprise client acceptance.
+                                {aiSectionContent.description}
                             </p>
                         </div>
 
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
-                            <div>
-                                <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8">
-                                    <div className="flex items-center mb-6">
-                                        <div className="bg-blue-500 p-3 rounded-full">
-                                            <Brain className="h-8 w-8 text-white" />
+                            {aiJourneyCards.map((card) => (
+                                <div key={card.key}>
+                                    <div className={`${card.wrapperClass} rounded-2xl p-8`}>
+                                        <div className="flex items-center mb-6">
+                                            <div className={`${card.iconWrapperClass} p-3 rounded-full`}>
+                                                {card.icon}
+                                            </div>
+                                            <h3 className="text-2xl font-bold ml-4 text-gray-900">{card.title}</h3>
                                         </div>
-                                        <h3 className="text-2xl font-bold ml-4 text-gray-900">A Systematic Journey</h3>
-                                    </div>
-                                    <p className="text-gray-700 leading-relaxed mb-6">
-                                        Beginning in April 2023 with the adoption of ChatGPT for scriptwriting, our journey progressed through six distinct phases. This methodical evolution included integrating AI for visual storyboards, optimizing entire project workflows, and strategically selecting AI-enhanced tools.
-                                    </p>
-                                    <div className="space-y-3">
-                                        <div className="flex items-center">
-                                            <CheckCircle className="h-5 w-5 text-blue-500 mr-3" />
-                                            <span className="text-gray-700">ChatGPT Integration for Scriptwriting</span>
-                                        </div>
-                                        <div className="flex items-center">
-                                            <CheckCircle className="h-5 w-5 text-blue-500 mr-3" />
-                                            <span className="text-gray-700">AI-Enhanced Visual Storyboards</span>
-                                        </div>
-                                        <div className="flex items-center">
-                                            <CheckCircle className="h-5 w-5 text-blue-500 mr-3" />
-                                            <span className="text-gray-700">Complete Workflow Optimization</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-8">
-                                    <div className="flex items-center mb-6">
-                                        <div className="bg-green-500 p-3 rounded-full">
-                                            <Globe className="h-8 w-8 text-white" />
-                                        </div>
-                                        <h3 className="text-2xl font-bold ml-4 text-gray-900">Ecosystem Consolidation</h3>
-                                    </div>
-                                    <p className="text-gray-700 leading-relaxed mb-6">
-                                        In 2025, we strategically consolidated our toolset around the Google ecosystem, fully transitioning to Gemini to enhance efficiency and optimize costs. Today, AI is fully integrated into our core processes, including instructional design, storyboards, media planning, scheduling, and client management.
-                                    </p>
-                                    <div className="bg-white rounded-lg p-4">
-                                        <div className="text-center">
-                                            <div className="text-3xl font-bold text-green-600 mb-2">60-70%</div>
-                                            <div className="text-green-700">Efficiency Gains in Content Preparation</div>
-                                        </div>
+                                        <p className={`text-gray-700 leading-relaxed${card.bullets.length > 0 || card.highlightMetric ? ' mb-6' : ''}`}>
+                                            {card.description}
+                                        </p>
+                                        {card.bullets.length > 0 && (
+                                            <div className="space-y-3">
+                                                {card.bullets.map((bullet) => (
+                                                    <div key={bullet} className="flex items-center">
+                                                        <CheckCircle className="h-5 w-5 text-blue-500 mr-3" />
+                                                        <span className="text-gray-700">{bullet}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                        {card.highlightMetric && (
+                                            <div className="bg-white rounded-lg p-4">
+                                                <div className="text-center">
+                                                    <div className="text-3xl font-bold text-green-600 mb-2">{card.highlightMetric.value}</div>
+                                                    <div className="text-green-700">{card.highlightMetric.label}</div>
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
-                            </div>
+                            ))}
                         </div>
 
                         <div className="bg-gradient-to-r from-orange-50 to-orange-100 rounded-2xl p-8">
@@ -355,10 +584,10 @@ export default function AboutUsPage() {
                                     <div className="bg-orange-500 p-3 rounded-full">
                                         <Zap className="h-8 w-8 text-white" />
                                     </div>
-                                    <h3 className="text-2xl font-bold ml-4 text-gray-900">The Philosophy of Human-AI Collaboration</h3>
+                                    <h3 className="text-2xl font-bold ml-4 text-gray-900">{aiSectionContent.philosophyTitle}</h3>
                                 </div>
                                 <p className="text-gray-700 leading-relaxed max-w-4xl mx-auto">
-                                    Our approach is centered on human augmentation, not replacement. AI generates, but human experts validate and review, ensuring that we improve efficiency without compromising quality. This model has been critical to gaining enterprise client acceptance for AI-enhanced deliverables.
+                                    {aiSectionContent.philosophyDescription}
                                 </p>
                             </div>
                         </div>
@@ -371,7 +600,7 @@ export default function AboutUsPage() {
                     <div className="max-w-6xl mx-auto">
                         <div className="text-center mb-16">
                             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
-                                What Guides Us: Our Core Values and Unwavering Commitment
+                                {valuesSection.title}
                             </h2>
                             <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-orange-600 mx-auto mb-6"></div>
                         </div>
@@ -398,7 +627,7 @@ export default function AboutUsPage() {
                         {/* Left side - title */}
                         <div>
                             <h2 className="text-4xl font-bold sticky top-24">
-                                Frequently Asked Questions (FAQs) about eLearning in Bangalore
+                                {faqSection.title}
                             </h2>
                         </div>
 
@@ -406,7 +635,7 @@ export default function AboutUsPage() {
                         <div>
                             <div className="mb-12">
                                 <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-6">
-                                    ELEARNING IN BANGALORE
+                                    {faqSection.categoryLabel}
                                 </h3>
                                 <div className="space-y-px">
                                     {faqs.map((faq, index) => {
@@ -453,11 +682,11 @@ export default function AboutUsPage() {
                     <div className="max-w-6xl mx-auto">
                         <div className="text-center mb-16">
                             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
-                                The Minds Behind Swift Solution: Our Leadership Team
+                                {leadershipSection.title}
                             </h2>
                             <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-orange-600 mx-auto mb-6"></div>
                             <p className="text-xl text-gray-600 max-w-4xl mx-auto">
-                                Our leadership team brings a wealth of experience and a shared passion for leveraging technology to enhance learning and performance. Their expertise is a key reason why Swift Solution is considered one of the top eLearning companies in Bangalore.
+                                {leadershipSection.description}
                             </p>
                         </div>
 
@@ -478,22 +707,12 @@ export default function AboutUsPage() {
                         <div className="bg-gradient-to-r from-orange-50 to-orange-100 rounded-2xl p-8">
                             <h3 className="text-3xl font-bold mb-8 text-center text-gray-900">Swift Solution by the Numbers</h3>
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-                                <div>
-                                    <div className="text-4xl font-bold text-orange-600 mb-2">1,000+</div>
-                                    <div className="text-gray-700 font-medium">Projects Delivered</div>
-                                </div>
-                                <div>
-                                    <div className="text-4xl font-bold text-orange-600 mb-2">200+</div>
-                                    <div className="text-gray-700 font-medium">Distinct Clients</div>
-                                </div>
-                                <div>
-                                    <div className="text-4xl font-bold text-orange-600 mb-2">80%</div>
-                                    <div className="text-gray-700 font-medium">Conversion Rate</div>
-                                </div>
-                                <div>
-                                    <div className="text-4xl font-bold text-orange-600 mb-2">25+</div>
-                                    <div className="text-gray-700 font-medium">Years Experience</div>
-                                </div>
+                                {leadershipStats.map((stat) => (
+                                    <div key={stat.label}>
+                                        <div className="text-4xl font-bold text-orange-600 mb-2">{stat.value}</div>
+                                        <div className="text-gray-700 font-medium">{stat.label}</div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>
@@ -505,50 +724,32 @@ export default function AboutUsPage() {
                     <div className="max-w-6xl mx-auto">
                         <div className="text-center mb-16">
                             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
-                                The Swift Solution Unique Value Proposition: Why We Lead the Market
+                                {uvpSection.title}
                             </h2>
                             <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-orange-600 mx-auto mb-6"></div>
                             <p className="text-xl text-gray-600 max-w-4xl mx-auto">
-                                Our unique value proposition is the convergence of three powerful, rarely combined elements
+                                {uvpSection.description}
                             </p>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-                            <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 text-center">
-                                <div className="bg-blue-500 p-4 rounded-full inline-block mb-6">
-                                    <Award className="h-10 w-10 text-white" />
+                            {uvpCards.map((card) => (
+                                <div key={card.key} className={`${card.wrapperClass} rounded-2xl p-8 text-center`}>
+                                    <div className={`${card.iconWrapperClass} p-4 rounded-full inline-block mb-6`}>
+                                        {card.icon}
+                                    </div>
+                                    <h3 className="text-2xl font-bold mb-4 text-gray-900">{card.title}</h3>
+                                    <p className="text-gray-700 leading-relaxed">
+                                        {card.description}
+                                    </p>
                                 </div>
-                                <h3 className="text-2xl font-bold mb-4 text-gray-900">Deep Domain Expertise</h3>
-                                <p className="text-gray-700 leading-relaxed">
-                                    Validated by 25 years of client success and deep market insight. Our extensive experience across diverse industries gives us unparalleled understanding of learning challenges.
-                                </p>
-                            </div>
-
-                            <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-8 text-center">
-                                <div className="bg-green-500 p-4 rounded-full inline-block mb-6">
-                                    <Brain className="h-10 w-10 text-white" />
-                                </div>
-                                <h3 className="text-2xl font-bold mb-4 text-gray-900">Authentic AI Transformation</h3>
-                                <p className="text-gray-700 leading-relaxed">
-                                    Proven by a systematic, two-year implementation with measurable results and enterprise client acceptance. We don't just talk about AI - we live it.
-                                </p>
-                            </div>
-
-                            <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-8 text-center">
-                                <div className="bg-purple-500 p-4 rounded-full inline-block mb-6">
-                                    <Shield className="h-10 w-10 text-white" />
-                                </div>
-                                <h3 className="text-2xl font-bold mb-4 text-gray-900">Unwavering Ethical Leadership</h3>
-                                <p className="text-gray-700 leading-relaxed">
-                                    Demonstrated through transparent, value-based practices that build lasting trust and industry credibility. Our zero-debt operation speaks to our financial integrity.
-                                </p>
-                            </div>
+                            ))}
                         </div>
 
                         <div className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl p-8 text-white text-center">
-                            <h3 className="text-2xl font-bold mb-4">Market Leadership Based on Authentic Experience</h3>
+                            <h3 className="text-2xl font-bold mb-4">{uvpSection.highlightTitle}</h3>
                             <p className="text-orange-100 mb-6 max-w-4xl mx-auto text-lg">
-                                Our market leadership is based on authentic experience, not theoretical claims. We offer our clients, partners, and the industry a proven methodology for navigating the future of learning—a future that is efficient, effective, and fundamentally human.
+                                {uvpSection.highlightDescription}
                             </p>
                         </div>
                     </div>
@@ -558,14 +759,13 @@ export default function AboutUsPage() {
             <section className="py-16 bg-gradient-to-br from-gray-50 via-white to-orange-50">
                 <div className="container mx-auto px-4">
                     <div className="max-w-4xl mx-auto text-center mb-16">
-                        <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
-                            Choose Swift Solution: Your Trusted Partner for AI-Powered eLearning
-                        </h2>
-                        <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-orange-600 mx-auto mb-6"></div>
-                        <p className="text-xl text-gray-600 mb-8">
-                            When you partner with Swift Solution, you are choosing one of the top eLearning companies in Bangalore with a proven track record of delivering excellence. We are passionate about helping your organization achieve its full potential through innovative and effective custom eLearning solutions.
-                        </p>
-
+                                <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
+                                    {finalCtaSection.title}
+                                </h2>
+                                <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-orange-600 mx-auto mb-6"></div>
+                                <p className="text-xl text-gray-600 mb-8">
+                                    {finalCtaSection.description}
+                                </p>
                     </div>
                 </div>
             </section>

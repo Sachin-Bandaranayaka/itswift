@@ -17,6 +17,7 @@ import {
   MessageSquare,
   Edit3,
   HelpCircle,
+  LayoutTemplate,
 } from "lucide-react"
 import { useState } from "react"
 
@@ -35,6 +36,11 @@ const navigation = [
     name: "Content Management",
     href: "/admin/content",
     icon: Edit3,
+  },
+  {
+    name: "Site Layout",
+    href: "/admin/layout",
+    icon: LayoutTemplate,
   },
   {
     name: "Social Media",

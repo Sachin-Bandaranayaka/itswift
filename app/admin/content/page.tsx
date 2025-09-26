@@ -15,6 +15,7 @@ import {
   TableHeader, 
   TableRow 
 } from '@/components/ui/table'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { ArrowLeft, Edit, Save, Eye } from 'lucide-react'
 import { useToast } from '@/hooks/use-toast'
 
@@ -51,6 +52,9 @@ interface PageWithContentCount extends Page {
   contentSectionCount: number
 }
 
+const DEFAULT_PAGE_SIZE = 10
+const PAGE_SIZE_OPTIONS = [10, 25, 50]
+
 export default function ContentManagement() {
   const [selectedPage, setSelectedPage] = useState<Page | null>(null)
   const [sections, setSections] = useState<ContentSection[]>([])
@@ -59,6 +63,11 @@ export default function ContentManagement() {
   const [pagesLoading, setPagesLoading] = useState(true)
   const [editingSection, setEditingSection] = useState<string | null>(null)
   const [editContent, setEditContent] = useState('')
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
+  const [totalSections, setTotalSections] = useState(0)
+  const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE)
+  const [pageInput, setPageInput] = useState('1')
   const [seoForm, setSeoForm] = useState({
     title: '',
     metaTitle: '',
@@ -67,6 +76,15 @@ export default function ContentManagement() {
   })
   const [seoSaving, setSeoSaving] = useState(false)
   const { toast } = useToast()
+
+  const paginationStart = totalSections === 0 || sections.length === 0
+    ? 0
+    : (currentPage - 1) * pageSize + 1
+  const paginationEnd = totalSections === 0 || sections.length === 0
+    ? 0
+    : Math.min(paginationStart + sections.length - 1, totalSections)
+  const hasPagination = totalPages > 1
+  const shouldShowPaginationControls = totalSections > 0 && (hasPagination || totalSections > pageSize || pageSize !== DEFAULT_PAGE_SIZE)
 
   // Fetch pages from database
   useEffect(() => {
@@ -124,14 +142,26 @@ export default function ContentManagement() {
     }
   }, [selectedPage])
 
-  const fetchPageSections = async (pageSlug: string) => {
+  const fetchPageSections = async (pageSlug: string, pageNumber = 1, size = pageSize) => {
     try {
       setLoading(true)
-      const response = await fetch(`/api/admin/content/sections?page_slug=${pageSlug}`)
+      const response = await fetch(`/api/admin/content/sections?page_slug=${pageSlug}&page=${pageNumber}&limit=${size}`)
       const result = await response.json()
       
       if (response.ok) {
         setSections(result.data || [])
+        const pagination = result.pagination
+        if (pagination) {
+          setCurrentPage(pagination.page || pageNumber)
+          setTotalPages(pagination.totalPages || 1)
+          setTotalSections(pagination.total || (result.data?.length || 0))
+          setPageInput(String(pagination.page || pageNumber))
+        } else {
+          setCurrentPage(pageNumber)
+          setTotalPages(1)
+          setTotalSections(result.data?.length || 0)
+          setPageInput(String(pageNumber))
+        }
       } else {
         toast({
           title: 'Error',
@@ -224,7 +254,66 @@ export default function ContentManagement() {
   const handlePageSelect = (page: Page) => {
     setSelectedPage(page)
     setEditingSection(null)
-    fetchPageSections(page.slug)
+    fetchPageSections(page.slug, 1, pageSize)
+  }
+
+  const handlePageChange = (pageNumber: number) => {
+    if (!selectedPage) return
+    if (pageNumber < 1 || pageNumber > totalPages) return
+    setPageInput(String(pageNumber))
+    fetchPageSections(selectedPage.slug, pageNumber, pageSize)
+  }
+
+  const handlePreviousPage = () => {
+    if (currentPage <= 1) return
+    handlePageChange(currentPage - 1)
+  }
+
+  const handleNextPage = () => {
+    if (currentPage >= totalPages) return
+    handlePageChange(currentPage + 1)
+  }
+
+  const handlePageSizeChange = (value: string) => {
+    const parsedSize = parseInt(value, 10)
+    if (Number.isNaN(parsedSize)) {
+      return
+    }
+
+    if (parsedSize === pageSize) {
+      return
+    }
+
+    setPageSize(parsedSize)
+    setCurrentPage(1)
+    setPageInput('1')
+
+    if (selectedPage) {
+      fetchPageSections(selectedPage.slug, 1, parsedSize)
+    }
+  }
+
+  const handlePageInputChange = (value: string) => {
+    setPageInput(value)
+  }
+
+  const handleJumpToPage = () => {
+    if (!selectedPage) {
+      return
+    }
+
+    const parsedPage = parseInt(pageInput, 10)
+    if (Number.isNaN(parsedPage)) {
+      setPageInput(String(currentPage))
+      return
+    }
+
+    const clampedPage = Math.min(Math.max(parsedPage, 1), Math.max(totalPages, 1))
+    setPageInput(String(clampedPage))
+
+    if (clampedPage !== currentPage) {
+      fetchPageSections(selectedPage.slug, clampedPage, pageSize)
+    }
   }
 
   const handleEditSection = (section: ContentSection) => {
@@ -286,6 +375,10 @@ export default function ContentManagement() {
     setSelectedPage(null)
     setSections([])
     setEditingSection(null)
+    setCurrentPage(1)
+    setTotalPages(1)
+    setTotalSections(0)
+    setPageInput('1')
   }
 
   if (selectedPage) {
@@ -440,6 +533,73 @@ export default function ContentManagement() {
                     )}
                   </div>
                 ))}
+                {shouldShowPaginationControls && (
+                  <div className="flex flex-col gap-4 border-t pt-4 lg:flex-row lg:items-center lg:justify-between">
+                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+                      <p className="text-sm text-muted-foreground">
+                        {totalSections === 0
+                          ? 'No sections available yet.'
+                          : `Showing ${paginationStart}-${paginationEnd} of ${totalSections}`}
+                      </p>
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm text-muted-foreground">Per page</span>
+                        <Select value={String(pageSize)} onValueChange={handlePageSizeChange}>
+                          <SelectTrigger className="w-28">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {PAGE_SIZE_OPTIONS.map((option) => (
+                              <SelectItem key={option} value={String(option)}>
+                                {option}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm text-muted-foreground">Page</span>
+                        <Input
+                          type="number"
+                          inputMode="numeric"
+                          min={1}
+                          value={pageInput}
+                          onChange={(event) => handlePageInputChange(event.target.value)}
+                          onKeyDown={(event) => {
+                            if (event.key === 'Enter') {
+                              event.preventDefault()
+                              handleJumpToPage()
+                            }
+                          }}
+                          className="w-20"
+                        />
+                        <Button variant="outline" size="sm" onClick={handleJumpToPage} disabled={loading}>
+                          Go
+                        </Button>
+                        <span className="text-sm text-muted-foreground">of {Math.max(totalPages, 1)}</span>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={handlePreviousPage}
+                          disabled={currentPage === 1 || loading}
+                        >
+                          Previous
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={handleNextPage}
+                          disabled={currentPage === totalPages || loading || totalSections === 0}
+                        >
+                          Next
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </CardContent>

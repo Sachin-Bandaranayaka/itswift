@@ -6,8 +6,10 @@ export async function GET(request: NextRequest) {
     const supabase = getSupabaseAdmin()
     const { searchParams } = new URL(request.url)
     
-    const page = parseInt(searchParams.get('page') || '1')
-    const limit = parseInt(searchParams.get('limit') || '10')
+    const requestedPage = parseInt(searchParams.get('page') || '1')
+    const requestedLimit = parseInt(searchParams.get('limit') || '10')
+    const page = Number.isNaN(requestedPage) ? 1 : Math.max(requestedPage, 1)
+    const limit = Number.isNaN(requestedLimit) ? 10 : Math.max(requestedLimit, 1)
     const pageSlug = searchParams.get('page_slug')
     const sectionKey = searchParams.get('section_key')
     
@@ -16,7 +18,7 @@ export async function GET(request: NextRequest) {
       .select(`
         *,
         pages!inner(slug, title)
-      `)
+      `, { count: 'exact' })
     
     // Apply filters
     if (pageSlug) {

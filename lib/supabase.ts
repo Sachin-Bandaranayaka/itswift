@@ -1,8 +1,8 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 
 // Lazy initialization to prevent build-time errors
-let supabaseClient: ReturnType<typeof createClient> | null = null
-let supabaseAdminClient: ReturnType<typeof createClient> | null = null
+let supabaseClient: SupabaseClient<Database> | null = null
+let supabaseAdminClient: SupabaseClient<Database> | null = null
 
 function getPublicSupabaseConfig() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
@@ -38,7 +38,7 @@ function getServiceSupabaseConfig() {
 export function getSupabase() {
   if (!supabaseClient) {
     const { supabaseUrl, supabaseAnonKey } = getPublicSupabaseConfig()
-    supabaseClient = createClient(supabaseUrl, supabaseAnonKey)
+    supabaseClient = createClient<Database>(supabaseUrl, supabaseAnonKey)
   }
   return supabaseClient
 }
@@ -47,7 +47,7 @@ export function getSupabase() {
 export function getSupabaseAdmin() {
   if (!supabaseAdminClient) {
     const { supabaseUrl, supabaseServiceKey } = getServiceSupabaseConfig()
-    supabaseAdminClient = createClient(supabaseUrl, supabaseServiceKey, {
+    supabaseAdminClient = createClient<Database>(supabaseUrl, supabaseServiceKey, {
       auth: {
         autoRefreshToken: false,
         persistSession: false
