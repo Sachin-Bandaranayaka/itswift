@@ -137,8 +137,21 @@ function getSlugCandidates(pathname: string): string[] {
   }
 
   const candidates: string[] = []
+  
+  // First, add the last segment as a standalone candidate (most specific)
+  // This handles cases where database slugs don't include parent paths
+  // e.g., for /elearning-services/ai-powered-solutions, try 'ai-powered-solutions' first
+  if (segments.length > 1) {
+    const lastSegment = segments[segments.length - 1]
+    candidates.push(lastSegment)
+  }
+  
+  // Then add full path and progressively shorter paths
   for (let i = segments.length; i > 0; i -= 1) {
-    candidates.push(segments.slice(0, i).join('/'))
+    const candidate = segments.slice(0, i).join('/')
+    if (!candidates.includes(candidate)) {
+      candidates.push(candidate)
+    }
   }
 
   candidates.push('/')
