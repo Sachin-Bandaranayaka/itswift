@@ -19,7 +19,7 @@ export const DEFAULT_HEADER_CONFIG: HeaderConfig = {
   menuItems: [
     {
       title: 'eLearning Services',
-      href: '/elearning-services',
+      href: '#',
       submenu: [
         { title: 'AI-Powered eLearning Solutions', href: '/elearning-services/ai-powered-solutions' },
         { title: 'Custom eLearning', href: '/elearning-services/custom-elearning' },
@@ -34,7 +34,7 @@ export const DEFAULT_HEADER_CONFIG: HeaderConfig = {
     },
     {
       title: 'eLearning Solutions',
-      href: '/elearning-solutions',
+      href: '#',
       submenu: [
         { title: 'Onboarding', href: '/elearning-solutions/on-boarding' },
         { title: 'Compliance', href: '/elearning-solutions/compliance' },
@@ -43,7 +43,7 @@ export const DEFAULT_HEADER_CONFIG: HeaderConfig = {
     },
     {
       title: 'eLearning Consultancy',
-      href: '/elearning-consultancy',
+      href: '#',
       submenu: [
         { title: 'LMS implementation', href: '/elearning-consultancy/lms-implementation' },
         { title: 'Instructional design services', href: '/elearning-consultancy/instructional-design' },

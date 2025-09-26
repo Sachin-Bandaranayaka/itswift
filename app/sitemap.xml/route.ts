@@ -23,8 +23,7 @@ export async function GET() {
     { url: '/case-studies', priority: '0.8', changefreq: 'monthly' },
     { url: '/blog', priority: '0.9', changefreq: 'weekly' },
     
-    // E-Learning Services
-    { url: '/elearning-services', priority: '0.9', changefreq: 'weekly' },
+    // E-Learning Services (subpages only - main dropdown header removed)
     { url: '/elearning-services/custom-elearning', priority: '0.9', changefreq: 'weekly' },
     { url: '/elearning-services/rapid-elearning', priority: '0.8', changefreq: 'monthly' },
     { url: '/elearning-services/micro-learning', priority: '0.8', changefreq: 'monthly' },
@@ -38,14 +37,12 @@ export async function GET() {
     { url: '/elearning-services/on-boarding', priority: '0.8', changefreq: 'monthly' },
     { url: '/elearning-services/ai-powered-solutions', priority: '0.8', changefreq: 'weekly' },
     
-    // E-Learning Solutions
-    { url: '/elearning-solutions', priority: '0.8', changefreq: 'monthly' },
+    // E-Learning Solutions (subpages only - main dropdown header removed)
     { url: '/elearning-solutions/compliance', priority: '0.8', changefreq: 'monthly' },
     { url: '/elearning-solutions/on-boarding', priority: '0.8', changefreq: 'monthly' },
     { url: '/elearning-solutions/sales-enablement', priority: '0.8', changefreq: 'monthly' },
     
-    // E-Learning Consultancy
-    { url: '/elearning-consultancy', priority: '0.8', changefreq: 'monthly' },
+    // E-Learning Consultancy (subpages only - main dropdown header removed)
     { url: '/elearning-consultancy/instructional-design', priority: '0.8', changefreq: 'monthly' },
     { url: '/elearning-consultancy/lms-implementation', priority: '0.8', changefreq: 'monthly' },
     

@@ -208,16 +208,22 @@ export default function Navbar() {
                 onMouseEnter={() => setOpenMenu(index)}
                 onMouseLeave={() => setOpenMenu(null)}
               >
-                <Link
-                  href={item.href}
-                  className="flex items-center text-gray-600 dark:text-gray-300 hover:text-[#FF6B38] dark:hover:text-[#FF6B38] transition-colors duration-200 text-sm"
-                  {...getLinkProps(item)}
-                >
-                  {item.title}
-                  {item.submenu && (
+{item.submenu ? (
+                  <button
+                    className="flex items-center text-gray-600 dark:text-gray-300 hover:text-[#FF6B38] dark:hover:text-[#FF6B38] transition-colors duration-200 text-sm cursor-default"
+                  >
+                    {item.title}
                     <ChevronDown className="w-4 h-4 ml-1 text-gray-400 dark:text-gray-500" />
-                  )}
-                </Link>
+                  </button>
+                ) : (
+                  <Link
+                    href={item.href}
+                    className="flex items-center text-gray-600 dark:text-gray-300 hover:text-[#FF6B38] dark:hover:text-[#FF6B38] transition-colors duration-200 text-sm"
+                    {...getLinkProps(item)}
+                  >
+                    {item.title}
+                  </Link>
+                )}
 
                 <AnimatePresence>
                   {item.submenu && openMenu === index && (
