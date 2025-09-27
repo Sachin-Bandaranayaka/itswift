@@ -18,6 +18,9 @@ import {
   Play
 } from 'lucide-react';
 import Contact from "@/components/contact";
+import { usePageContent } from '@/hooks/use-page-content';
+import DynamicFAQ from '@/components/dynamic-faq';
+import DynamicContent from '@/components/dynamic-content';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 60 },
@@ -35,22 +38,7 @@ const staggerContainer = {
 
 export default function SalesEnablementPage() {
   const [activeTab, setActiveTab] = useState('overview');
-  const [openItems, setOpenItems] = useState<Record<string, boolean>>({
-    "0-0": true // First question open by default
-  });
-
-  const toggleItem = (categoryIndex: number, itemIndex: number) => {
-    const itemKey = `${categoryIndex}-${itemIndex}`
-    setOpenItems(prev => ({
-      ...prev,
-      [itemKey]: !prev[itemKey]
-    }))
-  }
-
-  const isOpen = (categoryIndex: number, itemIndex: number) => {
-    const itemKey = `${categoryIndex}-${itemIndex}`
-    return !!openItems[itemKey]
-  }
+  const { getContent } = usePageContent('elearning-solutions/sales-enablement');
 
   const benefits = [
     {
@@ -126,29 +114,7 @@ export default function SalesEnablementPage() {
     }
   ];
 
-  const faqCategories = [
-    {
-      title: "SALES ENABLEMENT SOLUTIONS",
-      faqs: [
-        {
-          question: "How long does it take to develop a sales enablement program?",
-          answer: "Development time varies based on scope and complexity, typically ranging from 6-12 weeks for comprehensive programs. We work with your timeline to ensure timely delivery."
-        },
-        {
-          question: "Can you integrate with our existing CRM system?",
-          answer: "Yes, we can integrate training content and tracking with most major CRM platforms including Salesforce, HubSpot, and Microsoft Dynamics."
-        },
-        {
-          question: "How do you measure the effectiveness of sales training?",
-          answer: "We track multiple metrics including completion rates, assessment scores, behavior change, and business impact metrics like conversion rates and revenue growth."
-        },
-        {
-          question: "Do you provide ongoing support after implementation?",
-          answer: "Yes, we offer various support packages including content updates, performance monitoring, and additional training modules as your needs evolve."
-        }
-      ]
-    }
-  ];
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -156,8 +122,8 @@ export default function SalesEnablementPage() {
       <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0">
           <img 
-            src="/IMAGES/11.Sales enablement/download (1).png" 
-            alt="Sales Enablement Background" 
+            src={getContent('hero.image.src', '/IMAGES/11.Sales enablement/download (1).png')}
+            alt={getContent('hero.image.alt', 'Sales Enablement Background')}
             className="w-full h-full object-cover"
           />
         </div>
@@ -170,11 +136,20 @@ export default function SalesEnablementPage() {
             transition={{ duration: 0.8 }}
           >
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              Sales Enablement
-              <span className="block text-yellow-400">Solutions</span>
+              <DynamicContent 
+                sectionKey="hero_title" 
+                pageSlug="elearning-solutions/sales-enablement" 
+                fallback="Sales Enablement & Product Training eLearning Solutions"
+                as="span"
+              />
             </h1>
-            <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto leading-relaxed">
-              Empower your sales team with comprehensive training programs that drive revenue growth and improve performance
+            <p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto leading-relaxed text-white opacity-90">
+              <DynamicContent 
+                sectionKey="hero_subtitle" 
+                pageSlug="elearning-solutions/sales-enablement" 
+                fallback="Empower your sales team with comprehensive training programs that drive results. Our sales enablement solutions combine product knowledge, sales techniques, and customer engagement strategies."
+                as="span"
+              />
             </p>
             <div className="flex justify-center">
               <motion.button
@@ -188,7 +163,12 @@ export default function SalesEnablementPage() {
                   }
                 }}
               >
-                Get Started
+                <DynamicContent 
+                  sectionKey="cta_button" 
+                  pageSlug="elearning-solutions/sales-enablement" 
+                  fallback="Get Started with Sales Training"
+                  as="span"
+                />
                 <ArrowRight className="ml-2 h-5 w-5" />
               </motion.button>
             </div>
@@ -196,7 +176,109 @@ export default function SalesEnablementPage() {
         </div>
       </section>
 
-      {/* Main Content */}
+      {/* Dynamic Content - Now integrated into styled sections below */}
+
+        {/* Features Section */}
+        <section className="py-20 bg-gray-50">
+          <div className="container mx-auto px-6">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={staggerContainer}
+              className="text-center mb-16"
+            >
+              <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
+                <DynamicContent 
+                  sectionKey="features_section_title" 
+                  pageSlug="elearning-solutions/sales-enablement" 
+                  fallback="Comprehensive Sales Training Features"
+                  as="span"
+                />
+              </h2>
+              <div className="prose prose-lg max-w-4xl mx-auto text-gray-600">
+                <DynamicContent 
+                  sectionKey="features_section_description" 
+                  pageSlug="elearning-solutions/sales-enablement" 
+                  fallback="Our platform offers a complete suite of tools and training modules designed to enhance every aspect of your sales process."
+                  as="div"
+                />
+              </div>
+            </motion.div>
+
+            {/* Additional Dynamic Content Sections */}
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+              {/* Feature Cards with Dynamic Content */}
+              <motion.div variants={fadeInUp} className="bg-white p-8 rounded-xl shadow-lg">
+                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-6">
+                  <Target className="h-6 w-6 text-blue-600" />
+                </div>
+                <h3 className="text-xl font-semibold mb-4 text-gray-900">
+                  <DynamicContent 
+                    sectionKey="feature_1_title" 
+                    pageSlug="elearning-solutions/sales-enablement" 
+                    fallback="Product Knowledge Training"
+                    as="span"
+                  />
+                </h3>
+                <div className="text-gray-600">
+                  <DynamicContent 
+                    sectionKey="feature_1_description" 
+                    pageSlug="elearning-solutions/sales-enablement" 
+                    fallback="Comprehensive product training modules that ensure your sales team understands every feature and benefit."
+                    as="div"
+                  />
+                </div>
+              </motion.div>
+
+              <motion.div variants={fadeInUp} className="bg-white p-8 rounded-xl shadow-lg">
+                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-6">
+                  <Users className="h-6 w-6 text-green-600" />
+                </div>
+                <h3 className="text-xl font-semibold mb-4 text-gray-900">
+                  <DynamicContent 
+                    sectionKey="feature_2_title" 
+                    pageSlug="elearning-solutions/sales-enablement" 
+                    fallback="Sales Techniques & Methodologies"
+                    as="span"
+                  />
+                </h3>
+                <div className="text-gray-600">
+                  <DynamicContent 
+                    sectionKey="feature_2_description" 
+                    pageSlug="elearning-solutions/sales-enablement" 
+                    fallback="Advanced sales methodologies and proven techniques to improve conversion rates and deal closure."
+                    as="div"
+                  />
+                </div>
+              </motion.div>
+
+              <motion.div variants={fadeInUp} className="bg-white p-8 rounded-xl shadow-lg">
+                <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-6">
+                  <TrendingUp className="h-6 w-6 text-purple-600" />
+                </div>
+                <h3 className="text-xl font-semibold mb-4 text-gray-900">
+                  <DynamicContent 
+                    sectionKey="feature_3_title" 
+                    pageSlug="elearning-solutions/sales-enablement" 
+                    fallback="Performance Analytics"
+                    as="span"
+                  />
+                </h3>
+                <div className="text-gray-600">
+                  <DynamicContent 
+                    sectionKey="feature_3_description" 
+                    pageSlug="elearning-solutions/sales-enablement" 
+                    fallback="Track progress, measure performance, and identify areas for improvement with detailed analytics."
+                    as="div"
+                  />
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
+        {/* Main Content */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -204,11 +286,30 @@ export default function SalesEnablementPage() {
             {...fadeInUp}
           >
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-              Transform Your Sales Performance
+              <DynamicContent 
+                sectionKey="value_proposition_title" 
+                pageSlug="elearning-solutions/sales-enablement" 
+                fallback="Transform Your Sales Performance"
+                as="span"
+              />
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Our sales enablement solutions provide your team with the knowledge, skills, and tools they need to excel in today's competitive marketplace.
+              <DynamicContent 
+                sectionKey="value_proposition_subtitle" 
+                pageSlug="elearning-solutions/sales-enablement" 
+                fallback="Comprehensive Sales Training Solutions"
+                as="span"
+              />
             </p>
+            <div className="mt-6">
+              <DynamicContent 
+                sectionKey="value_proposition_description" 
+                pageSlug="elearning-solutions/sales-enablement" 
+                fallback="Our sales enablement solutions provide your team with the knowledge, skills, and tools they need to excel in today's competitive marketplace."
+                as="div"
+                className="text-lg text-gray-600 max-w-4xl mx-auto"
+              />
+            </div>
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
@@ -397,66 +498,7 @@ export default function SalesEnablementPage() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-[1fr,2fr] gap-16">
-            {/* Left side - title */}
-            <div>
-              <motion.h2
-                className="text-4xl font-bold sticky top-24"
-                {...fadeInUp}
-              >
-                Frequently Asked Questions (FAQs) about Sales Enablement Solutions
-              </motion.h2>
-            </div>
-
-            {/* Right side - FAQ content */}
-            <div>
-              {faqCategories.map((category, categoryIndex) => (
-                <motion.div key={categoryIndex} className="mb-12" {...fadeInUp}>
-                  <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-6">
-                    {category.title}
-                  </h3>
-                  <div className="space-y-px">
-                    {category.faqs.map((faq, itemIndex) => {
-                      const isItemOpen = isOpen(categoryIndex, itemIndex);
-
-                      return (
-                        <div key={itemIndex} className="border-t border-gray-200 first:border-t-0">
-                          <button
-                            onClick={() => toggleItem(categoryIndex, itemIndex)}
-                            className="flex justify-between items-center w-full py-6 text-left"
-                          >
-                            <span className={`text-lg font-medium ${isItemOpen ? "text-blue-500" : "text-gray-900"}`}>
-                              {faq.question}
-                            </span>
-                            <span className="ml-6 flex-shrink-0">
-                              {isItemOpen ? (
-                                <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-                                </svg>
-                              ) : (
-                                <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                </svg>
-                              )}
-                            </span>
-                          </button>
-                          {isItemOpen && (
-                            <div className="pb-6">
-                              <p className="text-gray-600">{faq.answer}</p>
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      <DynamicFAQ pageSlug="elearning-solutions/sales-enablement" />
 
       {/* Contact Section */}
       <div id="contact-section">

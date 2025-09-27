@@ -1,60 +1,17 @@
 "use client"
 
-import React, { useState } from "react"
+import React from "react"
 import Image from "next/image"
 import Contact from "@/components/contact"
+import DynamicFAQ from "@/components/dynamic-faq"
+import DynamicContent from '@/components/dynamic-content';
+import { usePageContent } from "@/hooks/use-page-content"
 import { ArrowRight, CheckCircle, Award, BarChart, Layers, Users, ChevronDown } from "lucide-react"
 
+const PAGE_SLUG = "elearning-solutions/compliance"
+
 export default function CompliancePage() {
-    const [openItems, setOpenItems] = useState<Record<string, boolean>>({
-        "0-0": true // First question open by default
-    });
-
-    const toggleItem = (categoryIndex: number, itemIndex: number) => {
-        const itemKey = `${categoryIndex}-${itemIndex}`
-        setOpenItems(prev => ({
-            ...prev,
-            [itemKey]: !prev[itemKey]
-        }))
-    }
-
-    const isOpen = (categoryIndex: number, itemIndex: number) => {
-        const itemKey = `${categoryIndex}-${itemIndex}`
-        return !!openItems[itemKey]
-    }
-
-    // FAQ categories
-    const faqCategories = [
-        {
-            title: "ONLINE COMPLIANCE TRAINING SOLUTIONS",
-            faqs: [
-                {
-                    question: "How quickly can you develop customized compliance training for our organization?",
-                    answer: "Using our rapid learning tools and methodologies, we can typically create customized compliance training within days. For more complex or extensive programs, our development timeline may extend to a few weeks, but we pride ourselves on our ability to meet urgent compliance training needs efficiently."
-                },
-                {
-                    question: "Can your compliance training courses be accessed on mobile devices?",
-                    answer: "Absolutely. All our online compliance training courses are fully responsive and can be accessed on any device—desktop computers, laptops, tablets, or smartphones. This flexibility ensures your employees can complete their training at their convenience, whether in the office or on the go."
-                },
-                {
-                    question: "How do you ensure your compliance training meets specific regulatory requirements?",
-                    answer: "Our subject matter experts continuously monitor regulatory changes across industries and jurisdictions. We work closely with legal and compliance professionals to ensure our content accurately reflects current requirements, and we update our courses regularly as regulations evolve."
-                },
-                {
-                    question: "What languages are available for your compliance training courses?",
-                    answer: "We can deliver our compliance training in multiple languages to accommodate diverse workforces. Our standard offerings include English, Hindi, and major regional Indian languages, but we can develop training in additional languages based on your specific requirements."
-                },
-                {
-                    question: "How do you measure the effectiveness of compliance training?",
-                    answer: "We employ multiple assessment methods within our courses, including knowledge checks, scenario-based questions, and final assessments. Additionally, our LMS provides comprehensive analytics on completion rates, assessment scores, time spent on modules, and other key metrics to help you evaluate training effectiveness."
-                },
-                {
-                    question: "Can you customize the look and feel of the training to match our brand?",
-                    answer: "Yes, we can fully customize the visual design of your compliance training to align with your organization's branding guidelines. This includes incorporating your logo, color scheme, typography, and other brand elements to create a seamless learning experience."
-                }
-            ]
-        }
-    ];
+    const { getContent, isLoading } = usePageContent(PAGE_SLUG)
 
     return (
         <div className="w-full">
@@ -62,8 +19,8 @@ export default function CompliancePage() {
             <section className="relative text-white py-20">
                 <div className="absolute inset-0">
                     <Image
-                        src="/IMAGES/10.compliance/download.png"
-                        alt="Compliance Training Background"
+                        src={getContent("hero_background_image", "/IMAGES/10.compliance/download.png")}
+                        alt={getContent("hero_background_alt", "Compliance Training Background")}
                         fill
                         className="object-cover"
                         priority
@@ -73,23 +30,45 @@ export default function CompliancePage() {
                 <div className="container mx-auto px-4 relative z-10">
                     <div className="max-w-3xl">
                         <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
-                            Online Compliance Training Courses in Bangalore
+                            <DynamicContent 
+                                sectionKey="hero_title" 
+                                pageSlug="elearning-solutions/compliance" 
+                                fallback="Online Compliance Training Courses in Bangalore"
+                                as="span"
+                            />
                         </h1>
                         <p className="text-xl mb-8 text-orange-100">
-                            Transforming Corporate Regulatory Adherence with Engaging, Scalable Solutions
+                            <DynamicContent 
+                                sectionKey="hero_subtitle" 
+                                pageSlug="elearning-solutions/compliance" 
+                                fallback="Transforming Corporate Regulatory Adherence with Engaging, Scalable Solutions"
+                                as="span"
+                            />
                         </p>
                         <div className="flex flex-col md:flex-row gap-4">
                             <a href="#contact" className="inline-flex items-center justify-center px-6 py-3 bg-white text-orange-600 rounded-lg font-medium hover:bg-orange-50 transition-colors duration-200">
-                                Get Started
+                                <DynamicContent 
+                                    sectionKey="hero_cta_primary" 
+                                    pageSlug="elearning-solutions/compliance" 
+                                    fallback="Get Started"
+                                    as="span"
+                                />
                                 <ArrowRight className="ml-2 h-4 w-4" />
                             </a>
                             <a href="#approach" className="inline-flex items-center justify-center px-6 py-3 bg-transparent border border-white text-white rounded-lg font-medium hover:bg-white/10 transition-colors duration-200">
-                                Learn More
+                                <DynamicContent 
+                                    sectionKey="hero_cta_secondary" 
+                                    pageSlug="elearning-solutions/compliance" 
+                                    fallback="Learn More"
+                                    as="span"
+                                />
                             </a>
                         </div>
                     </div>
                 </div>
             </section>
+
+            {/* Dynamic Content Sections - Integrated into styled sections below */}
 
             {/* Introduction Section */}
             <section className="py-16 bg-white">
@@ -97,40 +76,95 @@ export default function CompliancePage() {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                         <div>
                             <h2 className="text-3xl font-bold mb-6 text-gray-900">
-                                Comprehensive Online Compliance Training Solutions for Modern Businesses
+                                <DynamicContent 
+                                    sectionKey="intro_title" 
+                                    pageSlug="elearning-solutions/compliance" 
+                                    fallback="Comprehensive Online Compliance Training Solutions for Modern Businesses"
+                                    as="span"
+                                />
                             </h2>
                             <div className="prose max-w-none">
                                 <p className="text-lg text-gray-700 mb-4">
-                                    In today's complex regulatory environment, mandatory compliance with financial, criminal, company, and civil laws is essential for protecting both employees and business interests. Traditional compliance training approaches often devolve into tedious checkbox exercises that fail to engage employees or deliver meaningful results.
+                                    <DynamicContent 
+                                        sectionKey="intro_paragraph_1" 
+                                        pageSlug="elearning-solutions/compliance" 
+                                        fallback="In today's complex regulatory environment, mandatory compliance with financial, criminal, company, and civil laws is essential for protecting both employees and business interests. Traditional compliance training approaches often devolve into tedious checkbox exercises that fail to engage employees or deliver meaningful results."
+                                        as="span"
+                                    />
                                 </p>
                                 <p className="text-lg text-gray-700 mb-4">
-                                    At Swift Solution, we're transforming this paradigm by creating dynamic, engaging, and highly effective online compliance training courses in Bangalore that turn regulatory requirements into valuable learning experiences.
+                                    <DynamicContent 
+                                        sectionKey="intro_paragraph_2" 
+                                        pageSlug="elearning-solutions/compliance" 
+                                        fallback="At Swift Solution, we're transforming this paradigm by creating dynamic, engaging, and highly effective online compliance training courses in Bangalore that turn regulatory requirements into valuable learning experiences."
+                                        as="span"
+                                    />
                                 </p>
                                 <p className="text-lg text-gray-700">
-                                    Our specialized team combines deep subject matter expertise with innovative instructional design to develop compliance training that employees actually want to complete. We understand that effective compliance isn't just about meeting regulatory requirements, it's about creating a culture of integrity and responsibility throughout your organization.
+                                    <DynamicContent 
+                                        sectionKey="intro_paragraph_3" 
+                                        pageSlug="elearning-solutions/compliance" 
+                                        fallback="Our specialized team combines deep subject matter expertise with innovative instructional design to develop compliance training that employees actually want to complete. We understand that effective compliance isn't just about meeting regulatory requirements, it's about creating a culture of integrity and responsibility throughout your organization."
+                                        as="span"
+                                    />
                                 </p>
                             </div>
                         </div>
                         <div className="relative h-96 rounded-xl overflow-hidden shadow-2xl">
                             <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-orange-600 opacity-80"></div>
                             <div className="absolute inset-0 flex flex-col items-center justify-center text-white p-8">
-                                <h3 className="text-2xl font-bold mb-6 text-center">Why Traditional Compliance Training Falls Short</h3>
+                                <h3 className="text-2xl font-bold mb-6 text-center">
+                                    <DynamicContent 
+                                        sectionKey="problems_title" 
+                                        pageSlug="elearning-solutions/compliance" 
+                                        fallback="Why Traditional Compliance Training Falls Short"
+                                        as="span"
+                                    />
+                                </h3>
                                 <ul className="space-y-4 w-full max-w-md">
                                     <li className="flex items-start">
                                         <CheckCircle className="h-6 w-6 text-orange-200 mr-3 flex-shrink-0 mt-0.5" />
-                                        <span>Content that fails to engage learners or demonstrate real-world relevance</span>
+                                        <span>
+                                            <DynamicContent 
+                                                sectionKey="problem_1_description" 
+                                                pageSlug="elearning-solutions/compliance" 
+                                                fallback="Content that fails to engage learners or demonstrate real-world relevance"
+                                                as="span"
+                                            />
+                                        </span>
                                     </li>
                                     <li className="flex items-start">
                                         <CheckCircle className="h-6 w-6 text-orange-200 mr-3 flex-shrink-0 mt-0.5" />
-                                        <span>Difficulty managing and tracking completion across distributed teams</span>
+                                        <span>
+                                            <DynamicContent 
+                                                sectionKey="problem_2_description" 
+                                                pageSlug="elearning-solutions/compliance" 
+                                                fallback="Difficulty managing and tracking completion across distributed teams"
+                                                as="span"
+                                            />
+                                        </span>
                                     </li>
                                     <li className="flex items-start">
                                         <CheckCircle className="h-6 w-6 text-orange-200 mr-3 flex-shrink-0 mt-0.5" />
-                                        <span>Inconsistent delivery that creates compliance gaps and potential liability</span>
+                                        <span>
+                                            <DynamicContent 
+                                                sectionKey="problem_3_description" 
+                                                pageSlug="elearning-solutions/compliance" 
+                                                fallback="Inconsistent delivery that creates compliance gaps and potential liability"
+                                                as="span"
+                                            />
+                                        </span>
                                     </li>
                                     <li className="flex items-start">
                                         <CheckCircle className="h-6 w-6 text-orange-200 mr-3 flex-shrink-0 mt-0.5" />
-                                        <span>Poor knowledge retention that undermines the training's purpose</span>
+                                        <span>
+                                            <DynamicContent 
+                                                sectionKey="problem_4_description" 
+                                                pageSlug="elearning-solutions/compliance" 
+                                                fallback="Poor knowledge retention that undermines the training's purpose"
+                                                as="span"
+                                            />
+                                        </span>
                                     </li>
                                 </ul>
                             </div>
@@ -144,10 +178,20 @@ export default function CompliancePage() {
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-12">
                         <h2 className="text-3xl font-bold mb-4 text-gray-900">
-                            Our Approach to Online Compliance Training Excellence
+                            <DynamicContent 
+                                sectionKey="approach_title" 
+                                pageSlug="elearning-solutions/compliance" 
+                                fallback="Our Approach to Online Compliance Training Excellence"
+                                as="span"
+                            />
                         </h2>
                         <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                            What sets Swift Solution apart in the crowded field of eLearning companies in Bangalore is our commitment to creating compliance training that's both effective and engaging.
+                            <DynamicContent 
+                                sectionKey="approach_description" 
+                                pageSlug="elearning-solutions/compliance" 
+                                fallback="What sets Swift Solution apart in the crowded field of eLearning companies in Bangalore is our commitment to creating compliance training that's both effective and engaging."
+                                as="span"
+                            />
                         </p>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -155,27 +199,63 @@ export default function CompliancePage() {
                             <div className="h-14 w-14 bg-orange-100 rounded-lg flex items-center justify-center mb-6">
                                 <Users className="h-7 w-7 text-orange-600" />
                             </div>
-                            <h3 className="text-xl font-bold mb-4 text-gray-900">Subject Matter Expertise</h3>
+                            <h3 className="text-xl font-bold mb-4 text-gray-900">
+                                <DynamicContent 
+                                    sectionKey="approach_card_1_title" 
+                                    pageSlug="elearning-solutions/compliance" 
+                                    fallback="Subject Matter Expertise"
+                                    as="span"
+                                />
+                            </h3>
                             <p className="text-gray-700">
-                                We leverage the latest in learning design and subject matter expertise to develop courses that align perfectly with your business requirements and industry-specific regulations.
+                                <DynamicContent 
+                                    sectionKey="approach_card_1_description" 
+                                    pageSlug="elearning-solutions/compliance" 
+                                    fallback="We leverage the latest in learning design and subject matter expertise to develop courses that align perfectly with your business requirements and industry-specific regulations."
+                                    as="span"
+                                />
                             </p>
                         </a>
                         <a href="/elearning-services/rapid-elearning" className="block bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
                             <div className="h-14 w-14 bg-orange-100 rounded-lg flex items-center justify-center mb-6">
                                 <Layers className="h-7 w-7 text-orange-600" />
                             </div>
-                            <h3 className="text-xl font-bold mb-4 text-gray-900">Rapid Development</h3>
+                            <h3 className="text-xl font-bold mb-4 text-gray-900">
+                                <DynamicContent 
+                                    sectionKey="approach_card_2_title" 
+                                    pageSlug="elearning-solutions/compliance" 
+                                    fallback="Rapid Development"
+                                    as="span"
+                                />
+                            </h3>
                             <p className="text-gray-700">
-                                Using rapid learning tools and proven methodologies, we can quickly create, customize, or offer readymade compliance courses tailored specifically to your organizational needs.
+                                <DynamicContent 
+                                    sectionKey="approach_card_2_description" 
+                                    pageSlug="elearning-solutions/compliance" 
+                                    fallback="Using rapid learning tools and proven methodologies, we can quickly create, customize, or offer readymade compliance courses tailored specifically to your organizational needs."
+                                    as="span"
+                                />
                             </p>
                         </a>
                         <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
                             <div className="h-14 w-14 bg-orange-100 rounded-lg flex items-center justify-center mb-6">
                                 <Award className="h-7 w-7 text-orange-600" />
                             </div>
-                            <h3 className="text-xl font-bold mb-4 text-gray-900">Continuous Updates</h3>
+                            <h3 className="text-xl font-bold mb-4 text-gray-900">
+                                <DynamicContent 
+                                    sectionKey="approach_card_3_title" 
+                                    pageSlug="elearning-solutions/compliance" 
+                                    fallback="Continuous Updates"
+                                    as="span"
+                                />
+                            </h3>
                             <p className="text-gray-700">
-                                We regularly update our content to reflect the latest regulatory changes, giving your employees access to the most current compliance information available.
+                                <DynamicContent 
+                                    sectionKey="approach_card_3_description" 
+                                    pageSlug="elearning-solutions/compliance" 
+                                    fallback="We regularly update our content to reflect the latest regulatory changes, giving your employees access to the most current compliance information available."
+                                    as="span"
+                                />
                             </p>
                         </div>
                     </div>
@@ -187,10 +267,20 @@ export default function CompliancePage() {
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-12">
                         <h2 className="text-3xl font-bold mb-4 text-gray-900">
-                            Comprehensive Compliance Training Course Catalog
+                            <DynamicContent 
+                                sectionKey="catalog_title" 
+                                pageSlug="elearning-solutions/compliance" 
+                                fallback="Comprehensive Compliance Training Course Catalog"
+                                as="span"
+                            />
                         </h2>
                         <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                            Our extensive library of online compliance training courses covers critical areas that modern businesses must address
+                            <DynamicContent 
+                                sectionKey="catalog_description" 
+                                pageSlug="elearning-solutions/compliance" 
+                                fallback="Our extensive library of online compliance training courses covers critical areas that modern businesses must address"
+                                as="span"
+                            />
                         </p>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -199,10 +289,20 @@ export default function CompliancePage() {
                                 <div className="h-10 w-10 bg-orange-100 rounded-lg flex items-center justify-center mr-3">
                                     <CheckCircle className="h-5 w-5 text-orange-600" />
                                 </div>
-                                Competition Law
+                                <DynamicContent 
+                                    sectionKey="course_1_title" 
+                                    pageSlug="elearning-solutions/compliance" 
+                                    fallback="Competition Law"
+                                    as="span"
+                                />
                             </h3>
                             <p className="text-gray-700 ml-13 pl-10">
-                                Ensure fair business practices and prevent anti-competitive behavior
+                                <DynamicContent 
+                                    sectionKey="course_1_description" 
+                                    pageSlug="elearning-solutions/compliance" 
+                                    fallback="Ensure fair business practices and prevent anti-competitive behavior"
+                                    as="span"
+                                />
                             </p>
                         </div>
                         <div className="bg-gray-50 p-6 rounded-xl border border-gray-200">
@@ -291,10 +391,20 @@ export default function CompliancePage() {
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-12">
                         <h2 className="text-3xl font-bold mb-4 text-gray-900">
-                            The Swift Solution Advantage for Corporate Compliance Training
+                            <DynamicContent 
+                                sectionKey="advantages_title" 
+                                pageSlug="elearning-solutions/compliance" 
+                                fallback="The Swift Solution Advantage for Corporate Compliance Training"
+                                as="span"
+                            />
                         </h2>
                         <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                            When you partner with Swift Solution for your online compliance training needs in Bangalore, you gain several distinct advantages
+                            <DynamicContent 
+                                sectionKey="advantages_description" 
+                                pageSlug="elearning-solutions/compliance" 
+                                fallback="When you partner with Swift Solution for your online compliance training needs in Bangalore, you gain several distinct advantages"
+                                as="span"
+                            />
                         </p>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -379,75 +489,36 @@ export default function CompliancePage() {
             </section>
 
             {/* FAQ Section */}
-            <section id="faq" className="py-16 bg-white">
-                <div className="container mx-auto px-4">
-                    <div className="grid md:grid-cols-[1fr,2fr] gap-16 max-w-7xl mx-auto">
-                        {/* Left side - title */}
-                        <div>
-                            <h2 className="text-4xl font-bold sticky top-24">
-                                Frequently Asked Questions (FAQs) about Online Compliance Training
-                            </h2>
-                        </div>
-
-                        {/* Right side - FAQ content */}
-                        <div>
-                            {faqCategories.map((category, categoryIndex) => (
-                                <div key={categoryIndex} className="mb-12">
-                                    <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-6">
-                                        {category.title}
-                                    </h3>
-                                    <div className="space-y-px">
-                                        {category.faqs.map((faq, itemIndex) => {
-                                            const isItemOpen = isOpen(categoryIndex, itemIndex);
-
-                                            return (
-                                                <div key={itemIndex} className="border-t border-gray-200 first:border-t-0">
-                                                    <button
-                                                        onClick={() => toggleItem(categoryIndex, itemIndex)}
-                                                        className="flex justify-between items-center w-full py-6 text-left"
-                                                    >
-                                                        <span className={`text-lg font-medium ${isItemOpen ? "text-blue-500" : "text-gray-900"}`}>
-                                                            {faq.question}
-                                                        </span>
-                                                        <span className="ml-6 flex-shrink-0">
-                                                            {isItemOpen ? (
-                                                                <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-                                                                </svg>
-                                                            ) : (
-                                                                <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                                                </svg>
-                                                            )}
-                                                        </span>
-                                                    </button>
-                                                    {isItemOpen && (
-                                                        <div className="pb-6">
-                                                            <p className="text-gray-600">{faq.answer}</p>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <DynamicFAQ pageSlug="elearning-solutions/compliance" />
 
             {/* CTA Section */}
             <section className="py-16 bg-gradient-to-r from-orange-500 to-orange-600 text-white">
                 <div className="container mx-auto px-4">
                     <div className="max-w-3xl mx-auto text-center">
-                        <h2 className="text-3xl font-bold mb-6">Partner with Swift Solution for Compliance Excellence</h2>
+                        <h2 className="text-3xl font-bold mb-6">
+                            <DynamicContent 
+                                sectionKey="cta_title" 
+                                pageSlug="elearning-solutions/compliance" 
+                                fallback="Partner with Swift Solution for Compliance Excellence"
+                                as="span"
+                            />
+                        </h2>
                         <p className="text-xl mb-8">
-                            Don't settle for checkbox compliance training that fails to engage employees or drive real behavioral change. Partner with Swift Solution, one of the leading eLearning companies in Bangalore, to develop online compliance training courses that transform regulatory requirements into valuable learning experiences.
+                            <DynamicContent 
+                                sectionKey="cta_description" 
+                                pageSlug="elearning-solutions/compliance" 
+                                fallback="Don't settle for checkbox compliance training that fails to engage employees or drive real behavioral change. Partner with Swift Solution, one of the leading eLearning companies in Bangalore, to develop online compliance training courses that transform regulatory requirements into valuable learning experiences."
+                                as="span"
+                            />
                         </p>
                         <div className="flex justify-center">
                             <a href="#contact" className="inline-flex items-center justify-center px-6 py-3 bg-white text-orange-600 rounded-lg font-medium hover:bg-orange-50 transition-colors duration-200">
-                                Schedule a Consultation
+                                <DynamicContent 
+                                    sectionKey="cta_button" 
+                                    pageSlug="elearning-solutions/compliance" 
+                                    fallback="Schedule a Consultation"
+                                    as="span"
+                                />
                             </a>
                         </div>
                     </div>
@@ -460,4 +531,4 @@ export default function CompliancePage() {
             </section>
         </div>
     )
-} 
+}
