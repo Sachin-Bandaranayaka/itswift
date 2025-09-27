@@ -1,14 +1,13 @@
-"use client"
-
 import React from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
-import { ArrowLeft, Download, Lightbulb, Target, Building, BarChart3, TrendingUp, Clock, Award, TrendingDown, Users } from "lucide-react"
+import { ArrowLeft, Lightbulb, Target, Building, BarChart3, TrendingUp, Clock, Award, TrendingDown, Users } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Contact from "@/components/contact"
 import type { Metadata } from "next"
 import { resolveSeoMetadata } from "@/lib/services/seo-metadata"
+import PDFGenerator from "./pdf-generator"
 
 // Case studies data (same as homepage)
 const caseStudies = [
@@ -162,160 +161,7 @@ export default function CaseStudyPage({ params }: CaseStudyPageProps) {
     notFound()
   }
 
-  const generatePDF = () => {
-    const printWindow = window.open('', '_blank')
-    if (!printWindow) return
 
-    const htmlContent = `
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <title>${caseStudy.titleFallback} - Case Study</title>
-        <style>
-          body { 
-            font-family: Arial, sans-serif; 
-            margin: 40px; 
-            line-height: 1.6; 
-            color: #333; 
-          }
-          .header { 
-            border-bottom: 3px solid #ea580c; 
-            padding-bottom: 20px; 
-            margin-bottom: 30px; 
-          }
-          .title { 
-            color: #ea580c; 
-            font-size: 28px; 
-            font-weight: bold; 
-            margin-bottom: 10px; 
-          }
-          .client { 
-            font-size: 18px; 
-            color: #666; 
-            margin-bottom: 5px; 
-          }
-          .industry { 
-            font-size: 16px; 
-            color: #888; 
-          }
-          .section { 
-            margin: 25px 0; 
-          }
-          .section-title { 
-            color: #ea580c; 
-            font-size: 18px; 
-            font-weight: bold; 
-            margin-bottom: 10px; 
-            border-left: 4px solid #ea580c; 
-            padding-left: 10px; 
-          }
-          .snapshot { 
-            background: #f8f9fa; 
-            padding: 20px; 
-            border-radius: 8px; 
-            font-style: italic; 
-            margin: 20px 0; 
-          }
-          .results { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
-            gap: 15px; 
-            margin: 20px 0; 
-          }
-          .result { 
-            background: #ea580c; 
-            color: white; 
-            padding: 15px; 
-            border-radius: 8px; 
-            text-align: center; 
-          }
-          .result-metric { 
-            font-size: 18px; 
-            font-weight: bold; 
-            margin-bottom: 5px; 
-          }
-          .result-description { 
-            font-size: 14px; 
-          }
-          .content { 
-            white-space: pre-line; 
-            margin: 15px 0; 
-          }
-          .contact-info { 
-            background: #f8f9fa; 
-            padding: 20px; 
-            border-radius: 8px; 
-            margin-top: 30px; 
-          }
-          .contact-title { 
-            color: #ea580c; 
-            font-weight: bold; 
-            margin-bottom: 10px; 
-          }
-        </style>
-      </head>
-      <body>
-        <div class="header">
-          <div class="title">${caseStudy.titleFallback}</div>
-          <div class="client">Client: ${caseStudy.clientFallback}</div>
-          <div class="industry">Industry: ${caseStudy.industryFallback}</div>
-        </div>
-
-        <div class="snapshot">
-          ${caseStudy.detailedContent?.snapshot || ''}
-        </div>
-
-        <div class="section">
-          <div class="section-title">Project Overview</div>
-          <div class="content">${caseStudy.detailedContent?.introduction || ''}</div>
-        </div>
-
-        <div class="section">
-          <div class="section-title">${caseStudy.detailedContent?.challengeDetails?.title || 'Challenge'}</div>
-          <div class="content">${caseStudy.detailedContent?.challengeDetails?.content || ''}</div>
-        </div>
-
-        <div class="section">
-          <div class="section-title">${caseStudy.detailedContent?.solutionDetails?.title || 'Solution'}</div>
-          <div class="content">${caseStudy.detailedContent?.solutionDetails?.content || ''}</div>
-        </div>
-
-        <div class="section">
-          <div class="section-title">${caseStudy.detailedContent?.resultsDetails?.title || 'Results'}</div>
-          <div class="content">${caseStudy.detailedContent?.resultsDetails?.content || ''}</div>
-          
-          <div class="results">
-            ${caseStudy.results.map(result => `
-              <div class="result">
-                <div class="result-metric">${result.metricFallback}</div>
-                <div class="result-description">${result.descriptionFallback}</div>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-
-        <div class="section">
-          <div class="section-title">${caseStudy.detailedContent?.conclusion?.title || 'Conclusion'}</div>
-          <div class="content">${caseStudy.detailedContent?.conclusion?.content || ''}</div>
-        </div>
-
-        <div class="contact-info">
-          <div class="contact-title">${caseStudy.detailedContent?.conclusion?.callToAction?.title || 'Contact Us'}</div>
-          <div>${caseStudy.detailedContent?.conclusion?.callToAction?.content || ''}</div>
-          <div style="margin-top: 15px;">
-            <div>📞 ${caseStudy.detailedContent?.conclusion?.callToAction?.contact?.phone || ''}</div>
-            <div>✉️ ${caseStudy.detailedContent?.conclusion?.callToAction?.contact?.email || ''}</div>
-            <div>🌐 ${caseStudy.detailedContent?.conclusion?.callToAction?.contact?.website || ''}</div>
-          </div>
-        </div>
-      </body>
-      </html>
-    `
-
-    printWindow.document.write(htmlContent)
-    printWindow.document.close()
-    printWindow.print()
-  }
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -343,10 +189,7 @@ export default function CaseStudyPage({ params }: CaseStudyPageProps) {
                   Back to Case Studies
                 </Link>
               </Button>
-              <Button onClick={generatePDF} className="bg-orange-600 hover:bg-orange-700">
-                <Download className="h-4 w-4 mr-2" />
-                Download PDF
-              </Button>
+              <PDFGenerator caseStudy={caseStudy} className="bg-orange-600 hover:bg-orange-700" />
             </div>
           </div>
         </div>
@@ -469,10 +312,7 @@ export default function CaseStudyPage({ params }: CaseStudyPageProps) {
 
           {/* Download PDF Button */}
           <div className="text-center">
-            <Button onClick={generatePDF} size="lg" className="bg-orange-600 hover:bg-orange-700">
-              <Download className="h-5 w-5 mr-2" />
-              Download Complete Case Study PDF
-            </Button>
+            <PDFGenerator caseStudy={caseStudy} size="lg" className="bg-orange-600 hover:bg-orange-700" />
           </div>
         </div>
       </div>

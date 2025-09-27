@@ -544,7 +544,7 @@ function GameBasedElearningPage() {
   )
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-100">
+    <div className="min-h-screen bg-white">
       <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0">
           <img
@@ -556,7 +556,7 @@ function GameBasedElearningPage() {
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative container mx-auto px-4">
           <motion.div
             className="text-center text-white"
             initial={{ opacity: 0, y: 30 }}
@@ -566,7 +566,7 @@ function GameBasedElearningPage() {
           >
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
               {hero.title}
-              <span className="block text-yellow-400">{hero.subtitle}</span>
+              <span className="block text-orange-400">{hero.subtitle}</span>
             </h1>
             <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto leading-relaxed">
               {hero.description}
@@ -574,7 +574,7 @@ function GameBasedElearningPage() {
             <div className="flex justify-center">
               <motion.a
                 href="#contact"
-                className="bg-yellow-500 hover:bg-yellow-600 text-black px-8 py-4 rounded-lg font-semibold transition-colors duration-300 flex items-center justify-center"
+                className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-semibold transition-colors duration-300 flex items-center justify-center"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -589,12 +589,12 @@ function GameBasedElearningPage() {
       {/* Intro Section */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center">
+          <div className="max-w-4xl mx-auto text-center">
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="text-3xl md:text-4xl font-bold mb-4"
+              className="text-3xl md:text-4xl font-bold mb-6 text-gray-900"
             >
               {intro.heading}
             </motion.h2>
@@ -602,7 +602,7 @@ function GameBasedElearningPage() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-lg text-gray-700"
+              className="text-lg text-gray-600"
             >
               {intro.description}
             </motion.p>
@@ -610,46 +610,20 @@ function GameBasedElearningPage() {
         </div>
       </section>
 
-      {/* Why Game-Based Learning Works */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-5xl mx-auto text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">{whyWorks.heading}</h2>
-            <p className="text-gray-600">{getContent("game_why_subtext", "Key drivers behind high engagement and retention")}</p>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
-            {whyWorks.points.map((point, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: idx * 0.05 }}
-                className="bg-white rounded-xl shadow-sm p-6"
-              >
-                <point.icon className="h-10 w-10 text-purple-600 mb-4" />
-                <h3 className="text-xl font-semibold mb-2">{point.title}</h3>
-                <p className="text-gray-600">{point.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Stats */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold">{heroStatHeading}</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">{heroStatHeading}</h2>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-7xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.05 }}
-                className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-8 text-center shadow-sm"
+                className="bg-white rounded-xl p-8 text-center shadow-lg"
               >
                 <div className={`text-4xl font-bold mb-2 ${stat.color}`}>{stat.value}</div>
                 <div className="text-gray-600">{stat.label}</div>
@@ -659,23 +633,50 @@ function GameBasedElearningPage() {
         </div>
       </section>
 
+      {/* Why Game-Based Learning Works */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900">{whyWorks.heading}</h2>
+            <p className="text-lg text-gray-600 max-w-4xl mx-auto">{getContent("game_why_subtext", "Key drivers behind high engagement and retention")}</p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {whyWorks.points.map((point, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: idx * 0.05 }}
+                className="bg-white rounded-xl shadow-lg p-8 border border-gray-100"
+              >
+                <point.icon className="h-12 w-12 text-orange-500 mb-4" />
+                <h3 className="text-xl font-semibold mb-3 text-gray-900">{point.title}</h3>
+                <p className="text-gray-600">{point.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Benefits */}
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
-          <div className="max-w-5xl mx-auto text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold">{getContent("game_benefits_heading", "Benefits of Game-Based Learning")}</h2>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900">{getContent("game_benefits_heading", "Benefits of Game-Based Learning")}</h2>
+            <p className="text-lg text-gray-600 max-w-4xl mx-auto">Discover how game-based learning transforms traditional training into engaging, effective experiences</p>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {benefits.map((benefit, idx) => (
               <motion.div
                 key={idx}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: idx * 0.05 }}
-                className="bg-white rounded-xl shadow-sm p-6"
+                className="bg-white rounded-xl shadow-lg p-8 border border-gray-100"
               >
-                <benefit.icon className="h-10 w-10 text-pink-600 mb-4" />
-                <h3 className="text-xl font-semibold mb-2">{benefit.title}</h3>
+                <benefit.icon className="h-12 w-12 text-orange-500 mb-4" />
+                <h3 className="text-xl font-semibold mb-3 text-gray-900">{benefit.title}</h3>
                 <p className="text-gray-600">{benefit.description}</p>
               </motion.div>
             ))}
@@ -686,32 +687,28 @@ function GameBasedElearningPage() {
       {/* Game Types */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
-          <div className="max-w-5xl mx-auto text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold">{getContent("game_types_heading", "Types of Learning Games We Build")}</h2>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900">{getContent("game_types_heading", "Types of Learning Games We Build")}</h2>
+            <p className="text-lg text-gray-600 max-w-4xl mx-auto">Explore our diverse range of game-based learning solutions tailored to different learning objectives</p>
           </div>
-          <div className="grid lg:grid-cols-2 gap-8 max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-8">
             {gameTypes.map((type, idx) => (
               <motion.div
                 key={idx}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: idx * 0.05 }}
-                className="rounded-xl border border-gray-200 bg-white p-6"
+                className="bg-white rounded-xl shadow-lg p-8 border border-gray-100 hover:shadow-xl transition-shadow duration-300"
               >
-                <div className="flex items-start gap-4">
-                  <type.icon className="h-10 w-10 text-blue-600" />
-                  <div>
-                    <h3 className="text-xl font-semibold">{type.title}</h3>
-                    <p className="mt-2 text-gray-600">{type.description}</p>
-                    <ul className="mt-4 grid grid-cols-2 gap-2">
-                      {type.features.map((f, i) => (
-                        <li key={i} className="flex items-center gap-2 text-sm text-gray-700">
-                          <CheckCircle className="h-4 w-4 text-green-600" />
-                          {f}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                <type.icon className="h-12 w-12 text-orange-500 mb-4" />
+                <h3 className="text-xl font-semibold mb-3 text-gray-900">{type.title}</h3>
+                <p className="text-gray-600 mb-6">{type.description}</p>
+                <div className="flex flex-wrap gap-2">
+                  {type.features.map((feature, featureIdx) => (
+                    <span key={featureIdx} className="bg-orange-50 px-3 py-1 rounded-full text-sm text-orange-700 border border-orange-200">
+                      {feature}
+                    </span>
+                  ))}
                 </div>
               </motion.div>
             ))}
@@ -722,19 +719,20 @@ function GameBasedElearningPage() {
       {/* Platform Features */}
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
-          <div className="max-w-5xl mx-auto text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold">{getContent("game_features_heading", "Key Platform Features")}</h2>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900">{getContent("game_features_heading", "Key Platform Features")}</h2>
+            <p className="text-lg text-gray-600 max-w-4xl mx-auto">Advanced features that make our game-based learning platform stand out from the competition</p>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feature, idx) => (
               <motion.div
                 key={idx}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: idx * 0.05 }}
-                className="bg-white rounded-xl shadow-sm p-6"
+                className="bg-white rounded-xl shadow-lg p-8 border border-gray-100 hover:shadow-xl transition-shadow duration-300"
               >
-                <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+                <h3 className="text-xl font-semibold mb-3 text-gray-900">{feature.title}</h3>
                 <p className="text-gray-600">{feature.description}</p>
               </motion.div>
             ))}
@@ -745,16 +743,25 @@ function GameBasedElearningPage() {
       {/* Our Process */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
-          <div className="max-w-5xl mx-auto text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold">{getContent("game_process_heading", "Our Game Development Process")}</h2>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900">{getContent("game_process_heading", "Our Game Development Process")}</h2>
+            <p className="text-lg text-gray-600 max-w-4xl mx-auto">Our proven methodology ensures successful delivery of engaging game-based learning solutions</p>
           </div>
-          <div className="grid md:grid-cols-5 gap-6 max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8">
             {process.map((step, idx) => (
-              <div key={idx} className="rounded-xl bg-gray-50 p-6 border border-gray-200">
-                <div className="text-sm font-semibold text-gray-500">Step {step.step}</div>
-                <h3 className="mt-2 text-lg font-semibold">{step.title}</h3>
-                <p className="mt-2 text-gray-600">{step.description}</p>
-              </div>
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                className="bg-white rounded-xl shadow-lg p-6 border border-gray-100 text-center hover:shadow-xl transition-shadow duration-300"
+              >
+                <div className="bg-gradient-to-br from-orange-400 to-orange-600 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4">
+                  <span className="text-white font-bold text-sm">{step.step}</span>
+                </div>
+                <h3 className="text-lg font-semibold mb-3 text-gray-900">{step.title}</h3>
+                <p className="text-gray-600 text-sm">{step.description}</p>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -763,16 +770,23 @@ function GameBasedElearningPage() {
       {/* Why Choose Us */}
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
-          <div className="max-w-5xl mx-auto text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold">{getContent("game_why_cards_heading", "Why Choose Swift Solution")}</h2>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900">{getContent("game_why_cards_heading", "Why Choose Swift Solution")}</h2>
+            <p className="text-lg text-gray-600 max-w-4xl mx-auto">Discover what sets our game-based learning solutions apart from the competition</p>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {whyCards.map((card, idx) => (
-              <div key={idx} className="rounded-xl bg-white p-6 shadow-sm border border-gray-200">
-                <card.icon className="h-10 w-10 text-orange-500 mb-4" />
-                <h3 className="text-xl font-semibold mb-2">{card.title}</h3>
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                className="bg-white rounded-xl shadow-lg p-8 border border-gray-100 hover:shadow-xl transition-shadow duration-300"
+              >
+                <card.icon className="h-12 w-12 text-orange-500 mb-4" />
+                <h3 className="text-xl font-semibold mb-3 text-gray-900">{card.title}</h3>
                 <p className="text-gray-600">{card.description}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
