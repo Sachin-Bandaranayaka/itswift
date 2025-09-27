@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { Bell, Search, Plus, LogOut, User, Settings } from "lucide-react"
+import { Search, LogOut, User, Settings } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { signOut } from "next-auth/react"
@@ -44,42 +44,9 @@ export function AdminHeader() {
 
         {/* Actions */}
         <div className="flex items-center space-x-4">
-          {/* Quick Actions */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
-                <Plus className="h-4 w-4 mr-2" />
-                Create
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuLabel>Quick Actions</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <span>New Blog Post</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <span>Social Media Post</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <span>Newsletter Campaign</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <span>AI Content Generation</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
 
-          {/* Notifications */}
-          <Button variant="ghost" size="sm" className="relative">
-            <Bell className="h-4 w-4" />
-            <Badge
-              variant="destructive"
-              className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs"
-            >
-              3
-            </Badge>
-          </Button>
+
+
 
           {/* Theme Toggle */}
           <ThemeToggle />

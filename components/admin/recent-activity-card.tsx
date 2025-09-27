@@ -166,7 +166,7 @@ export function RecentActivityCard({
       </CardHeader>
       <CardContent className="p-0">
         {isLoading ? (
-          <div className="space-y-1">
+          <div className="max-h-96 overflow-y-auto space-y-1 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
             {Array.from({ length: 5 }).map((_, i) => (
               <ActivityItemSkeleton key={i} />
             ))}
@@ -179,7 +179,7 @@ export function RecentActivityCard({
             </p>
           </div>
         ) : (
-          <div className="space-y-1">
+          <div className="max-h-96 overflow-y-auto space-y-1 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
             {activities.map((activity) => (
               <ActivityItemComponent 
                 key={activity.id} 

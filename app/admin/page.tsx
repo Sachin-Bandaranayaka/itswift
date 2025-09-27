@@ -278,7 +278,7 @@ function DashboardContent() {
           isLoading={isLoadingBlogStats}
           error={blogStatsError}
           onRetry={refetchBlogStats}
-          formatValue={formatNumber}
+          formatValue={(value) => formatNumber(typeof value === 'number' ? value : undefined)}
         />
         
         <StatCard
@@ -289,7 +289,7 @@ function DashboardContent() {
           isLoading={isLoadingSocialStats}
           error={socialStatsError}
           onRetry={refetchSocialStats}
-          formatValue={formatNumber}
+          formatValue={(value) => formatNumber(typeof value === 'number' ? value : undefined)}
         />
         
         <StatCard
@@ -300,7 +300,7 @@ function DashboardContent() {
           isLoading={isLoadingNewsletterStats}
           error={newsletterStatsError}
           onRetry={refetchNewsletterStats}
-          formatValue={formatNumber}
+          formatValue={(value) => formatNumber(typeof value === 'number' ? value : undefined)}
         />
         
         <StatCard
@@ -311,7 +311,7 @@ function DashboardContent() {
           isLoading={isLoadingSocialStats}
           error={socialStatsError}
           onRetry={refetchSocialStats}
-          formatValue={formatNumber}
+          formatValue={(value) => formatNumber(typeof value === 'number' ? value : undefined)}
         />
       </div>
 
@@ -332,22 +332,38 @@ function DashboardContent() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 gap-4">
-              <Button variant="outline" className="h-20 flex flex-col items-center justify-center space-y-2">
+              <Button 
+                variant="outline" 
+                className="h-20 flex flex-col items-center justify-center space-y-2"
+                onClick={() => window.open('/admin/blog/new', '_blank')}
+              >
                 <FileText className="h-6 w-6" />
                 <span className="text-sm">New Blog Post</span>
               </Button>
               
-              <Button variant="outline" className="h-20 flex flex-col items-center justify-center space-y-2">
+              <Button 
+                variant="outline" 
+                className="h-20 flex flex-col items-center justify-center space-y-2"
+                onClick={() => window.open('/admin/social', '_blank')}
+              >
                 <Share2 className="h-6 w-6" />
                 <span className="text-sm">Social Post</span>
               </Button>
               
-              <Button variant="outline" className="h-20 flex flex-col items-center justify-center space-y-2">
+              <Button 
+                variant="outline" 
+                className="h-20 flex flex-col items-center justify-center space-y-2"
+                onClick={() => window.open('/admin/newsletter', '_blank')}
+              >
                 <Mail className="h-6 w-6" />
                 <span className="text-sm">Newsletter</span>
               </Button>
               
-              <Button variant="outline" className="h-20 flex flex-col items-center justify-center space-y-2">
+              <Button 
+                variant="outline" 
+                className="h-20 flex flex-col items-center justify-center space-y-2"
+                onClick={() => window.open('/admin/content', '_blank')}
+              >
                 <Bot className="h-6 w-6" />
                 <span className="text-sm">AI Assistant</span>
               </Button>
@@ -383,73 +399,7 @@ function DashboardContent() {
           onRetry={refetchTopPerforming}
         />
 
-        {/* AI Usage with Real Data */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center">
-              <Bot className="h-5 w-5 mr-2" />
-              AI Usage
-            </CardTitle>
-            <CardDescription>Content generation statistics</CardDescription>
-          </CardHeader>
-          <CardContent>
-            {isLoadingAIUsage ? (
-              <div className="space-y-4">
-                <div className="animate-pulse">
-                  <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-                  <div className="h-4 bg-gray-200 rounded w-1/2 mb-4"></div>
-                  <div className="h-4 bg-gray-200 rounded w-2/3 mb-2"></div>
-                  <div className="h-4 bg-gray-200 rounded w-1/3"></div>
-                </div>
-              </div>
-            ) : aiUsageError ? (
-              <div className="text-center py-4">
-                <AlertCircle className="h-8 w-8 text-red-500 mx-auto mb-2" />
-                <p className="text-sm text-red-600 mb-3">
-                  Failed to load AI usage data
-                </p>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={refetchAIUsage}
-                >
-                  <RefreshCw className="h-4 w-4 mr-2" />
-                  Retry
-                </Button>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm">Content Generated</span>
-                  <span className="text-sm font-medium">
-                    {formatNumber(aiUsage?.contentGenerated)} pieces
-                  </span>
-                </div>
-                
-                <div className="flex items-center justify-between">
-                  <span className="text-sm">Tokens Used</span>
-                  <span className="text-sm font-medium">
-                    {formatNumber(aiUsage?.tokensUsed)}
-                  </span>
-                </div>
-                
-                <div className="flex items-center justify-between">
-                  <span className="text-sm">Time Saved</span>
-                  <span className="text-sm font-medium">
-                    {formatTimeSaved(aiUsage?.timeSaved)}
-                  </span>
-                </div>
-                
-                <div className="pt-2">
-                  <Button variant="outline" size="sm" className="w-full">
-                    <Bot className="h-4 w-4 mr-2" />
-                    Generate Content
-                  </Button>
-                </div>
-              </div>
-            )}
-          </CardContent>
-        </Card>
+
       </div>
     </div>
   );
