@@ -89,11 +89,11 @@ const nextConfig = {
         ],
       },
       {
-        source: '/((?!api/).*)',
+        source: '/((?!api/|_next/static|favicon.ico).*)',
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=600, stale-while-revalidate=86400',
+            value: 'public, max-age=60, stale-while-revalidate=300',
           },
           {
             key: 'X-Content-Type-Options',

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react"
 import Head from "next/head"
 import Image from "next/image"
 import Contact from "@/components/contact"
+import ContentRefreshListener from "@/components/content-refresh-listener"
 // Removed import of getPageContent as we'll use the public API
 import { ArrowRight, CheckCircle, Award, BarChart, Layers, Users, ChevronDown, Target, Globe, Lightbulb, Heart, Star, Trophy, Brain, Zap, Shield } from "lucide-react"
 
@@ -88,24 +89,26 @@ export default function AboutUsPage() {
         }
     }
 
-    useEffect(() => {
-        const loadContent = async () => {
-            try {
-                const response = await fetch('/api/content?page=about-us')
-                const data = await response.json()
-                
-                if (data.success) {
-                    setContent(data.data.content)
-                } else {
-                    console.error('Error loading page content:', data.error)
-                }
-            } catch (error) {
-                console.error('Error loading page content:', error)
-            } finally {
-                setLoading(false)
+    const loadContent = async () => {
+        try {
+            // Add timestamp to prevent caching
+            const timestamp = Date.now()
+            const response = await fetch(`/api/content?page=about-us&_t=${timestamp}`)
+            const data = await response.json()
+            
+            if (data.success) {
+                setContent(data.data.content)
+            } else {
+                console.error('Error loading page content:', data.error)
             }
+        } catch (error) {
+            console.error('Error loading page content:', error)
+        } finally {
+            setLoading(false)
         }
+    }
 
+    useEffect(() => {
         loadContent()
 
         document.title = "Top AI-Powered eLearning Company in Bangalore, India | Swift Solution"
@@ -440,6 +443,10 @@ export default function AboutUsPage() {
 
     return (
         <div className="w-full">
+            <ContentRefreshListener 
+                pageSlug="about-us" 
+                onContentUpdate={loadContent}
+            />
             {/* Hero Section */}
             <section className="relative text-white py-20 overflow-hidden">
                 <div className="absolute inset-0">

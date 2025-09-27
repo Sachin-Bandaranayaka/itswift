@@ -7,6 +7,8 @@ import { notFound } from "next/navigation"
 import { ArrowLeft, Download, Lightbulb, Target, Building, BarChart3, TrendingUp, Clock, Award, TrendingDown, Users } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Contact from "@/components/contact"
+import type { Metadata } from "next"
+import { resolveSeoMetadata } from "@/lib/services/seo-metadata"
 
 // Case studies data (same as homepage)
 const caseStudies = [
@@ -478,4 +480,33 @@ export default function CaseStudyPage({ params }: CaseStudyPageProps) {
       <Contact />
     </div>
   )
+}
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const caseStudy = caseStudies.find(study => study.slug === params.slug)
+
+  if (!caseStudy) {
+    return {
+      title: 'Case Study Not Found',
+      description: 'The requested case study could not be found.'
+    }
+  }
+
+  const title = caseStudy.titleFallback
+  const description = caseStudy.detailedContent?.snapshot || caseStudy.challengeFallback || undefined
+
+  return resolveSeoMetadata(`/case-studies/${params.slug}`, {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: 'article'
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description
+    }
+  })
 }

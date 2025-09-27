@@ -8,6 +8,7 @@ import { SocialShareButtons } from '@/components/blog/social-share-buttons';
 import { BlogErrorBoundary } from '@/components/blog/blog-error-boundary';
 import { BlogErrorFallback } from '@/components/blog/blog-error-fallback';
 import { BlogJsonLd } from '@/components/blog/blog-json-ld';
+import { resolveSeoMetadata } from '@/lib/services/seo-metadata';
 
 type Post = BlogPost;
 
@@ -43,7 +44,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         const publishedDate = post.published_at ? new Date(post.published_at).toISOString() : undefined;
         const categoryName = post.category?.name;
 
-        return {
+        // Use centralized metadata resolver to ensure proper canonical and OG url per post
+        return await resolveSeoMetadata(`/blog/${params.slug}`, {
             title: post.title,
             description: post.excerpt || `Read ${post.title} on our blog`,
             openGraph: {
@@ -61,7 +63,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
                 description: post.excerpt || `Read ${post.title} on our blog`,
                 images: imageUrl ? [imageUrl] : undefined,
             },
-        };
+        });
     } catch (error) {
         console.error('Error generating metadata:', error);
         return {

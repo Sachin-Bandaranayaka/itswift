@@ -18,6 +18,7 @@ import {
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { ArrowLeft, Edit, Save, Eye } from 'lucide-react'
 import { useToast } from '@/hooks/use-toast'
+import { CacheBuster } from '@/lib/utils/cache-buster'
 
 interface ContentSection {
   id: string
@@ -338,7 +339,7 @@ export default function ContentManagement() {
       if (response.ok) {
         toast({
           title: 'Success',
-          description: 'Content updated successfully',
+          description: 'Content updated successfully - changes will appear immediately',
         })
         
         // Update the local state
@@ -350,6 +351,13 @@ export default function ContentManagement() {
         
         setEditingSection(null)
         setEditContent('')
+        
+        // Clear caches and notify other components of the update
+        await CacheBuster.clearContentCaches()
+        
+        // Find the section to get its key
+        const updatedSection = sections.find(s => s.id === sectionId)
+        CacheBuster.notifyContentUpdate(selectedPage?.slug || '', updatedSection?.section_key)
       } else {
         toast({
           title: 'Error',

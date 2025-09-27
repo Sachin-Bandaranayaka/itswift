@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState, type ReactNode } from 'react'
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react'
 import DOMPurify from 'isomorphic-dompurify'
 
 interface DynamicContentProps {
@@ -50,18 +50,22 @@ function DynamicContent({
   const [rawContent, setRawContent] = useState('')
   const [isLoading, setIsLoading] = useState(true)
 
-  useEffect(() => {
-    const controller = new AbortController()
-
-    async function fetchContent() {
+  const fetchContent = useMemo(() => {
+    return async (signal?: AbortSignal) => {
       setIsLoading(true)
       setRawContent('')
 
       try {
-        const params = new URLSearchParams({ page: pageSlug, section: sectionKey })
+        // Add timestamp to prevent caching
+        const timestamp = Date.now()
+        const params = new URLSearchParams({ 
+          page: pageSlug, 
+          section: sectionKey,
+          _t: timestamp.toString()
+        })
         const response = await fetch(`/api/content?${params.toString()}`, {
           cache: 'no-store',
-          signal: controller.signal
+          signal
         })
 
         if (!response.ok) {
@@ -81,11 +85,29 @@ function DynamicContent({
         setIsLoading(false)
       }
     }
-
-    void fetchContent()
-
-    return () => controller.abort()
   }, [pageSlug, sectionKey])
+
+  useEffect(() => {
+    const controller = new AbortController()
+    void fetchContent(controller.signal)
+    return () => controller.abort()
+  }, [fetchContent])
+
+  // Listen for content updates and refresh automatically
+  useEffect(() => {
+    const handleContentUpdate = (event: CustomEvent) => {
+      const { pageSlug: updatedPageSlug } = event.detail
+      if (updatedPageSlug === pageSlug) {
+        // Refresh content immediately when this page is updated
+        void fetchContent()
+      }
+    }
+
+    window.addEventListener('contentUpdated', handleContentUpdate as EventListener)
+    return () => {
+      window.removeEventListener('contentUpdated', handleContentUpdate as EventListener)
+    }
+  }, [pageSlug, fetchContent])
 
   const sanitizedContent = useMemo(() => sanitizeContent(rawContent), [rawContent])
 

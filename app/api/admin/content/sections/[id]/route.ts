@@ -31,7 +31,27 @@ export async function GET(
       )
     }
     
-    return NextResponse.json({ data })
+    // Trigger revalidation for immediate cache invalidation
+    try {
+      const pageSlug = (data as any)?.pages?.slug
+      if (pageSlug) {
+        // Call revalidation API to clear Next.js cache
+        await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/revalidate`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pageSlug })
+        })
+      }
+    } catch (revalidateError) {
+      console.warn('Failed to trigger revalidation:', revalidateError)
+    }
+
+    const response = NextResponse.json({ data })
+    response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate')
+    response.headers.set('Pragma', 'no-cache')
+    response.headers.set('Expires', '0')
+    response.headers.set('X-Content-Updated', new Date().toISOString())
+    return response
   } catch (error) {
     console.error('Error in content section API:', error)
     return NextResponse.json(
@@ -103,7 +123,27 @@ export async function PUT(
       )
     }
     
-    return NextResponse.json({ data })
+    // Trigger revalidation for immediate cache invalidation after update
+    try {
+      const pageSlug = (data as any)?.pages?.slug
+      if (pageSlug) {
+        // Call revalidation API to clear Next.js cache
+        await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/revalidate`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pageSlug })
+        })
+      }
+    } catch (revalidateError) {
+      console.warn('Failed to trigger revalidation:', revalidateError)
+    }
+    
+    const response = NextResponse.json({ data })
+    response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate')
+    response.headers.set('Pragma', 'no-cache')
+    response.headers.set('Expires', '0')
+    response.headers.set('X-Content-Updated', new Date().toISOString())
+    return response
   } catch (error) {
     console.error('Error in content section API:', error)
     return NextResponse.json(
