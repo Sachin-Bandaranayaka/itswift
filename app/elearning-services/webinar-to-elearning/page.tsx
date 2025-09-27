@@ -5,6 +5,8 @@ import Image from "next/image"
 import { motion } from "framer-motion"
 import Contact from "@/components/contact"
 import { usePageContent } from "@/hooks/use-page-content"
+import DynamicFAQ from "@/components/dynamic-faq"
+
 import {
     ArrowRight,
     CheckCircle,
@@ -432,11 +434,7 @@ const FAQ_ITEMS: FaqItemConfig[] = [
 
 export default function WebinarToElearningPage() {
     const { getContent } = usePageContent(PAGE_SLUG);
-    const [openFaq, setOpenFaq] = useState<number | null>(null);
-
-    const toggleFaq = (index: number) => {
-        setOpenFaq(openFaq === index ? null : index);
-    };
+    // Removed openFaq/toggleFaq local state in favor of DynamicFAQ component
 
     const introBullets = INTRO_BULLETS.map((bullet) => ({
         highlight: getContent(bullet.highlightKey, bullet.highlightFallback),
@@ -486,11 +484,14 @@ export default function WebinarToElearningPage() {
         delay: card.delay ?? 0,
     }));
 
-    const faqItems = FAQ_ITEMS.map((item) => ({
+    // Fallback FAQs (used if DB has no FAQs for this page)
+    const fallbackFaqs = FAQ_ITEMS.map((item) => ({
         question: getContent(item.questionKey, item.questionFallback),
         answer: getContent(item.answerKey, item.answerFallback),
     }));
 
+    // Removed local FAQ_ITEMS in favor of shared DynamicFAQ component
+    // ... existing code ...
     return (
         <div className="w-full">
             {/* Hero Section with Background */}
@@ -639,70 +640,17 @@ export default function WebinarToElearningPage() {
                 </div>
             </section>
 
-            {/* FAQ Section */}
-            <section id="faq" className="py-16 bg-white">
-                <div className="container mx-auto px-4">
-                    <div className="grid md:grid-cols-[1fr,2fr] gap-8 max-w-6xl mx-auto">
-                        {/* Left Column - Sticky Title */}
-                        <div className="md:sticky md:top-8 md:self-start">
-                            <motion.div
-                                initial={{ opacity: 0, x: -20 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.8 }}
-                            >
-                                <h2 className="text-4xl font-bold text-gray-900 mb-4">
-                                    {getContent(
-                                        "webinar_faq_heading",
-                                        "Frequently Asked Questions"
-                                    )}
-                                </h2>
-                                <p className="text-lg text-gray-600">
-                                    {getContent(
-                                        "webinar_faq_description",
-                                        "Get answers to common questions about our webinar conversion services."
-                                    )}
-                                </p>
-                            </motion.div>
-                        </div>
-
-                        {/* Right Column - FAQ Items */}
-                        <div className="space-y-0">
-                            <div className="bg-orange-50 p-6 rounded-t-lg border-b border-orange-200">
-                                <h3 className="text-xl font-semibold text-orange-800 mb-2">
-                                    {getContent("webinar_faq_badge", "WEBINAR TO ELEARNING CONVERSION")}
-                                </h3>
-                            </div>
-                            
-                            {faqItems.map((item, index) => (
-                                <motion.div
-                                    key={index}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                                    className="border-b border-gray-200 last:border-b-0"
-                                >
-                                    <div
-                                        className="cursor-pointer p-6 hover:bg-gray-50 transition-colors duration-200"
-                                        onClick={() => toggleFaq(index)}
-                                    >
-                                        <div className="flex justify-between items-center">
-                                            <h3 className="text-lg font-medium text-gray-900 pr-4">{item.question}</h3>
-                                            <ChevronDown className={`h-5 w-5 text-gray-500 transition-transform duration-300 flex-shrink-0 ${openFaq === index ? 'rotate-180' : ''}`} />
-                                        </div>
-                                        {openFaq === index && (
-                                            <div className="mt-4 pt-4 border-t border-gray-100">
-                                                <p className="text-gray-700 leading-relaxed">{item.answer}</p>
-                                            </div>
-                                        )}
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </section>
+            {/* FAQ Section (replaced with shared DynamicFAQ) */}
+            <DynamicFAQ
+                sectionId="faq"
+                pageSlug={PAGE_SLUG}
+                title={getContent(
+                    "webinar_faq_heading",
+                    "Frequently Asked Questions (FAQs) about Webinar to eLearning"
+                )}
+                className="py-16 bg-white"
+                fallbackItems={fallbackFaqs}
+            />
 
             {/* CTA Section */}
             <section className="py-12 bg-gradient-to-r from-orange-500 to-orange-600 text-white">

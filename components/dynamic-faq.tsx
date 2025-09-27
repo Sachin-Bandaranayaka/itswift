@@ -21,19 +21,26 @@ interface FAQCategory {
   faqs: FAQ[]
 }
 
+interface FallbackFAQItem {
+  question: string
+  answer: string
+  display_order?: number
+}
+
 interface DynamicFAQProps {
   pageSlug: string
   title?: string
   className?: string
   sectionId?: string
+  fallbackItems?: FallbackFAQItem[]
 }
 
-export default function DynamicFAQ({ pageSlug, title, className = "", sectionId }: DynamicFAQProps) {
+export default function DynamicFAQ({ pageSlug, title, className = "", sectionId, fallbackItems = [] }: DynamicFAQProps) {
   const [faqCategories, setFaqCategories] = useState<FAQCategory[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [openItems, setOpenItems] = useState<Record<string, boolean>>({
-    "0-0": true // First question open by default
+    "0": true // First question open by default
   })
 
   // Fetch FAQs for the specific page
@@ -94,29 +101,37 @@ export default function DynamicFAQ({ pageSlug, title, className = "", sectionId 
     fetchFAQs()
   }, [pageSlug])
 
-  const toggleItem = (categoryIndex: number, itemIndex: number) => {
-    const itemKey = `${categoryIndex}-${itemIndex}`
+  const toggleItem = (itemIndex: number) => {
+    const itemKey = `${itemIndex}`
     setOpenItems(prev => ({
       ...prev,
       [itemKey]: !prev[itemKey]
     }))
   }
 
-  const isOpen = (categoryIndex: number, itemIndex: number) => {
-    const itemKey = `${categoryIndex}-${itemIndex}`
+  const isOpen = (itemIndex: number) => {
+    const itemKey = `${itemIndex}`
     return !!openItems[itemKey]
   }
 
+  // Normalize FAQs: prefer fetched data; fall back to provided items
+  const normalizedFAQs: { id: string; question: string; answer: string; display_order: number }[] = (() => {
+    const fromServer = faqCategories.flatMap(category => category.faqs)
+    if (fromServer.length > 0) return fromServer.map(f => ({ id: f.id, question: f.question, answer: f.answer, display_order: f.display_order }))
+    if (fallbackItems && fallbackItems.length > 0) {
+      return fallbackItems.map((f, idx) => ({ id: `fallback-${idx}`, question: f.question, answer: f.answer, display_order: f.display_order ?? idx }))
+    }
+    return []
+  })()
+
   // Generate FAQ schema for SEO
   const generateFAQSchema = () => {
-    const allFAQs = faqCategories.flatMap(category => category.faqs)
-    
-    if (allFAQs.length === 0) return null
+    if (normalizedFAQs.length === 0) return null
 
     const faqSchema = {
       "@context": "https://schema.org",
       "@type": "FAQPage",
-      "mainEntity": allFAQs.map(faq => ({
+      "mainEntity": normalizedFAQs.map(faq => ({
         "@type": "Question",
         "name": faq.question,
         "acceptedAnswer": {
@@ -149,7 +164,7 @@ export default function DynamicFAQ({ pageSlug, title, className = "", sectionId 
     )
   }
 
-  if (error) {
+  if (error && normalizedFAQs.length === 0) {
     return (
       <section className={`py-16 bg-gray-50 ${className}`}>
         <div className="container mx-auto px-4">
@@ -161,11 +176,14 @@ export default function DynamicFAQ({ pageSlug, title, className = "", sectionId 
     )
   }
 
-  if (faqCategories.length === 0) {
-    return null // Don't render anything if no FAQs
+  if (normalizedFAQs.length === 0) {
+    return null // Don't render anything if no FAQs and no fallback
   }
 
   const sectionClassName = ['py-16 bg-white', className].filter(Boolean).join(' ')
+
+  // Flatten all FAQs and sort by display_order globally to match compact style
+  const allFAQs = normalizedFAQs.sort((a, b) => a.display_order - b.display_order)
 
   return (
     <>
@@ -180,49 +198,39 @@ export default function DynamicFAQ({ pageSlug, title, className = "", sectionId 
               </h2>
             </div>
 
-            {/* Right side - FAQ content */}
+            {/* Right side - FAQ content (compact, no category headers) */}
             <div>
-              {faqCategories.map((category, categoryIndex) => (
-                <div key={categoryIndex} className="mb-12">
-                  <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-6">
-                    {category.title}
-                  </h3>
-                  <div className="space-y-px">
-                    {category.faqs.map((faq, itemIndex) => {
-                      const isItemOpen = isOpen(categoryIndex, itemIndex);
-
-                      return (
-                        <div key={faq.id} className="border-t border-gray-200 first:border-t-0">
-                          <button
-                            onClick={() => toggleItem(categoryIndex, itemIndex)}
-                            className="flex justify-between items-center w-full py-6 text-left"
-                          >
-                            <span className={`text-lg font-medium ${isItemOpen ? "text-blue-500" : "text-gray-900"}`}>
-                              {faq.question}
-                            </span>
-                            <span className="ml-6 flex-shrink-0">
-                              {isItemOpen ? (
-                                <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-                                </svg>
-                              ) : (
-                                <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                </svg>
-                              )}
-                            </span>
-                          </button>
-                          {isItemOpen && (
-                            <div className="pb-6">
-                              <p className="text-gray-600">{faq.answer}</p>
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })}
+              {allFAQs.map((faq, itemIndex) => {
+                const isItemOpen = isOpen(itemIndex)
+                return (
+                  <div key={faq.id} className="border-t border-gray-200 first:border-t-0">
+                    <button
+                      onClick={() => toggleItem(itemIndex)}
+                      className="flex justify-between items-center w-full py-6 text-left"
+                    >
+                      <span className={`text-lg font-medium ${isItemOpen ? "text-blue-500" : "text-gray-900"}`}>
+                        {faq.question}
+                      </span>
+                      <span className="ml-6 flex-shrink-0">
+                        {isItemOpen ? (
+                          <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                          </svg>
+                        ) : (
+                          <svg className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                          </svg>
+                        )}
+                      </span>
+                    </button>
+                    {isItemOpen && (
+                      <div className="pb-6">
+                        <p className="text-gray-600">{faq.answer}</p>
+                      </div>
+                    )}
                   </div>
-                </div>
-              ))}
+                )
+              })}
             </div>
           </div>
         </div>
