@@ -5,23 +5,23 @@ import { motion } from "framer-motion"
 import Image from "next/image"
 
 const logos = [
-  "/IMAGES/new logos/Flipkart_logo.png",
-  "/IMAGES/new logos/Google_2015_logo.svg.png",
-  "/IMAGES/new logos/HGS.jpg",
-  "/IMAGES/new logos/ITC_Limited.png",
-  "/IMAGES/new logos/KPMG_logo.png",
-  "/IMAGES/new logos/ONGC.jpg",
-  "/IMAGES/new logos/RR.jpg",
-  "/IMAGES/new logos/SBI.jpg",
-  "/IMAGES/new logos/Swiggy_Logo.png",
-  "/IMAGES/new logos/Zepto.png",
-  "/IMAGES/new logos/microsoft.jpg",
-  "/IMAGES/new logos/mrf-logo.png",
-  "/IMAGES/new logos/novo.jpg",
+  { src: "/IMAGES/new logos/Flipkart_logo.png", alt: "Flipkart - India's leading e-commerce platform" },
+  { src: "/IMAGES/new logos/Google_2015_logo.svg.png", alt: "Google - Global technology leader" },
+  { src: "/IMAGES/new logos/HGS.jpg", alt: "HGS - Global business process management company" },
+  { src: "/IMAGES/new logos/ITC_Limited.png", alt: "ITC Limited - Indian multinational conglomerate" },
+  { src: "/IMAGES/new logos/KPMG_logo.png", alt: "KPMG - Global professional services firm" },
+  { src: "/IMAGES/new logos/ONGC.jpg", alt: "ONGC - Oil and Natural Gas Corporation of India" },
+  { src: "/IMAGES/new logos/RR.jpg", alt: "Reliance Retail - India's largest retailer" },
+  { src: "/IMAGES/new logos/SBI.jpg", alt: "State Bank of India - India's largest public sector bank" },
+  { src: "/IMAGES/new logos/Swiggy_Logo.png", alt: "Swiggy - India's leading food delivery platform" },
+  { src: "/IMAGES/new logos/Zepto.png", alt: "Zepto - Quick commerce delivery platform" },
+  { src: "/IMAGES/new logos/microsoft.jpg", alt: "Microsoft - Global technology corporation" },
+  { src: "/IMAGES/new logos/mrf-logo.png", alt: "MRF - India's largest tire manufacturer" },
+  { src: "/IMAGES/new logos/novo.jpg", alt: "Novo Nordisk - Global healthcare company" },
 ]
 
 export default function BrandCarousel() {
-  const [duplicatedLogos, setDuplicatedLogos] = useState<string[]>([])
+  const [duplicatedLogos, setDuplicatedLogos] = useState<typeof logos>([])
 
   useEffect(() => {
     // Duplicate logos to create seamless infinite scroll effect
@@ -70,9 +70,10 @@ export default function BrandCarousel() {
                   className="flex-shrink-0 relative w-[140px] h-[70px] grayscale hover:grayscale-0 transition-all duration-300"
                 >
                   <Image
-                    src={logo}
-                    alt={`Partner logo ${index + 1}`}
+                    src={logo.src}
+                    alt={logo.alt}
                     fill
+                    sizes="140px"
                     className="object-contain"
                     onError={(e) => {
                       // Fallback for missing images

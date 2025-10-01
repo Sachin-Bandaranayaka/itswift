@@ -310,8 +310,8 @@ INSERT INTO content_items (section_id, key, title, content, metadata, display_or
   "email": "info@swiftsolution.com",
   "hours": "Monday - Friday: 9:00 AM - 6:00 PM",
   "social_links": {
-    "linkedin": "https://linkedin.com/company/swift-solution",
-    "twitter": "https://twitter.com/swiftsolution",
+    "linkedin": "https://in.linkedin.com/company/swift-solution-pvt-ltd",
+    "twitter": "https://x.com/itswiftdotcom",
     "facebook": "https://facebook.com/swiftsolution"
   }
 }', '{}', 1);

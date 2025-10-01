@@ -103,6 +103,7 @@ export default function Services() {
                                                     src={service.icon}
                                                     alt={service.titleFallback}
                                                     fill
+                                                    sizes="24px"
                                                     className="object-contain"
                                                     onError={(e) => {
                                                         // Fallback for missing images

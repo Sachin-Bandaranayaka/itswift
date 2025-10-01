@@ -8,6 +8,7 @@ import ValueProposition from "@/components/value-proposition"
 import Services from "@/components/services"
 import Outsourcing from "@/components/outsourcing"
 import Stats from "@/components/stats"
+import Testimonials from "@/components/testimonials"
 import DynamicFAQ from "@/components/dynamic-faq"
 import BrandCarousel from "@/components/brand-carousel"
 import Contact from "@/components/contact"
@@ -522,6 +523,7 @@ export default function Home() {
 
       <Outsourcing />
       <Stats />
+      <Testimonials />
       <DynamicFAQ pageSlug="homepage" title="Frequently Asked Questions" />
 
       {/* Case Studies Section */}

@@ -51,7 +51,7 @@ const DEFAULT_METADATA: Metadata = {
     description:
       'itswift delivers AI-powered, custom eLearning programs for enterprises in Bangalore and worldwide. Boost corporate training with tailored digital learning experiences.',
     images: ['/IMAGES/Swift_logo_new.png'],
-    creator: '@ITSwift',
+    creator: '@itswiftdotcom',
   },
   robots: {
     index: true,

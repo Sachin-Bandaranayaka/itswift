@@ -67,6 +67,23 @@ const nextConfig = {
         destination: '/elearning-solutions/:path*',
         permanent: true,
       },
+      // Handle trailing slash consistency
+      {
+        source: '/home',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/index',
+        destination: '/',
+        permanent: true,
+      },
+      // Handle common variations
+      {
+        source: '/about',
+        destination: '/about-us',
+        permanent: true,
+      },
     ];
   },
   async headers() {

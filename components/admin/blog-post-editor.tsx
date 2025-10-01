@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { RichTextEditor } from "./rich-text-editor"
 import { CloudinaryImageUpload } from "./cloudinary-image-upload"
 import { 
@@ -20,10 +21,14 @@ import {
   FileText,
   Image as ImageIcon,
   Tag,
-  History
+  History,
+  Search,
+  Sparkles
 } from "lucide-react"
 import { toast } from "sonner"
 import { BlogVersionHistory } from "./blog-version-history"
+import { SEOOptimizer } from "./seo-optimizer"
+import { AIContentAssistant } from "./ai-content-assistant"
 
 interface BlogPost {
   id?: string
@@ -55,11 +60,16 @@ export function BlogPostEditor({ post, onClose, onSave }: BlogPostEditorProps) {
     categories: [] as string[],
     mainImageUrl: '',
     mainImageAlt: '',
-    autoGenerateSocial: true
+    autoGenerateSocial: true,
+    metaTitle: '',
+    metaDescription: '',
+    metaKeywords: '',
+    slug: ''
   })
   const [isSaving, setIsSaving] = useState(false)
   const [isGeneratingSocial, setIsGeneratingSocial] = useState(false)
   const [showVersionHistory, setShowVersionHistory] = useState(false)
+  const [activeTab, setActiveTab] = useState('content')
 
   useEffect(() => {
     if (post) {
@@ -71,7 +81,11 @@ export function BlogPostEditor({ post, onClose, onSave }: BlogPostEditorProps) {
         categories: post.categories?.map(cat => cat.name) || [],
         mainImageUrl: post.featured_image_url || '',
         mainImageAlt: '',
-        autoGenerateSocial: true
+        autoGenerateSocial: true,
+        metaTitle: (post as any).meta_title || '',
+        metaDescription: (post as any).meta_description || '',
+        metaKeywords: (post as any).meta_keywords || '',
+        slug: post.slug || ''
       })
     }
   }, [post])
@@ -109,12 +123,15 @@ export function BlogPostEditor({ post, onClose, onSave }: BlogPostEditorProps) {
         title: formData.title,
         content: formData.content,
         excerpt: formData.excerpt,
-        slug: formData.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
+        slug: formData.slug || formData.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
         status: 'draft',
         featured_image_url: formData.mainImageUrl || null,
         published_at: formData.publishedAt || null,
         author_id: 'cae5f613-5fc0-42aa-8a2b-8ea5e451ab99', // Admin User author ID
-        category_id: null // Single category ID as expected by the API
+        category_id: null, // Single category ID as expected by the API
+        meta_title: formData.metaTitle || null,
+        meta_description: formData.metaDescription || null,
+        meta_keywords: formData.metaKeywords || null
       }
 
       const url = post?.id ? `/api/admin/blog/posts/${post.id}` : '/api/admin/blog/posts'
@@ -203,23 +220,6 @@ export function BlogPostEditor({ post, onClose, onSave }: BlogPostEditorProps) {
             </Button>
           )}
           <Button
-            variant="outline"
-            onClick={handleGenerateSocialPosts}
-            disabled={isGeneratingSocial || !formData.title.trim()}
-          >
-            {isGeneratingSocial ? (
-              <>
-                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                Generating...
-              </>
-            ) : (
-              <>
-                <Share2 className="h-4 w-4 mr-2" />
-                Generate Social Posts
-              </>
-            )}
-          </Button>
-          <Button
             onClick={handleSave}
             disabled={isSaving || !formData.title.trim()}
           >
@@ -241,9 +241,28 @@ export function BlogPostEditor({ post, onClose, onSave }: BlogPostEditorProps) {
         </div>
       </div>
 
-      {/* Content */}
-      <div className="flex-1 overflow-auto p-6">
-        <div className="max-w-4xl mx-auto space-y-6">
+      {/* Tabs Navigation */}
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col">
+        <div className="border-b px-6">
+          <TabsList className="h-12">
+            <TabsTrigger value="content" className="gap-2">
+              <FileText className="h-4 w-4" />
+              Content
+            </TabsTrigger>
+            <TabsTrigger value="seo" className="gap-2">
+              <Search className="h-4 w-4" />
+              SEO
+            </TabsTrigger>
+            <TabsTrigger value="ai" className="gap-2">
+              <Sparkles className="h-4 w-4" />
+              AI Assistant
+            </TabsTrigger>
+          </TabsList>
+        </div>
+
+        {/* Content Tab */}
+        <TabsContent value="content" className="flex-1 overflow-auto p-6 mt-0">
+          <div className="max-w-4xl mx-auto space-y-6">
           {/* Title */}
           <div>
             <Label htmlFor="title">Title *</Label>
@@ -400,8 +419,79 @@ export function BlogPostEditor({ post, onClose, onSave }: BlogPostEditorProps) {
               ))}
             </div>
           )}
-        </div>
-      </div>
+
+          {/* Generate Social Posts Button */}
+          <div className="pt-4">
+            <Button
+              variant="outline"
+              onClick={handleGenerateSocialPosts}
+              disabled={isGeneratingSocial || !formData.title.trim()}
+              className="w-full"
+            >
+              {isGeneratingSocial ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  Generating Social Posts...
+                </>
+              ) : (
+                <>
+                  <Share2 className="h-4 w-4 mr-2" />
+                  Generate Social Media Posts
+                </>
+              )}
+            </Button>
+          </div>
+          </div>
+        </TabsContent>
+
+        {/* SEO Tab */}
+        <TabsContent value="seo" className="flex-1 overflow-auto p-6 mt-0">
+          <div className="max-w-4xl mx-auto">
+            <SEOOptimizer
+              title={formData.title}
+              content={formData.content}
+              excerpt={formData.excerpt}
+              seoData={{
+                metaTitle: formData.metaTitle,
+                metaDescription: formData.metaDescription,
+                metaKeywords: formData.metaKeywords,
+                slug: formData.slug
+              }}
+              onSEODataChange={(seoData) => {
+                setFormData(prev => ({
+                  ...prev,
+                  metaTitle: seoData.metaTitle,
+                  metaDescription: seoData.metaDescription,
+                  metaKeywords: seoData.metaKeywords,
+                  slug: seoData.slug
+                }))
+              }}
+            />
+          </div>
+        </TabsContent>
+
+        {/* AI Assistant Tab */}
+        <TabsContent value="ai" className="flex-1 overflow-auto p-6 mt-0">
+          <div className="max-w-4xl mx-auto">
+            <AIContentAssistant 
+              contentType="blog"
+              onContentGenerated={(content: any) => {
+                // Handle AI generated content
+                if (content.title) {
+                  setFormData(prev => ({ ...prev, title: content.title || prev.title }))
+                }
+                if (content.content) {
+                  setFormData(prev => ({ ...prev, content: content.content || prev.content }))
+                }
+                if (content.excerpt) {
+                  setFormData(prev => ({ ...prev, excerpt: content.excerpt || prev.excerpt }))
+                }
+                toast.success('AI content applied to your post')
+              }}
+            />
+          </div>
+        </TabsContent>
+      </Tabs>
 
       {/* Version History Modal */}
       {post && post.id && (

@@ -460,6 +460,104 @@ export default function ContactPage() {
                     </div>
                 </div>
             </section>
+
+            {/* Map Section */}
+            <section className="py-16 bg-gray-50">
+                <div className="container mx-auto px-4">
+                    <div className="max-w-7xl mx-auto">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8 }}
+                            className="text-center mb-12"
+                        >
+                            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                                <DynamicContent 
+                                    sectionKey="map_section_title" 
+                                    pageSlug="contact" 
+                                    fallback="Find Us" 
+                                    as="span"
+                                />
+                            </h2>
+                            <p className="text-gray-600 max-w-2xl mx-auto">
+                                <DynamicContent 
+                                    sectionKey="map_section_description" 
+                                    pageSlug="contact" 
+                                    fallback="Visit our office in Bangalore or connect with us virtually. We're here to help you transform your learning initiatives." 
+                                    as="span"
+                                />
+                            </p>
+                        </motion.div>
+
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, delay: 0.2 }}
+                            className="bg-white rounded-2xl overflow-hidden shadow-lg"
+                        >
+                            <div className="aspect-video w-full">
+                                <iframe
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3887.8234567890123!2d77.5234567890123!3d12.9234567890123!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDU1JzI0LjQiTiA3N8KwMzEnMjQuNCJF!5e0!3m2!1sen!2sin!4v1234567890123!5m2!1sen!2sin"
+                                    width="100%"
+                                    height="100%"
+                                    style={{ border: 0 }}
+                                    allowFullScreen
+                                    loading="lazy"
+                                    referrerPolicy="no-referrer-when-downgrade"
+                                    title="Swift Solution Pvt. Ltd. Office Location - Bangalore, India"
+                                    className="w-full h-full"
+                                />
+                            </div>
+                            
+                            <div className="p-6 bg-white border-t border-gray-100">
+                                <div className="grid md:grid-cols-2 gap-6">
+                                    <div>
+                                        <h3 className="text-lg font-semibold text-gray-900 mb-2 flex items-center">
+                                            <svg className="w-5 h-5 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                                            </svg>
+                                            Our Bangalore Office
+                                        </h3>
+                                        <address className="text-gray-600 not-italic">
+                                            Swift Solution Pvt. Ltd.<br />
+                                            # 31, 14th Main, Agromore Layout,<br />
+                                            Atthiguppe Extn, (Near To Chandra Layout Water Tank),<br />
+                                            Vijaynagar, Bangalore - 560 040<br />
+                                            Karnataka, India
+                                        </address>
+                                    </div>
+                                    
+                                    <div>
+                                        <h3 className="text-lg font-semibold text-gray-900 mb-2 flex items-center">
+                                            <svg className="w-5 h-5 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                                            </svg>
+                                            Contact Details
+                                        </h3>
+                                        <div className="space-y-2 text-gray-600">
+                                            <p>
+                                                <strong>Phone:</strong> 
+                                                <a href="tel:08023215884" className="ml-1 text-orange-600 hover:text-orange-700 transition-colors">
+                                                    080-23215884
+                                                </a>
+                                            </p>
+                                            <p>
+                                                <strong>Email:</strong> 
+                                                <a href="mailto:swiftsol@itswift.com" className="ml-1 text-orange-600 hover:text-orange-700 transition-colors">
+                                                    swiftsol@itswift.com
+                                                </a>
+                                            </p>
+                                            <p>
+                                                <strong>Hours:</strong> Mon-Fri 9:00 AM - 6:00 PM IST
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
+                </div>
+            </section>
         </div>
     )
 }
