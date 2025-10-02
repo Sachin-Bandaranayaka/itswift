@@ -42,7 +42,7 @@ export default function Hero() {
             </div>
           )}
           
-          {/* Video element - always render but control visibility */}
+          {/* Video element - optimized with Cloudinary CDN */}
           <video
             ref={videoRef}
             className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
@@ -52,7 +52,8 @@ export default function Hero() {
             muted
             loop
             playsInline
-            preload="metadata"
+            preload="auto"
+            poster="/video-poster.jpg"
             style={{ objectPosition: "center" }}
             onLoadedData={() => setIsLoading(false)}
             onError={() => {
@@ -60,7 +61,10 @@ export default function Hero() {
               setIsLoading(false)
             }}
           >
-            <source src="/Banner Video V3.mp4" type="video/mp4" />
+            <source 
+              src="https://res.cloudinary.com/dz0wb6ozk/video/upload/q_auto:low,f_auto,vc_auto/Banner_Video_V3_newuqh.mp4" 
+              type="video/mp4" 
+            />
             Your browser does not support the video tag.
           </video>
 

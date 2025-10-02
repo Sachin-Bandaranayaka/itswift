@@ -144,6 +144,26 @@ const nextConfig = {
           },
         ],
       },
+      // Aggressive caching for video files
+      {
+        source: '/:all*.mp4',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      // Aggressive caching for images
+      {
+        source: '/:all*.(jpg|jpeg|png|gif|webp|svg|ico)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
     ];
   },
 }
