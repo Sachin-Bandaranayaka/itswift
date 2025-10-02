@@ -110,30 +110,6 @@ export default function AboutUsPage() {
 
     useEffect(() => {
         loadContent()
-
-        document.title = "Top AI-Powered eLearning Company in Bangalore, India | Swift Solution"
-
-        // Update meta description
-        const metaDescription = document.querySelector('meta[name="description"]')
-        if (metaDescription) {
-            metaDescription.setAttribute('content', 'Learn about Swift Solution, a leading AI-powered eLearning company in Bangalore with 25+ years of experience. Discover our authentic AI transformation, deep domain expertise, and commitment to delivering measurable ROI for clients like Google and Microsoft.')
-        } else {
-            const meta = document.createElement('meta')
-            meta.name = 'description'
-            meta.content = 'Learn about Swift Solution, a leading AI-powered eLearning company in Bangalore with 25+ years of experience. Discover our authentic AI transformation, deep domain expertise, and commitment to delivering measurable ROI for clients like Google and Microsoft.'
-            document.head.appendChild(meta)
-        }
-
-        // Update meta keywords
-        const metaKeywords = document.querySelector('meta[name="keywords"]')
-        if (metaKeywords) {
-            metaKeywords.setAttribute('content', 'about swift solution, top elearning companies in bangalore, ai-powered elearning, corporate training solutions, elearning company india, custom elearning content')
-        } else {
-            const meta = document.createElement('meta')
-            meta.name = 'keywords'
-            meta.content = 'about swift solution, top elearning companies in bangalore, ai-powered elearning, corporate training solutions, elearning company india, custom elearning content'
-            document.head.appendChild(meta)
-        }
     }, [])
 
     // Helper function to get content with fallback
