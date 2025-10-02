@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Checkbox } from "@/components/ui/checkbox"
 import { 
   Plus, 
   Edit, 
@@ -19,7 +20,14 @@ import {
   Search,
   Filter,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Download,
+  Upload,
+  CheckSquare,
+  Square,
+  Eye,
+  EyeOff,
+  Copy
 } from "lucide-react"
 import { toast } from "sonner"
 
@@ -92,6 +100,10 @@ export default function FAQManagement() {
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
   const [itemsPerPage] = useState(10)
+
+  // Bulk actions state
+  const [selectedFaqs, setSelectedFaqs] = useState<Set<string>>(new Set())
+  const [isAllSelected, setIsAllSelected] = useState(false)
   
   const [formData, setFormData] = useState<FAQFormData>({
     question: '',
@@ -116,7 +128,10 @@ export default function FAQManagement() {
       // Add filters if they're not 'all'
       if (filterPage !== 'all') params.append('page_slug', filterPage)
       if (filterCategory !== 'all') params.append('category', filterCategory)
-      if (filterActive !== 'all') params.append('is_active', filterActive)
+      if (filterActive !== 'all') {
+        // Convert 'active'/'inactive' to 'true'/'false' for the API
+        params.append('is_active', filterActive === 'active' ? 'true' : 'false')
+      }
       if (searchTerm) params.append('search', searchTerm)
       
       const response = await fetch(`/api/admin/faqs?${params.toString()}`, {
@@ -175,6 +190,28 @@ export default function FAQManagement() {
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    // Validation
+    if (!formData.question.trim()) {
+      toast.error('Question is required')
+      return
+    }
+    if (!formData.answer.trim()) {
+      toast.error('Answer is required')
+      return
+    }
+    if (!formData.page_slug.trim()) {
+      toast.error('Page slug is required')
+      return
+    }
+    if (formData.question.length < 10) {
+      toast.error('Question must be at least 10 characters long')
+      return
+    }
+    if (formData.answer.length < 20) {
+      toast.error('Answer must be at least 20 characters long')
+      return
+    }
     
     try {
       const url = isEditing ? `/api/admin/faqs/${selectedFaq?.id}` : '/api/admin/faqs'
@@ -262,6 +299,146 @@ export default function FAQManagement() {
     setIsDialogOpen(true)
   }
 
+  // Bulk action handlers
+  const toggleSelectAll = () => {
+    if (isAllSelected) {
+      setSelectedFaqs(new Set())
+      setIsAllSelected(false)
+    } else {
+      const allIds = new Set(faqs.map(faq => faq.id))
+      setSelectedFaqs(allIds)
+      setIsAllSelected(true)
+    }
+  }
+
+  const toggleSelectFaq = (id: string) => {
+    const newSelected = new Set(selectedFaqs)
+    if (newSelected.has(id)) {
+      newSelected.delete(id)
+    } else {
+      newSelected.add(id)
+    }
+    setSelectedFaqs(newSelected)
+    setIsAllSelected(newSelected.size === faqs.length && faqs.length > 0)
+  }
+
+  const handleBulkDelete = async () => {
+    if (selectedFaqs.size === 0) {
+      toast.error('Please select FAQs to delete')
+      return
+    }
+
+    if (!confirm(`Are you sure you want to delete ${selectedFaqs.size} FAQ(s)?`)) return
+
+    try {
+      const deletePromises = Array.from(selectedFaqs).map(id =>
+        fetch(`/api/admin/faqs/${id}`, { method: 'DELETE' })
+      )
+      
+      const results = await Promise.all(deletePromises)
+      const successCount = results.filter(r => r.ok).length
+
+      if (successCount > 0) {
+        toast.success(`Successfully deleted ${successCount} FAQ(s)`)
+        setSelectedFaqs(new Set())
+        setIsAllSelected(false)
+        fetchFaqs()
+      } else {
+        toast.error('Failed to delete FAQs')
+      }
+    } catch (error) {
+      console.error('Error deleting FAQs:', error)
+      toast.error('Failed to delete FAQs')
+    }
+  }
+
+  const handleBulkActivate = async (activate: boolean) => {
+    if (selectedFaqs.size === 0) {
+      toast.error('Please select FAQs to update')
+      return
+    }
+
+    try {
+      const updatePromises = Array.from(selectedFaqs).map(id =>
+        fetch(`/api/admin/faqs/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ is_active: activate })
+        })
+      )
+      
+      const results = await Promise.all(updatePromises)
+      const successCount = results.filter(r => r.ok).length
+
+      if (successCount > 0) {
+        toast.success(`Successfully ${activate ? 'activated' : 'deactivated'} ${successCount} FAQ(s)`)
+        setSelectedFaqs(new Set())
+        setIsAllSelected(false)
+        fetchFaqs()
+      } else {
+        toast.error('Failed to update FAQs')
+      }
+    } catch (error) {
+      console.error('Error updating FAQs:', error)
+      toast.error('Failed to update FAQs')
+    }
+  }
+
+  const handleExportFAQs = () => {
+    if (faqs.length === 0) {
+      toast.error('No FAQs to export')
+      return
+    }
+
+    const dataToExport = faqs.map(faq => ({
+      question: faq.question,
+      answer: faq.answer,
+      page_slug: faq.page_slug,
+      category: faq.category || '',
+      display_order: faq.display_order,
+      is_active: faq.is_active
+    }))
+
+    const blob = new Blob([JSON.stringify(dataToExport, null, 2)], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `faqs-export-${new Date().toISOString().split('T')[0]}.json`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+    toast.success('FAQs exported successfully')
+  }
+
+  const handleDuplicateFaq = async (faq: FAQ) => {
+    try {
+      const response = await fetch('/api/admin/faqs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          question: `${faq.question} (Copy)`,
+          answer: faq.answer,
+          page_slug: faq.page_slug,
+          category: faq.category,
+          display_order: faq.display_order + 1,
+          is_active: false
+        })
+      })
+
+      const result = await response.json()
+      if (result.success) {
+        toast.success('FAQ duplicated successfully')
+        fetchFaqs()
+      } else {
+        toast.error('Failed to duplicate FAQ')
+      }
+    } catch (error) {
+      console.error('Error duplicating FAQ:', error)
+      toast.error('Failed to duplicate FAQ')
+    }
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -271,11 +448,72 @@ export default function FAQManagement() {
             Manage frequently asked questions for different pages
           </p>
         </div>
-        <Button onClick={openCreateDialog}>
-          <Plus className="mr-2 h-4 w-4" />
-          Add FAQ
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button variant="outline" onClick={handleExportFAQs}>
+            <Download className="mr-2 h-4 w-4" />
+            Export
+          </Button>
+          <Button onClick={openCreateDialog}>
+            <Plus className="mr-2 h-4 w-4" />
+            Add FAQ
+          </Button>
+        </div>
       </div>
+
+      {/* Bulk Actions Bar */}
+      {selectedFaqs.size > 0 && (
+        <Card className="border-blue-200 bg-blue-50 dark:bg-blue-950 dark:border-blue-800">
+          <CardContent className="py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <CheckSquare className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                <span className="font-medium text-blue-900 dark:text-blue-100">
+                  {selectedFaqs.size} FAQ(s) selected
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleBulkActivate(true)}
+                  className="border-green-200 hover:bg-green-50"
+                >
+                  <Eye className="mr-2 h-4 w-4" />
+                  Activate
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleBulkActivate(false)}
+                  className="border-yellow-200 hover:bg-yellow-50"
+                >
+                  <EyeOff className="mr-2 h-4 w-4" />
+                  Deactivate
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleBulkDelete}
+                  className="border-red-200 hover:bg-red-50 text-red-600"
+                >
+                  <Trash2 className="mr-2 h-4 w-4" />
+                  Delete
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    setSelectedFaqs(new Set())
+                    setIsAllSelected(false)
+                  }}
+                >
+                  Clear Selection
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Quick Page Filters */}
       <Card>
@@ -408,6 +646,13 @@ export default function FAQManagement() {
             <Table>
               <TableHeader>
                 <TableRow>
+                  <TableHead className="w-12">
+                    <Checkbox
+                      checked={isAllSelected}
+                      onCheckedChange={toggleSelectAll}
+                      aria-label="Select all FAQs"
+                    />
+                  </TableHead>
                   <TableHead>Question</TableHead>
                   <TableHead>Page</TableHead>
                   <TableHead>Category</TableHead>
@@ -418,7 +663,14 @@ export default function FAQManagement() {
               </TableHeader>
               <TableBody>
                 {faqs.map((faq: FAQ) => (
-                  <TableRow key={faq.id}>
+                  <TableRow key={faq.id} className={selectedFaqs.has(faq.id) ? 'bg-blue-50 dark:bg-blue-950' : ''}>
+                    <TableCell>
+                      <Checkbox
+                        checked={selectedFaqs.has(faq.id)}
+                        onCheckedChange={() => toggleSelectFaq(faq.id)}
+                        aria-label={`Select FAQ: ${faq.question}`}
+                      />
+                    </TableCell>
                     <TableCell className="font-medium max-w-md">
                       <div className="truncate" title={faq.question}>
                         {faq.question}
@@ -449,13 +701,23 @@ export default function FAQManagement() {
                           variant="outline"
                           size="sm"
                           onClick={() => openEditDialog(faq)}
+                          title="Edit FAQ"
                         >
                           <Edit className="h-4 w-4" />
                         </Button>
                         <Button
                           variant="outline"
                           size="sm"
+                          onClick={() => handleDuplicateFaq(faq)}
+                          title="Duplicate FAQ"
+                        >
+                          <Copy className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
                           onClick={() => handleDelete(faq.id)}
+                          title="Delete FAQ"
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
