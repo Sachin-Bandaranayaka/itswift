@@ -568,6 +568,47 @@ export interface Database {
           updated_at?: string
         }
       }
+      testimonials: {
+        Row: {
+          id: string
+          name: string
+          role: string
+          company: string
+          content: string
+          rating: number
+          avatar_url: string | null
+          display_order: number
+          is_active: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          role: string
+          company: string
+          content: string
+          rating?: number
+          avatar_url?: string | null
+          display_order?: number
+          is_active?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          role?: string
+          company?: string
+          content?: string
+          rating?: number
+          avatar_url?: string | null
+          display_order?: number
+          is_active?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+      }
     }
     Views: {
       [_ in never]: never

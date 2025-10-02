@@ -18,6 +18,7 @@ import {
   Edit3,
   HelpCircle,
   LayoutTemplate,
+  MessageSquareQuote,
 } from "lucide-react"
 import { useState } from "react"
 
@@ -61,6 +62,11 @@ const navigation = [
     name: "FAQ Management",
     href: "/admin/faqs",
     icon: HelpCircle,
+  },
+  {
+    name: "Testimonials",
+    href: "/admin/testimonials",
+    icon: MessageSquareQuote,
   },
   {
     name: "Analytics",
