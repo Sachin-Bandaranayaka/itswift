@@ -83,6 +83,31 @@ export default function CaseStudiesPage() {
                     </div>
                 </div>
 
+                ${study.detailedContent?.conclusion ? `
+                <div class="section">
+                    <div class="section-title">${study.detailedContent.conclusion.title || 'Conclusion'}</div>
+                    <p>${study.detailedContent.conclusion.content || ''}</p>
+                </div>
+                ` : ''}
+
+                ${study.detailedContent?.conclusion?.callToAction ? `
+                <div class="section" style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 30px;">
+                    <div class="section-title">${study.detailedContent.conclusion.callToAction.title || 'Contact Information'}</div>
+                    <p>${study.detailedContent.conclusion.callToAction.content || ''}</p>
+                    <p><strong>Phone:</strong> ${study.detailedContent.conclusion.callToAction.contact?.phone || '+91-080-23215884'}</p>
+                    <p><strong>Email:</strong> ${study.detailedContent.conclusion.callToAction.contact?.email || 'swiftsol@itswift.com'}</p>
+                    <p><strong>Website:</strong> ${study.detailedContent.conclusion.callToAction.contact?.website || 'https://www.itswift.com/contact'}</p>
+                </div>
+                ` : `
+                <div class="section" style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 30px;">
+                    <div class="section-title">Contact Information</div>
+                    <p>For more information about this case study or to discuss your training needs, please contact Swift Solution.</p>
+                    <p><strong>Phone:</strong> +91-080-23215884</p>
+                    <p><strong>Email:</strong> swiftsol@itswift.com</p>
+                    <p><strong>Website:</strong> https://www.itswift.com/contact</p>
+                </div>
+                `}
+
                 <script>
                     window.onload = function() {
                         window.print();

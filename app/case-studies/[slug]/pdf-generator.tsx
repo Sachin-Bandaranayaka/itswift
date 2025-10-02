@@ -178,10 +178,11 @@ export default function PDFGenerator({ caseStudy, className, size }: PDFGenerato
         </div>
 
         <div class="contact-info">
-          <div class="contact-title">Contact Information</div>
-          <p>For more information about this case study or to discuss your training needs, please contact Swift Solution.</p>
-          <p><strong>Email:</strong> info@swiftsolution.com</p>
-          <p><strong>Phone:</strong> +1 (555) 123-4567</p>
+          <div class="contact-title">${caseStudy.detailedContent?.conclusion?.callToAction?.title || 'Contact Information'}</div>
+          <p>${caseStudy.detailedContent?.conclusion?.callToAction?.content || 'For more information about this case study or to discuss your training needs, please contact Swift Solution.'}</p>
+          <p><strong>Phone:</strong> ${caseStudy.detailedContent?.conclusion?.callToAction?.contact?.phone || '+91-080-23215884'}</p>
+          <p><strong>Email:</strong> ${caseStudy.detailedContent?.conclusion?.callToAction?.contact?.email || 'swiftsol@itswift.com'}</p>
+          <p><strong>Website:</strong> ${caseStudy.detailedContent?.conclusion?.callToAction?.contact?.website || 'https://www.itswift.com/contact'}</p>
         </div>
       </body>
       </html>
