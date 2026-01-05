@@ -89,6 +89,24 @@ export class BlogService {
     return data as BlogPostWithDetails
   }
 
+  // Admin version - checks all posts regardless of status (for duplicate detection)
+  async getPostBySlugAdmin(slug: string): Promise<BlogPostWithDetails | null> {
+    const supabase = await this.getClient()
+    
+    const { data, error } = await supabase
+      .from('blog_posts')
+      .select(`
+        *,
+        author:blog_authors(*),
+        category:blog_categories(*)
+      `)
+      .eq('slug', slug)
+      .single()
+
+    if (error || !data) return null
+    return data as BlogPostWithDetails
+  }
+
   async getPostById(id: string): Promise<BlogPostWithDetails | null> {
     const supabase = await this.getClient()
     

@@ -111,27 +111,39 @@ export function BlogPostEditor({ post, onClose, onSave }: BlogPostEditorProps) {
   }
 
   const handleSave = async () => {
+    // Validate required fields
     if (!formData.title.trim()) {
       toast.error('Please enter a title')
+      return
+    }
+    
+    if (!formData.content.trim()) {
+      toast.error('Please add some content to your blog post')
       return
     }
 
     setIsSaving(true)
     
     try {
+      // Generate slug from title if not provided
+      const generatedSlug = formData.slug || formData.title
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '')
+      
       const saveData = {
-        title: formData.title,
-        content: formData.content,
-        excerpt: formData.excerpt,
-        slug: formData.slug || formData.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
+        title: formData.title.trim(),
+        content: formData.content.trim(),
+        excerpt: formData.excerpt.trim() || null,
+        slug: generatedSlug,
         status: 'draft',
         featured_image_url: formData.mainImageUrl || null,
         published_at: formData.publishedAt || null,
-        author_id: 'cae5f613-5fc0-42aa-8a2b-8ea5e451ab99', // Admin User author ID
-        category_id: null, // Single category ID as expected by the API
-        meta_title: formData.metaTitle || null,
-        meta_description: formData.metaDescription || null,
-        meta_keywords: formData.metaKeywords || null
+        author_id: post?.author?.id || 'cae5f613-5fc0-42aa-8a2b-8ea5e451ab99', // Use existing author or default
+        category_id: null,
+        meta_title: formData.metaTitle?.trim() || null,
+        meta_description: formData.metaDescription?.trim() || null,
+        meta_keywords: formData.metaKeywords?.trim() || null
       }
 
       const url = post?.id ? `/api/admin/blog/posts/${post.id}` : '/api/admin/blog/posts'
@@ -145,15 +157,20 @@ export function BlogPostEditor({ post, onClose, onSave }: BlogPostEditorProps) {
         body: JSON.stringify(saveData),
       })
 
+      const result = await response.json()
+
       if (!response.ok) {
-        throw new Error('Failed to save blog post')
+        // Show specific error message from API
+        const errorMessage = result.error || 'Failed to save blog post'
+        toast.error(errorMessage)
+        return
       }
 
       toast.success(post ? 'Blog post updated successfully!' : 'Blog post created successfully!')
       onSave()
     } catch (error) {
       console.error('Error saving blog post:', error)
-      toast.error('Failed to save blog post. Please try again.')
+      toast.error('Failed to save blog post. Please check your connection and try again.')
     } finally {
       setIsSaving(false)
     }

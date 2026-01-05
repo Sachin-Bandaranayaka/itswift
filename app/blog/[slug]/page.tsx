@@ -9,6 +9,7 @@ import { BlogErrorBoundary } from '@/components/blog/blog-error-boundary';
 import { BlogErrorFallback } from '@/components/blog/blog-error-fallback';
 import { BlogJsonLd } from '@/components/blog/blog-json-ld';
 import { resolveSeoMetadata } from '@/lib/services/seo-metadata';
+import { sanitizeHtml } from '@/lib/security/input-validation';
 
 type Post = BlogPost;
 
@@ -95,7 +96,9 @@ export default async function BlogPost({ params }: Props) {
         await blogService.incrementViews(post.id);
 
         const imageUrl = post.featured_image_url || undefined;
-        const publishedDate = post.published_at ? new Date(post.published_at) : null;
+        // Fall back to created_at if published_at is not set
+        const displayDate = post.published_at || post.created_at;
+        const publishedDate = displayDate ? new Date(displayDate) : null;
         const readingTime = calculateReadingTime(post.content || '');
 
         const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.itswift.com';
@@ -133,7 +136,7 @@ export default async function BlogPost({ params }: Props) {
                         
                         <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
                             {publishedDate && (
-                                <time dateTime={post.published_at}>
+                                <time dateTime={displayDate}>
                                     {format(publishedDate, 'MMMM d, yyyy')}
                                 </time>
                             )}
@@ -170,7 +173,7 @@ export default async function BlogPost({ params }: Props) {
                     <div className="prose prose-lg max-w-none mb-8">
                         {post.content && (
                             <div 
-                                dangerouslySetInnerHTML={{ __html: post.content }}
+                                dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
                                 className="prose-headings:font-bold prose-headings:text-foreground prose-p:text-muted-foreground prose-a:text-primary hover:prose-a:text-primary/80 prose-strong:text-foreground prose-code:text-primary prose-code:bg-muted prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-muted prose-pre:border"
                             />
                         )}

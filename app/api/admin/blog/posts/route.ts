@@ -72,18 +72,46 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     
-    // Validate required fields
+    // Validate required fields - check for undefined, null, AND empty strings
     const requiredFields = ['title', 'slug', 'content', 'author_id', 'status']
     for (const field of requiredFields) {
-      if (!body[field]) {
+      const value = body[field]
+      if (value === undefined || value === null || (typeof value === 'string' && value.trim() === '')) {
         return NextResponse.json(
           {
             success: false,
-            error: `Missing required field: ${field}`
+            error: `Missing required field: ${field}`,
+            field: field
           },
           { status: 400 }
         )
       }
+    }
+    
+    // Validate slug format
+    const slugRegex = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
+    if (!slugRegex.test(body.slug)) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Invalid slug format. Use lowercase letters, numbers, and hyphens only.',
+          field: 'slug'
+        },
+        { status: 400 }
+      )
+    }
+    
+    // Check for duplicate slug
+    const existingPost = await blogService.getPostBySlugAdmin(body.slug)
+    if (existingPost) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'A blog post with this slug already exists. Please use a different title or customize the slug.',
+          field: 'slug'
+        },
+        { status: 409 }
+      )
     }
 
     const postData: BlogPostFormData = {

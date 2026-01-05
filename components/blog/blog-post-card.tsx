@@ -17,7 +17,9 @@ export function BlogPostCard({ post }: BlogPostCardProps) {
   const [imageLoading, setImageLoading] = useState(true)
   
   const imageUrl = post.featured_image_url || null
-  const publishedDate = post.published_at ? new Date(post.published_at).toLocaleDateString('en-US', {
+  // Fall back to created_at if published_at is not set
+  const displayDate = post.published_at || post.created_at
+  const publishedDate = displayDate ? new Date(displayDate).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric'

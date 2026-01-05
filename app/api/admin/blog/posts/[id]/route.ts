@@ -60,6 +60,7 @@ export async function PUT(
       category_id: body.category_id,
       status: body.status,
       is_featured: body.is_featured,
+      published_at: body.published_at,
       meta_title: body.meta_title,
       meta_description: body.meta_description,
       meta_keywords: body.meta_keywords

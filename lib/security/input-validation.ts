@@ -7,10 +7,11 @@ import validator from 'validator'
 export function sanitizeHtml(html: string): string {
   return DOMPurify.sanitize(html, {
     ALLOWED_TAGS: [
-      'p', 'br', 'strong', 'em', 'u', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-      'ul', 'ol', 'li', 'a', 'img', 'blockquote', 'code', 'pre'
+      'p', 'br', 'strong', 'em', 'u', 'b', 'i', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+      'ul', 'ol', 'li', 'a', 'img', 'blockquote', 'code', 'pre',
+      'span', 'div', 'font', 'sup', 'sub', 'table', 'thead', 'tbody', 'tr', 'th', 'td'
     ],
-    ALLOWED_ATTR: ['href', 'src', 'alt', 'title', 'target'],
+    ALLOWED_ATTR: ['href', 'src', 'alt', 'title', 'target', 'class', 'style', 'id', 'face', 'color', 'size'],
     ALLOW_DATA_ATTR: false,
   })
 }

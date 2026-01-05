@@ -65,7 +65,7 @@ export function RichTextEditor({ value, onChange, placeholder, className }: Rich
   }
 
   return (
-    <div className={`border rounded-lg ${className}`}>
+    <div className={`border rounded-lg relative ${className}`}>
       {/* Toolbar */}
       <div className="flex flex-wrap gap-1 p-2 border-b bg-gray-50">
         <Button

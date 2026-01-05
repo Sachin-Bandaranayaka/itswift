@@ -36,7 +36,7 @@ export interface BlogPost {
   featured_image_url?: string
   author_id: string
   category_id?: string
-  status: 'draft' | 'published' | 'archived'
+  status: 'draft' | 'published' | 'archived' | 'scheduled'
   is_featured: boolean
   view_count: number
   published_at?: string
@@ -105,6 +105,7 @@ export interface BlogPostFormData {
   category_id?: string
   status: BlogPost['status']
   is_featured: boolean
+  published_at?: string
   meta_title?: string
   meta_description?: string
   meta_keywords?: string

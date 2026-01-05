@@ -10,7 +10,7 @@ export interface BlogPost {
   featured_image_url?: string
   author_id: string
   category_id: string
-  status: 'draft' | 'published' | 'archived'
+  status: 'draft' | 'published' | 'archived' | 'scheduled'
   is_featured: boolean
   view_count: number
   published_at?: string
@@ -139,6 +139,7 @@ export class BlogSupabaseService {
         category:blog_categories(*)
       `)
       .eq('slug', slug)
+      .eq('status', 'published')
       .single()
 
     if (error) {

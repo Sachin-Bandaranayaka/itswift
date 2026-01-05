@@ -211,11 +211,11 @@ export default function BlogManagement() {
       const duplicateData = {
         title: `${originalPost.title} (Copy)`,
         slug: `${originalPost.slug}-copy-${Date.now()}`,
-        content: originalPost.content,
-        excerpt: originalPost.excerpt,
+        content: originalPost.content || '',
+        excerpt: originalPost.excerpt || '',
         status: 'draft',
-        author_id: originalPost.author?.id,
-        category_ids: originalPost.categories?.map(c => c.id) || []
+        author_id: originalPost.author?.id || 'cae5f613-5fc0-42aa-8a2b-8ea5e451ab99',
+        category_id: originalPost.categories?.[0]?.id || null
       }
 
       const response = await fetch('/api/admin/blog/posts', {
@@ -225,14 +225,15 @@ export default function BlogManagement() {
       })
 
       if (!response.ok) {
-        throw new Error('Failed to duplicate post')
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to duplicate post')
       }
 
       toast.success('Post duplicated successfully')
       await fetchPosts() // Refresh the list
     } catch (error) {
       console.error('Error duplicating post:', error)
-      toast.error('Failed to duplicate post')
+      toast.error(error instanceof Error ? error.message : 'Failed to duplicate post')
     }
   }
 

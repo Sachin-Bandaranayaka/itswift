@@ -484,7 +484,7 @@ export interface Database {
           featured_image_url: string | null
           author_id: string
           category_id: string | null
-          status: 'draft' | 'published' | 'archived'
+          status: 'draft' | 'published' | 'archived' | 'scheduled'
           is_featured: boolean
           view_count: number
           published_at: string | null
@@ -503,7 +503,7 @@ export interface Database {
           featured_image_url?: string | null
           author_id: string
           category_id?: string | null
-          status?: 'draft' | 'published' | 'archived'
+          status?: 'draft' | 'published' | 'archived' | 'scheduled'
           is_featured?: boolean
           view_count?: number
           published_at?: string | null
@@ -522,7 +522,7 @@ export interface Database {
           featured_image_url?: string | null
           author_id?: string
           category_id?: string | null
-          status?: 'draft' | 'published' | 'archived'
+          status?: 'draft' | 'published' | 'archived' | 'scheduled'
           is_featured?: boolean
           view_count?: number
           published_at?: string | null
